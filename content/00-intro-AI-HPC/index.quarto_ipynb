@@ -1,0 +1,72 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: Introduction to AI on Supercomputers\n",
+        "description: \"Introduction to Supercomputers and High Performance Computing (HPC) for AI and Science\"\n",
+        "categories:\n",
+        "  - ai4science\n",
+        "  - hpc\n",
+        "  - llm\n",
+        "jupyter: python3\n",
+        "toc: true\n",
+        "date: 2025-07-15\n",
+        "date-modified: last-modified\n",
+        "# citation:\n",
+        "#    author: Sam Foreman\n",
+        "#    type: webpage\n",
+        "#    title: \"Intro to AI on Supercomputers\"\n",
+        "#    url: https://samforeman.me/projects/hpc-bootcamp-2025/00-intro-AI-hpc\n",
+        "# open-graph:\n",
+        "#   title: \"Intro to AI on Supercomputers\"\n",
+        "#   description: \"Introduction to Supercomputers and High Performance Computing (HPC) for AI and Science\"\n",
+        "#   # image: \"./assets/thumbnail.png\"\n",
+        "# twitter-card:\n",
+        "#   title: \"Intro to AI on Supercomputers\"\n",
+        "#   description: \"Introduction to Supercomputers and High Performance Computing (HPC) for AI and Science\"\n",
+        "#   site: \"saforem2\"\n",
+        "#   creator: \"saforem2\"\n",
+        "#   # image: \"./assets/thumbnail.png\"\n",
+        "---\n",
+        "\n",
+        "<!--\n",
+        "- [Sam Foreman](https://samforeman.me), ALCF, [<foremans@anl.gov>](mailto:foremans@anl.gov)\n",
+        "- [Huihuo Zheng](https://www.alcf.anl.gov/about/people/huihuo-zheng), ALCF, [<huihuo.zheng@anl.gov>](mailto:huihuo-zheng@anl.gov)\n",
+        "-->\n",
+        "\n",
+        "## Contents\n",
+        "\n",
+        "- [0-compute-systems](./0-compute-systems/index.qmd)\n",
+        "- [1-shared-resources](./1-shared-resources/index.qmd)\n",
+        "- [2-jupyter-notebooks](./2-jupyter-notebooks/index.qmd)\n",
+        "- [3-homework](./3-homework/index.qmd)\n",
+        "- [4-nersc](./4-nersc/index.qmd)\n",
+        "\n",
+        "<!--\n",
+        "Recording for this lecture will be here: https://www.alcf.anl.gov/events/intro-ai-series-intro-artificial-intelligence-supercomputers\n",
+        "\n",
+        "1. [Evolution of computing systems](evolution.md)\n",
+        "2. [Parallel computing](00_mpi_pi.ipynb)\n",
+        "3. [AI in a nutshell](01_linear_regression_sgd.ipynb)\n",
+        "-->\n",
+        "\n",
+        "\n",
+        "Link to original slides:\n",
+        "<https://drive.google.com/file/d/1PH6HlXPhsVB1wDcEkfRSZrDQTqWBi7aH/view?usp=sharing>\n"
+      ],
+      "id": "6bbd63d6"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
