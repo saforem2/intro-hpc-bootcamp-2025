@@ -8,9 +8,9 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2025-07-15">
-<meta name="description" content="An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage.">
+<meta name="description" content="A comprehensive guide to AI for Science, covering the basics of AI, its applications in scientific research, and how it can be leveraged for data analysis and modeling.">
 
-<title>Shared Resources – Intro to HPC Bootcamp 2025</title>
+<title>AI for Science – Intro to HPC Bootcamp 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,32 +61,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<link href="../../../content/00-intro-AI-HPC/2-jupyter-notebooks/index.html" rel="next">
-<link href="../../../content/00-intro-AI-HPC/0-compute-systems/index.html" rel="prev">
-<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-1ba5600575b524666f3a728b03aeaa80.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0434ab73b344d2590fb99d65eafd6ba5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-805fb4b31aff4615b0fdac002984a0cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-085e09623a58b77b70dd0ae33b98aedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script src="../../../site_libs/quarto-contrib/iconify-3.0.0/iconify-icon.min.js"></script>
-<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../content/02-llms/0-intro-to-llms/index.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-1ba5600575b524666f3a728b03aeaa80.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0434ab73b344d2590fb99d65eafd6ba5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-805fb4b31aff4615b0fdac002984a0cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-085e09623a58b77b70dd0ae33b98aedd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/iconify-3.0.0/iconify-icon.min.js"></script>
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -129,30 +125,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 
-<link rel="stylesheet" href="../../../static/fonts/MIosevkaQp/MIosevkaQp.css">
-<link rel="stylesheet" href="../../../static/fonts/MIosevkaterm/MIosevkaTerm.css">
-<meta property="og:title" content="Shared Resources – Intro to HPC Bootcamp 2025">
-<meta property="og:description" content="An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage.">
-<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/img/polaris_activity1.png">
+<link rel="stylesheet" href="../../static/fonts/MIosevkaQp/MIosevkaQp.css">
+<link rel="stylesheet" href="../../static/fonts/MIosevkaterm/MIosevkaTerm.css">
+<meta property="og:title" content="AI for Science – Intro to HPC Bootcamp 2025">
+<meta property="og:description" content="A comprehensive guide to AI for Science, covering the basics of AI, its applications in scientific research, and how it can be leveraged for data analysis and modeling.">
+<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
-<meta property="og:image:alt" content="polaris-activity">
-<meta property="og:image:height" content="1314">
-<meta property="og:image:width" content="2474">
-<meta name="twitter:title" content="Shared Resources – Intro to HPC Bootcamp 2025">
-<meta name="twitter:description" content="An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage.">
-<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/img/polaris_activity1.png">
+<meta name="twitter:title" content="AI for Science – Intro to HPC Bootcamp 2025">
+<meta name="twitter:description" content="A comprehensive guide to AI for Science, covering the basics of AI, its applications in scientific research, and how it can be leveraged for data analysis and modeling.">
+<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
-<meta name="twitter:image:alt" content="polaris-activity">
-<meta name="twitter:image-height" content="1314">
-<meta name="twitter:image-width" content="2474">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="citation_title" content="Shared Resources">
+<meta name="citation_title" content="AI for Science">
 <meta name="citation_author" content="Sam Foreman">
 <meta name="citation_publication_date" content="2025-07-15">
 <meta name="citation_cover_date" content="2025-07-15">
 <meta name="citation_year" content="2025">
 <meta name="citation_online_date" content="2025-07-15">
-<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/1-shared-resources/">
+<meta name="citation_fulltext_html_url" content="https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
 <meta name="citation_reference" content="citation_title=MOFA: Discovering materials for carbon capture with a GenAI- and simulation-based workflow;,citation_author=Xiaoli Yan;,citation_author=Nathaniel Hudson;,citation_author=Hyun Park;,citation_author=Daniel Grzenda;,citation_author=J. Gregory Pauloski;,citation_author=Marcus Schwarting;,citation_author=Haochen Pan;,citation_author=Hassan Harb;,citation_author=Samuel Foreman;,citation_author=Chris Knight;,citation_author=Tom Gibbs;,citation_author=Kyle Chard;,citation_author=Santanu Chaudhuri;,citation_author=Emad Tajkhorshid;,citation_author=Ian Foster;,citation_author=Mohamad Moosavi;,citation_author=Logan Ward;,citation_author=E. A. Huerta;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2501.10651;">
@@ -394,9 +384,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     </a>
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Intro to HPC Bootcamp 2025</span>
     </a>
   </div>
@@ -411,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text"><span class="icon" style="font-size: 1.25rem; color:var(--bs-nav-link-color);"><iconify-icon role="img" inline="" icon="ph:github-logo" aria-label="Icon github-logo from ph Iconify.design set." title="Icon github-logo from ph Iconify.design set."></iconify-icon></span></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../index.xml"> 
+    <a class="nav-link" href="../../index.xml"> 
 <span class="menu-text"><span class="icon" style="font-size: 1.25rem; color:var(--bs-nav-link-color);"><iconify-icon role="img" inline="" icon="ph:rss" aria-label="Icon rss from ph Iconify.design set." title="Icon rss from ph Iconify.design set."></iconify-icon></span></span></a>
   </li>  
 </ul>
@@ -426,7 +416,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../content/00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../../content/00-intro-AI-HPC/1-shared-resources/index.html">[1] Shared Resources</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../content/03-ai-for-science/index.html">[03] AI for Science</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -440,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
-      <a href="../../../index.html" class="sidebar-logo-link">
+      <a href="../../index.html" class="sidebar-logo-link">
       </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -452,52 +442,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../../content/00-intro-AI-HPC/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../content/00-intro-AI-HPC/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[00] Intro to AI and HPC</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/00-intro-AI-HPC/0-compute-systems/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/00-intro-AI-HPC/0-compute-systems/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[0] Compute Systems</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/00-intro-AI-HPC/1-shared-resources/index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../content/00-intro-AI-HPC/1-shared-resources/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[1] Shared Resources</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[2] Jupyter Notebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/00-intro-AI-HPC/3-homework/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/00-intro-AI-HPC/3-homework/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[3] Homework</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/00-intro-AI-HPC/4-nersc/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/00-intro-AI-HPC/4-nersc/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] NERSC</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/00-intro-AI-HPC/5-mcmc-example/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/00-intro-AI-HPC/5-mcmc-example/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[5] MCMC Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/00-intro-AI-HPC/6-linear-regression/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/00-intro-AI-HPC/6-linear-regression/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[6] Linear Regression</span></a>
   </div>
 </li>
@@ -505,7 +495,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../../content/01-neural-networks/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../content/01-neural-networks/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[01] Neural Networks</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -514,31 +504,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[0] Intro to NNs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/01-neural-networks/1-mnist/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/01-neural-networks/1-mnist/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[1] MNIST Example</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[2] Advanced</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[3] Conv. Nets</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] Representation Learning</span></a>
   </div>
 </li>
@@ -546,7 +536,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../../content/02-llms/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../content/02-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[02] Large Language Models</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -555,46 +545,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../content/02-llms/0-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../content/02-llms/0-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[0] Intro to LLMs</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../../content/03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[03] AI for Science</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../content/03-ai-for-science/0-intro/index.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] Intro to AI for Science</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../content/03-ai-for-science/1-materials-science/index.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[1] AI for Materials Science</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../content/03-ai-for-science/2-chemistry/index.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[2] AI for Chemistry</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../content/03-ai-for-science/3-biology/index.qmd" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] AI for Biology</span></a>
-  </div>
-</li>
-      </ul>
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">[03] AI for Science</span></span>
   </li>
     </ul>
     </div>
@@ -602,14 +561,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#polaris-activity-webpage" id="toc-polaris-activity-webpage" class="nav-link active" data-scroll-target="#polaris-activity-webpage">Polaris Activity Webpage</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/00-intro-AI-HPC/1-shared-resources/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/content/00-intro-AI-HPC/1-shared-resources/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
-    </div>
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -617,17 +570,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../content/00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../../content/00-intro-AI-HPC/1-shared-resources/index.html">[1] Shared Resources</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Shared Resources</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">AI for Science</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
+    <div class="quarto-category">ai</div>
     <div class="quarto-category">hpc</div>
+    <div class="quarto-category">llm</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage.
+    A comprehensive guide to AI for Science, covering the basics of AI, its applications in scientific research, and how it can be leveraged for data analysis and modeling.
   </div>
 </div>
 
@@ -671,48 +626,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Supercomputers contain many computer <em>nodes</em> and not every application will use ALL of them. Therefore, we use programs called <em>schedulers</em> that allow users to schedule a <em>job</em> based on how many nodes they need for a specified time.</p>
-<p>A <em>job</em> is defined by a user and requires these parameters to be defined:</p>
-<dl>
-<dt>run-time</dt>
-<dd>
-How long will this <em>job</em> run? 5 minutes? 60 minutes? 6 hours?
-</dd>
-<dt>number-of-nodes</dt>
-<dd>
-How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 nodes? 1000 nodes?
-</dd>
-</dl>
-<section id="polaris-activity-webpage" class="level2">
-<h2 class="anchored" data-anchor-id="polaris-activity-webpage">Polaris Activity Webpage</h2>
-<ul>
-<li><p>We have a page that shows all the current activity on Polaris. The top of the page shows a graphical representation of all nodes. Colors indicate a <em>job</em> running on that <em>node</em>. Below the graphic there is a table that lists <em>running</em> and <em>queued</em> jobs.</p>
-<ul>
-<li><em>running</em> refers to jobs running right now on comptuer nodes. If you hover on a colored node in the graphic, it will highlight all the nodes used by the same job AND the job in the <em>running</em> table below.</li>
-<li><em>queued</em> jobs are waiting for an opening in which to run.</li>
-</ul></li>
-<li><p><a href="https://status.alcf.anl.gov/#/polaris">📊 <strong>Live Status of Jobs on Polaris</strong></a></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../img/polaris_activity1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="polaris-activity"><img src="../img/polaris_activity1.png" class="img-fluid figure-img" alt="polaris-activity"></a></p>
-<figcaption>polaris-activity</figcaption>
-</figure>
-</div></li>
-</ul>
 
 
 
-</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
   author = {Foreman, Sam},
-  title = {Shared {Resources}},
+  title = {AI for {Science}},
   date = {2025-07-15},
-  url = {https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/1-shared-resources/},
+  url = {https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Foreman, Sam. 2025. <span>“Shared Resources.”</span> July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/1-shared-resources/">https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/1-shared-resources/</a>.
+Foreman, Sam. 2025. <span>“AI for Science.”</span> July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/">https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1216,52 +1142,24 @@ Foreman, Sam. 2025. <span>“Shared Resources.”</span> July 15, 2025. <a href=
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../content/00-intro-AI-HPC/0-compute-systems/index.html" class="pagination-link" aria-label="[0] Compute Systems">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[0] Compute Systems</span>
+      <a href="../../content/02-llms/0-intro-to-llms/index.html" class="pagination-link" aria-label="[0] Intro to LLMs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[0] Intro to LLMs</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../content/00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="pagination-link" aria-label="[2] Jupyter Notebooks">
-        <span class="nav-page-text">[2] Jupyter Notebooks</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="an">title:</span><span class="co"> "Shared Resources"</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="an">description:</span><span class="co"> "An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage."</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="an">title:</span><span class="co"> "AI for Science"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="an">description:</span><span class="co"> "A comprehensive guide to AI for Science, covering the basics of AI, its applications in scientific research, and how it can be leveraged for data analysis and modeling."</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="an">categories:</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">    - hpc</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">---</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>Supercomputers contain many computer _nodes_ and not every application will use</span>
-<span id="cb1-11"><a href="#cb1-11"></a>ALL of them.</span>
-<span id="cb1-12"><a href="#cb1-12"></a>Therefore, we use programs called _schedulers_ that allow users to schedule a</span>
-<span id="cb1-13"><a href="#cb1-13"></a>_job_ based on how many nodes they need for a specified time.</span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a>A _job_ is defined by a user and requires these parameters to be defined:</span>
-<span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a>run-time</span>
-<span id="cb1-18"><a href="#cb1-18"></a>: How long will this _job_ run? 5 minutes? 60 minutes? 6 hours?</span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a>number-of-nodes</span>
-<span id="cb1-21"><a href="#cb1-21"></a>: How many compute _nodes_ does the application need to run? 5 nodes? 100</span>
-<span id="cb1-22"><a href="#cb1-22"></a>nodes? 1000 nodes?</span>
-<span id="cb1-23"><a href="#cb1-23"></a></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="fu">## Polaris Activity Webpage</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a></span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="ss">- </span>We have a page that shows all the current activity on Polaris.</span>
-<span id="cb1-27"><a href="#cb1-27"></a>  The top of the page shows a graphical representation of all nodes.</span>
-<span id="cb1-28"><a href="#cb1-28"></a>  Colors indicate a _job_ running on that _node_.</span>
-<span id="cb1-29"><a href="#cb1-29"></a>  Below the graphic there is a table that lists _running_ and _queued_ jobs.</span>
-<span id="cb1-30"><a href="#cb1-30"></a><span class="ss">  - </span>_running_ refers to jobs running right now on comptuer nodes.</span>
-<span id="cb1-31"><a href="#cb1-31"></a>    If you hover on a colored node in the graphic, it will highlight all the</span>
-<span id="cb1-32"><a href="#cb1-32"></a>  nodes used by the same job AND the job in the _running_ table below.</span>
-<span id="cb1-33"><a href="#cb1-33"></a><span class="ss">  - </span>_queued_ jobs are waiting for an opening in which to run.</span>
-<span id="cb1-34"><a href="#cb1-34"></a><span class="ss">- </span><span class="co">[</span><span class="ot">📊 **Live Status of Jobs on Polaris**</span><span class="co">](https://status.alcf.anl.gov/#/polaris)</span></span>
-<span id="cb1-35"><a href="#cb1-35"></a></span>
-<span id="cb1-36"><a href="#cb1-36"></a>  <span class="al">![polaris-activity](../img/polaris_activity1.png)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">  - ai</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">  - hpc</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">  - llm</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">---</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1277,7 +1175,7 @@ Foreman, Sam. 2025. <span>“Shared Resources.”</span> July 15, 2025. <a href=
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/00-intro-AI-HPC/1-shared-resources/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/content/00-intro-AI-HPC/1-shared-resources/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/content/03-ai-for-science/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/content/03-ai-for-science/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
@@ -1296,38 +1194,6 @@ Foreman, Sam. 2025. <span>“Shared Resources.”</span> July 15, 2025. <a href=
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

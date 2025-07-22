@@ -34,7 +34,7 @@
   </url>
   <url>
     <loc>https://samforeman.me/index.html</loc>
-    <lastmod>2025-07-22T17:56:38.980Z</lastmod>
+    <lastmod>2025-07-22T18:32:31.769Z</lastmod>
   </url>
   <url>
     <loc>https://samforeman.me/content/00-intro-AI-HPC/0-compute-systems/index.html</loc>
@@ -67,5 +67,29 @@
   <url>
     <loc>https://samforeman.me/content/02-llms/0-intro-to-llms/index.html</loc>
     <lastmod>2025-07-22T17:56:39.062Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/index.html</loc>
+    <lastmod>2025-07-22T18:37:15.587Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/index.html</loc>
+    <lastmod>2025-07-22T18:32:31.769Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/0-compute-systems/index.html</loc>
+    <lastmod>2025-07-22T17:56:38.838Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/1-shared-resources/index.html</loc>
+    <lastmod>2025-07-22T17:56:38.976Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/2-jupyter-notebooks/index.html</loc>
+    <lastmod>2025-07-22T17:56:38.837Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/content/00-intro-AI-HPC/3-homework/index.html</loc>
+    <lastmod>2025-07-22T18:36:14.965Z</lastmod>
   </url>
 </urlset>

@@ -253,7 +253,7 @@
     "href": "content/00-intro-AI-HPC/3-homework/index.html",
     "title": "GitHub Introduction: Homework Submissions",
     "section": "",
-    "text": "You will submit weekly homeworks via this Homework Form The form expects you to submit a URL to a file on github.com. You will need an account on GitHub to do this.\nYou will also need to setup SSH Keys on github and in your ALCF account. * The SSH Key setup is described here * Setup git on Polaris (or target machine):\nNavigate to the main page of this repository and follow the steps below. If you need help with logging into ALCF, please have a look HERE.",
+    "text": "You will submit weekly homeworks via this Homework Form The form expects you to submit a URL to a file on github.com. You will need an account on GitHub to do this.\nYou will also need to setup SSH Keys on github and in your ALCF account. * The SSH Key setup is described here * Setup git on Polaris (or target machine):\nNavigate to the main page of this repository and follow the steps below. If you need help with logging into ALCF, please have a look XXX",
     "crumbs": [
       "[{{< iconify ph github-logo >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}",
       "[00] Intro to AI and HPC",
@@ -673,6 +673,17 @@
       "[{{< iconify ph github-logo >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}",
       "[02] Large Language Models",
       "[0] Intro to LLMs"
+    ]
+  },
+  {
+    "objectID": "content/03-ai-for-science/index.html",
+    "href": "content/03-ai-for-science/index.html",
+    "title": "AI for Science",
+    "section": "",
+    "text": "CitationBibTeX citation:@online{foreman2025,\n  author = {Foreman, Sam},\n  title = {AI for {Science}},\n  date = {2025-07-15},\n  url = {https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nForeman, Sam. 2025. “AI for Science.” July 15, 2025. https://saforem2.github.io/hpc-bootcamp-2025/content/03-ai-for-science/.",
+    "crumbs": [
+      "[{{< iconify ph github-logo >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}",
+      "[03] AI for Science"
     ]
   }
 ]

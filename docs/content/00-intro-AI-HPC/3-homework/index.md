@@ -29,8 +29,7 @@ git config --global user.email "<github-email-address>"
 ```
 
 Navigate to the main page of this repository and follow the steps below.
-If you need help with logging into ALCF, please have a look
-[HERE](10_howToLogin.md).
+If you need help with logging into ALCF, please have a look XXX
 
 ## Fork the repo on GitHub
 

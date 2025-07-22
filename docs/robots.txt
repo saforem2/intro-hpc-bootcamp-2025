@@ -1,1 +1,1 @@
-Sitemap: https://samforeman.me/sitemap.xml
+Sitemap: https://saforem2.github.io/hpc-bootcamp-2025/sitemap.xml

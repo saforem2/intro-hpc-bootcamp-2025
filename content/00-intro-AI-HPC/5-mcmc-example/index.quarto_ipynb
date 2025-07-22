@@ -40,7 +40,7 @@
         "Therefore, we can calculate $\\pi$ using \n",
         "$\\pi = \\frac{4N_\\text{in}}{N_\\text{total}} $\n"
       ],
-      "id": "7931b9ba"
+      "id": "92b14917"
     },
     {
       "cell_type": "code",
@@ -87,7 +87,7 @@
         "print(f\"Pi = {res/float(N/4.0)}\")\n",
         "print(\"Time: %s\" %(t1 - t0))"
       ],
-      "id": "d31a9165",
+      "id": "dba43683",
       "execution_count": null,
       "outputs": []
     },
@@ -126,7 +126,7 @@
         "* choose ```01_intro_AI_on_Supercomputer/00_mpi.ipynb``` from the list\n",
         "![Google Colab](../figures/colab.png)"
       ],
-      "id": "8b2fb792"
+      "id": "9d774494"
     },
     {
       "cell_type": "code",
@@ -135,7 +135,7 @@
         "! wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py\n",
         "! pip install mpi4py"
       ],
-      "id": "636fd0e2",
+      "id": "4b2904b7",
       "execution_count": null,
       "outputs": []
     },
@@ -145,7 +145,7 @@
       "source": [
         "! mpirun -np 1 --allow-run-as-root python mpi_pi.py"
       ],
-      "id": "dfc6d811",
+      "id": "f3156ea3",
       "execution_count": null,
       "outputs": []
     },
@@ -155,7 +155,7 @@
       "source": [
         "! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py"
       ],
-      "id": "c4ffb327",
+      "id": "76830731",
       "execution_count": null,
       "outputs": []
     },
@@ -165,7 +165,7 @@
       "source": [
         "! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py"
       ],
-      "id": "5a0b72f0",
+      "id": "56527093",
       "execution_count": null,
       "outputs": []
     },
@@ -206,7 +206,7 @@
         "\n",
         "![3D LLM](../figures/3DLLM.png)\n"
       ],
-      "id": "6b8d01d9"
+      "id": "fe31f0ab"
     }
   ],
   "metadata": {

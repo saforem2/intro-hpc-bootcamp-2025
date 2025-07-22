@@ -20,7 +20,7 @@
         "\n",
         "The previous notebook trained a classifier network which did ok.  But what if we didn't have a lot of data?  In this notebook, we'll apply that model in a new way with _representation learning_."
       ],
-      "id": "b3dd9c66"
+      "id": "344e677b"
     },
     {
       "cell_type": "code",
@@ -32,7 +32,7 @@
         "    os.environ[\"TORCH_DEVICE\"] = \"cpu\"\n",
         "    os.environ['PYTORCH_ENABLE_MPS_FALLBACK'] = \"1\""
       ],
-      "id": "114aadc2",
+      "id": "210bc7fe",
       "execution_count": null,
       "outputs": []
     },
@@ -55,7 +55,7 @@
         "\n",
         "batch_size = 128"
       ],
-      "id": "b8d9fbbf",
+      "id": "d5842a80",
       "execution_count": null,
       "outputs": []
     },
@@ -65,7 +65,7 @@
       "source": [
         "Here's the Convolutional Neural Network Again:"
       ],
-      "id": "e74feb1b"
+      "id": "5646bb29"
     },
     {
       "cell_type": "code",
@@ -189,7 +189,7 @@
         "\n",
         "        return x"
       ],
-      "id": "70b445f5",
+      "id": "10fa1bf2",
       "execution_count": null,
       "outputs": []
     },
@@ -219,7 +219,7 @@
         "print(summary(model, input_size=(batch_size, 3, 32, 32)))\n",
         "print(summary(head, input_size=(batch_size, 256)))"
       ],
-      "id": "c874ca74",
+      "id": "af235c77",
       "execution_count": null,
       "outputs": []
     },
@@ -235,7 +235,7 @@
         "\n",
         "(They are all from the [DDP Tutorial](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) )"
       ],
-      "id": "fa587096"
+      "id": "1aa3cc2a"
     },
     {
       "cell_type": "code",
@@ -251,7 +251,7 @@
         "def cleanup():\n",
         "    dist.destroy_process_group()"
       ],
-      "id": "1a8c7a6e",
+      "id": "3ac08e16",
       "execution_count": null,
       "outputs": []
     },
@@ -314,7 +314,7 @@
         "\n",
         "    return train_dataloader, val_dataloader"
       ],
-      "id": "6964f05b",
+      "id": "1e166abd",
       "execution_count": null,
       "outputs": []
     },
@@ -349,7 +349,7 @@
         "#              nprocs=world_size,\n",
         "#              join=True)"
       ],
-      "id": "0778ffb1",
+      "id": "b725a0ea",
       "execution_count": null,
       "outputs": []
     },
@@ -378,7 +378,7 @@
         "# # the command line).\n",
         "# ForkingPickler.reducer_override = staticmethod(reducer_override)"
       ],
-      "id": "79d529e6",
+      "id": "44900540",
       "execution_count": null,
       "outputs": []
     },
@@ -402,7 +402,7 @@
         "                                        ])\n",
         "    return data_transforms"
       ],
-      "id": "1ae7ab20",
+      "id": "57120dc4",
       "execution_count": null,
       "outputs": []
     },
@@ -413,7 +413,7 @@
         "transforms1 = get_simclr_pipeline_transform((32,32))\n",
         "transforms2 = get_simclr_pipeline_transform((32,32))"
       ],
-      "id": "f9e2dd4f",
+      "id": "9207d709",
       "execution_count": null,
       "outputs": []
     },
@@ -423,7 +423,7 @@
       "source": [
         "train, val = create_data_loaders(v2.ToTensor(), batch_size, 0, seed = 1234)"
       ],
-      "id": "fefaec28",
+      "id": "66534efa",
       "execution_count": null,
       "outputs": []
     },
@@ -433,7 +433,7 @@
       "source": [
         "batch, (X, Y) = next(enumerate(train))"
       ],
-      "id": "75781a1b",
+      "id": "0cf2bd9b",
       "execution_count": null,
       "outputs": []
     },
@@ -446,7 +446,7 @@
         "print(type(X1))\n",
         "print(type(X2))"
       ],
-      "id": "f4815f14",
+      "id": "fc201efc",
       "execution_count": null,
       "outputs": []
     },
@@ -457,7 +457,7 @@
         "from matplotlib import pyplot as plt\n",
         "%matplotlib inline"
       ],
-      "id": "a044b986",
+      "id": "716b7587",
       "execution_count": null,
       "outputs": []
     },
@@ -469,7 +469,7 @@
         "plt.imshow(X1[0].cpu().permute((1,2,0))); plt.show()\n",
         "plt.imshow(X2[0].cpu().permute((1,2,0))); plt.show()"
       ],
-      "id": "ec674636",
+      "id": "d5f0409e",
       "execution_count": null,
       "outputs": []
     },
@@ -623,7 +623,7 @@
         "        loss = torch.mean( - alignment + log_sum_exp)\n",
         "        return loss, loss_metrics"
       ],
-      "id": "e4438fdc",
+      "id": "5219053a",
       "execution_count": null,
       "outputs": []
     },
@@ -660,7 +660,7 @@
         "        # progress_bar.description = f\"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}\"\n",
         "        # break"
       ],
-      "id": "9c32c281",
+      "id": "ba74195c",
       "execution_count": null,
       "outputs": []
     },
@@ -707,7 +707,7 @@
         "        sum_metrics[key] = sum_metrics[key] / n\n",
         "    return sum_metrics"
       ],
-      "id": "2212a8d8",
+      "id": "7514b5fa",
       "execution_count": null,
       "outputs": []
     },
@@ -717,7 +717,7 @@
       "source": [
         "optimizer = torch.optim.AdamW(list(model.parameters()) + list(head.parameters()), lr=0.001)"
       ],
-      "id": "6128dbeb",
+      "id": "d2e29bb3",
       "execution_count": null,
       "outputs": []
     },
@@ -741,7 +741,7 @@
         "#         print_metrics = \"; \".join(print_metrics.values())\n",
         "#         print(f\"Validate epoch {j}: \", print_metrics)"
       ],
-      "id": "a85f02b5",
+      "id": "ebe96fc9",
       "execution_count": null,
       "outputs": []
     },
@@ -751,7 +751,7 @@
       "source": [
         "# Now, we retrain the classification head without touching the representation. This is called fine tuning."
       ],
-      "id": "dc6f3b1c",
+      "id": "285806bb",
       "execution_count": null,
       "outputs": []
     },
@@ -784,7 +784,7 @@
         "    accuracy = 100*correct\n",
         "    return accuracy, loss"
       ],
-      "id": "d05b2f5b",
+      "id": "23809af4",
       "execution_count": null,
       "outputs": []
     },
@@ -823,7 +823,7 @@
         "        # progress_bar.description = f\"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}\"\n",
         "        # break"
       ],
-      "id": "652c703c",
+      "id": "2906cac8",
       "execution_count": null,
       "outputs": []
     },
@@ -836,7 +836,7 @@
         "fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.01)\n",
         "print(fine_tune_optimizer)"
       ],
-      "id": "a39cd860",
+      "id": "e689ce1c",
       "execution_count": null,
       "outputs": []
     },
@@ -852,7 +852,7 @@
         "#         acc, loss = evaluate(val, model, classification_head, classification_loss, val_bar)\n",
         "#         print(f\"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}\")"
       ],
-      "id": "95f73762",
+      "id": "8598c88b",
       "execution_count": null,
       "outputs": []
     }

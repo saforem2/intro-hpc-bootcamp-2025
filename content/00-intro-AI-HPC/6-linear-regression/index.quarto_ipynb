@@ -102,7 +102,7 @@
         "- [Numpy](https://numpy.org/doc/): a toolkit for managing arrays, vectors, matrices, etc, doing math with them, slicing them up, and many other handy things.\n",
         "- [Matplotlib](https://matplotlib.org/stable/index.html): a toolkit for plotting data\n"
       ],
-      "id": "a587c71b"
+      "id": "58ac2b4c"
     },
     {
       "cell_type": "code",
@@ -114,7 +114,7 @@
         "import IPython.display as ipydis\n",
         "import time"
       ],
-      "id": "2235fe69",
+      "id": "0c40a2d2",
       "execution_count": null,
       "outputs": []
     },
@@ -127,7 +127,7 @@
         "\n",
         "We use Pandas to read the data file which is stored as Comma Separated Values (CSV). and print the column labels. CSV files are similar to excel sheets."
       ],
-      "id": "778d4312"
+      "id": "26d49904"
     },
     {
       "cell_type": "code",
@@ -137,7 +137,7 @@
         "data = pd.read_csv('slimmed_realestate_data.csv')\n",
         "print(data.columns)"
       ],
-      "id": "2ebdd668",
+      "id": "9074d2dc",
       "execution_count": null,
       "outputs": []
     },
@@ -147,7 +147,7 @@
       "source": [
         "Now pandas provides some helpful tools for us to inspect our data. It provides a `plot()` function that, behind the scenes, is calling into the _Matplotlib_ library and calling the function [matplotlib.pyplot.plot()](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html). In this case, we simply tell it the names of the columns we want as our _x_ and _y_ values and the `style` (`'.'` tells `matplotlib` to use a small dot to represent each data point)."
       ],
-      "id": "393db06f"
+      "id": "38c02c48"
     },
     {
       "cell_type": "code",
@@ -155,7 +155,7 @@
       "source": [
         "data.plot(x='GrLivArea', y='SalePrice',style='.')"
       ],
-      "id": "ffcfd244",
+      "id": "ee5fc640",
       "execution_count": null,
       "outputs": []
     },
@@ -179,7 +179,7 @@
         "\n",
         "First lets define $x$ and $y$. $x$ will be our _above ground square footage_ and $y$ will be _sale price_. In our equations we have a few different values we need, such as $n$ which is just the number of points we have:"
       ],
-      "id": "c0a17fa7"
+      "id": "f4bb4c05"
     },
     {
       "cell_type": "code",
@@ -187,7 +187,7 @@
       "source": [
         "n = len(data)"
       ],
-      "id": "fb25ab19",
+      "id": "adf6142e",
       "execution_count": null,
       "outputs": []
     },
@@ -197,7 +197,7 @@
       "source": [
         "Then we need our $x$ and $y$ by selecting only the column we care about for each one. Note about data formats: `data` is a Pandas [DataFrame](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame) object which has rows and columns; `data['GrLivArea']` is a Pandas [Series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html) object which only has rows; then we also convert from _Pandas_ data formats (in this case a _Series_) to _Numpy_ data formats using the `to_numpy()` function which is part of the Pandas _Series_ object. "
       ],
-      "id": "b228d8f2"
+      "id": "04b5bde0"
     },
     {
       "cell_type": "code",
@@ -206,7 +206,7 @@
         "x = data['GrLivArea'].to_numpy()\n",
         "y = data['SalePrice'].to_numpy()"
       ],
-      "id": "b7a2292b",
+      "id": "09577d10",
       "execution_count": null,
       "outputs": []
     },
@@ -216,7 +216,7 @@
       "source": [
         "Now we will calculate $\\Sigma xy$, $\\Sigma x$, $\\Sigma y$, and $\\Sigma x^2$:"
       ],
-      "id": "e298c4d5"
+      "id": "443e7dc1"
     },
     {
       "cell_type": "code",
@@ -227,7 +227,7 @@
         "sum_y = np.sum(y)\n",
         "sum_x2 = np.sum(x*x)"
       ],
-      "id": "e3cc68c4",
+      "id": "744ceae5",
       "execution_count": null,
       "outputs": []
     },
@@ -237,7 +237,7 @@
       "source": [
         "The denominator in the equation for $m$ and $b$ are the same so we can calculate that once:"
       ],
-      "id": "334767f4"
+      "id": "45fdb60d"
     },
     {
       "cell_type": "code",
@@ -245,7 +245,7 @@
       "source": [
         "denominator = n * sum_x2 - sum_x * sum_x"
       ],
-      "id": "66076020",
+      "id": "442aa537",
       "execution_count": null,
       "outputs": []
     },
@@ -255,7 +255,7 @@
       "source": [
         "Then we can calculate our fit values:"
       ],
-      "id": "a771f448"
+      "id": "6274b12f"
     },
     {
       "cell_type": "code",
@@ -269,7 +269,7 @@
         "m_calc = m\n",
         "b_calc = b"
       ],
-      "id": "e4ab0728",
+      "id": "79a8d827",
       "execution_count": null,
       "outputs": []
     },
@@ -281,7 +281,7 @@
         "\n",
         "First we define a plotting function because we're going to do this often and we want to reuse our code:"
       ],
-      "id": "04bf29e1"
+      "id": "48321c66"
     },
     {
       "cell_type": "code",
@@ -299,7 +299,7 @@
         "   # plot the linear points using 'r-' = red line\n",
         "   plt.plot(linear_x,linear_y,'r-',label='fit')"
       ],
-      "id": "a9cc47b5",
+      "id": "8a7f6b43",
       "execution_count": null,
       "outputs": []
     },
@@ -309,7 +309,7 @@
       "source": [
         "Now can use this function to plot our results:"
       ],
-      "id": "5c2647b9"
+      "id": "248bdfca"
     },
     {
       "cell_type": "code",
@@ -317,7 +317,7 @@
       "source": [
         "plot_data(x,y,m,b)"
       ],
-      "id": "adf517a3",
+      "id": "dcca6fac",
       "execution_count": null,
       "outputs": []
     },
@@ -337,7 +337,7 @@
         "\n",
         "We just need to figure out $m$ and $b$. Let's create a function that calculates our model given $x$, $m$, and $b$."
       ],
-      "id": "314f93d4"
+      "id": "117bce58"
     },
     {
       "cell_type": "code",
@@ -346,7 +346,7 @@
         "def model(x,m,b):\n",
         "   return m * x + b"
       ],
-      "id": "c528ce6d",
+      "id": "d108cd40",
       "execution_count": null,
       "outputs": []
     },
@@ -375,7 +375,7 @@
         "\n",
         "Here we crate a function that calculates this for us."
       ],
-      "id": "7fcff395"
+      "id": "d1e9bdf9"
     },
     {
       "cell_type": "code",
@@ -385,7 +385,7 @@
         "   y_predicted = model(x,m,b)\n",
         "   return np.power( y - y_predicted, 2 )"
       ],
-      "id": "dfe12097",
+      "id": "3d848335",
       "execution_count": null,
       "outputs": []
     },
@@ -447,7 +447,7 @@
         "\n",
         "So let's continue, we'll build functions we can use to update our fit parameters, $m$ and $b$."
       ],
-      "id": "84213589"
+      "id": "f00d450d"
     },
     {
       "cell_type": "code",
@@ -463,7 +463,7 @@
         "   dL_db = np.mean(dL_db)\n",
         "   return b - learning_rate * dL_db"
       ],
-      "id": "fb1f52c6",
+      "id": "69d12a0c",
       "execution_count": null,
       "outputs": []
     },
@@ -475,7 +475,7 @@
         "\n",
         "We can now randomly select our initial slope and intercept:"
       ],
-      "id": "1a915ddb"
+      "id": "5d83a8ae"
     },
     {
       "cell_type": "code",
@@ -485,7 +485,7 @@
         "b = 1000.\n",
         "print('y_i = %.2f * x + %.2f' % (m,b))"
       ],
-      "id": "862c5669",
+      "id": "ccab1afd",
       "execution_count": null,
       "outputs": []
     },
@@ -495,7 +495,7 @@
       "source": [
         "Then we can calculate our Loss function:"
       ],
-      "id": "a0d627f7"
+      "id": "a5114da6"
     },
     {
       "cell_type": "code",
@@ -504,7 +504,7 @@
         "l = loss(x,y,m,b)\n",
         "print('first 10 loss values: ',l[:10])"
       ],
-      "id": "7ed894f2",
+      "id": "b4517d7d",
       "execution_count": null,
       "outputs": []
     },
@@ -518,7 +518,7 @@
         "print('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))\n",
         "plot_data(x,y,m,b)"
       ],
-      "id": "4dd01582",
+      "id": "6d66185f",
       "execution_count": null,
       "outputs": []
     },
@@ -584,7 +584,7 @@
         "   # clears the plot when the next plot is ready to show.\n",
         "   ipydis.clear_output(wait=True)"
       ],
-      "id": "a1902e04",
+      "id": "2fa5de1b",
       "execution_count": null,
       "outputs": []
     },
@@ -650,7 +650,7 @@
         "\n",
         "Let us define a train function which allow us to try different hyperparameter setups."
       ],
-      "id": "883b5abd"
+      "id": "f8c8b687"
     },
     {
       "cell_type": "code",
@@ -681,7 +681,7 @@
         "    #loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)\n",
         "    return m, b, np.mean(loss(x,y,m,b))"
       ],
-      "id": "be1e253e",
+      "id": "942b411a",
       "execution_count": null,
       "outputs": []
     },
@@ -691,7 +691,7 @@
       "source": [
         "## Minibatch training"
       ],
-      "id": "035ed1aa"
+      "id": "ba517bc8"
     },
     {
       "cell_type": "code",
@@ -704,7 +704,7 @@
         "    m, b, l = train(bs, epochs=30)\n",
         "    print(f\"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}\")"
       ],
-      "id": "bdc553d3",
+      "id": "6b3ff542",
       "execution_count": null,
       "outputs": []
     },
@@ -716,7 +716,7 @@
         "\n",
         "## Learning rate"
       ],
-      "id": "b0dcb727"
+      "id": "1b64bd80"
     },
     {
       "cell_type": "code",
@@ -728,7 +728,7 @@
         "    m, b, l = train(int(bs), epochs=30, learning_rate_m = lrm, learning_rate_b = lrb)\n",
         "    print(f\"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}\")"
       ],
-      "id": "fc9f2a29",
+      "id": "7c1c79d2",
       "execution_count": null,
       "outputs": []
     },
@@ -738,7 +738,7 @@
       "source": [
         "We can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size. \n"
       ],
-      "id": "14a77cdd"
+      "id": "a4782bb3"
     }
   ],
   "metadata": {

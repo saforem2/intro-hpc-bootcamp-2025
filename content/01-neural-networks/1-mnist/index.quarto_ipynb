@@ -74,7 +74,7 @@
         "MNIST sample\n",
         ":::\n"
       ],
-      "id": "d6d81476"
+      "id": "d66b0827"
     },
     {
       "cell_type": "code",
@@ -90,7 +90,7 @@
         "import matplotlib.pyplot as plt\n",
         "import time"
       ],
-      "id": "335f517d",
+      "id": "2c583c87",
       "execution_count": null,
       "outputs": []
     },
@@ -110,7 +110,7 @@
         "- inputs: 1 x 28 x 28 pixels\n",
         "- outputs (labels): one integer per example "
       ],
-      "id": "2c857892"
+      "id": "415f1e26"
     },
     {
       "cell_type": "code",
@@ -130,7 +130,7 @@
         "    transform=torchvision.transforms.ToTensor()\n",
         ")"
       ],
-      "id": "dcc9aa2d",
+      "id": "a154e3a1",
       "execution_count": null,
       "outputs": []
     },
@@ -146,7 +146,7 @@
         "    generator=torch.Generator().manual_seed(55)\n",
         ")"
       ],
-      "id": "3773e369",
+      "id": "c539a7b9",
       "execution_count": null,
       "outputs": []
     },
@@ -157,7 +157,7 @@
         "print('MNIST data loaded: train:',len(training_data),' examples, validation: ', len(validation_data), 'examples, test:',len(test_data), 'examples')\n",
         "print('Input shape', training_data[0][0].shape)"
       ],
-      "id": "7e770f10",
+      "id": "030cd2be",
       "execution_count": null,
       "outputs": []
     },
@@ -167,7 +167,7 @@
       "source": [
         "Let's take a closer look. Here are the first 10 training digits:"
       ],
-      "id": "6d5022c9"
+      "id": "4fe860b0"
     },
     {
       "cell_type": "code",
@@ -182,7 +182,7 @@
         "    plt.imshow(numpy.reshape(training_data[i][0], (28, 28)), cmap=\"gray\")\n",
         "    plt.title('Class: '+str(training_data[i][1]))"
       ],
-      "id": "831434c3",
+      "id": "bfdb50b7",
       "execution_count": null,
       "outputs": []
     },
@@ -223,7 +223,7 @@
         "\n",
         "- A learning rate. As we learned last week, the learning rate controls how far we move during each step. "
       ],
-      "id": "abf96035"
+      "id": "96efeb0f"
     },
     {
       "cell_type": "code",
@@ -249,7 +249,7 @@
         "\n",
         "        return x"
       ],
-      "id": "afe5d9fb",
+      "id": "cded18c1",
       "execution_count": null,
       "outputs": []
     },
@@ -263,7 +263,7 @@
         "loss_fn = nn.CrossEntropyLoss()\n",
         "optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)"
       ],
-      "id": "285d34a3",
+      "id": "8cf74dc4",
       "execution_count": null,
       "outputs": []
     },
@@ -283,7 +283,7 @@
         "- An epoch means one pass through the whole training data (looping over the batches). Using few epochs can lead to underfitting and using too many can lead to overfitting.\n",
         "- The choice of batch size and learning rate are important for performance, generalization and accuracy in deep learning.\n"
       ],
-      "id": "87a9c20c"
+      "id": "0cc3e9bd"
     },
     {
       "cell_type": "code",
@@ -295,7 +295,7 @@
         "train_dataloader = torch.utils.data.DataLoader(training_data, batch_size=batch_size)\n",
         "val_dataloader = torch.utils.data.DataLoader(validation_data, batch_size=batch_size)"
       ],
-      "id": "6e0de0af",
+      "id": "b8c77a8d",
       "execution_count": null,
       "outputs": []
     },
@@ -319,7 +319,7 @@
         "        # resets the gradients \n",
         "        optimizer.zero_grad()"
       ],
-      "id": "76a1d8ab",
+      "id": "764817c6",
       "execution_count": null,
       "outputs": []
     },
@@ -350,7 +350,7 @@
         "    accuracy = 100*correct\n",
         "    return accuracy, loss"
       ],
-      "id": "c190e60a",
+      "id": "6cd08e97",
       "execution_count": null,
       "outputs": []
     },
@@ -376,7 +376,7 @@
         "    val_acc_all.append(val_acc)\n",
         "    print(f\"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}\")"
       ],
-      "id": "cb349fff",
+      "id": "998d5f24",
       "execution_count": null,
       "outputs": []
     },
@@ -392,7 +392,7 @@
         "plt.ylabel('Loss')\n",
         "plt.legend()"
       ],
-      "id": "ae00a12b",
+      "id": "c41d2b14",
       "execution_count": null,
       "outputs": []
     },
@@ -413,7 +413,7 @@
         "    plt.imshow(batch[0][i,0,:,:], cmap=\"gray\")\n",
         "    plt.title('%d' % predictions[i,:].argmax())"
       ],
-      "id": "8d7213f5",
+      "id": "5c786af6",
       "execution_count": null,
       "outputs": []
     },
@@ -427,7 +427,7 @@
         "\n",
         "Let's see how our model generalizes to the unseen test data.\n"
       ],
-      "id": "828d0942"
+      "id": "6da98709"
     },
     {
       "cell_type": "code",
@@ -440,7 +440,7 @@
         "batch_size_test = 256 \n",
         "test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=batch_size_test)"
       ],
-      "id": "486586e1",
+      "id": "6809d68c",
       "execution_count": null,
       "outputs": []
     },
@@ -451,7 +451,7 @@
         "acc_test, loss_test = evaluate(test_dataloader, linear_model, loss_fn)\n",
         "print(\"Test loss: %.4f, test accuracy: %.2f%%\" % (loss_test, acc_test))"
       ],
-      "id": "5b1b8122",
+      "id": "1c639d9f",
       "execution_count": null,
       "outputs": []
     },
@@ -463,7 +463,7 @@
         "\n",
         "Let's define a helper function to show the failure cases of our classifier."
       ],
-      "id": "48981f35"
+      "id": "1e4c068c"
     },
     {
       "cell_type": "code",
@@ -490,7 +490,7 @@
         "            plt.title(\"%d (%d)\" % (rounded[i], batch[1][i]))\n",
         "            ii = ii + 1"
       ],
-      "id": "4b330fc2",
+      "id": "5d958142",
       "execution_count": null,
       "outputs": []
     },
@@ -500,7 +500,7 @@
       "source": [
         "Here are the first 10 images from the test data that this small model classified to a wrong class:\n"
       ],
-      "id": "cd38e8d7"
+      "id": "7cdd93e7"
     },
     {
       "cell_type": "code",
@@ -508,7 +508,7 @@
       "source": [
         "show_failures(linear_model, test_dataloader)"
       ],
-      "id": "540e075c",
+      "id": "12d89420",
       "execution_count": null,
       "outputs": []
     },
@@ -608,7 +608,7 @@
         "\n",
         "`nn.Dropout()` performs the Dropout operation mentioned earlier:"
       ],
-      "id": "92d7666c"
+      "id": "20e9b75a"
     },
     {
       "cell_type": "code",
@@ -639,7 +639,7 @@
         "\n",
         "        return x"
       ],
-      "id": "459ea79f",
+      "id": "909b0dec",
       "execution_count": null,
       "outputs": []
     },
@@ -652,7 +652,7 @@
         "loss_fn = nn.CrossEntropyLoss()\n",
         "optimizer = torch.optim.SGD(nonlinear_model.parameters(), lr=0.05)"
       ],
-      "id": "5f8c3b82",
+      "id": "9ae63ce9",
       "execution_count": null,
       "outputs": []
     },
@@ -678,7 +678,7 @@
         "    val_acc_all.append(val_acc)\n",
         "    print(f\"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}\")"
       ],
-      "id": "b26efa8e",
+      "id": "afa271d6",
       "execution_count": null,
       "outputs": []
     },
@@ -694,7 +694,7 @@
         "plt.ylabel('Loss')\n",
         "plt.legend()"
       ],
-      "id": "415a3ac1",
+      "id": "fecfd571",
       "execution_count": null,
       "outputs": []
     },
@@ -704,7 +704,7 @@
       "source": [
         "show_failures(nonlinear_model, test_dataloader)"
       ],
-      "id": "9a2a7f2f",
+      "id": "ccd869d9",
       "execution_count": null,
       "outputs": []
     },
@@ -735,7 +735,7 @@
         "\n",
         "Make the following changes to the cells with the comment \"#For HW\""
       ],
-      "id": "5110af11"
+      "id": "3559a78d"
     },
     {
       "cell_type": "code",
@@ -782,7 +782,7 @@
         "        return x\n",
         "##############################################################################"
       ],
-      "id": "c6f23bca",
+      "id": "12cd9136",
       "execution_count": null,
       "outputs": []
     },
@@ -792,7 +792,7 @@
       "source": [
         "Bonus question: A learning rate scheduler is an essential deep learning technique used to dynamically adjust the learning rate during training. This strategic can significantly impact the convergence speed and overall performance of a neural network.See below on how to incorporate it to your training."
       ],
-      "id": "5b9e02f6"
+      "id": "1b4272e7"
     },
     {
       "cell_type": "code",
@@ -805,7 +805,7 @@
         "# Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)\n",
         "scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=2, gamma=0.1)"
       ],
-      "id": "1a36dfac",
+      "id": "2dd7a38b",
       "execution_count": null,
       "outputs": []
     },
@@ -837,7 +837,7 @@
         "    val_acc_all.append(val_acc)\n",
         "    print(f\"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}\")"
       ],
-      "id": "563aee91",
+      "id": "c7e1a0d4",
       "execution_count": null,
       "outputs": []
     }

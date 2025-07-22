@@ -40,7 +40,7 @@
         "\n",
         "![ImageNet Accuracy by Yearh](./ImageNet.png)"
       ],
-      "id": "e0db41ad"
+      "id": "3b9a9d41"
     },
     {
       "cell_type": "code",
@@ -85,7 +85,7 @@
         "# Display plot\n",
         "plt.show()"
       ],
-      "id": "b558d715",
+      "id": "fc7b2bb7",
       "execution_count": null,
       "outputs": []
     },
@@ -95,7 +95,7 @@
       "source": [
         "[reference](https://www.researchgate.net/publication/332452649_A_Roadmap_for_Foundational_Research_on_Artificial_Intelligence_in_Medical_Imaging_From_the_2018_NIHRSNAACRThe_Academy_Workshop)\n"
       ],
-      "id": "8fa2f182"
+      "id": "e0cb57c8"
     },
     {
       "cell_type": "code",
@@ -103,7 +103,7 @@
       "source": [
         "import torch, torchvision"
       ],
-      "id": "460f9063",
+      "id": "cbdab20e",
       "execution_count": null,
       "outputs": []
     },
@@ -115,7 +115,7 @@
         "\n",
         "We're going to go through some examples of building blocks for convolutional networks.  To help illustate some of these, let's use an image for examples:"
       ],
-      "id": "be9adf42"
+      "id": "abbc11b8"
     },
     {
       "cell_type": "code",
@@ -126,7 +126,7 @@
         "! wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/03_advanced_neural_networks/ALCF-Staff.jpg\n",
         "alcf_image = Image.open(\"ALCF-Staff.jpg\")"
       ],
-      "id": "cdb03531",
+      "id": "cefd80b3",
       "execution_count": null,
       "outputs": []
     },
@@ -139,7 +139,7 @@
         "plt.imshow(alcf_image)\n",
         "plt.show()"
       ],
-      "id": "b735dd43",
+      "id": "f1559c80",
       "execution_count": null,
       "outputs": []
     },
@@ -157,7 +157,7 @@
         "\n",
         "![image.png](./conv.png)"
       ],
-      "id": "5c35d692"
+      "id": "d8753c6d"
     },
     {
       "cell_type": "code",
@@ -186,7 +186,7 @@
         "\n",
         "plt.imshow(rand_image)"
       ],
-      "id": "6ee8d3fa",
+      "id": "f4cab151",
       "execution_count": null,
       "outputs": []
     },
@@ -205,7 +205,7 @@
         "\n",
         "Reference: [Batch Norm](https://arxiv.org/pdf/1502.03167.pdf)"
       ],
-      "id": "82084657"
+      "id": "0c58225d"
     },
     {
       "cell_type": "code",
@@ -229,7 +229,7 @@
         "\n",
         "plt.imshow(rand_image)"
       ],
-      "id": "117b141f",
+      "id": "7e199f84",
       "execution_count": null,
       "outputs": []
     },
@@ -245,7 +245,7 @@
         "\n",
         "[Reference](https://www.researchgate.net/publication/333593451_Application_of_Transfer_Learning_Using_Convolutional_Neural_Network_Method_for_Early_Detection_of_Terry's_Nail)\n"
       ],
-      "id": "a404f445"
+      "id": "f865541d"
     },
     {
       "cell_type": "code",
@@ -269,7 +269,7 @@
         "\n",
         "plt.imshow(rand_image)"
       ],
-      "id": "8bc6bb32",
+      "id": "f047a722",
       "execution_count": null,
       "outputs": []
     },
@@ -301,7 +301,7 @@
         "\n",
         "The dataset here is CIFAR-10 - slightly harder than MNIST but still relatively easy and computationally tractable."
       ],
-      "id": "419943db"
+      "id": "37d8ae4b"
     },
     {
       "cell_type": "code",
@@ -347,7 +347,7 @@
         "    shuffle=False, \n",
         "    num_workers=2)"
       ],
-      "id": "150de7ed",
+      "id": "6d2fafc6",
       "execution_count": null,
       "outputs": []
     },
@@ -358,7 +358,7 @@
         "from matplotlib import pyplot as plt\n",
         "%matplotlib inline"
       ],
-      "id": "d4418406",
+      "id": "0672ecc8",
       "execution_count": null,
       "outputs": []
     },
@@ -369,7 +369,7 @@
         "batch, (X, Y) = next(enumerate(train_dataloader))\n",
         "plt.imshow(X[0].cpu().permute((1,2,0))); plt.show()"
       ],
-      "id": "e8879c2f",
+      "id": "623d68fa",
       "execution_count": null,
       "outputs": []
     },
@@ -379,7 +379,7 @@
       "source": [
         "This code below is important as our models get bigger: this is wrapping the pytorch data loaders to put the data onto the GPU!"
       ],
-      "id": "b8742f05"
+      "id": "9e09fb49"
     },
     {
       "cell_type": "code",
@@ -410,7 +410,7 @@
         "train_dataloader = WrappedDataLoader(train_dataloader, preprocess)\n",
         "val_dataloader = WrappedDataLoader(val_dataloader, preprocess)"
       ],
-      "id": "f605d899",
+      "id": "66ccfcbb",
       "execution_count": null,
       "outputs": []
     },
@@ -563,7 +563,7 @@
         "        # # Average pooling of the remaining spatial dimensions (and reshape) makes this label-like:\n",
         "        # return nn.functional.avg_pool2d(x, kernel_size=x.shape[-2:]).reshape((-1,10))"
       ],
-      "id": "632646e9",
+      "id": "d5f5de7b",
       "execution_count": null,
       "outputs": []
     },
@@ -573,7 +573,7 @@
       "source": [
         "!pip install torchinfo # if not on Polaris"
       ],
-      "id": "2386f3d9",
+      "id": "ea762edc",
       "execution_count": null,
       "outputs": []
     },
@@ -587,7 +587,7 @@
         "\n",
         "print(summary(model, input_size=(batch_size, 3, 32, 32)))"
       ],
-      "id": "56fb0e73",
+      "id": "5bdb1b13",
       "execution_count": null,
       "outputs": []
     },
@@ -620,7 +620,7 @@
         "    accuracy = 100*correct\n",
         "    return accuracy, loss"
       ],
-      "id": "74c5d06e",
+      "id": "0d1e1cef",
       "execution_count": null,
       "outputs": []
     },
@@ -646,7 +646,7 @@
         "\n",
         "        progress_bar.update()"
       ],
-      "id": "d2eb7f22",
+      "id": "9e156941",
       "execution_count": null,
       "outputs": []
     },
@@ -657,7 +657,7 @@
         "loss_fn = nn.CrossEntropyLoss()\n",
         "optimizer = torch.optim.SGD(model.parameters(), lr=0.001, weight_decay=0.01)"
       ],
-      "id": "e0ce6682",
+      "id": "5ac113b9",
       "execution_count": null,
       "outputs": []
     },
@@ -713,7 +713,7 @@
         "        )\n",
         "    )"
       ],
-      "id": "899a0732",
+      "id": "cf2f7209",
       "execution_count": null,
       "outputs": []
     },
@@ -763,7 +763,7 @@
         "the epochs you train.  You also need to explain, in several sentences, what you\n",
         "changed in the network and why you think it makes a difference.\n"
       ],
-      "id": "863a1668"
+      "id": "835b48d3"
     }
   ],
   "metadata": {
