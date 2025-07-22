@@ -1,0 +1,5 @@
+/.quarto/
+content/01-neural-networks/3-conv-nets/data/cifar-10-python.tar.gz
+content/01-neural-networks/1-mnist/data/MNIST/raw/
+content/01-neural-networks/3-conv-nets/data/
+content/01-neural-networks/4-representation-learning/data/

@@ -1,0 +1,298 @@
+/*-- scss:defaults --*/
+
+
+$highlight-bg: #ffff00;
+
+$shadow-color: rgba(0, 0, 0, 0.5);
+$shadow-border: #e599f7;
+
+$bs-table-bg: #2a2a2a;
+$bg-transparent: rgba(34, 34, 34, 0.05);
+
+$navbar-bg: rgba(34, 34, 34, 0.95);
+$navbar-fg: #838383;
+$brighter-text: #f8f8f8;
+$bright-text: #b8b8b8;
+$alt-text: #cccccc;
+$dim-text: #777777;
+$dim-color: #404040;
+$mygrey-000: #1c1c1c;
+$mygrey-010: #222222;
+$mygrey-020: #282828;
+$mygrey-030: #333333;
+$mygrey-040: #444444;
+$mygrey-050: #555555;
+$mygrey-060: #666666;
+$mygrey-070: #777777;
+$mygrey-080: #888888;
+$mygrey-090: #999999;
+$mygrey-100: #b8b8b8;
+$mygrey-999: #f8f8f8;
+
+
+$callout-note-color: #4582ec;
+$callout-tip-color: #02b875;
+$callout-warning-color: #fd971f;
+$callout-caution-color: #e599f7;
+$callout-important-color: #ff5252;
+
+$myred: #ff5252;
+$myorange: #fd971f;
+$myyellow: #ffff00;
+$mygreen: #63ff5b;
+$myblue: #00ccff;
+$mypurple: #ae81ff;
+$mypink: #ff67ff;
+
+$highlight-text-color: #ffff00;
+$hypothesis-highlight: oklab(
+  from $highlight-text-color calc(1 * 1.15) c h / 0.1
+);
+$yellow-text: #ffff00;
+$pink-text: #ff67ff;
+$green-text: #07b875;
+$orcid-green: #a6ce39;
+$red-text: #ff5252;
+$blue-text: #29b6f6;
+
+$red-fg: #ff5252;
+$orange-fg: #fd971f;
+$yellow-fg: #ffff00;
+$green-fg: #07b875;
+$blue-fg: #29b6f6;
+$purple-fg: #ae81ff;
+$pink-fg: #ff67ff;
+
+$selection-bg-color: rgba(255, 255, 0, 0.5);
+$selection-fg-color: #1c1c1c;
+
+$h1-fg-color: $myred;
+$h1-bg-color: oklch(from $h1-fg-color calc(l * 1.15) c h / 0.1);
+
+$h2-fg-color: $blue-text;
+$h2-bg-color: oklch(from $h2-fg-color calc(l * 1.15) c h / 0.1);
+
+$h3-fg-color: $green-text;
+$h3-bg-color: oklch(from $h3-fg-color calc(l * 1.15) c h / 0.1);
+
+$h4-fg-color: #b388ff;
+$h4-bg-color: oklch(from $h4-fg-color calc(l * 1.15) c h / 0.1);
+
+$h5-fg-color: $myyellow;
+$h5-bg-color: oklch(from $h5-fg-color calc(l * 1.15) c h / 0.1);
+
+$h6-fg-color: $myorange;
+$h6-bg-color: oklch(from $h6-fg-color calc(l * 1.15) c h / 0.1);
+
+$body-bg: #1c1c1c;
+$alt-bg: #2f2f2f;
+$body-color: #a9a9b3;
+
+
+
+$link-color: #82b1ff;
+$link-bg-color: hsl(217, 100%, 75%);
+
+$link-border-radius: 0.05rem;
+$link-color-hover: #ff67ff !default;
+$link-hover-bg-opacity: 0.07 !default;
+
+$italic-color: #89ddff;
+$strong-color: #36ce5e !default;
+
+$interactive-accent-hsl: #ffff00;
+$text-selection: hsla(var($interactive-accent-hsl), 0.25);
+
+$selection-bg: rgba(255, 255, 0, 0.5);
+$selection-color: #1c1c1c;
+
+
+$table-striped-bg: #282828 !default;
+$table-bg: #222222 !default;
+
+
+
+
+$presentation-font-family-line-height: 1em !default;
+$presentation-line-height: 1em !default;
+
+
+$heading-color: #a9a9b3 !default;
+
+
+$code-fg: #cccccc !default;
+$dark-bg-code-color: $code-fg !default;
+$code-block-bg-alt: #333333 !default;
+$code-block-bg-color: #1e1e1e !default;
+$code-line-number-color: #444444 !default;
+$code-block-border-color: #222222 !default;
+$code-block-bg: $code-block-bg-color !default;
+
+
+$dark-bg-code-bg: oklab(
+  from ($dark-bg-code-color) calc(l * 1.15) c h / 0.1
+) !default;
+$code-color: $dark-bg-code-color !default;
+$code-bg: $dark-bg-code-bg !default;
+
+$grey-neutral: #444444;
+$mermaid-accent: #888888;
+
+$code-block-block-shadow: RGBA(0, 0, 0, 0.15) 0px 2px 5px;
+$code-block-hover-box-shadow: rgba(0, 0, 0, 0.75) 0px 2px 5px;
+
+
+$dark-bg-code-color: #e599f7 !default;
+$dark-bg-code-bg: $code-block-bg-color !default;
+$code-color: $dark-bg-code-color;
+$code-bg: $dark-bg-code-bg;
+
+
+
+$algcolor: #f783ac !default;
+$algicon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path fill="currentColor" d="M414.9 31.11L270.9 495.1C266.1 507.8 253.5 514.8 240.9 510.9C228.2 506.1 221.1 493.5 225.1 480.9L369.1 16.89C373 4.226 386.5-2.852 399.1 1.077C411.8 5.006 418.9 18.45 414.9 31.11V31.11zM504.4 118.5L632.4 238.5C637.3 243 640 249.4 640 255.1C640 262.6 637.3 268.1 632.4 273.5L504.4 393.5C494.7 402.6 479.6 402.1 470.5 392.4C461.4 382.7 461.9 367.6 471.6 358.5L580.9 255.1L471.6 153.5C461.9 144.4 461.4 129.3 470.5 119.6C479.6 109.9 494.7 109.4 504.4 118.5V118.5zM168.4 153.5L59.09 255.1L168.4 358.5C178.1 367.6 178.6 382.7 169.5 392.4C160.4 402.1 145.3 402.6 135.6 393.5L7.585 273.5C2.746 268.1 0 262.6 0 255.1C0 249.4 2.746 243 7.585 238.5L135.6 118.5C145.3 109.4 160.4 109.9 169.5 119.6C178.6 129.3 178.1 144.4 168.4 153.5V153.5z"/></svg>') !default;
+$algbg: #1c1c1c !default;
+
+$blockquote-bg: $bg-transparent;
+$blockquote-border: #333333;
+$blockquote-text: #666666;
+
+$quarto-hl-in-color: #fd971f;
+$bs-nav-tabs-border-color: #222222 !default;
+
+
+/*-- scss:rules --*/
+
+.reveal .slide-logo {
+  content: url("/assets/anl_logos/anl-wireframe-white.svg");
+}
+
+:root {
+  --red-fg: $red-fg;
+  --orange-fg: $orange-fg;
+  --yellow-fg: $yellow-fg;
+  --green-fg: $green-fg;
+  --blue-fg: $blue-fg;
+  --purple-fg: $purple-fg;
+  --pink-fg: $pink-fg;
+  --h1-fg-color: $h1-fg-color;
+  --h1-bg-color: $h1-bg-color;
+  --h2-fg-color: $h2-fg-color;
+  --h2-bg-color: $h2-bg-color;
+  --h3-fg-color: $h3-fg-color;
+  --h3-bg-color: $h3-bg-color;
+  --h4-fg-color: $h4-fg-color;
+  --h4-bg-color: $h4-bg-color;
+  --h5-fg-color: $h5-fg-color;
+  --h5-bg-color: $h5-bg-color;
+  --h6-fg-color: $h6-fg-color;
+  --h6-bg-color: $h6-bg-color;
+  --cardbg: $cardbg;
+  --bs-nav-tabs-border-color: $bs-nav-tabs-border-color;
+  --callout-tip-color: $callout-tip-color;
+  --callout-warning-color: $callout-warning-color;
+  --callout-important-color: $callout-important-color;
+  --callout-note-color: $callout-note-color;
+  --callout-caution-color: $callout-caution-color;
+  --bg-border: rgba(40, 40, 40, 1);
+  --bg-transparent: rgba(34, 34, 34, 0.05);
+  --pink-transparent: rgba(229, 153, 247, 0.075);
+  // --callout-warning: #FFFF00;
+  --hypothesis-highlight: $hypothesis-highlight;
+  --highlight-text-color: $highlight-text-color;
+}
+
+.green-text {
+  color: $green-text;
+}
+
+.orcid-green {
+  color: $orcid-green !important;
+}
+
+.yellow-text {
+  color: $myyellow;
+}
+
+.red-text {
+  color: $red-text;
+}
+
+.orange-text {
+  color: $myorange;
+}
+
+.dim-text {
+  color: $dim-text;
+}
+
+.purple-text {
+  color: $mypurple;
+}
+
+.blue-text {
+  color: $myblue;
+}
+
+.pink-text {
+  color: $mypink;
+}
+
+.note-green {
+  padding: 1pt 1pt 1pt 1pt;
+  border: 1px solid #66bb6a;
+  border-radius: 8px;
+  box-shadow: RGBA(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: #1f1f1f;
+  max-width: min-content;
+  min-width: max-content;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.reveal .slide-chalkboard-buttons {
+  display: none !important;
+}
+
+.slide-chalkboard-buttons.slide-menu-offset {
+  display: none !important;
+}
+
+div.callout-note.callout-style-default > .callout-header {
+  background: none;
+}
+
+.callout.callout-style-default > div.callout-header {
+  align-items: center;
+}
+
+div.callout-note.callout-style-default > .callout-header {
+  background: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.callout.callout-style-simple > div.callout-header {
+  opacity: 100% !important;
+}
+
+.callout.callout-style-default,
+.callout.callout-style-simple {
+  display: inline-block;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-accent-bg: var(--bs-table-striped-bg);
+  color: var(--bs-table-striped-color);
+}
+
+.callout-toggle {
+  color: #666666;
+}
+
+.table > :not(caption) > *:not(:last-child) > * {
+  border-bottom-color: #444444 !important;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}

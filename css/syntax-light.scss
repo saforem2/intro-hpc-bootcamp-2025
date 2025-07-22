@@ -1,0 +1,512 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+
+// "editor-colors": {
+// "BackgroundColor": "#fafafa",
+// "BracketMatching": "#d9dbdd",
+// "CodeFolding": "#ffe6dc",
+// "CurrentLine": "#eff0f2",
+// "CurrentLineNumber": "#767676",
+// "IconBorder": "#f3f3f3",
+// "IndentationLine": "#dcdee1",
+// "LineNumbers": "#9f9f9f",
+// "MarkBookmark": "#399ee6",
+// "MarkBreakpointActive": "#f07171",
+// "MarkBreakpointDisabled": "#a37acc",
+// "MarkBreakpointReached": "#e6ba7e",
+// "MarkError": "#f51818",
+// "MarkExecution": "#4cbf99",
+// "MarkWarning": "#86b300",
+// "ModifiedLines": "#709ecc",
+// "ReplaceHighlight": "#b0d4e4",
+// "SavedLines": "#99bf4d",
+// "SearchHighlight": "#fdd1bc",
+// "Separator": "#e0dfdf",
+// "SpellChecking": "#f27983",
+// "TabMarker": "#dcdee1",
+// "TemplateBackground": "#f7f7f7",
+// "TemplateFocusedPlaceholder": "#bec1c6",
+// "TemplatePlaceholder": "#dddfe1",
+// "TemplateReadOnlyPlaceholder": "#ffffff",
+// "TextSelection": "#d1e4f4",
+// "WordWrapMarker": "#e9eaeb"
+// "text-color": "#f51818"
+// "text-color": "#e6ba7e"
+// "text-color": "#f07171"
+// "text-color": "#399ee6"
+// "text-color": "#ff9940"
+// "text-color": "#4cbf99"
+// "text-color": "#a37acc"
+// "text-color": "#a37acc"
+// "text-color": "#ff9940"
+// "text-color": "#607880"
+// "text-color": "#f51818",
+// "text-color": "#399ee6"
+// "text-color": "#ff9940"
+// "text-color": "#f2ae49"
+// "text-color": "#ff9940"
+// "text-color": "#fa8d3e"
+// "text-color": "#ed9366"
+// "text-color": "#55b4d4"
+// "text-color": "#f07171"
+// "text-color": "#399ee6"
+// "text-color": "#4cbf99"
+// "text-color": "#4cbf99"
+// "text-color": "#86b300"
+// "text-color": "#55b4d4"
+// "text-color": "#729800"
+//
+
+// #875AD8g
+// $quarto-hl-al-color: rgba(149, 218, 76, 1.0);
+// $quarto-hl-al-bg-color: rgba(149, 218, 76, 0.07);
+
+// classDef block fill:#CCCCCC02,stroke:#838383,stroke-width:1px,color:#838383
+// classDef red fill:#ff8181,stroke:#333,stroke-width:1px,color:#000
+// classDef orange fill:#FFC47F,stroke:#333,stroke-width:1px,color:#000
+// classDef grey fill:#cccccc,stroke:#333,stroke-width:1px,color:#000
+// classDef yellow fill:#FFFF7F,stroke:#333,stroke-width:1px,color:#000
+// classDef green fill:#98E6A5,stroke:#333,stroke-width:1px,color:#000
+// classDef blue fill:#7DCAFF,stroke:#333,stroke-width:1px,color:#000
+// classDef purple fill:#FFCBE6,stroke:#333,stroke-width:1px,color:#000
+// classDef text fill:#CCCCCC02,stroke:#838383,stroke-width:0px,color:#838383
+// class x,L0 red
+// class x1, green
+//
+//
+//#d32f2f #6f42c1 #22863a #800080 #cd3131 #cd9731 #316bcd #1976D2 #d32f2f
+//
+// $quarto-hl-bu-color: #1E88E5;
+//#A477F5;
+// $quarto-hl-dt-color: #875AD8g;
+//#099268;
+$quarto-hl-al-color: rgba(54, 206, 94, 1);
+$quarto-hl-al-bg-color: rgba(54, 206, 94, 0.1);
+$quarto-hl-an-color: #50a14f;
+$quarto-hl-at-color: #118dc3;
+$quarto-hl-bn-color: #fd971f;
+$quarto-hl-bu-color: #42A2AE;
+// $quarto-hl-bu-color: #1da912;
+// @function.builtin.c xxx guifg=#56b6c2
+$quarto-hl-ch-color: #50a14f;
+$quarto-hl-co-color: #9b9fa6;
+$quarto-hl-cv-color: #ff3bd3;
+$quarto-hl-cn-color: #986801;
+$quarto-hl-cf-color: #1976d2;
+$quarto-hl-dt-color: #9a77cf;
+// $quarto-hl-dv-color: #f92672;
+$quarto-hl-dv-color: #FD7E14;
+$quarto-hl-do-color: #e45649;
+$quarto-hl-er-color: #f44747;
+$quarto-hl-ex-color: #4078f2;
+$quarto-hl-fl-color: #986801;
+$quarto-hl-fu-color: #118dc3;
+$quarto-hl-im-color: #9a77cf;
+$quarto-hl-in-color: #ff541d;
+$quarto-hl-kw-color: hsla(316, 61%, 63%, 1.0);
+$quarto-hl-op-color: #f92672;
+$quarto-hl-pp-color: #875ad8;
+$quarto-hl-re-color: #2980b9;
+$quarto-hl-sc-color: #56b6c2;
+$quarto-hl-ss-color: #ff3399;
+$quarto-hl-fl-color: #01a9f4;
+$quarto-hl-st-color: #e91e63;
+$quarto-hl-num-color: #ff5370;
+$quarto-hl-float-color: #ff9940;
+// $quarto-hl-va-color: #3c45d5;
+$quarto-hl-va-color: #05a551;
+// $quarto-hl-va-color: #05a551;
+// $quarto-hl-va-color: #9a77cf;
+$quarto-hl-vs-color: #da4453;
+$quarto-hl-wa-color: #da4453;
+
+:root {
+  --quarto-hl-al-color: $quarto-hl-al-color;
+  --quarto-hl-al-bg-color: $quarto-hl-al-bg-color;
+  --quarto-hl-an-color: $quarto-hl-an-color;
+  --quarto-hl-at-color: $quarto-hl-at-color;
+  --quarto-hl-bn-color: $quarto-hl-bn-color;
+  --quarto-hl-bu-color: $quarto-hl-bu-color;
+  --quarto-hl-ch-color: $quarto-hl-ch-color;
+  --quarto-hl-co-color: $quarto-hl-co-color;
+  --quarto-hl-cv-color: $quarto-hl-cv-color;
+  --quarto-hl-cn-color: $quarto-hl-cn-color;
+  --quarto-hl-cf-color: $quarto-hl-cf-color;
+  --quarto-hl-dt-color: $quarto-hl-dt-color;
+  --quarto-hl-dv-color: $quarto-hl-dv-color;
+  --quarto-hl-do-color: $quarto-hl-do-color;
+  --quarto-hl-er-color: $quarto-hl-er-color;
+  --quarto-hl-ex-color: $quarto-hl-ex-color;
+  --quarto-hl-fl-color: $quarto-hl-fl-color;
+  --quarto-hl-fu-color: $quarto-hl-fu-color;
+  --quarto-hl-im-color: $quarto-hl-im-color;
+  --quarto-hl-in-color: $quarto-hl-in-color;
+  --quarto-hl-kw-color: $quarto-hl-kw-color;
+  --quarto-hl-op-color: $quarto-hl-op-color;
+  --quarto-hl-pp-color: $quarto-hl-pp-color;
+  --quarto-hl-re-color: $quarto-hl-re-color;
+  --quarto-hl-sc-color: $quarto-hl-sc-color;
+  --quarto-hl-ss-color: $quarto-hl-ss-color;
+  --quarto-hl-float-color: $quarto-hl-float-color;
+  --quarto-hl-va-color: $quarto-hl-va-color;
+  --quarto-hl-vs-color: $quarto-hl-vs-color;
+  --quarto-hl-wa-color: $quarto-hl-wa-color;
+}
+
+// $quarto-hl-im-color: #F76E48;
+// $quarto-hl-dv-color: #FF5370;
+// --quarto-hl-dv-color: #3fb3a8;
+// $quarto-hl-er-color: #f44747;
+// $quarto-hl-fu-color: #6f42c1;
+//#2B8A3E;
+// $quarto-hl-fu-color: #2B8A3E;
+//   --quarto-hl-fu-color: #4078f2;
+// $quarto-hl-im-color: #f07171;
+//#f07171;
+// $quarto-hl-kw-color: #DB68BB;
+//#EA77CA;
+//#Cd9731;
+//#6f42c1;
+// $quarto-hl-fu-color: #118dc3;
+// $quarto-hl-st-color: #50a14f;
+//#009688;
+// /#3fb3a8;
+/* #607D8B; */
+
+/* #607D8B; */
+/* #009688; */
+/* #D6EDEA; */
+/* #FAFAFA; */
+/* #B0BEC5; */
+/* #4FC3F7; */
+/* #9CCC65; */
+/* #e2b93d; */
+/* #EF5350; */
+/* #ff5370; */
+/* #ff5370; */
+/* #82b1ff; */
+/* #E53935; */
+/* #945eb8; */
+/* #8796B0; */
+/* #945eb8; */
+/* #91b859; */
+/* #80CBC4; */
+/* #80CBC4; */
+/* #91b859; */
+/* #8796B0; */
+/* #3fb3a8; */
+
+// :root {
+//   --quarto-font-monospace: "IBM Plex Mono", "Iosevka Web", "agave Nerd Font", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+//   --quarto-hl-al-color: #95da4c;
+//   --quarto-hl-an-color: #50a14f;
+//   --quarto-hl-at-color: #945eb8;
+//   --quarto-hl-bn-color: #E2b93d;
+//   --quarto-hl-bu-color: #945eb8;
+//   --quarto-hl-ch-color: #50a14f;
+//   --quarto-hl-co-color: #a0a1a7;
+//   --quarto-hl-cv-color: #e45649;
+//   --quarto-hl-cn-color: #3fb3a8;
+//   --quarto-hl-cf-color: #945eb8;
+//   --quarto-hl-dt-color: #945eb8;
+//   --quarto-hl-dv-color: #3fb3a8;
+//   --quarto-hl-do-color: #e45649;
+//   --quarto-hl-er-color: #f44747;
+//   --quarto-hl-ex-color: #4078f2;
+//   --quarto-hl-fl-color: #3fb3a8;
+//   --quarto-hl-fu-color: #4078f2;
+//   --quarto-hl-im-color: #50a14f;
+//   --quarto-hl-in-color: #c45b00;
+//   --quarto-hl-kw-color: #945eb8;
+//   --quarto-hl-op-color: #945eb8;
+//   --quarto-hl-pp-color: #945eb8;
+//   --quarto-hl-re-color: #2980b9;
+//   --quarto-hl-sc-color: #0184bc;
+//   --quarto-hl-ss-color: #da4453;
+//   --quarto-hl-st-color: #50a14f;
+//   --quarto-hl-va-color: #e45649;
+//   --quarto-hl-vs-color: #da4453;
+//   --quarto-hl-wa-color: #da4453;
+// }
+
+// code span.al {
+//   background-color: #4d1f24;
+//   font-weight: bold;
+//   color: #95da4c;
+// }
+//
+// code span.an {
+// }
+//
+// code span.at {
+// }
+//
+// code span.bn {
+// }
+//
+// code span.bu {
+//
+// #f44747;
+// #da4453;
+// #e45649;
+// #c45b00;
+// #50a14f;
+// #95da4c;
+// #3fb3a8;
+// #2980b9;
+// #0184bc;
+// #4078f2;
+// #945eb8;
+// #a0a1a7;
+// #383a42;
+// #153042;
+
+/* quarto syntax highlight colors */
+
+code span.al {
+  background-color: $quarto-hl-al-bg-color;
+  font-weight: bold;
+  color: $quarto-hl-al-color;
+}
+
+code span.an {
+  color: $quarto-hl-an-color;
+}
+
+code span.at {
+  color: $quarto-hl-at-color;
+}
+
+code span.bn {
+  color: $quarto-hl-bn-color;
+}
+
+code span.bu {
+  color: $quarto-hl-bu-color;
+}
+
+code span.ch {
+  color: $quarto-hl-ch-color;
+}
+
+code span.co {
+  font-style: italic;
+  color: $quarto-hl-co-color;
+}
+
+code span.cv {
+  font-style: italic;
+  color: $quarto-hl-cv-color;
+}
+
+code span.cn {
+  color: $quarto-hl-cn-color;
+}
+
+code span.cf {
+  color: $quarto-hl-cf-color;
+}
+
+code span.dt {
+  color: $quarto-hl-dt-color;
+}
+
+code span.dv {
+  color: $quarto-hl-dv-color;
+}
+
+code span.do {
+  color: $quarto-hl-do-color;
+}
+
+code span.er {
+  text-decoration: none;
+  color: $quarto-hl-er-color;
+  background-color: oklch(from $quarto-hl-er-color calc(l * 1.15) c h / 0.1);
+}
+
+code span.ex {
+  color: $quarto-hl-ex-color;
+}
+
+code span.fl {
+  color: $quarto-hl-fl-color;
+}
+
+code span.fu {
+  color: $quarto-hl-fu-color;
+}
+
+code span.im {
+  color: $quarto-hl-im-color;
+}
+
+code span.in {
+  color: $quarto-hl-in-color;
+}
+
+code span.kw {
+  color: $quarto-hl-kw-color;
+}
+
+// pre > code.sourceCode > span {
+//   color: #6D7379;
+// }
+//
+// code span {
+//   color: #6D7379;
+// }
+//
+// code.sourceCode > span {
+//   color: #6D7379;
+// }
+//
+// div.sourceCode,
+// div.sourceCode pre.sourceCode {
+//   color: #6D7379;
+// }
+//
+code span.op {
+  color: $quarto-hl-op-color;
+}
+
+code span.pp {
+  color: $quarto-hl-pp-color;
+}
+
+code span.re {
+  // background-color: $quarto-hl-re-bg-color;
+  background-color: oklch(from $quarto-hl-re-color calc(l * 1.15) c h / 0.1);
+  color: $quarto-hl-re-color;
+}
+
+code span.sc {
+  color: $quarto-hl-sc-color;
+}
+
+code span.ss {
+  color: $quarto-hl-ss-color;
+}
+
+code span.st {
+  // fon
+  // font-style: italic;
+  color: $quarto-hl-st-color;
+}
+
+code span.va {
+  color: $quarto-hl-va-color;
+}
+
+code span.vs {
+  color: $quarto-hl-vs-color;
+}
+
+code span.wa {
+  color: $quarto-hl-wa-color;
+}
+
+.prevent-inlining {
+  content: "</";
+}
+
+//         },
+//         "BaseN": {
+//             "selected-text-color": "#ff9940",
+//         },
+//         "BuiltIn": {
+//             "selected-text-color": "#4cbf99",
+//             "text-color": "#4cbf99"
+//         },
+//         "Char": {
+//             "selected-text-color": "#4cbf99",
+//         },
+//         "Comment": {
+//             "italic": true,
+//             "selected-text-color": "#607880",
+//             "text-color": "#607880"
+//         },
+//         "CommentVar": {
+//             "selected-text-color": "#a37acc",
+//         },
+//         "Constant": {
+//             "selected-text-color": "#a37acc",
+//         },
+//         "ControlFlow": {
+//             "bold": true,
+//             "selected-text-color": "#fa8d3e",
+//             "text-color": "#fa8d3e"
+//         },
+//         "DataType": {
+//             "selected-text-color": "#fa8d3e",
+//             "text-color": "#fa8d3e"
+//         },
+//         "DecVal": {
+//             "selected-text-color": "#ff9940",
+//         },
+//         "Documentation": {
+//             "selected-text-color": "#607880",
+//         },
+//         "Error": {
+//             "selected-text-color": "#f51818",
+//             "underline": true
+//         },
+//         "Extension": {
+//             "bold": true,
+//             "selected-text-color": "#399ee6",
+//         },
+//         "Float": {
+//             "selected-text-color": "#ff9940",
+//         },
+//         "Function": {
+//             "selected-text-color": "#f2ae49",
+//         },
+//         "Import": {
+//             "selected-text-color": "#86b300",
+//             "text-color": "#86b300"
+//         },
+//         "Information": {
+//             "selected-text-color": "#ff9940",
+//         },
+//         "Keyword": {
+//             "bold": true,
+//             "selected-text-color": "#fa8d3e",
+//         },
+//         "Normal": {
+//             "selected-text-color": "#575f66",
+//             "text-color": "#575f66"
+//         },
+//         "Operator": {
+//             "selected-text-color": "#ed9366",
+//         },
+//         "Others": {
+//             "selected-text-color": "#55b4d4",
+//         },
+//         "Preprocessor": {
+//             "selected-text-color": "#f07171",
+//         },
+//         "RegionMarker": {
+//             "background-color": "#ddecf3",
+//             "selected-text-color": "#399ee6",
+//         },
+//         "SpecialChar": {
+//             "selected-text-color": "#4cbf99",
+//         },
+//         "SpecialString": {
+//             "selected-text-color": "#4cbf99",
+//         },
+//         "String": {
+//             "selected-text-color": "#86b300",
+//         },
+//         "Variable": {
+//             "selected-text-color": "#55b4d4",
+//         },
+//         "VerbatimString": {
+//             "selected-text-color": "#729800",
+//         },
+//         "Warning": {
+//             "selected-text-color": "#f07171",
+//         }
+//     }
+// }
