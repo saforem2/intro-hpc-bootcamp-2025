@@ -1,5 +1,5 @@
 ---
-title: Introduction to AI on Supercomputers
+title: "Introduction to AI on Supercomputers"
 description: "Introduction to Supercomputers and High Performance Computing (HPC) for AI and Science"
 categories:
   - ai4science

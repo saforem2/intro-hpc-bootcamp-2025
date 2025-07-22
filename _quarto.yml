@@ -15,7 +15,7 @@ header-includes: |
 execute:
   # keep-md: true
   freeze: auto
-  keep-ipynb: true
+  # keep-ipynb: true
 project:
   type: website
   output-dir: "docs"
@@ -53,6 +53,7 @@ author:
 format:
   gfm:
     toc: true
+  ipynb: default
   html:
     respect-user-color-scheme: true
     date-modified: last-modified
