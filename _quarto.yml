@@ -103,15 +103,15 @@ format:
     highlight-style:
       light: github
       dark: github-dark
-    css:
-      # - css/colors-oklch.min.css
-      # - css/custom.css
-      # - css/svgbob.css
-      # - static/fonts/IosevkaQP/IosevkaQP.css
-      - static/fonts/MIosevkaQp/MIosevkaQp.css
-      - static/fonts/MIosevkaterm/MIosevkaTerm.css
-      # - static/fonts/IosevkaTerm/IosevkaTerm.css
-      # - css/giscus.css
+    # css:
+    #   # - css/colors-oklch.min.css
+    #   # - css/custom.css
+    #   # - css/svgbob.css
+    #   # - static/fonts/IosevkaQP/IosevkaQP.css
+    #   - static/fonts/MIosevkaQp/MIosevkaQp.css
+    #   - static/fonts/MIosevkaterm/MIosevkaTerm.css
+    #   # - static/fonts/IosevkaTerm/IosevkaTerm.css
+    #   # - css/giscus.css
     theme:
       dark:
         # - css/sam/callouts.scss
@@ -127,7 +127,7 @@ format:
         - default
       light:
         # - css/sam/callouts.scss
-        - css/global.scss
+        # - css/global.scss
         # - css/now_playing.scss
         - css/common.scss
         # - css/sf.scss
@@ -164,31 +164,6 @@ format:
       <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
 
     # <pre>
-    # @font-face {
-    #     font-family: 'Iosevka Web';
-    #     font-display: swap;
-    #     font-weight: 100;
-    #     font-stretch: normal;
-    #     font-style: normal;
-    #     src: url('ttf/iosevka-thin.ttf') format('truetype'), url('woff2/iosevka-thin.woff2') format('woff2');
-    # }
-    # @font-face {
-    #     font-family: 'Iosevka Web';
-    #     font-display: swap;
-    #     font-weight: 100;
-    #     font-stretch: expanded;
-    #     font-style: normal;
-    #     src: url('ttf/iosevka-extendedthin.ttf') format('truetype'), url('woff2/iosevka-extendedthin.woff2') format('woff2');
-    # }
-    #
-    # @font-face {
-    #     font-family: 'Iosevka Web';
-    #     font-display: swap;
-    #     font-weight: 100;
-    #     font-stretch: normal;
-    #     font-style: oblique;
-    #     src: url('ttf/iosevka-thinoblique.ttf') format('truetype'), url('woff2/iosevka-thinoblique.woff2') format('woff2');
-    # }
     # </pre>
     #
   # revealjs:
