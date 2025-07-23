@@ -2,8 +2,9 @@
 title: Artificial intelligence in a nutshell
 description: "An introduction to AI training, large language models, and a simple AI model example using linear regression."
 categories:
+    - ai
+    - hpc
     - ai4science
-jupyter: python3
 date: 2025-07-15
 date-modified: last-modified
 ---

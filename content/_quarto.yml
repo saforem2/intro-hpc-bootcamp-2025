@@ -69,7 +69,8 @@ author:
 format:
   gfm:
     toc: true
-  ipynb: default
+  ipynb:
+    default-image-extension: svg
   html:
     respect-user-color-scheme: true
     date-modified: last-modified
@@ -120,6 +121,7 @@ format:
         # - css/common.cleaned.scss
         # - css/common.cleaned.minimal.scss
         - css/common.scss
+        # - css/style.scss
         # - css/sf.scss
         - css/dark.scss
         - css/syntax-dark.scss
@@ -130,6 +132,7 @@ format:
         # - css/global.scss
         # - css/now_playing.scss
         - css/common.scss
+        # - css/style.scss
         # - css/sf.scss
         # - css/common.cleaned.minimal.scss
         - css/light.scss

@@ -12,6 +12,12 @@ Sam Foreman
   - [Running $\pi$ on Polaris](#running-pi-on-polaris)
 - [Parallel computing in AI](#parallel-computing-in-ai)
 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb)
+
+> [!IMPORTANT]
+>
+> ### Parallel Computing
+>
 > **Parallel computing** refers to the process of breaking down larger
 > problems into smaller, independent, often similar parts that can be
 > executed simultaneously by multiple processors communicating via

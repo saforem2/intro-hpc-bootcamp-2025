@@ -58,7 +58,13 @@ is our staff at the time (2019) in front of
 supercomputer, that debuted as the third fastest supercomputer in the
 world in 2012:
 
-![Staff-Mira](../img/mira_staff.jpg)
+<div id="fig-alcf-staff">
+
+![](../../assets/ALCF-Staff.jpg)
+
+Figure 1: ALCF Staff
+
+</div>
 
 ## ALCF Computing System Overview
 
@@ -73,12 +79,24 @@ Top500](https://www.top500.org/lists/top500/list/2024/06/).
 Here you can see one of the many rows of Aurora *nodes* with their Red &
 Blue water cooling conduits visible.
 
-![Aurora](../img/aurora1.jpg)
+<div id="fig-aurora-1">
+
+![](../img/aurora1.jpg)
+
+Figure 2: Aurora
+
+</div>
 
 In this photo you see a close up of the 16 *nodes* installed
 side-by-side:
 
-![Aurora](../img/aurora2.jpg)
+<div id="fig-aurora-2">
+
+![](../img/aurora2.jpg)
+
+Figure 3: Aurora
+
+</div>
 
 ### [Sophia](https://www.alcf.anl.gov/sophia)
 

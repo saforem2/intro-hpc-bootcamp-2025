@@ -81,8 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-60b0e012f363c7e5e7e40a781e71f48f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a4ab16234a02ed1fa798c353e91ac856.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-443033a9f5e99878e7a0f602c75fe65b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-e16b86569eb0ee0a29795e9a01f276ff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -671,6 +671,8 @@ window.Quarto = {
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Artificial intelligence in a nutshell</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
+    <div class="quarto-category">ai</div>
+    <div class="quarto-category">hpc</div>
     <div class="quarto-category">ai4science</div>
   </div>
   </div>
@@ -1748,543 +1750,544 @@ Nutshell.”</span> July 15, 2025. <a href="https://saforem2.github.io/hpc-bootc
 <span id="cb33-2"><a href="#cb33-2"></a><span class="an">title:</span><span class="co"> Artificial intelligence in a nutshell</span></span>
 <span id="cb33-3"><a href="#cb33-3"></a><span class="an">description:</span><span class="co"> "An introduction to AI training, large language models, and a simple AI model example using linear regression."</span></span>
 <span id="cb33-4"><a href="#cb33-4"></a><span class="an">categories:</span></span>
-<span id="cb33-5"><a href="#cb33-5"></a><span class="co">    - ai4science</span></span>
-<span id="cb33-6"><a href="#cb33-6"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
-<span id="cb33-7"><a href="#cb33-7"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
-<span id="cb33-8"><a href="#cb33-8"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb33-9"><a href="#cb33-9"></a><span class="co">---</span></span>
-<span id="cb33-10"><a href="#cb33-10"></a></span>
-<span id="cb33-11"><a href="#cb33-11"></a>In this notebook, we will talk about:</span>
-<span id="cb33-12"><a href="#cb33-12"></a></span>
-<span id="cb33-13"><a href="#cb33-13"></a><span class="ss">- </span>What is AI training?</span>
-<span id="cb33-14"><a href="#cb33-14"></a><span class="ss">- </span>How does large language model work?</span>
-<span id="cb33-15"><a href="#cb33-15"></a><span class="ss">- </span>A simple AI model: linear regression</span>
-<span id="cb33-16"><a href="#cb33-16"></a></span>
-<span id="cb33-17"><a href="#cb33-17"></a><span class="fu">## How to run this notebook on Polaris</span></span>
-<span id="cb33-18"><a href="#cb33-18"></a></span>
-<span id="cb33-19"><a href="#cb33-19"></a><span class="ss">- </span>Go to <span class="ot">&lt;https://jupyter.alcf.anl.gov&gt;</span>, and click "Login Polaris"</span>
-<span id="cb33-20"><a href="#cb33-20"></a><span class="ss">- </span>After login, select <span class="in">`ALCFAITP`</span> project and <span class="in">`ALCFAITP`</span> queue during the</span>
-<span id="cb33-21"><a href="#cb33-21"></a>  lecture (use <span class="in">`debug`</span> queue outside of the lecture)</span>
-<span id="cb33-22"><a href="#cb33-22"></a><span class="ss">- </span>Load the notebook and select "datascience/conda-2023-01-10" python kernel</span>
-<span id="cb33-23"><a href="#cb33-23"></a></span>
-<span id="cb33-24"><a href="#cb33-24"></a>::: {#fig-jupyter}</span>
-<span id="cb33-25"><a href="#cb33-25"></a></span>
-<span id="cb33-26"><a href="#cb33-26"></a><span class="al">![](../figures/jupyter1.png)</span>{width="90%"}</span>
-<span id="cb33-27"><a href="#cb33-27"></a><span class="al">![](../figures/jupyter2.png)</span>{width="90%"}</span>
-<span id="cb33-28"><a href="#cb33-28"></a></span>
-<span id="cb33-29"><a href="#cb33-29"></a>:::</span>
-<span id="cb33-30"><a href="#cb33-30"></a></span>
-<span id="cb33-31"><a href="#cb33-31"></a>**How to run this notebook on Google Colab**</span>
-<span id="cb33-32"><a href="#cb33-32"></a></span>
-<span id="cb33-33"><a href="#cb33-33"></a><span class="ss">- </span>Go to https://colab.research.google.com/, sign in or sign up</span>
-<span id="cb33-34"><a href="#cb33-34"></a><span class="ss">- </span>"File"-&gt; "open notebook"</span>
-<span id="cb33-35"><a href="#cb33-35"></a><span class="ss">- </span>choose <span class="in">`01_intro_AI_on_Supercomputer/01_linear_regression_sgd.ipynb`</span> from the list</span>
-<span id="cb33-36"><a href="#cb33-36"></a></span>
-<span id="cb33-37"><a href="#cb33-37"></a><span class="al">![Google Colab](../figures/colab.png)</span></span>
-<span id="cb33-38"><a href="#cb33-38"></a></span>
-<span id="cb33-39"><a href="#cb33-39"></a><span class="fu">## What is AI training?</span></span>
-<span id="cb33-40"><a href="#cb33-40"></a></span>
-<span id="cb33-41"><a href="#cb33-41"></a>**Two ways of learning English**:</span>
-<span id="cb33-42"><a href="#cb33-42"></a></span>
-<span id="cb33-43"><a href="#cb33-43"></a><span class="ss">- </span>through learning rules;</span>
-<span id="cb33-44"><a href="#cb33-44"></a><span class="ss">- </span>through hearing a lot of speakings</span>
-<span id="cb33-45"><a href="#cb33-45"></a></span>
+<span id="cb33-5"><a href="#cb33-5"></a><span class="co">    - ai</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="co">    - hpc</span></span>
+<span id="cb33-7"><a href="#cb33-7"></a><span class="co">    - ai4science</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
+<span id="cb33-9"><a href="#cb33-9"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="co">---</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a></span>
+<span id="cb33-12"><a href="#cb33-12"></a>In this notebook, we will talk about:</span>
+<span id="cb33-13"><a href="#cb33-13"></a></span>
+<span id="cb33-14"><a href="#cb33-14"></a><span class="ss">- </span>What is AI training?</span>
+<span id="cb33-15"><a href="#cb33-15"></a><span class="ss">- </span>How does large language model work?</span>
+<span id="cb33-16"><a href="#cb33-16"></a><span class="ss">- </span>A simple AI model: linear regression</span>
+<span id="cb33-17"><a href="#cb33-17"></a></span>
+<span id="cb33-18"><a href="#cb33-18"></a><span class="fu">## How to run this notebook on Polaris</span></span>
+<span id="cb33-19"><a href="#cb33-19"></a></span>
+<span id="cb33-20"><a href="#cb33-20"></a><span class="ss">- </span>Go to <span class="ot">&lt;https://jupyter.alcf.anl.gov&gt;</span>, and click "Login Polaris"</span>
+<span id="cb33-21"><a href="#cb33-21"></a><span class="ss">- </span>After login, select <span class="in">`ALCFAITP`</span> project and <span class="in">`ALCFAITP`</span> queue during the</span>
+<span id="cb33-22"><a href="#cb33-22"></a>  lecture (use <span class="in">`debug`</span> queue outside of the lecture)</span>
+<span id="cb33-23"><a href="#cb33-23"></a><span class="ss">- </span>Load the notebook and select "datascience/conda-2023-01-10" python kernel</span>
+<span id="cb33-24"><a href="#cb33-24"></a></span>
+<span id="cb33-25"><a href="#cb33-25"></a>::: {#fig-jupyter}</span>
+<span id="cb33-26"><a href="#cb33-26"></a></span>
+<span id="cb33-27"><a href="#cb33-27"></a><span class="al">![](../figures/jupyter1.png)</span>{width="90%"}</span>
+<span id="cb33-28"><a href="#cb33-28"></a><span class="al">![](../figures/jupyter2.png)</span>{width="90%"}</span>
+<span id="cb33-29"><a href="#cb33-29"></a></span>
+<span id="cb33-30"><a href="#cb33-30"></a>:::</span>
+<span id="cb33-31"><a href="#cb33-31"></a></span>
+<span id="cb33-32"><a href="#cb33-32"></a>**How to run this notebook on Google Colab**</span>
+<span id="cb33-33"><a href="#cb33-33"></a></span>
+<span id="cb33-34"><a href="#cb33-34"></a><span class="ss">- </span>Go to https://colab.research.google.com/, sign in or sign up</span>
+<span id="cb33-35"><a href="#cb33-35"></a><span class="ss">- </span>"File"-&gt; "open notebook"</span>
+<span id="cb33-36"><a href="#cb33-36"></a><span class="ss">- </span>choose <span class="in">`01_intro_AI_on_Supercomputer/01_linear_regression_sgd.ipynb`</span> from the list</span>
+<span id="cb33-37"><a href="#cb33-37"></a></span>
+<span id="cb33-38"><a href="#cb33-38"></a><span class="al">![Google Colab](../figures/colab.png)</span></span>
+<span id="cb33-39"><a href="#cb33-39"></a></span>
+<span id="cb33-40"><a href="#cb33-40"></a><span class="fu">## What is AI training?</span></span>
+<span id="cb33-41"><a href="#cb33-41"></a></span>
+<span id="cb33-42"><a href="#cb33-42"></a>**Two ways of learning English**:</span>
+<span id="cb33-43"><a href="#cb33-43"></a></span>
+<span id="cb33-44"><a href="#cb33-44"></a><span class="ss">- </span>through learning rules;</span>
+<span id="cb33-45"><a href="#cb33-45"></a><span class="ss">- </span>through hearing a lot of speakings</span>
 <span id="cb33-46"><a href="#cb33-46"></a></span>
-<span id="cb33-47"><a href="#cb33-47"></a>::: {#fig-data-driven}</span>
-<span id="cb33-48"><a href="#cb33-48"></a></span>
-<span id="cb33-49"><a href="#cb33-49"></a><span class="al">![](../figures/data_driven.png)</span>{width="90%"}</span>
-<span id="cb33-50"><a href="#cb33-50"></a></span>
-<span id="cb33-51"><a href="#cb33-51"></a>Data Driven Learning</span>
-<span id="cb33-52"><a href="#cb33-52"></a>:::</span>
-<span id="cb33-53"><a href="#cb33-53"></a></span>
-<span id="cb33-54"><a href="#cb33-54"></a>I learned English in my middle school, and memorized a lot of grammar rules in</span>
-<span id="cb33-55"><a href="#cb33-55"></a>my mind.</span>
-<span id="cb33-56"><a href="#cb33-56"></a>Every time when I speak, I try to follow the grammar rules as much as I can.</span>
-<span id="cb33-57"><a href="#cb33-57"></a>But I always break the rules.</span>
-<span id="cb33-58"><a href="#cb33-58"></a></span>
-<span id="cb33-59"><a href="#cb33-59"></a>However, my daugher learned English differently.</span>
-<span id="cb33-60"><a href="#cb33-60"></a>She learns speaking by hearing a lot of speaking from TV, teachers, classmates,</span>
-<span id="cb33-61"><a href="#cb33-61"></a>and her older brother.</span>
-<span id="cb33-62"><a href="#cb33-62"></a>The fact is that, she seldomly breaks grammar rules. This way of learning by</span>
-<span id="cb33-63"><a href="#cb33-63"></a>observing patterns is very powerful! This is the essence of AI or data driven</span>
-<span id="cb33-64"><a href="#cb33-64"></a>science.</span>
-<span id="cb33-65"><a href="#cb33-65"></a></span>
-<span id="cb33-66"><a href="#cb33-66"></a><span class="fu">## How does large language model work? </span></span>
-<span id="cb33-67"><a href="#cb33-67"></a></span>
-<span id="cb33-68"><a href="#cb33-68"></a>Large Language Models, like GPT, function by pre-training on extensive datasets</span>
-<span id="cb33-69"><a href="#cb33-69"></a>to learn language patterns, utilizing transformer architecture for contextual</span>
-<span id="cb33-70"><a href="#cb33-70"></a>understanding, and can be fine-tuned for specific tasks, enabling them to</span>
-<span id="cb33-71"><a href="#cb33-71"></a>generate coherent and contextually relevant text based on provided inputs.</span>
-<span id="cb33-72"><a href="#cb33-72"></a></span>
-<span id="cb33-73"><a href="#cb33-73"></a>::: {#fig-llm}</span>
-<span id="cb33-74"><a href="#cb33-74"></a></span>
-<span id="cb33-75"><a href="#cb33-75"></a><span class="al">![](../figures/llm2.png)</span></span>
-<span id="cb33-76"><a href="#cb33-76"></a><span class="al">![](../figures/chatgpt_response.png)</span></span>
-<span id="cb33-77"><a href="#cb33-77"></a></span>
-<span id="cb33-78"><a href="#cb33-78"></a>:::</span>
-<span id="cb33-79"><a href="#cb33-79"></a></span>
+<span id="cb33-47"><a href="#cb33-47"></a></span>
+<span id="cb33-48"><a href="#cb33-48"></a>::: {#fig-data-driven}</span>
+<span id="cb33-49"><a href="#cb33-49"></a></span>
+<span id="cb33-50"><a href="#cb33-50"></a><span class="al">![](../figures/data_driven.png)</span>{width="90%"}</span>
+<span id="cb33-51"><a href="#cb33-51"></a></span>
+<span id="cb33-52"><a href="#cb33-52"></a>Data Driven Learning</span>
+<span id="cb33-53"><a href="#cb33-53"></a>:::</span>
+<span id="cb33-54"><a href="#cb33-54"></a></span>
+<span id="cb33-55"><a href="#cb33-55"></a>I learned English in my middle school, and memorized a lot of grammar rules in</span>
+<span id="cb33-56"><a href="#cb33-56"></a>my mind.</span>
+<span id="cb33-57"><a href="#cb33-57"></a>Every time when I speak, I try to follow the grammar rules as much as I can.</span>
+<span id="cb33-58"><a href="#cb33-58"></a>But I always break the rules.</span>
+<span id="cb33-59"><a href="#cb33-59"></a></span>
+<span id="cb33-60"><a href="#cb33-60"></a>However, my daugher learned English differently.</span>
+<span id="cb33-61"><a href="#cb33-61"></a>She learns speaking by hearing a lot of speaking from TV, teachers, classmates,</span>
+<span id="cb33-62"><a href="#cb33-62"></a>and her older brother.</span>
+<span id="cb33-63"><a href="#cb33-63"></a>The fact is that, she seldomly breaks grammar rules. This way of learning by</span>
+<span id="cb33-64"><a href="#cb33-64"></a>observing patterns is very powerful! This is the essence of AI or data driven</span>
+<span id="cb33-65"><a href="#cb33-65"></a>science.</span>
+<span id="cb33-66"><a href="#cb33-66"></a></span>
+<span id="cb33-67"><a href="#cb33-67"></a><span class="fu">## How does large language model work? </span></span>
+<span id="cb33-68"><a href="#cb33-68"></a></span>
+<span id="cb33-69"><a href="#cb33-69"></a>Large Language Models, like GPT, function by pre-training on extensive datasets</span>
+<span id="cb33-70"><a href="#cb33-70"></a>to learn language patterns, utilizing transformer architecture for contextual</span>
+<span id="cb33-71"><a href="#cb33-71"></a>understanding, and can be fine-tuned for specific tasks, enabling them to</span>
+<span id="cb33-72"><a href="#cb33-72"></a>generate coherent and contextually relevant text based on provided inputs.</span>
+<span id="cb33-73"><a href="#cb33-73"></a></span>
+<span id="cb33-74"><a href="#cb33-74"></a>::: {#fig-llm}</span>
+<span id="cb33-75"><a href="#cb33-75"></a></span>
+<span id="cb33-76"><a href="#cb33-76"></a><span class="al">![](../figures/llm2.png)</span></span>
+<span id="cb33-77"><a href="#cb33-77"></a><span class="al">![](../figures/chatgpt_response.png)</span></span>
+<span id="cb33-78"><a href="#cb33-78"></a></span>
+<span id="cb33-79"><a href="#cb33-79"></a>:::</span>
 <span id="cb33-80"><a href="#cb33-80"></a></span>
-<span id="cb33-81"><a href="#cb33-81"></a>**More complicated example**:</span>
-<span id="cb33-82"><a href="#cb33-82"></a></span>
-<span id="cb33-83"><a href="#cb33-83"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
-<span id="cb33-84"><a href="#cb33-84"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/chatgpt_poem.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
-<span id="cb33-85"><a href="#cb33-85"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/martin.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"450"</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
-<span id="cb33-86"><a href="#cb33-86"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
-<span id="cb33-87"><a href="#cb33-87"></a></span>
-<span id="cb33-88"><a href="#cb33-88"></a>You can do this on https://chat.openai.com</span>
-<span id="cb33-89"><a href="#cb33-89"></a></span>
-<span id="cb33-90"><a href="#cb33-90"></a><span class="fu">## Simplest AI model example: linear regression</span></span>
-<span id="cb33-91"><a href="#cb33-91"></a></span>
-<span id="cb33-92"><a href="#cb33-92"></a>This example is adopted from Bethany Lusch, ALCF.</span>
-<span id="cb33-93"><a href="#cb33-93"></a></span>
-<span id="cb33-94"><a href="#cb33-94"></a>Linear regression is the simplest example learning from existing data for</span>
-<span id="cb33-95"><a href="#cb33-95"></a>future prediction.</span>
-<span id="cb33-96"><a href="#cb33-96"></a></span>
-<span id="cb33-97"><a href="#cb33-97"></a>::: {#fig-excel-linear-regression}</span>
-<span id="cb33-98"><a href="#cb33-98"></a></span>
-<span id="cb33-99"><a href="#cb33-99"></a><span class="al">![](../figures/excel_linear_regression.jpg)</span></span>
-<span id="cb33-100"><a href="#cb33-100"></a></span>
-<span id="cb33-101"><a href="#cb33-101"></a>Linear regression in Excel</span>
-<span id="cb33-102"><a href="#cb33-102"></a>:::</span>
-<span id="cb33-103"><a href="#cb33-103"></a></span>
+<span id="cb33-81"><a href="#cb33-81"></a></span>
+<span id="cb33-82"><a href="#cb33-82"></a>**More complicated example**:</span>
+<span id="cb33-83"><a href="#cb33-83"></a></span>
+<span id="cb33-84"><a href="#cb33-84"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
+<span id="cb33-85"><a href="#cb33-85"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/chatgpt_poem.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb33-86"><a href="#cb33-86"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/martin.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"450"</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb33-87"><a href="#cb33-87"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
+<span id="cb33-88"><a href="#cb33-88"></a></span>
+<span id="cb33-89"><a href="#cb33-89"></a>You can do this on https://chat.openai.com</span>
+<span id="cb33-90"><a href="#cb33-90"></a></span>
+<span id="cb33-91"><a href="#cb33-91"></a><span class="fu">## Simplest AI model example: linear regression</span></span>
+<span id="cb33-92"><a href="#cb33-92"></a></span>
+<span id="cb33-93"><a href="#cb33-93"></a>This example is adopted from Bethany Lusch, ALCF.</span>
+<span id="cb33-94"><a href="#cb33-94"></a></span>
+<span id="cb33-95"><a href="#cb33-95"></a>Linear regression is the simplest example learning from existing data for</span>
+<span id="cb33-96"><a href="#cb33-96"></a>future prediction.</span>
+<span id="cb33-97"><a href="#cb33-97"></a></span>
+<span id="cb33-98"><a href="#cb33-98"></a>::: {#fig-excel-linear-regression}</span>
+<span id="cb33-99"><a href="#cb33-99"></a></span>
+<span id="cb33-100"><a href="#cb33-100"></a><span class="al">![](../figures/excel_linear_regression.jpg)</span></span>
+<span id="cb33-101"><a href="#cb33-101"></a></span>
+<span id="cb33-102"><a href="#cb33-102"></a>Linear regression in Excel</span>
+<span id="cb33-103"><a href="#cb33-103"></a>:::</span>
 <span id="cb33-104"><a href="#cb33-104"></a></span>
-<span id="cb33-105"><a href="#cb33-105"></a>We're going to review the math involved in this process to help understand how</span>
-<span id="cb33-106"><a href="#cb33-106"></a>training an AI works.</span>
-<span id="cb33-107"><a href="#cb33-107"></a></span>
-<span id="cb33-108"><a href="#cb33-108"></a>First we will load some tools that others wrote and we can use to help us work.</span>
-<span id="cb33-109"><a href="#cb33-109"></a></span>
-<span id="cb33-110"><a href="#cb33-110"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pandas</span><span class="co">](https://pandas.pydata.org/docs/)</span>: a toolkit for working with row vs.</span>
-<span id="cb33-111"><a href="#cb33-111"></a>  column data, like excel sheets, and CSV (Comma Seperated Values) files.</span>
-<span id="cb33-112"><a href="#cb33-112"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Numpy</span><span class="co">](https://numpy.org/doc/)</span>: a toolkit for managing arrays, vectors,</span>
-<span id="cb33-113"><a href="#cb33-113"></a>  matrices, etc, doing math with them, slicing them up, and many other handy</span>
-<span id="cb33-114"><a href="#cb33-114"></a>  things.</span>
-<span id="cb33-115"><a href="#cb33-115"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Matplotlib</span><span class="co">](https://matplotlib.org/stable/index.html)</span>: a toolkit for</span>
-<span id="cb33-116"><a href="#cb33-116"></a>  plotting data</span>
-<span id="cb33-117"><a href="#cb33-117"></a></span>
+<span id="cb33-105"><a href="#cb33-105"></a></span>
+<span id="cb33-106"><a href="#cb33-106"></a>We're going to review the math involved in this process to help understand how</span>
+<span id="cb33-107"><a href="#cb33-107"></a>training an AI works.</span>
+<span id="cb33-108"><a href="#cb33-108"></a></span>
+<span id="cb33-109"><a href="#cb33-109"></a>First we will load some tools that others wrote and we can use to help us work.</span>
+<span id="cb33-110"><a href="#cb33-110"></a></span>
+<span id="cb33-111"><a href="#cb33-111"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Pandas</span><span class="co">](https://pandas.pydata.org/docs/)</span>: a toolkit for working with row vs.</span>
+<span id="cb33-112"><a href="#cb33-112"></a>  column data, like excel sheets, and CSV (Comma Seperated Values) files.</span>
+<span id="cb33-113"><a href="#cb33-113"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Numpy</span><span class="co">](https://numpy.org/doc/)</span>: a toolkit for managing arrays, vectors,</span>
+<span id="cb33-114"><a href="#cb33-114"></a>  matrices, etc, doing math with them, slicing them up, and many other handy</span>
+<span id="cb33-115"><a href="#cb33-115"></a>  things.</span>
+<span id="cb33-116"><a href="#cb33-116"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Matplotlib</span><span class="co">](https://matplotlib.org/stable/index.html)</span>: a toolkit for</span>
+<span id="cb33-117"><a href="#cb33-117"></a>  plotting data</span>
 <span id="cb33-118"><a href="#cb33-118"></a></span>
-<span id="cb33-121"><a href="#cb33-121"></a><span class="in">```{python}</span></span>
-<span id="cb33-122"><a href="#cb33-122"></a><span class="im">import</span> ambivalent</span>
-<span id="cb33-123"><a href="#cb33-123"></a></span>
-<span id="cb33-124"><a href="#cb33-124"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb33-125"><a href="#cb33-125"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb33-126"><a href="#cb33-126"></a></span>
-<span id="cb33-127"><a href="#cb33-127"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
-<span id="cb33-128"><a href="#cb33-128"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
-<span id="cb33-129"><a href="#cb33-129"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
-<span id="cb33-130"><a href="#cb33-130"></a></span>
-<span id="cb33-131"><a href="#cb33-131"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb33-132"><a href="#cb33-132"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb33-133"><a href="#cb33-133"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb33-134"><a href="#cb33-134"></a><span class="im">import</span> IPython.display <span class="im">as</span> ipydis</span>
-<span id="cb33-135"><a href="#cb33-135"></a><span class="im">import</span> time</span>
-<span id="cb33-136"><a href="#cb33-136"></a><span class="in">```</span></span>
-<span id="cb33-137"><a href="#cb33-137"></a></span>
-<span id="cb33-138"><a href="#cb33-138"></a><span class="fu">### Dataset</span></span>
-<span id="cb33-139"><a href="#cb33-139"></a>We used a realestate dataset from Kaggle to produce this reduced dataset. This dataset contains the _sale price_ and _above ground square feet_ of many houses. We can use this data for our linear regression.</span>
-<span id="cb33-140"><a href="#cb33-140"></a></span>
-<span id="cb33-141"><a href="#cb33-141"></a>We use Pandas to read the data file which is stored as Comma Separated Values (CSV). and print the column labels. CSV files are similar to excel sheets.</span>
-<span id="cb33-142"><a href="#cb33-142"></a></span>
-<span id="cb33-145"><a href="#cb33-145"></a><span class="in">```{python}</span></span>
-<span id="cb33-146"><a href="#cb33-146"></a><span class="op">!</span> [ <span class="op">-</span>e .<span class="op">/</span>slimmed_realestate_data.csv ] <span class="op">||</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>slimmed_realestate_data.csv</span>
-<span id="cb33-147"><a href="#cb33-147"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'slimmed_realestate_data.csv'</span>)</span>
-<span id="cb33-148"><a href="#cb33-148"></a><span class="bu">print</span>(data.columns)</span>
-<span id="cb33-149"><a href="#cb33-149"></a><span class="in">```</span></span>
-<span id="cb33-150"><a href="#cb33-150"></a></span>
-<span id="cb33-151"><a href="#cb33-151"></a>Now pandas provides some helpful tools for us to inspect our data. It provides a <span class="in">`plot()`</span> function that, behind the scenes, is calling into the _Matplotlib_ library and calling the function [matplotlib.pyplot.plot()](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html). In this case, we simply tell it the names of the columns we want as our _x_ and _y_ values and the <span class="in">`style`</span> (<span class="in">`'.'`</span> tells <span class="in">`matplotlib`</span> to use a small dot to represent each data point).</span>
-<span id="cb33-152"><a href="#cb33-152"></a></span>
-<span id="cb33-155"><a href="#cb33-155"></a><span class="in">```{python}</span></span>
-<span id="cb33-156"><a href="#cb33-156"></a>data.plot(x<span class="op">=</span><span class="st">'GrLivArea'</span>, y<span class="op">=</span><span class="st">'SalePrice'</span>,style<span class="op">=</span><span class="st">'.'</span>)</span>
-<span id="cb33-157"><a href="#cb33-157"></a><span class="in">```</span></span>
-<span id="cb33-158"><a href="#cb33-158"></a></span>
-<span id="cb33-159"><a href="#cb33-159"></a><span class="fu">### Theory of linear regression</span></span>
-<span id="cb33-160"><a href="#cb33-160"></a></span>
-<span id="cb33-161"><a href="#cb33-161"></a>The goal of learning regression is to find a line that is closest to all the points. </span>
-<span id="cb33-162"><a href="#cb33-162"></a></span>
-<span id="cb33-163"><a href="#cb33-163"></a>The slope and intercept of such a line $y = m x + b$ can be found as: </span>
-<span id="cb33-164"><a href="#cb33-164"></a></span>
-<span id="cb33-165"><a href="#cb33-165"></a>$$m = { n (\Sigma xy) - (\Sigma x) (\Sigma y) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
-<span id="cb33-166"><a href="#cb33-166"></a></span>
-<span id="cb33-167"><a href="#cb33-167"></a>$$b = { (\Sigma y) (\Sigma x^2) - (\Sigma x) (\Sigma xy) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
-<span id="cb33-168"><a href="#cb33-168"></a></span>
-<span id="cb33-169"><a href="#cb33-169"></a>Details derivation of this can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://en.wikipedia.org/wiki/Simple_linear_regression)</span>. </span>
-<span id="cb33-170"><a href="#cb33-170"></a></span>
-<span id="cb33-171"><a href="#cb33-171"></a>We'll break this calculation into a few steps to help make it easier.</span>
-<span id="cb33-172"><a href="#cb33-172"></a></span>
-<span id="cb33-173"><a href="#cb33-173"></a>First lets define $x$ and $y$. $x$ will be our _above ground square footage_ and $y$ will be _sale price_. In our equations we have a few different values we need, such as $n$ which is just the number of points we have:</span>
-<span id="cb33-174"><a href="#cb33-174"></a></span>
-<span id="cb33-177"><a href="#cb33-177"></a><span class="in">```{python}</span></span>
-<span id="cb33-178"><a href="#cb33-178"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span>
-<span id="cb33-179"><a href="#cb33-179"></a><span class="in">```</span></span>
-<span id="cb33-180"><a href="#cb33-180"></a></span>
-<span id="cb33-181"><a href="#cb33-181"></a>Then we need our $x$ and $y$ by selecting only the column we care about for each one. Note about data formats: <span class="in">`data`</span> is a Pandas <span class="co">[</span><span class="ot">DataFrame</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame)</span> object which has rows and columns; <span class="in">`data['GrLivArea']`</span> is a Pandas <span class="co">[</span><span class="ot">Series</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.Series.html)</span> object which only has rows; then we also convert from _Pandas_ data formats (in this case a _Series_) to _Numpy_ data formats using the `to_numpy()` function which is part of the Pandas _Series_ object. </span>
-<span id="cb33-182"><a href="#cb33-182"></a></span>
-<span id="cb33-185"><a href="#cb33-185"></a><span class="in">```{python}</span></span>
-<span id="cb33-186"><a href="#cb33-186"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb33-187"><a href="#cb33-187"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb33-188"><a href="#cb33-188"></a><span class="in">```</span></span>
-<span id="cb33-189"><a href="#cb33-189"></a></span>
-<span id="cb33-190"><a href="#cb33-190"></a>Now we will calculate $\Sigma xy$, $\Sigma x$, $\Sigma y$, and $\Sigma x^2$:</span>
-<span id="cb33-191"><a href="#cb33-191"></a></span>
-<span id="cb33-194"><a href="#cb33-194"></a><span class="in">```{python}</span></span>
-<span id="cb33-195"><a href="#cb33-195"></a>sum_xy <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>y)</span>
-<span id="cb33-196"><a href="#cb33-196"></a>sum_x <span class="op">=</span> np.<span class="bu">sum</span>(x)</span>
-<span id="cb33-197"><a href="#cb33-197"></a>sum_y <span class="op">=</span> np.<span class="bu">sum</span>(y)</span>
-<span id="cb33-198"><a href="#cb33-198"></a>sum_x2 <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>x)</span>
-<span id="cb33-199"><a href="#cb33-199"></a><span class="in">```</span></span>
-<span id="cb33-200"><a href="#cb33-200"></a></span>
-<span id="cb33-201"><a href="#cb33-201"></a>The denominator in the equation for $m$ and $b$ are the same so we can calculate that once:</span>
-<span id="cb33-202"><a href="#cb33-202"></a></span>
-<span id="cb33-205"><a href="#cb33-205"></a><span class="in">```{python}</span></span>
-<span id="cb33-206"><a href="#cb33-206"></a>denominator <span class="op">=</span> n <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_x</span>
-<span id="cb33-207"><a href="#cb33-207"></a><span class="in">```</span></span>
-<span id="cb33-208"><a href="#cb33-208"></a></span>
-<span id="cb33-209"><a href="#cb33-209"></a>Then we can calculate our fit values:</span>
-<span id="cb33-210"><a href="#cb33-210"></a></span>
-<span id="cb33-213"><a href="#cb33-213"></a><span class="in">```{python}</span></span>
-<span id="cb33-214"><a href="#cb33-214"></a>m <span class="op">=</span> (n <span class="op">*</span> sum_xy <span class="op">-</span> sum_x <span class="op">*</span> sum_y) <span class="op">/</span> denominator</span>
-<span id="cb33-215"><a href="#cb33-215"></a>b <span class="op">=</span> (sum_y <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_xy) <span class="op">/</span> denominator</span>
-<span id="cb33-216"><a href="#cb33-216"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">%f</span><span class="st"> * x + </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
-<span id="cb33-217"><a href="#cb33-217"></a></span>
-<span id="cb33-218"><a href="#cb33-218"></a><span class="co"># saving these for later comparison</span></span>
-<span id="cb33-219"><a href="#cb33-219"></a>m_calc <span class="op">=</span> m</span>
-<span id="cb33-220"><a href="#cb33-220"></a>b_calc <span class="op">=</span> b</span>
-<span id="cb33-221"><a href="#cb33-221"></a><span class="in">```</span></span>
-<span id="cb33-222"><a href="#cb33-222"></a></span>
-<span id="cb33-223"><a href="#cb33-223"></a>Now we can plot the fit results with our data to see how we did. </span>
-<span id="cb33-224"><a href="#cb33-224"></a></span>
-<span id="cb33-225"><a href="#cb33-225"></a>First we define a plotting function because we're going to do this often and we want to reuse our code:</span>
-<span id="cb33-226"><a href="#cb33-226"></a></span>
-<span id="cb33-229"><a href="#cb33-229"></a><span class="in">```{python}</span></span>
-<span id="cb33-230"><a href="#cb33-230"></a><span class="kw">def</span> plot_data(x,y,m,b,plt <span class="op">=</span> plt):</span>
-<span id="cb33-231"><a href="#cb33-231"></a>   <span class="co"># plot our data points with 'bo' = blue circles</span></span>
-<span id="cb33-232"><a href="#cb33-232"></a>   plt.plot(x,y,<span class="st">'bo'</span>)</span>
-<span id="cb33-233"><a href="#cb33-233"></a>   <span class="co"># create the line based on our linear fit</span></span>
-<span id="cb33-234"><a href="#cb33-234"></a>   <span class="co"># first we need to make x points</span></span>
-<span id="cb33-235"><a href="#cb33-235"></a>   <span class="co"># the 'arange' function generates points between two limits (min,max)</span></span>
-<span id="cb33-236"><a href="#cb33-236"></a>   linear_x <span class="op">=</span> np.arange(x.<span class="bu">min</span>(),x.<span class="bu">max</span>())</span>
-<span id="cb33-237"><a href="#cb33-237"></a>   <span class="co"># now we use our fit parameters to calculate the y points based on our x points</span></span>
-<span id="cb33-238"><a href="#cb33-238"></a>   linear_y <span class="op">=</span> linear_x <span class="op">*</span> m <span class="op">+</span> b</span>
-<span id="cb33-239"><a href="#cb33-239"></a>   <span class="co"># plot the linear points using 'r-' = red line</span></span>
-<span id="cb33-240"><a href="#cb33-240"></a>   plt.plot(linear_x,linear_y,<span class="st">'r-'</span>,label<span class="op">=</span><span class="st">'fit'</span>)</span>
-<span id="cb33-241"><a href="#cb33-241"></a><span class="in">```</span></span>
-<span id="cb33-242"><a href="#cb33-242"></a></span>
-<span id="cb33-243"><a href="#cb33-243"></a>Now can use this function to plot our results:</span>
-<span id="cb33-244"><a href="#cb33-244"></a></span>
-<span id="cb33-247"><a href="#cb33-247"></a><span class="in">```{python}</span></span>
-<span id="cb33-248"><a href="#cb33-248"></a>plot_data(x,y,m,b)</span>
-<span id="cb33-249"><a href="#cb33-249"></a><span class="in">```</span></span>
-<span id="cb33-250"><a href="#cb33-250"></a></span>
-<span id="cb33-251"><a href="#cb33-251"></a><span class="fu">### Training through Stochastic Gradient Descent (SGD)</span></span>
-<span id="cb33-252"><a href="#cb33-252"></a></span>
-<span id="cb33-253"><a href="#cb33-253"></a>SGD is a common method in AI for training deep neural networks on large datasets. It is an iterative method for optimizing a loss function that we get to define. We will use this simple linear regression to demonstrate how it works.</span>
-<span id="cb33-254"><a href="#cb33-254"></a></span>
-<span id="cb33-255"><a href="#cb33-255"></a><span class="fu">#### The model</span></span>
-<span id="cb33-256"><a href="#cb33-256"></a></span>
-<span id="cb33-257"><a href="#cb33-257"></a>In AI, neural networks are often referred to as a _model_ because, once fully trained, they should model (AKA predict) the behavior of our system. In our example, the system is how house prices vary based on house size. We know our system is roughly driven by a linear function:</span>
-<span id="cb33-258"><a href="#cb33-258"></a></span>
-<span id="cb33-259"><a href="#cb33-259"></a>$$ \hat{y_i}(x_i) = m * x_i + b $$</span>
-<span id="cb33-260"><a href="#cb33-260"></a></span>
-<span id="cb33-261"><a href="#cb33-261"></a>We just need to figure out $m$ and $b$. Let's create a function that calculates our model given $x$, $m$, and $b$.</span>
-<span id="cb33-262"><a href="#cb33-262"></a></span>
-<span id="cb33-265"><a href="#cb33-265"></a><span class="in">```{python}</span></span>
-<span id="cb33-266"><a href="#cb33-266"></a><span class="kw">def</span> model(x,m,b):</span>
-<span id="cb33-267"><a href="#cb33-267"></a>   <span class="cf">return</span> m <span class="op">*</span> x <span class="op">+</span> b</span>
-<span id="cb33-268"><a href="#cb33-268"></a><span class="in">```</span></span>
-<span id="cb33-269"><a href="#cb33-269"></a></span>
+<span id="cb33-119"><a href="#cb33-119"></a></span>
+<span id="cb33-122"><a href="#cb33-122"></a><span class="in">```{python}</span></span>
+<span id="cb33-123"><a href="#cb33-123"></a><span class="im">import</span> ambivalent</span>
+<span id="cb33-124"><a href="#cb33-124"></a></span>
+<span id="cb33-125"><a href="#cb33-125"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-126"><a href="#cb33-126"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb33-127"><a href="#cb33-127"></a></span>
+<span id="cb33-128"><a href="#cb33-128"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
+<span id="cb33-129"><a href="#cb33-129"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
+<span id="cb33-130"><a href="#cb33-130"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
+<span id="cb33-131"><a href="#cb33-131"></a></span>
+<span id="cb33-132"><a href="#cb33-132"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb33-133"><a href="#cb33-133"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb33-134"><a href="#cb33-134"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-135"><a href="#cb33-135"></a><span class="im">import</span> IPython.display <span class="im">as</span> ipydis</span>
+<span id="cb33-136"><a href="#cb33-136"></a><span class="im">import</span> time</span>
+<span id="cb33-137"><a href="#cb33-137"></a><span class="in">```</span></span>
+<span id="cb33-138"><a href="#cb33-138"></a></span>
+<span id="cb33-139"><a href="#cb33-139"></a><span class="fu">### Dataset</span></span>
+<span id="cb33-140"><a href="#cb33-140"></a>We used a realestate dataset from Kaggle to produce this reduced dataset. This dataset contains the _sale price_ and _above ground square feet_ of many houses. We can use this data for our linear regression.</span>
+<span id="cb33-141"><a href="#cb33-141"></a></span>
+<span id="cb33-142"><a href="#cb33-142"></a>We use Pandas to read the data file which is stored as Comma Separated Values (CSV). and print the column labels. CSV files are similar to excel sheets.</span>
+<span id="cb33-143"><a href="#cb33-143"></a></span>
+<span id="cb33-146"><a href="#cb33-146"></a><span class="in">```{python}</span></span>
+<span id="cb33-147"><a href="#cb33-147"></a><span class="op">!</span> [ <span class="op">-</span>e .<span class="op">/</span>slimmed_realestate_data.csv ] <span class="op">||</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>slimmed_realestate_data.csv</span>
+<span id="cb33-148"><a href="#cb33-148"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'slimmed_realestate_data.csv'</span>)</span>
+<span id="cb33-149"><a href="#cb33-149"></a><span class="bu">print</span>(data.columns)</span>
+<span id="cb33-150"><a href="#cb33-150"></a><span class="in">```</span></span>
+<span id="cb33-151"><a href="#cb33-151"></a></span>
+<span id="cb33-152"><a href="#cb33-152"></a>Now pandas provides some helpful tools for us to inspect our data. It provides a <span class="in">`plot()`</span> function that, behind the scenes, is calling into the _Matplotlib_ library and calling the function [matplotlib.pyplot.plot()](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html). In this case, we simply tell it the names of the columns we want as our _x_ and _y_ values and the <span class="in">`style`</span> (<span class="in">`'.'`</span> tells <span class="in">`matplotlib`</span> to use a small dot to represent each data point).</span>
+<span id="cb33-153"><a href="#cb33-153"></a></span>
+<span id="cb33-156"><a href="#cb33-156"></a><span class="in">```{python}</span></span>
+<span id="cb33-157"><a href="#cb33-157"></a>data.plot(x<span class="op">=</span><span class="st">'GrLivArea'</span>, y<span class="op">=</span><span class="st">'SalePrice'</span>,style<span class="op">=</span><span class="st">'.'</span>)</span>
+<span id="cb33-158"><a href="#cb33-158"></a><span class="in">```</span></span>
+<span id="cb33-159"><a href="#cb33-159"></a></span>
+<span id="cb33-160"><a href="#cb33-160"></a><span class="fu">### Theory of linear regression</span></span>
+<span id="cb33-161"><a href="#cb33-161"></a></span>
+<span id="cb33-162"><a href="#cb33-162"></a>The goal of learning regression is to find a line that is closest to all the points. </span>
+<span id="cb33-163"><a href="#cb33-163"></a></span>
+<span id="cb33-164"><a href="#cb33-164"></a>The slope and intercept of such a line $y = m x + b$ can be found as: </span>
+<span id="cb33-165"><a href="#cb33-165"></a></span>
+<span id="cb33-166"><a href="#cb33-166"></a>$$m = { n (\Sigma xy) - (\Sigma x) (\Sigma y) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
+<span id="cb33-167"><a href="#cb33-167"></a></span>
+<span id="cb33-168"><a href="#cb33-168"></a>$$b = { (\Sigma y) (\Sigma x^2) - (\Sigma x) (\Sigma xy) \over n (\Sigma x^2) - (\Sigma x)^2 } $$</span>
+<span id="cb33-169"><a href="#cb33-169"></a></span>
+<span id="cb33-170"><a href="#cb33-170"></a>Details derivation of this can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://en.wikipedia.org/wiki/Simple_linear_regression)</span>. </span>
+<span id="cb33-171"><a href="#cb33-171"></a></span>
+<span id="cb33-172"><a href="#cb33-172"></a>We'll break this calculation into a few steps to help make it easier.</span>
+<span id="cb33-173"><a href="#cb33-173"></a></span>
+<span id="cb33-174"><a href="#cb33-174"></a>First lets define $x$ and $y$. $x$ will be our _above ground square footage_ and $y$ will be _sale price_. In our equations we have a few different values we need, such as $n$ which is just the number of points we have:</span>
+<span id="cb33-175"><a href="#cb33-175"></a></span>
+<span id="cb33-178"><a href="#cb33-178"></a><span class="in">```{python}</span></span>
+<span id="cb33-179"><a href="#cb33-179"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb33-180"><a href="#cb33-180"></a><span class="in">```</span></span>
+<span id="cb33-181"><a href="#cb33-181"></a></span>
+<span id="cb33-182"><a href="#cb33-182"></a>Then we need our $x$ and $y$ by selecting only the column we care about for each one. Note about data formats: <span class="in">`data`</span> is a Pandas <span class="co">[</span><span class="ot">DataFrame</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame)</span> object which has rows and columns; <span class="in">`data['GrLivArea']`</span> is a Pandas <span class="co">[</span><span class="ot">Series</span><span class="co">](https://pandas.pydata.org/docs/reference/api/pandas.Series.html)</span> object which only has rows; then we also convert from _Pandas_ data formats (in this case a _Series_) to _Numpy_ data formats using the `to_numpy()` function which is part of the Pandas _Series_ object. </span>
+<span id="cb33-183"><a href="#cb33-183"></a></span>
+<span id="cb33-186"><a href="#cb33-186"></a><span class="in">```{python}</span></span>
+<span id="cb33-187"><a href="#cb33-187"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb33-188"><a href="#cb33-188"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb33-189"><a href="#cb33-189"></a><span class="in">```</span></span>
+<span id="cb33-190"><a href="#cb33-190"></a></span>
+<span id="cb33-191"><a href="#cb33-191"></a>Now we will calculate $\Sigma xy$, $\Sigma x$, $\Sigma y$, and $\Sigma x^2$:</span>
+<span id="cb33-192"><a href="#cb33-192"></a></span>
+<span id="cb33-195"><a href="#cb33-195"></a><span class="in">```{python}</span></span>
+<span id="cb33-196"><a href="#cb33-196"></a>sum_xy <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>y)</span>
+<span id="cb33-197"><a href="#cb33-197"></a>sum_x <span class="op">=</span> np.<span class="bu">sum</span>(x)</span>
+<span id="cb33-198"><a href="#cb33-198"></a>sum_y <span class="op">=</span> np.<span class="bu">sum</span>(y)</span>
+<span id="cb33-199"><a href="#cb33-199"></a>sum_x2 <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>x)</span>
+<span id="cb33-200"><a href="#cb33-200"></a><span class="in">```</span></span>
+<span id="cb33-201"><a href="#cb33-201"></a></span>
+<span id="cb33-202"><a href="#cb33-202"></a>The denominator in the equation for $m$ and $b$ are the same so we can calculate that once:</span>
+<span id="cb33-203"><a href="#cb33-203"></a></span>
+<span id="cb33-206"><a href="#cb33-206"></a><span class="in">```{python}</span></span>
+<span id="cb33-207"><a href="#cb33-207"></a>denominator <span class="op">=</span> n <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_x</span>
+<span id="cb33-208"><a href="#cb33-208"></a><span class="in">```</span></span>
+<span id="cb33-209"><a href="#cb33-209"></a></span>
+<span id="cb33-210"><a href="#cb33-210"></a>Then we can calculate our fit values:</span>
+<span id="cb33-211"><a href="#cb33-211"></a></span>
+<span id="cb33-214"><a href="#cb33-214"></a><span class="in">```{python}</span></span>
+<span id="cb33-215"><a href="#cb33-215"></a>m <span class="op">=</span> (n <span class="op">*</span> sum_xy <span class="op">-</span> sum_x <span class="op">*</span> sum_y) <span class="op">/</span> denominator</span>
+<span id="cb33-216"><a href="#cb33-216"></a>b <span class="op">=</span> (sum_y <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_xy) <span class="op">/</span> denominator</span>
+<span id="cb33-217"><a href="#cb33-217"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">%f</span><span class="st"> * x + </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
+<span id="cb33-218"><a href="#cb33-218"></a></span>
+<span id="cb33-219"><a href="#cb33-219"></a><span class="co"># saving these for later comparison</span></span>
+<span id="cb33-220"><a href="#cb33-220"></a>m_calc <span class="op">=</span> m</span>
+<span id="cb33-221"><a href="#cb33-221"></a>b_calc <span class="op">=</span> b</span>
+<span id="cb33-222"><a href="#cb33-222"></a><span class="in">```</span></span>
+<span id="cb33-223"><a href="#cb33-223"></a></span>
+<span id="cb33-224"><a href="#cb33-224"></a>Now we can plot the fit results with our data to see how we did. </span>
+<span id="cb33-225"><a href="#cb33-225"></a></span>
+<span id="cb33-226"><a href="#cb33-226"></a>First we define a plotting function because we're going to do this often and we want to reuse our code:</span>
+<span id="cb33-227"><a href="#cb33-227"></a></span>
+<span id="cb33-230"><a href="#cb33-230"></a><span class="in">```{python}</span></span>
+<span id="cb33-231"><a href="#cb33-231"></a><span class="kw">def</span> plot_data(x,y,m,b,plt <span class="op">=</span> plt):</span>
+<span id="cb33-232"><a href="#cb33-232"></a>   <span class="co"># plot our data points with 'bo' = blue circles</span></span>
+<span id="cb33-233"><a href="#cb33-233"></a>   plt.plot(x,y,<span class="st">'bo'</span>)</span>
+<span id="cb33-234"><a href="#cb33-234"></a>   <span class="co"># create the line based on our linear fit</span></span>
+<span id="cb33-235"><a href="#cb33-235"></a>   <span class="co"># first we need to make x points</span></span>
+<span id="cb33-236"><a href="#cb33-236"></a>   <span class="co"># the 'arange' function generates points between two limits (min,max)</span></span>
+<span id="cb33-237"><a href="#cb33-237"></a>   linear_x <span class="op">=</span> np.arange(x.<span class="bu">min</span>(),x.<span class="bu">max</span>())</span>
+<span id="cb33-238"><a href="#cb33-238"></a>   <span class="co"># now we use our fit parameters to calculate the y points based on our x points</span></span>
+<span id="cb33-239"><a href="#cb33-239"></a>   linear_y <span class="op">=</span> linear_x <span class="op">*</span> m <span class="op">+</span> b</span>
+<span id="cb33-240"><a href="#cb33-240"></a>   <span class="co"># plot the linear points using 'r-' = red line</span></span>
+<span id="cb33-241"><a href="#cb33-241"></a>   plt.plot(linear_x,linear_y,<span class="st">'r-'</span>,label<span class="op">=</span><span class="st">'fit'</span>)</span>
+<span id="cb33-242"><a href="#cb33-242"></a><span class="in">```</span></span>
+<span id="cb33-243"><a href="#cb33-243"></a></span>
+<span id="cb33-244"><a href="#cb33-244"></a>Now can use this function to plot our results:</span>
+<span id="cb33-245"><a href="#cb33-245"></a></span>
+<span id="cb33-248"><a href="#cb33-248"></a><span class="in">```{python}</span></span>
+<span id="cb33-249"><a href="#cb33-249"></a>plot_data(x,y,m,b)</span>
+<span id="cb33-250"><a href="#cb33-250"></a><span class="in">```</span></span>
+<span id="cb33-251"><a href="#cb33-251"></a></span>
+<span id="cb33-252"><a href="#cb33-252"></a><span class="fu">### Training through Stochastic Gradient Descent (SGD)</span></span>
+<span id="cb33-253"><a href="#cb33-253"></a></span>
+<span id="cb33-254"><a href="#cb33-254"></a>SGD is a common method in AI for training deep neural networks on large datasets. It is an iterative method for optimizing a loss function that we get to define. We will use this simple linear regression to demonstrate how it works.</span>
+<span id="cb33-255"><a href="#cb33-255"></a></span>
+<span id="cb33-256"><a href="#cb33-256"></a><span class="fu">#### The model</span></span>
+<span id="cb33-257"><a href="#cb33-257"></a></span>
+<span id="cb33-258"><a href="#cb33-258"></a>In AI, neural networks are often referred to as a _model_ because, once fully trained, they should model (AKA predict) the behavior of our system. In our example, the system is how house prices vary based on house size. We know our system is roughly driven by a linear function:</span>
+<span id="cb33-259"><a href="#cb33-259"></a></span>
+<span id="cb33-260"><a href="#cb33-260"></a>$$ \hat{y_i}(x_i) = m * x_i + b $$</span>
+<span id="cb33-261"><a href="#cb33-261"></a></span>
+<span id="cb33-262"><a href="#cb33-262"></a>We just need to figure out $m$ and $b$. Let's create a function that calculates our model given $x$, $m$, and $b$.</span>
+<span id="cb33-263"><a href="#cb33-263"></a></span>
+<span id="cb33-266"><a href="#cb33-266"></a><span class="in">```{python}</span></span>
+<span id="cb33-267"><a href="#cb33-267"></a><span class="kw">def</span> model(x,m,b):</span>
+<span id="cb33-268"><a href="#cb33-268"></a>   <span class="cf">return</span> m <span class="op">*</span> x <span class="op">+</span> b</span>
+<span id="cb33-269"><a href="#cb33-269"></a><span class="in">```</span></span>
 <span id="cb33-270"><a href="#cb33-270"></a></span>
-<span id="cb33-271"><a href="#cb33-271"></a><span class="fu">#### The Loss Function</span></span>
-<span id="cb33-272"><a href="#cb33-272"></a></span>
-<span id="cb33-273"><a href="#cb33-273"></a>A _loss function_, or _objective function_, is something we define and is based on what we want to achieve. In the method of SGD, it is our goal to minimize (or make close to zero) the values calculated from the _loss function_. In our example, we ideally want the prediction of our _model_ to be equal to the actual data, though we will settle for "as close as possible".</span>
-<span id="cb33-274"><a href="#cb33-274"></a></span>
-<span id="cb33-275"><a href="#cb33-275"></a>So we will select our _loss function_ to be the <span class="co">[</span><span class="ot">Mean Squared Error</span><span class="co">](https://en.wikipedia.org/wiki/Mean_squared_error)</span> function:</span>
-<span id="cb33-276"><a href="#cb33-276"></a></span>
-<span id="cb33-277"><a href="#cb33-277"></a>$$ L(y_i,\hat{y_i}) = (y_i - \hat{y_i}(x_i))^2 $$</span>
-<span id="cb33-278"><a href="#cb33-278"></a></span>
-<span id="cb33-279"><a href="#cb33-279"></a>where $y_i$ is our $i^{th}$ entry in the <span class="in">`data['SalePrice']`</span> vector and $\hat{y_i}$ is the prediction based on evaluting $m * x_i + b$.</span>
-<span id="cb33-280"><a href="#cb33-280"></a></span>
-<span id="cb33-281"><a href="#cb33-281"></a>This function looks like the figure below when we plot it with $x=y_i - \hat{y_i}(x_i)$ and we we want to be down near $y_i - \hat{y_i}(x_i) = 0$ which indicates that our $y_i$ is as close as possible to $\hat{y_i}$.</span>
-<span id="cb33-282"><a href="#cb33-282"></a></span>
-<span id="cb33-283"><a href="#cb33-283"></a>::: {#fig-loss-func}</span>
-<span id="cb33-284"><a href="#cb33-284"></a></span>
-<span id="cb33-285"><a href="#cb33-285"></a><span class="al">![](../figures/loss_func.png)</span></span>
-<span id="cb33-286"><a href="#cb33-286"></a></span>
-<span id="cb33-287"><a href="#cb33-287"></a>Loss function for linear regression</span>
-<span id="cb33-288"><a href="#cb33-288"></a>:::</span>
-<span id="cb33-289"><a href="#cb33-289"></a></span>
-<span id="cb33-290"><a href="#cb33-290"></a>Here we crate a function that calculates this for us.</span>
-<span id="cb33-291"><a href="#cb33-291"></a></span>
-<span id="cb33-294"><a href="#cb33-294"></a><span class="in">```{python}</span></span>
-<span id="cb33-295"><a href="#cb33-295"></a><span class="kw">def</span> loss(x,y,m,b):</span>
-<span id="cb33-296"><a href="#cb33-296"></a>   y_predicted <span class="op">=</span> model(x,m,b)</span>
-<span id="cb33-297"><a href="#cb33-297"></a>   <span class="cf">return</span> np.power( y <span class="op">-</span> y_predicted, <span class="dv">2</span> )</span>
-<span id="cb33-298"><a href="#cb33-298"></a><span class="in">```</span></span>
-<span id="cb33-299"><a href="#cb33-299"></a></span>
-<span id="cb33-300"><a href="#cb33-300"></a><span class="fu">#### Minimizing the Loss Function</span></span>
-<span id="cb33-301"><a href="#cb33-301"></a></span>
-<span id="cb33-302"><a href="#cb33-302"></a>We want to use the loss function in order to guide how to update $m$ and $b$ to better model our system. In calculus we learn to minimize a function with respect to a variable you calculate the _partial derivative_ with respect to the variable you want to vary.</span>
-<span id="cb33-303"><a href="#cb33-303"></a></span>
-<span id="cb33-304"><a href="#cb33-304"></a>$$ { \partial L \over \partial m } = 0 $$</span>
-<span id="cb33-305"><a href="#cb33-305"></a></span>
-<span id="cb33-306"><a href="#cb33-306"></a>The location of the solution to this is the minimum as shown in the figure above. We can write down the partial derivative of the loss function as:</span>
-<span id="cb33-307"><a href="#cb33-307"></a></span>
-<span id="cb33-308"><a href="#cb33-308"></a>$$ { \partial L \over \partial m } = -2 x_i (y_i - \hat{y_i}(x_i)) $$</span>
-<span id="cb33-309"><a href="#cb33-309"></a>$$ { \partial L \over \partial b } = -2 (y_i - \hat{y_i}(x_i)) $$</span>
-<span id="cb33-310"><a href="#cb33-310"></a></span>
-<span id="cb33-311"><a href="#cb33-311"></a>We can use this to calculate an adjustment to $m$ and $b$ that will reduce the loss function, effectively improving our fitting parameters. This is done using this equation:</span>
-<span id="cb33-312"><a href="#cb33-312"></a></span>
-<span id="cb33-313"><a href="#cb33-313"></a>$$ m' = m - \eta { \partial L \over \partial m }$$</span>
-<span id="cb33-314"><a href="#cb33-314"></a>$$ b' = b - \eta { \partial L \over \partial b }$$</span>
-<span id="cb33-315"><a href="#cb33-315"></a></span>
-<span id="cb33-316"><a href="#cb33-316"></a>Here our original $m$ and $b$ are adjusted by the partial derivative multiplied by some small factor, $\eta$, called the _learning rate_. This learning rate is very important in our process and must be tuned for every problem.</span>
-<span id="cb33-317"><a href="#cb33-317"></a></span>
-<span id="cb33-318"><a href="#cb33-318"></a>In our example, the selection of the learning rate essentially defines how close we can get to the minimum, AKA the best fit solution. This figure shows what happens when we pick a large learning rate. We first select a starting point in our loss function (typically randomly), then every update from $m$/$b$ to $m'$/$b'$ results in a shift to somewhere else on our loss function (following the red arrows). In this example, our learning rate ($\eta$) has been selected too large such that we bounce back and forth around the minimum, never reaching it.</span>
-<span id="cb33-319"><a href="#cb33-319"></a></span>
-<span id="cb33-320"><a href="#cb33-320"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb33-321"><a href="#cb33-321"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/parabola_largeLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb33-322"><a href="#cb33-322"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb33-323"><a href="#cb33-323"></a></span>
-<span id="cb33-324"><a href="#cb33-324"></a>If we select a smaller learning we can see better behavior in the next figure.</span>
-<span id="cb33-325"><a href="#cb33-325"></a></span>
-<span id="cb33-326"><a href="#cb33-326"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb33-327"><a href="#cb33-327"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/parabola_smallLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb33-328"><a href="#cb33-328"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb33-329"><a href="#cb33-329"></a></span>
-<span id="cb33-330"><a href="#cb33-330"></a>Though, keep in mind, too small a learning rate results is so little progress toward the minimum that you may never reach it!</span>
-<span id="cb33-331"><a href="#cb33-331"></a></span>
-<span id="cb33-332"><a href="#cb33-332"></a>A pit fall of SGD that one must be aware of is when your loss function is complex, with many minima. The next figure shows such a case, in which we select a small learning rate and our starting point happens to be near a local minimum that is not the lowest minimum. As shown, we do reach a minimum, but it isn't the lowest minimum in our loss function. It could be that we randomly select a starting point near the minimum we care about, but we should build methods that are more robust against randomly getting the right answer.</span>
-<span id="cb33-333"><a href="#cb33-333"></a></span>
-<span id="cb33-334"><a href="#cb33-334"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb33-335"><a href="#cb33-335"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_smallLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb33-336"><a href="#cb33-336"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb33-337"><a href="#cb33-337"></a></span>
-<span id="cb33-338"><a href="#cb33-338"></a>Then, if we increase our learning rate too much, we bounce around again.</span>
-<span id="cb33-339"><a href="#cb33-339"></a></span>
-<span id="cb33-340"><a href="#cb33-340"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb33-341"><a href="#cb33-341"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_largeLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb33-342"><a href="#cb33-342"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb33-343"><a href="#cb33-343"></a></span>
-<span id="cb33-344"><a href="#cb33-344"></a>What we want to do in this situation is start with a large learning rate and slowly reduce its size as we progress. That is shown in this next figure.</span>
-<span id="cb33-345"><a href="#cb33-345"></a></span>
-<span id="cb33-346"><a href="#cb33-346"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb33-347"><a href="#cb33-347"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_variableLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb33-348"><a href="#cb33-348"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb33-349"><a href="#cb33-349"></a></span>
-<span id="cb33-350"><a href="#cb33-350"></a>As you can see, this process is not perfect and could still land in a local minimum, but it is important to be aware of these behaviors as you utilize SGD in machine learning.</span>
-<span id="cb33-351"><a href="#cb33-351"></a></span>
-<span id="cb33-352"><a href="#cb33-352"></a>So let's continue, we'll build functions we can use to update our fit parameters, $m$ and $b$.</span>
-<span id="cb33-353"><a href="#cb33-353"></a></span>
-<span id="cb33-356"><a href="#cb33-356"></a><span class="in">```{python}</span></span>
-<span id="cb33-357"><a href="#cb33-357"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
-<span id="cb33-358"><a href="#cb33-358"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
-<span id="cb33-359"><a href="#cb33-359"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
-<span id="cb33-360"><a href="#cb33-360"></a>   <span class="cf">return</span> m <span class="op">-</span> learning_rate <span class="op">*</span> dL_dm</span>
-<span id="cb33-361"><a href="#cb33-361"></a></span>
-<span id="cb33-362"><a href="#cb33-362"></a><span class="kw">def</span> updated_b(x,y,m,b,learning_rate):</span>
-<span id="cb33-363"><a href="#cb33-363"></a>   dL_db <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
-<span id="cb33-364"><a href="#cb33-364"></a>   dL_db <span class="op">=</span> np.mean(dL_db)</span>
-<span id="cb33-365"><a href="#cb33-365"></a>   <span class="cf">return</span> b <span class="op">-</span> learning_rate <span class="op">*</span> dL_db</span>
-<span id="cb33-366"><a href="#cb33-366"></a><span class="in">```</span></span>
-<span id="cb33-367"><a href="#cb33-367"></a></span>
-<span id="cb33-368"><a href="#cb33-368"></a><span class="fu"># Putting it together</span></span>
-<span id="cb33-369"><a href="#cb33-369"></a></span>
-<span id="cb33-370"><a href="#cb33-370"></a>We can now randomly select our initial slope and intercept:</span>
-<span id="cb33-371"><a href="#cb33-371"></a></span>
-<span id="cb33-374"><a href="#cb33-374"></a><span class="in">```{python}</span></span>
-<span id="cb33-375"><a href="#cb33-375"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb33-376"><a href="#cb33-376"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb33-377"><a href="#cb33-377"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
-<span id="cb33-378"><a href="#cb33-378"></a><span class="in">```</span></span>
-<span id="cb33-379"><a href="#cb33-379"></a></span>
-<span id="cb33-380"><a href="#cb33-380"></a>Then we can calculate our Loss function:</span>
-<span id="cb33-381"><a href="#cb33-381"></a></span>
-<span id="cb33-384"><a href="#cb33-384"></a><span class="in">```{python}</span></span>
-<span id="cb33-385"><a href="#cb33-385"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
-<span id="cb33-386"><a href="#cb33-386"></a><span class="bu">print</span>(<span class="st">'first 10 loss values: '</span>,l[:<span class="dv">10</span>])</span>
-<span id="cb33-387"><a href="#cb33-387"></a><span class="in">```</span></span>
-<span id="cb33-388"><a href="#cb33-388"></a></span>
-<span id="cb33-391"><a href="#cb33-391"></a><span class="in">```{python}</span></span>
-<span id="cb33-392"><a href="#cb33-392"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
-<span id="cb33-393"><a href="#cb33-393"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
-<span id="cb33-394"><a href="#cb33-394"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
-<span id="cb33-395"><a href="#cb33-395"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b,m_calc,b_calc))</span>
-<span id="cb33-396"><a href="#cb33-396"></a>plot_data(x,y,m,b)</span>
-<span id="cb33-397"><a href="#cb33-397"></a><span class="in">```</span></span>
-<span id="cb33-398"><a href="#cb33-398"></a></span>
-<span id="cb33-401"><a href="#cb33-401"></a><span class="in">```{python}</span></span>
-<span id="cb33-402"><a href="#cb33-402"></a><span class="co"># set our initial slope and intercept</span></span>
-<span id="cb33-403"><a href="#cb33-403"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb33-404"><a href="#cb33-404"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb33-405"><a href="#cb33-405"></a><span class="co"># batch_size = 60</span></span>
-<span id="cb33-406"><a href="#cb33-406"></a><span class="co"># set a learning rate for each parameter</span></span>
-<span id="cb33-407"><a href="#cb33-407"></a>learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span></span>
-<span id="cb33-408"><a href="#cb33-408"></a>learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span></span>
-<span id="cb33-409"><a href="#cb33-409"></a><span class="co"># use these to plot our progress over time</span></span>
-<span id="cb33-410"><a href="#cb33-410"></a>loss_history <span class="op">=</span> []</span>
-<span id="cb33-411"><a href="#cb33-411"></a><span class="co"># convert panda data to numpy arrays, one for the "Ground Living Area" and one for "Sale Price"</span></span>
-<span id="cb33-412"><a href="#cb33-412"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb33-413"><a href="#cb33-413"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb33-414"><a href="#cb33-414"></a><span class="co"># we run our loop N times</span></span>
-<span id="cb33-415"><a href="#cb33-415"></a>loop_N <span class="op">=</span> <span class="dv">30</span></span>
-<span id="cb33-416"><a href="#cb33-416"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
-<span id="cb33-417"><a href="#cb33-417"></a>   <span class="co"># update our slope and intercept based on the current values</span></span>
-<span id="cb33-418"><a href="#cb33-418"></a>   m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
-<span id="cb33-419"><a href="#cb33-419"></a>   b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
-<span id="cb33-420"><a href="#cb33-420"></a></span>
-<span id="cb33-421"><a href="#cb33-421"></a>   <span class="co"># calculate the loss value</span></span>
-<span id="cb33-422"><a href="#cb33-422"></a>   loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
-<span id="cb33-423"><a href="#cb33-423"></a></span>
-<span id="cb33-424"><a href="#cb33-424"></a>   <span class="co"># keep a history of our loss values</span></span>
-<span id="cb33-425"><a href="#cb33-425"></a>   loss_history.append(loss_value)</span>
-<span id="cb33-426"><a href="#cb33-426"></a></span>
-<span id="cb33-427"><a href="#cb33-427"></a>   <span class="co"># print our progress</span></span>
-<span id="cb33-428"><a href="#cb33-428"></a>   <span class="bu">print</span>(<span class="st">'[</span><span class="sc">%03d</span><span class="st">]  dy_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (i,m,b,m_calc,b_calc,loss_value))</span>
-<span id="cb33-429"><a href="#cb33-429"></a>   </span>
-<span id="cb33-430"><a href="#cb33-430"></a>   <span class="co"># close/delete previous plots</span></span>
-<span id="cb33-431"><a href="#cb33-431"></a>   plt.close(<span class="st">'all'</span>)</span>
-<span id="cb33-432"><a href="#cb33-432"></a>   </span>
-<span id="cb33-433"><a href="#cb33-433"></a>   <span class="co"># create a 1 by 2 plot grid</span></span>
-<span id="cb33-434"><a href="#cb33-434"></a>   fig,ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>,figsize<span class="op">=</span>(<span class="dv">18</span>,<span class="dv">6</span>),dpi<span class="op">=</span><span class="dv">80</span>)</span>
-<span id="cb33-435"><a href="#cb33-435"></a>   <span class="co"># lot our usual output</span></span>
-<span id="cb33-436"><a href="#cb33-436"></a>   plot_data(data_x,data_y,m,b,ax[<span class="dv">0</span>])</span>
-<span id="cb33-437"><a href="#cb33-437"></a></span>
-<span id="cb33-438"><a href="#cb33-438"></a>   <span class="co"># here we also plot the calculated linear fit for comparison</span></span>
-<span id="cb33-439"><a href="#cb33-439"></a>   line_x <span class="op">=</span> np.arange(data_x.<span class="bu">min</span>(),data_x.<span class="bu">max</span>())</span>
-<span id="cb33-440"><a href="#cb33-440"></a>   line_y <span class="op">=</span> line_x <span class="op">*</span> m_calc <span class="op">+</span> b_calc</span>
-<span id="cb33-441"><a href="#cb33-441"></a>   ax[<span class="dv">0</span>].plot(line_x,line_y,<span class="st">'b-'</span>,label<span class="op">=</span><span class="st">'calculated'</span>)</span>
-<span id="cb33-442"><a href="#cb33-442"></a>   <span class="co"># add a legend to the plot and x/y labels</span></span>
-<span id="cb33-443"><a href="#cb33-443"></a>   ax[<span class="dv">0</span>].legend()</span>
-<span id="cb33-444"><a href="#cb33-444"></a>   ax[<span class="dv">0</span>].set_xlabel(<span class="st">'square footage'</span>)</span>
-<span id="cb33-445"><a href="#cb33-445"></a>   ax[<span class="dv">0</span>].set_ylabel(<span class="st">'sale price'</span>)</span>
-<span id="cb33-446"><a href="#cb33-446"></a></span>
-<span id="cb33-447"><a href="#cb33-447"></a>   <span class="co"># plot the loss </span></span>
-<span id="cb33-448"><a href="#cb33-448"></a>   loss_x <span class="op">=</span> np.arange(<span class="dv">0</span>,<span class="bu">len</span>(loss_history))</span>
-<span id="cb33-449"><a href="#cb33-449"></a>   loss_y <span class="op">=</span> np.asarray(loss_history)</span>
-<span id="cb33-450"><a href="#cb33-450"></a>   ax[<span class="dv">1</span>].plot(loss_x,loss_y, <span class="st">'o-'</span>)</span>
-<span id="cb33-451"><a href="#cb33-451"></a>   ax[<span class="dv">1</span>].set_yscale(<span class="st">'log'</span>)</span>
-<span id="cb33-452"><a href="#cb33-452"></a>   ax[<span class="dv">1</span>].set_xlabel(<span class="st">'loop step'</span>)</span>
-<span id="cb33-453"><a href="#cb33-453"></a>   ax[<span class="dv">1</span>].set_ylabel(<span class="st">'loss'</span>)</span>
-<span id="cb33-454"><a href="#cb33-454"></a>   plt.show()</span>
-<span id="cb33-455"><a href="#cb33-455"></a>   <span class="co"># gives us time to see the plot</span></span>
-<span id="cb33-456"><a href="#cb33-456"></a>   time.sleep(<span class="fl">2.5</span>)</span>
-<span id="cb33-457"><a href="#cb33-457"></a>   <span class="co"># clears the plot when the next plot is ready to show.</span></span>
-<span id="cb33-458"><a href="#cb33-458"></a>   ipydis.clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb33-459"><a href="#cb33-459"></a></span>
-<span id="cb33-460"><a href="#cb33-460"></a><span class="in">```</span></span>
-<span id="cb33-461"><a href="#cb33-461"></a></span>
-<span id="cb33-462"><a href="#cb33-462"></a><span class="fu"># Homework</span></span>
-<span id="cb33-463"><a href="#cb33-463"></a></span>
-<span id="cb33-464"><a href="#cb33-464"></a><span class="fu">## Mini Batch Training</span></span>
-<span id="cb33-465"><a href="#cb33-465"></a></span>
-<span id="cb33-466"><a href="#cb33-466"></a>In AI, datasets are often very large and cannot be processed all at once as is</span>
-<span id="cb33-467"><a href="#cb33-467"></a>done in the loop above.</span>
-<span id="cb33-468"><a href="#cb33-468"></a>The data is instead randomly sampled in smaller</span>
-<span id="cb33-469"><a href="#cb33-469"></a>_batches_ where each _batch_ contains <span class="in">`batch_size`</span> inputs.</span>
-<span id="cb33-470"><a href="#cb33-470"></a></span>
-<span id="cb33-471"><a href="#cb33-471"></a>How can you change the loop above to sample the dataset in smaller batches?</span>
-<span id="cb33-472"><a href="#cb33-472"></a></span>
-<span id="cb33-473"><a href="#cb33-473"></a>Hint: Our <span class="in">`data`</span> variable is a Pandas <span class="in">`DataFrame`</span> object, search for "how to</span>
-<span id="cb33-474"><a href="#cb33-474"></a>sample a DataFrame".</span>
-<span id="cb33-475"><a href="#cb33-475"></a></span>
-<span id="cb33-476"><a href="#cb33-476"></a>Instead of using the entire dataset like:</span>
-<span id="cb33-477"><a href="#cb33-477"></a></span>
-<span id="cb33-478"><a href="#cb33-478"></a><span class="in">```python</span></span>
-<span id="cb33-479"><a href="#cb33-479"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb33-480"><a href="#cb33-480"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb33-481"><a href="#cb33-481"></a><span class="in">```</span></span>
-<span id="cb33-482"><a href="#cb33-482"></a></span>
-<span id="cb33-483"><a href="#cb33-483"></a>Use</span>
-<span id="cb33-484"><a href="#cb33-484"></a></span>
-<span id="cb33-485"><a href="#cb33-485"></a><span class="in">```python</span></span>
-<span id="cb33-486"><a href="#cb33-486"></a>data_batch <span class="op">=</span> data.sample(batch_size)</span>
-<span id="cb33-487"><a href="#cb33-487"></a>data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb33-488"><a href="#cb33-488"></a>data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb33-489"><a href="#cb33-489"></a><span class="in">```</span></span>
-<span id="cb33-490"><a href="#cb33-490"></a></span>
-<span id="cb33-491"><a href="#cb33-491"></a>You also have to adjust the loop_N accordingly to make sure that it loop over the entire datasets the same number of times.</span>
-<span id="cb33-492"><a href="#cb33-492"></a><span class="in">```python</span></span>
-<span id="cb33-493"><a href="#cb33-493"></a>loop_N <span class="op">=</span> <span class="dv">30</span><span class="op">*</span><span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
-<span id="cb33-494"><a href="#cb33-494"></a><span class="in">```</span></span>
-<span id="cb33-495"><a href="#cb33-495"></a></span>
-<span id="cb33-496"><a href="#cb33-496"></a>Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512. </span>
-<span id="cb33-497"><a href="#cb33-497"></a></span>
-<span id="cb33-498"><a href="#cb33-498"></a><span class="fu">## Learning rate issue (Bonus)</span></span>
-<span id="cb33-499"><a href="#cb33-499"></a></span>
-<span id="cb33-500"><a href="#cb33-500"></a>As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge. </span>
-<span id="cb33-501"><a href="#cb33-501"></a></span>
-<span id="cb33-502"><a href="#cb33-502"></a><span class="in">```</span></span>
-<span id="cb33-503"><a href="#cb33-503"></a><span class="in">(64, 1e-7, 1e-1)*1</span></span>
-<span id="cb33-504"><a href="#cb33-504"></a><span class="in">(64, 1e-7, 1e-1)*2</span></span>
-<span id="cb33-505"><a href="#cb33-505"></a><span class="in">(64, 1e-7, 1e-1)*4</span></span>
-<span id="cb33-506"><a href="#cb33-506"></a><span class="in">(64, 1e-7, 1e-1)*8</span></span>
-<span id="cb33-507"><a href="#cb33-507"></a><span class="in">...</span></span>
-<span id="cb33-508"><a href="#cb33-508"></a><span class="in">```</span></span>
-<span id="cb33-509"><a href="#cb33-509"></a></span>
-<span id="cb33-510"><a href="#cb33-510"></a>**How to submit your homework**</span>
-<span id="cb33-511"><a href="#cb33-511"></a></span>
-<span id="cb33-512"><a href="#cb33-512"></a><span class="ss">- </span>Fork the github repo to your personal github </span>
-<span id="cb33-513"><a href="#cb33-513"></a><span class="ss">- </span>Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github</span>
-<span id="cb33-514"><a href="#cb33-514"></a><span class="ss">- </span>Provide the link of 01_linear_regression_sgd in the personal github. </span>
-<span id="cb33-515"><a href="#cb33-515"></a></span>
-<span id="cb33-516"><a href="#cb33-516"></a><span class="co">&lt;!--</span></span>
-<span id="cb33-517"><a href="#cb33-517"></a><span class="co">Follow the below instruction on how to do this: </span></span>
-<span id="cb33-518"><a href="#cb33-518"></a><span class="co">https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md</span></span>
-<span id="cb33-519"><a href="#cb33-519"></a><span class="co">--&gt;</span></span>
-<span id="cb33-520"><a href="#cb33-520"></a></span>
-<span id="cb33-521"><a href="#cb33-521"></a><span class="fu"># Homework answer</span></span>
-<span id="cb33-522"><a href="#cb33-522"></a></span>
-<span id="cb33-523"><a href="#cb33-523"></a>Let us define a train function which allow us to try different hyperparameter setups.</span>
-<span id="cb33-524"><a href="#cb33-524"></a></span>
-<span id="cb33-527"><a href="#cb33-527"></a><span class="in">```{python}</span></span>
-<span id="cb33-528"><a href="#cb33-528"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb33-529"><a href="#cb33-529"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb33-530"><a href="#cb33-530"></a></span>
-<span id="cb33-531"><a href="#cb33-531"></a><span class="kw">def</span> train(batch_size, epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span>, learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span>):</span>
-<span id="cb33-532"><a href="#cb33-532"></a>    loss_history <span class="op">=</span> []</span>
-<span id="cb33-533"><a href="#cb33-533"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
-<span id="cb33-534"><a href="#cb33-534"></a>    loop_N <span class="op">=</span> epochs<span class="op">*</span>num_batches</span>
-<span id="cb33-535"><a href="#cb33-535"></a>    m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb33-536"><a href="#cb33-536"></a>    b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb33-537"><a href="#cb33-537"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
-<span id="cb33-538"><a href="#cb33-538"></a>        data_batch <span class="op">=</span> data.sample(batch_size)</span>
-<span id="cb33-539"><a href="#cb33-539"></a>        data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb33-540"><a href="#cb33-540"></a>        data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb33-541"><a href="#cb33-541"></a>        <span class="co"># update our slope and intercept based on the current values</span></span>
-<span id="cb33-542"><a href="#cb33-542"></a>        m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
-<span id="cb33-543"><a href="#cb33-543"></a>        b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
-<span id="cb33-544"><a href="#cb33-544"></a>    </span>
-<span id="cb33-545"><a href="#cb33-545"></a>        <span class="co"># calculate the loss value</span></span>
-<span id="cb33-546"><a href="#cb33-546"></a>        loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
-<span id="cb33-547"><a href="#cb33-547"></a>        </span>
-<span id="cb33-548"><a href="#cb33-548"></a>        <span class="co"># keep a history of our loss values</span></span>
-<span id="cb33-549"><a href="#cb33-549"></a>        loss_history.append(loss_value)</span>
-<span id="cb33-550"><a href="#cb33-550"></a>    <span class="co">#loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)</span></span>
-<span id="cb33-551"><a href="#cb33-551"></a>    <span class="cf">return</span> m, b, np.mean(loss(x,y,m,b))</span>
-<span id="cb33-552"><a href="#cb33-552"></a><span class="in">```</span></span>
-<span id="cb33-553"><a href="#cb33-553"></a></span>
-<span id="cb33-554"><a href="#cb33-554"></a><span class="fu">## Minibatch training</span></span>
-<span id="cb33-555"><a href="#cb33-555"></a></span>
-<span id="cb33-558"><a href="#cb33-558"></a><span class="in">```{python}</span></span>
-<span id="cb33-559"><a href="#cb33-559"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
-<span id="cb33-560"><a href="#cb33-560"></a></span>
+<span id="cb33-271"><a href="#cb33-271"></a></span>
+<span id="cb33-272"><a href="#cb33-272"></a><span class="fu">#### The Loss Function</span></span>
+<span id="cb33-273"><a href="#cb33-273"></a></span>
+<span id="cb33-274"><a href="#cb33-274"></a>A _loss function_, or _objective function_, is something we define and is based on what we want to achieve. In the method of SGD, it is our goal to minimize (or make close to zero) the values calculated from the _loss function_. In our example, we ideally want the prediction of our _model_ to be equal to the actual data, though we will settle for "as close as possible".</span>
+<span id="cb33-275"><a href="#cb33-275"></a></span>
+<span id="cb33-276"><a href="#cb33-276"></a>So we will select our _loss function_ to be the <span class="co">[</span><span class="ot">Mean Squared Error</span><span class="co">](https://en.wikipedia.org/wiki/Mean_squared_error)</span> function:</span>
+<span id="cb33-277"><a href="#cb33-277"></a></span>
+<span id="cb33-278"><a href="#cb33-278"></a>$$ L(y_i,\hat{y_i}) = (y_i - \hat{y_i}(x_i))^2 $$</span>
+<span id="cb33-279"><a href="#cb33-279"></a></span>
+<span id="cb33-280"><a href="#cb33-280"></a>where $y_i$ is our $i^{th}$ entry in the <span class="in">`data['SalePrice']`</span> vector and $\hat{y_i}$ is the prediction based on evaluting $m * x_i + b$.</span>
+<span id="cb33-281"><a href="#cb33-281"></a></span>
+<span id="cb33-282"><a href="#cb33-282"></a>This function looks like the figure below when we plot it with $x=y_i - \hat{y_i}(x_i)$ and we we want to be down near $y_i - \hat{y_i}(x_i) = 0$ which indicates that our $y_i$ is as close as possible to $\hat{y_i}$.</span>
+<span id="cb33-283"><a href="#cb33-283"></a></span>
+<span id="cb33-284"><a href="#cb33-284"></a>::: {#fig-loss-func}</span>
+<span id="cb33-285"><a href="#cb33-285"></a></span>
+<span id="cb33-286"><a href="#cb33-286"></a><span class="al">![](../figures/loss_func.png)</span></span>
+<span id="cb33-287"><a href="#cb33-287"></a></span>
+<span id="cb33-288"><a href="#cb33-288"></a>Loss function for linear regression</span>
+<span id="cb33-289"><a href="#cb33-289"></a>:::</span>
+<span id="cb33-290"><a href="#cb33-290"></a></span>
+<span id="cb33-291"><a href="#cb33-291"></a>Here we crate a function that calculates this for us.</span>
+<span id="cb33-292"><a href="#cb33-292"></a></span>
+<span id="cb33-295"><a href="#cb33-295"></a><span class="in">```{python}</span></span>
+<span id="cb33-296"><a href="#cb33-296"></a><span class="kw">def</span> loss(x,y,m,b):</span>
+<span id="cb33-297"><a href="#cb33-297"></a>   y_predicted <span class="op">=</span> model(x,m,b)</span>
+<span id="cb33-298"><a href="#cb33-298"></a>   <span class="cf">return</span> np.power( y <span class="op">-</span> y_predicted, <span class="dv">2</span> )</span>
+<span id="cb33-299"><a href="#cb33-299"></a><span class="in">```</span></span>
+<span id="cb33-300"><a href="#cb33-300"></a></span>
+<span id="cb33-301"><a href="#cb33-301"></a><span class="fu">#### Minimizing the Loss Function</span></span>
+<span id="cb33-302"><a href="#cb33-302"></a></span>
+<span id="cb33-303"><a href="#cb33-303"></a>We want to use the loss function in order to guide how to update $m$ and $b$ to better model our system. In calculus we learn to minimize a function with respect to a variable you calculate the _partial derivative_ with respect to the variable you want to vary.</span>
+<span id="cb33-304"><a href="#cb33-304"></a></span>
+<span id="cb33-305"><a href="#cb33-305"></a>$$ { \partial L \over \partial m } = 0 $$</span>
+<span id="cb33-306"><a href="#cb33-306"></a></span>
+<span id="cb33-307"><a href="#cb33-307"></a>The location of the solution to this is the minimum as shown in the figure above. We can write down the partial derivative of the loss function as:</span>
+<span id="cb33-308"><a href="#cb33-308"></a></span>
+<span id="cb33-309"><a href="#cb33-309"></a>$$ { \partial L \over \partial m } = -2 x_i (y_i - \hat{y_i}(x_i)) $$</span>
+<span id="cb33-310"><a href="#cb33-310"></a>$$ { \partial L \over \partial b } = -2 (y_i - \hat{y_i}(x_i)) $$</span>
+<span id="cb33-311"><a href="#cb33-311"></a></span>
+<span id="cb33-312"><a href="#cb33-312"></a>We can use this to calculate an adjustment to $m$ and $b$ that will reduce the loss function, effectively improving our fitting parameters. This is done using this equation:</span>
+<span id="cb33-313"><a href="#cb33-313"></a></span>
+<span id="cb33-314"><a href="#cb33-314"></a>$$ m' = m - \eta { \partial L \over \partial m }$$</span>
+<span id="cb33-315"><a href="#cb33-315"></a>$$ b' = b - \eta { \partial L \over \partial b }$$</span>
+<span id="cb33-316"><a href="#cb33-316"></a></span>
+<span id="cb33-317"><a href="#cb33-317"></a>Here our original $m$ and $b$ are adjusted by the partial derivative multiplied by some small factor, $\eta$, called the _learning rate_. This learning rate is very important in our process and must be tuned for every problem.</span>
+<span id="cb33-318"><a href="#cb33-318"></a></span>
+<span id="cb33-319"><a href="#cb33-319"></a>In our example, the selection of the learning rate essentially defines how close we can get to the minimum, AKA the best fit solution. This figure shows what happens when we pick a large learning rate. We first select a starting point in our loss function (typically randomly), then every update from $m$/$b$ to $m'$/$b'$ results in a shift to somewhere else on our loss function (following the red arrows). In this example, our learning rate ($\eta$) has been selected too large such that we bounce back and forth around the minimum, never reaching it.</span>
+<span id="cb33-320"><a href="#cb33-320"></a></span>
+<span id="cb33-321"><a href="#cb33-321"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
+<span id="cb33-322"><a href="#cb33-322"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/parabola_largeLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
+<span id="cb33-323"><a href="#cb33-323"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb33-324"><a href="#cb33-324"></a></span>
+<span id="cb33-325"><a href="#cb33-325"></a>If we select a smaller learning we can see better behavior in the next figure.</span>
+<span id="cb33-326"><a href="#cb33-326"></a></span>
+<span id="cb33-327"><a href="#cb33-327"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
+<span id="cb33-328"><a href="#cb33-328"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/parabola_smallLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
+<span id="cb33-329"><a href="#cb33-329"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb33-330"><a href="#cb33-330"></a></span>
+<span id="cb33-331"><a href="#cb33-331"></a>Though, keep in mind, too small a learning rate results is so little progress toward the minimum that you may never reach it!</span>
+<span id="cb33-332"><a href="#cb33-332"></a></span>
+<span id="cb33-333"><a href="#cb33-333"></a>A pit fall of SGD that one must be aware of is when your loss function is complex, with many minima. The next figure shows such a case, in which we select a small learning rate and our starting point happens to be near a local minimum that is not the lowest minimum. As shown, we do reach a minimum, but it isn't the lowest minimum in our loss function. It could be that we randomly select a starting point near the minimum we care about, but we should build methods that are more robust against randomly getting the right answer.</span>
+<span id="cb33-334"><a href="#cb33-334"></a></span>
+<span id="cb33-335"><a href="#cb33-335"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
+<span id="cb33-336"><a href="#cb33-336"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_smallLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
+<span id="cb33-337"><a href="#cb33-337"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb33-338"><a href="#cb33-338"></a></span>
+<span id="cb33-339"><a href="#cb33-339"></a>Then, if we increase our learning rate too much, we bounce around again.</span>
+<span id="cb33-340"><a href="#cb33-340"></a></span>
+<span id="cb33-341"><a href="#cb33-341"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
+<span id="cb33-342"><a href="#cb33-342"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_largeLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
+<span id="cb33-343"><a href="#cb33-343"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb33-344"><a href="#cb33-344"></a></span>
+<span id="cb33-345"><a href="#cb33-345"></a>What we want to do in this situation is start with a large learning rate and slowly reduce its size as we progress. That is shown in this next figure.</span>
+<span id="cb33-346"><a href="#cb33-346"></a></span>
+<span id="cb33-347"><a href="#cb33-347"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
+<span id="cb33-348"><a href="#cb33-348"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_variableLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
+<span id="cb33-349"><a href="#cb33-349"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb33-350"><a href="#cb33-350"></a></span>
+<span id="cb33-351"><a href="#cb33-351"></a>As you can see, this process is not perfect and could still land in a local minimum, but it is important to be aware of these behaviors as you utilize SGD in machine learning.</span>
+<span id="cb33-352"><a href="#cb33-352"></a></span>
+<span id="cb33-353"><a href="#cb33-353"></a>So let's continue, we'll build functions we can use to update our fit parameters, $m$ and $b$.</span>
+<span id="cb33-354"><a href="#cb33-354"></a></span>
+<span id="cb33-357"><a href="#cb33-357"></a><span class="in">```{python}</span></span>
+<span id="cb33-358"><a href="#cb33-358"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
+<span id="cb33-359"><a href="#cb33-359"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
+<span id="cb33-360"><a href="#cb33-360"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
+<span id="cb33-361"><a href="#cb33-361"></a>   <span class="cf">return</span> m <span class="op">-</span> learning_rate <span class="op">*</span> dL_dm</span>
+<span id="cb33-362"><a href="#cb33-362"></a></span>
+<span id="cb33-363"><a href="#cb33-363"></a><span class="kw">def</span> updated_b(x,y,m,b,learning_rate):</span>
+<span id="cb33-364"><a href="#cb33-364"></a>   dL_db <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
+<span id="cb33-365"><a href="#cb33-365"></a>   dL_db <span class="op">=</span> np.mean(dL_db)</span>
+<span id="cb33-366"><a href="#cb33-366"></a>   <span class="cf">return</span> b <span class="op">-</span> learning_rate <span class="op">*</span> dL_db</span>
+<span id="cb33-367"><a href="#cb33-367"></a><span class="in">```</span></span>
+<span id="cb33-368"><a href="#cb33-368"></a></span>
+<span id="cb33-369"><a href="#cb33-369"></a><span class="fu"># Putting it together</span></span>
+<span id="cb33-370"><a href="#cb33-370"></a></span>
+<span id="cb33-371"><a href="#cb33-371"></a>We can now randomly select our initial slope and intercept:</span>
+<span id="cb33-372"><a href="#cb33-372"></a></span>
+<span id="cb33-375"><a href="#cb33-375"></a><span class="in">```{python}</span></span>
+<span id="cb33-376"><a href="#cb33-376"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb33-377"><a href="#cb33-377"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb33-378"><a href="#cb33-378"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
+<span id="cb33-379"><a href="#cb33-379"></a><span class="in">```</span></span>
+<span id="cb33-380"><a href="#cb33-380"></a></span>
+<span id="cb33-381"><a href="#cb33-381"></a>Then we can calculate our Loss function:</span>
+<span id="cb33-382"><a href="#cb33-382"></a></span>
+<span id="cb33-385"><a href="#cb33-385"></a><span class="in">```{python}</span></span>
+<span id="cb33-386"><a href="#cb33-386"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
+<span id="cb33-387"><a href="#cb33-387"></a><span class="bu">print</span>(<span class="st">'first 10 loss values: '</span>,l[:<span class="dv">10</span>])</span>
+<span id="cb33-388"><a href="#cb33-388"></a><span class="in">```</span></span>
+<span id="cb33-389"><a href="#cb33-389"></a></span>
+<span id="cb33-392"><a href="#cb33-392"></a><span class="in">```{python}</span></span>
+<span id="cb33-393"><a href="#cb33-393"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
+<span id="cb33-394"><a href="#cb33-394"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
+<span id="cb33-395"><a href="#cb33-395"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
+<span id="cb33-396"><a href="#cb33-396"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b,m_calc,b_calc))</span>
+<span id="cb33-397"><a href="#cb33-397"></a>plot_data(x,y,m,b)</span>
+<span id="cb33-398"><a href="#cb33-398"></a><span class="in">```</span></span>
+<span id="cb33-399"><a href="#cb33-399"></a></span>
+<span id="cb33-402"><a href="#cb33-402"></a><span class="in">```{python}</span></span>
+<span id="cb33-403"><a href="#cb33-403"></a><span class="co"># set our initial slope and intercept</span></span>
+<span id="cb33-404"><a href="#cb33-404"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb33-405"><a href="#cb33-405"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb33-406"><a href="#cb33-406"></a><span class="co"># batch_size = 60</span></span>
+<span id="cb33-407"><a href="#cb33-407"></a><span class="co"># set a learning rate for each parameter</span></span>
+<span id="cb33-408"><a href="#cb33-408"></a>learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span></span>
+<span id="cb33-409"><a href="#cb33-409"></a>learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span></span>
+<span id="cb33-410"><a href="#cb33-410"></a><span class="co"># use these to plot our progress over time</span></span>
+<span id="cb33-411"><a href="#cb33-411"></a>loss_history <span class="op">=</span> []</span>
+<span id="cb33-412"><a href="#cb33-412"></a><span class="co"># convert panda data to numpy arrays, one for the "Ground Living Area" and one for "Sale Price"</span></span>
+<span id="cb33-413"><a href="#cb33-413"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb33-414"><a href="#cb33-414"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb33-415"><a href="#cb33-415"></a><span class="co"># we run our loop N times</span></span>
+<span id="cb33-416"><a href="#cb33-416"></a>loop_N <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb33-417"><a href="#cb33-417"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
+<span id="cb33-418"><a href="#cb33-418"></a>   <span class="co"># update our slope and intercept based on the current values</span></span>
+<span id="cb33-419"><a href="#cb33-419"></a>   m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
+<span id="cb33-420"><a href="#cb33-420"></a>   b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
+<span id="cb33-421"><a href="#cb33-421"></a></span>
+<span id="cb33-422"><a href="#cb33-422"></a>   <span class="co"># calculate the loss value</span></span>
+<span id="cb33-423"><a href="#cb33-423"></a>   loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
+<span id="cb33-424"><a href="#cb33-424"></a></span>
+<span id="cb33-425"><a href="#cb33-425"></a>   <span class="co"># keep a history of our loss values</span></span>
+<span id="cb33-426"><a href="#cb33-426"></a>   loss_history.append(loss_value)</span>
+<span id="cb33-427"><a href="#cb33-427"></a></span>
+<span id="cb33-428"><a href="#cb33-428"></a>   <span class="co"># print our progress</span></span>
+<span id="cb33-429"><a href="#cb33-429"></a>   <span class="bu">print</span>(<span class="st">'[</span><span class="sc">%03d</span><span class="st">]  dy_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (i,m,b,m_calc,b_calc,loss_value))</span>
+<span id="cb33-430"><a href="#cb33-430"></a>   </span>
+<span id="cb33-431"><a href="#cb33-431"></a>   <span class="co"># close/delete previous plots</span></span>
+<span id="cb33-432"><a href="#cb33-432"></a>   plt.close(<span class="st">'all'</span>)</span>
+<span id="cb33-433"><a href="#cb33-433"></a>   </span>
+<span id="cb33-434"><a href="#cb33-434"></a>   <span class="co"># create a 1 by 2 plot grid</span></span>
+<span id="cb33-435"><a href="#cb33-435"></a>   fig,ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>,figsize<span class="op">=</span>(<span class="dv">18</span>,<span class="dv">6</span>),dpi<span class="op">=</span><span class="dv">80</span>)</span>
+<span id="cb33-436"><a href="#cb33-436"></a>   <span class="co"># lot our usual output</span></span>
+<span id="cb33-437"><a href="#cb33-437"></a>   plot_data(data_x,data_y,m,b,ax[<span class="dv">0</span>])</span>
+<span id="cb33-438"><a href="#cb33-438"></a></span>
+<span id="cb33-439"><a href="#cb33-439"></a>   <span class="co"># here we also plot the calculated linear fit for comparison</span></span>
+<span id="cb33-440"><a href="#cb33-440"></a>   line_x <span class="op">=</span> np.arange(data_x.<span class="bu">min</span>(),data_x.<span class="bu">max</span>())</span>
+<span id="cb33-441"><a href="#cb33-441"></a>   line_y <span class="op">=</span> line_x <span class="op">*</span> m_calc <span class="op">+</span> b_calc</span>
+<span id="cb33-442"><a href="#cb33-442"></a>   ax[<span class="dv">0</span>].plot(line_x,line_y,<span class="st">'b-'</span>,label<span class="op">=</span><span class="st">'calculated'</span>)</span>
+<span id="cb33-443"><a href="#cb33-443"></a>   <span class="co"># add a legend to the plot and x/y labels</span></span>
+<span id="cb33-444"><a href="#cb33-444"></a>   ax[<span class="dv">0</span>].legend()</span>
+<span id="cb33-445"><a href="#cb33-445"></a>   ax[<span class="dv">0</span>].set_xlabel(<span class="st">'square footage'</span>)</span>
+<span id="cb33-446"><a href="#cb33-446"></a>   ax[<span class="dv">0</span>].set_ylabel(<span class="st">'sale price'</span>)</span>
+<span id="cb33-447"><a href="#cb33-447"></a></span>
+<span id="cb33-448"><a href="#cb33-448"></a>   <span class="co"># plot the loss </span></span>
+<span id="cb33-449"><a href="#cb33-449"></a>   loss_x <span class="op">=</span> np.arange(<span class="dv">0</span>,<span class="bu">len</span>(loss_history))</span>
+<span id="cb33-450"><a href="#cb33-450"></a>   loss_y <span class="op">=</span> np.asarray(loss_history)</span>
+<span id="cb33-451"><a href="#cb33-451"></a>   ax[<span class="dv">1</span>].plot(loss_x,loss_y, <span class="st">'o-'</span>)</span>
+<span id="cb33-452"><a href="#cb33-452"></a>   ax[<span class="dv">1</span>].set_yscale(<span class="st">'log'</span>)</span>
+<span id="cb33-453"><a href="#cb33-453"></a>   ax[<span class="dv">1</span>].set_xlabel(<span class="st">'loop step'</span>)</span>
+<span id="cb33-454"><a href="#cb33-454"></a>   ax[<span class="dv">1</span>].set_ylabel(<span class="st">'loss'</span>)</span>
+<span id="cb33-455"><a href="#cb33-455"></a>   plt.show()</span>
+<span id="cb33-456"><a href="#cb33-456"></a>   <span class="co"># gives us time to see the plot</span></span>
+<span id="cb33-457"><a href="#cb33-457"></a>   time.sleep(<span class="fl">2.5</span>)</span>
+<span id="cb33-458"><a href="#cb33-458"></a>   <span class="co"># clears the plot when the next plot is ready to show.</span></span>
+<span id="cb33-459"><a href="#cb33-459"></a>   ipydis.clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-460"><a href="#cb33-460"></a></span>
+<span id="cb33-461"><a href="#cb33-461"></a><span class="in">```</span></span>
+<span id="cb33-462"><a href="#cb33-462"></a></span>
+<span id="cb33-463"><a href="#cb33-463"></a><span class="fu"># Homework</span></span>
+<span id="cb33-464"><a href="#cb33-464"></a></span>
+<span id="cb33-465"><a href="#cb33-465"></a><span class="fu">## Mini Batch Training</span></span>
+<span id="cb33-466"><a href="#cb33-466"></a></span>
+<span id="cb33-467"><a href="#cb33-467"></a>In AI, datasets are often very large and cannot be processed all at once as is</span>
+<span id="cb33-468"><a href="#cb33-468"></a>done in the loop above.</span>
+<span id="cb33-469"><a href="#cb33-469"></a>The data is instead randomly sampled in smaller</span>
+<span id="cb33-470"><a href="#cb33-470"></a>_batches_ where each _batch_ contains <span class="in">`batch_size`</span> inputs.</span>
+<span id="cb33-471"><a href="#cb33-471"></a></span>
+<span id="cb33-472"><a href="#cb33-472"></a>How can you change the loop above to sample the dataset in smaller batches?</span>
+<span id="cb33-473"><a href="#cb33-473"></a></span>
+<span id="cb33-474"><a href="#cb33-474"></a>Hint: Our <span class="in">`data`</span> variable is a Pandas <span class="in">`DataFrame`</span> object, search for "how to</span>
+<span id="cb33-475"><a href="#cb33-475"></a>sample a DataFrame".</span>
+<span id="cb33-476"><a href="#cb33-476"></a></span>
+<span id="cb33-477"><a href="#cb33-477"></a>Instead of using the entire dataset like:</span>
+<span id="cb33-478"><a href="#cb33-478"></a></span>
+<span id="cb33-479"><a href="#cb33-479"></a><span class="in">```python</span></span>
+<span id="cb33-480"><a href="#cb33-480"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb33-481"><a href="#cb33-481"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb33-482"><a href="#cb33-482"></a><span class="in">```</span></span>
+<span id="cb33-483"><a href="#cb33-483"></a></span>
+<span id="cb33-484"><a href="#cb33-484"></a>Use</span>
+<span id="cb33-485"><a href="#cb33-485"></a></span>
+<span id="cb33-486"><a href="#cb33-486"></a><span class="in">```python</span></span>
+<span id="cb33-487"><a href="#cb33-487"></a>data_batch <span class="op">=</span> data.sample(batch_size)</span>
+<span id="cb33-488"><a href="#cb33-488"></a>data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb33-489"><a href="#cb33-489"></a>data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb33-490"><a href="#cb33-490"></a><span class="in">```</span></span>
+<span id="cb33-491"><a href="#cb33-491"></a></span>
+<span id="cb33-492"><a href="#cb33-492"></a>You also have to adjust the loop_N accordingly to make sure that it loop over the entire datasets the same number of times.</span>
+<span id="cb33-493"><a href="#cb33-493"></a><span class="in">```python</span></span>
+<span id="cb33-494"><a href="#cb33-494"></a>loop_N <span class="op">=</span> <span class="dv">30</span><span class="op">*</span><span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
+<span id="cb33-495"><a href="#cb33-495"></a><span class="in">```</span></span>
+<span id="cb33-496"><a href="#cb33-496"></a></span>
+<span id="cb33-497"><a href="#cb33-497"></a>Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512. </span>
+<span id="cb33-498"><a href="#cb33-498"></a></span>
+<span id="cb33-499"><a href="#cb33-499"></a><span class="fu">## Learning rate issue (Bonus)</span></span>
+<span id="cb33-500"><a href="#cb33-500"></a></span>
+<span id="cb33-501"><a href="#cb33-501"></a>As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge. </span>
+<span id="cb33-502"><a href="#cb33-502"></a></span>
+<span id="cb33-503"><a href="#cb33-503"></a><span class="in">```</span></span>
+<span id="cb33-504"><a href="#cb33-504"></a><span class="in">(64, 1e-7, 1e-1)*1</span></span>
+<span id="cb33-505"><a href="#cb33-505"></a><span class="in">(64, 1e-7, 1e-1)*2</span></span>
+<span id="cb33-506"><a href="#cb33-506"></a><span class="in">(64, 1e-7, 1e-1)*4</span></span>
+<span id="cb33-507"><a href="#cb33-507"></a><span class="in">(64, 1e-7, 1e-1)*8</span></span>
+<span id="cb33-508"><a href="#cb33-508"></a><span class="in">...</span></span>
+<span id="cb33-509"><a href="#cb33-509"></a><span class="in">```</span></span>
+<span id="cb33-510"><a href="#cb33-510"></a></span>
+<span id="cb33-511"><a href="#cb33-511"></a>**How to submit your homework**</span>
+<span id="cb33-512"><a href="#cb33-512"></a></span>
+<span id="cb33-513"><a href="#cb33-513"></a><span class="ss">- </span>Fork the github repo to your personal github </span>
+<span id="cb33-514"><a href="#cb33-514"></a><span class="ss">- </span>Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github</span>
+<span id="cb33-515"><a href="#cb33-515"></a><span class="ss">- </span>Provide the link of 01_linear_regression_sgd in the personal github. </span>
+<span id="cb33-516"><a href="#cb33-516"></a></span>
+<span id="cb33-517"><a href="#cb33-517"></a><span class="co">&lt;!--</span></span>
+<span id="cb33-518"><a href="#cb33-518"></a><span class="co">Follow the below instruction on how to do this: </span></span>
+<span id="cb33-519"><a href="#cb33-519"></a><span class="co">https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md</span></span>
+<span id="cb33-520"><a href="#cb33-520"></a><span class="co">--&gt;</span></span>
+<span id="cb33-521"><a href="#cb33-521"></a></span>
+<span id="cb33-522"><a href="#cb33-522"></a><span class="fu"># Homework answer</span></span>
+<span id="cb33-523"><a href="#cb33-523"></a></span>
+<span id="cb33-524"><a href="#cb33-524"></a>Let us define a train function which allow us to try different hyperparameter setups.</span>
+<span id="cb33-525"><a href="#cb33-525"></a></span>
+<span id="cb33-528"><a href="#cb33-528"></a><span class="in">```{python}</span></span>
+<span id="cb33-529"><a href="#cb33-529"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb33-530"><a href="#cb33-530"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb33-531"><a href="#cb33-531"></a></span>
+<span id="cb33-532"><a href="#cb33-532"></a><span class="kw">def</span> train(batch_size, epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span>, learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span>):</span>
+<span id="cb33-533"><a href="#cb33-533"></a>    loss_history <span class="op">=</span> []</span>
+<span id="cb33-534"><a href="#cb33-534"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
+<span id="cb33-535"><a href="#cb33-535"></a>    loop_N <span class="op">=</span> epochs<span class="op">*</span>num_batches</span>
+<span id="cb33-536"><a href="#cb33-536"></a>    m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb33-537"><a href="#cb33-537"></a>    b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb33-538"><a href="#cb33-538"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
+<span id="cb33-539"><a href="#cb33-539"></a>        data_batch <span class="op">=</span> data.sample(batch_size)</span>
+<span id="cb33-540"><a href="#cb33-540"></a>        data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb33-541"><a href="#cb33-541"></a>        data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb33-542"><a href="#cb33-542"></a>        <span class="co"># update our slope and intercept based on the current values</span></span>
+<span id="cb33-543"><a href="#cb33-543"></a>        m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
+<span id="cb33-544"><a href="#cb33-544"></a>        b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
+<span id="cb33-545"><a href="#cb33-545"></a>    </span>
+<span id="cb33-546"><a href="#cb33-546"></a>        <span class="co"># calculate the loss value</span></span>
+<span id="cb33-547"><a href="#cb33-547"></a>        loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
+<span id="cb33-548"><a href="#cb33-548"></a>        </span>
+<span id="cb33-549"><a href="#cb33-549"></a>        <span class="co"># keep a history of our loss values</span></span>
+<span id="cb33-550"><a href="#cb33-550"></a>        loss_history.append(loss_value)</span>
+<span id="cb33-551"><a href="#cb33-551"></a>    <span class="co">#loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)</span></span>
+<span id="cb33-552"><a href="#cb33-552"></a>    <span class="cf">return</span> m, b, np.mean(loss(x,y,m,b))</span>
+<span id="cb33-553"><a href="#cb33-553"></a><span class="in">```</span></span>
+<span id="cb33-554"><a href="#cb33-554"></a></span>
+<span id="cb33-555"><a href="#cb33-555"></a><span class="fu">## Minibatch training</span></span>
+<span id="cb33-556"><a href="#cb33-556"></a></span>
+<span id="cb33-559"><a href="#cb33-559"></a><span class="in">```{python}</span></span>
+<span id="cb33-560"><a href="#cb33-560"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
 <span id="cb33-561"><a href="#cb33-561"></a></span>
-<span id="cb33-562"><a href="#cb33-562"></a><span class="cf">for</span> bs <span class="kw">in</span> <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>, <span class="dv">512</span>:</span>
-<span id="cb33-563"><a href="#cb33-563"></a>    m, b, l <span class="op">=</span> train(bs, epochs<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb33-564"><a href="#cb33-564"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb33-565"><a href="#cb33-565"></a><span class="in">```</span></span>
-<span id="cb33-566"><a href="#cb33-566"></a></span>
-<span id="cb33-567"><a href="#cb33-567"></a>We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene</span>
-<span id="cb33-568"><a href="#cb33-568"></a></span>
-<span id="cb33-569"><a href="#cb33-569"></a><span class="fu">## Learning rate</span></span>
-<span id="cb33-570"><a href="#cb33-570"></a></span>
-<span id="cb33-573"><a href="#cb33-573"></a><span class="in">```{python}</span></span>
-<span id="cb33-574"><a href="#cb33-574"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
-<span id="cb33-575"><a href="#cb33-575"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
-<span id="cb33-576"><a href="#cb33-576"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
-<span id="cb33-577"><a href="#cb33-577"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
-<span id="cb33-578"><a href="#cb33-578"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb33-579"><a href="#cb33-579"></a><span class="in">```</span></span>
-<span id="cb33-580"><a href="#cb33-580"></a></span>
-<span id="cb33-581"><a href="#cb33-581"></a>We can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size. </span>
+<span id="cb33-562"><a href="#cb33-562"></a></span>
+<span id="cb33-563"><a href="#cb33-563"></a><span class="cf">for</span> bs <span class="kw">in</span> <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>, <span class="dv">512</span>:</span>
+<span id="cb33-564"><a href="#cb33-564"></a>    m, b, l <span class="op">=</span> train(bs, epochs<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb33-565"><a href="#cb33-565"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-566"><a href="#cb33-566"></a><span class="in">```</span></span>
+<span id="cb33-567"><a href="#cb33-567"></a></span>
+<span id="cb33-568"><a href="#cb33-568"></a>We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene</span>
+<span id="cb33-569"><a href="#cb33-569"></a></span>
+<span id="cb33-570"><a href="#cb33-570"></a><span class="fu">## Learning rate</span></span>
+<span id="cb33-571"><a href="#cb33-571"></a></span>
+<span id="cb33-574"><a href="#cb33-574"></a><span class="in">```{python}</span></span>
+<span id="cb33-575"><a href="#cb33-575"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
+<span id="cb33-576"><a href="#cb33-576"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
+<span id="cb33-577"><a href="#cb33-577"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
+<span id="cb33-578"><a href="#cb33-578"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
+<span id="cb33-579"><a href="#cb33-579"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-580"><a href="#cb33-580"></a><span class="in">```</span></span>
+<span id="cb33-581"><a href="#cb33-581"></a></span>
+<span id="cb33-582"><a href="#cb33-582"></a>We can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size. </span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
