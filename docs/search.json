@@ -377,7 +377,7 @@
     "href": "content/00-intro-AI-HPC/6-linear-regression/index.html#learning-rate-issue-bonus",
     "title": "Artificial intelligence in a nutshell",
     "section": "Learning rate issue (Bonus)",
-    "text": "Learning rate issue (Bonus)\nAs described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge.\n(64, 1e-7, 1e-1)*1\n(64, 1e-7, 1e-1)*2\n(64, 1e-7, 1e-1)*4\n(64, 1e-7, 1e-1)*8\n...\nHow to submit your homework\n\nFork the github repo to your personal github\nMake change to the 01_linear_regression_sgd.ipynb, and then push to your personal github\nProvide the link of 01_linear_regression_sgd in the personal github.\n\nFollow the below instruction on how to do this: https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md",
+    "text": "Learning rate issue (Bonus)\nAs described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge.\n(64, 1e-7, 1e-1)*1\n(64, 1e-7, 1e-1)*2\n(64, 1e-7, 1e-1)*4\n(64, 1e-7, 1e-1)*8\n...\nHow to submit your homework\n\nFork the github repo to your personal github\nMake change to the 01_linear_regression_sgd.ipynb, and then push to your personal github\nProvide the link of 01_linear_regression_sgd in the personal github.",
     "crumbs": [
       "[00] Intro to AI and HPC",
       "[6] Linear Regression"
@@ -388,7 +388,7 @@
     "href": "content/00-intro-AI-HPC/6-linear-regression/index.html#minibatch-training",
     "title": "Artificial intelligence in a nutshell",
     "section": "Minibatch training",
-    "text": "Minibatch training\n\nprint('previously calculated: y_i = %.2f * x + %.2f    loss: %f\\n=======================================' % (m_calc,b_calc,loss_value))\n\n\nfor bs in 64, 128, 256, 512:\n    m, b, l = train(bs, epochs=30)\n    print(f\"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}\")\n\npreviously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291\n=======================================\nbatch size: 64, m=91.6236, b=30817.9473, loss=1484610975.0902\nbatch size: 128, m=90.3708, b=35165.1373, loss=1497299207.9574\nbatch size: 256, m=87.8377, b=34044.4248, loss=1478036962.1827\nbatch size: 512, m=89.2189, b=32743.8098, loss=1478446270.2546\n\n\nWe see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene",
+    "text": "Minibatch training\n\nprint('previously calculated: y_i = %.2f * x + %.2f    loss: %f\\n=======================================' % (m_calc,b_calc,loss_value))\n\n\nfor bs in 64, 128, 256, 512:\n    m, b, l = train(bs, epochs=30)\n    print(f\"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}\")\n\npreviously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291\n=======================================\nbatch size: 64, m=86.8271, b=29775.7009, loss=1516309699.0500\nbatch size: 128, m=90.4793, b=31079.8373, loss=1479986793.7151\nbatch size: 256, m=86.3628, b=35960.8373, loss=1478698868.6914\nbatch size: 512, m=88.7783, b=33405.8255, loss=1478142876.1533\n\n\nWe see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene",
     "crumbs": [
       "[00] Intro to AI and HPC",
       "[6] Linear Regression"
@@ -399,7 +399,7 @@
     "href": "content/00-intro-AI-HPC/6-linear-regression/index.html#learning-rate",
     "title": "Artificial intelligence in a nutshell",
     "section": "Learning rate",
-    "text": "Learning rate\n\nfor i in 1, 2, 4, 8:\n    bs, lrm, lrb = np.array([64, 1e-7, 1e-1])*i\n    bs = int(bs)\n    m, b, l = train(int(bs), epochs=30, learning_rate_m = lrm, learning_rate_b = lrb)\n    print(f\"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}\")\n\nbatch size: 64, m=86.5216, b=35496.7904, loss=1478964960.1023\nbatch size: 128, m=91.9428, b=28778.7187, loss=1482753881.8129\nbatch size: 256, m=92.4741, b=30307.6188, loss=1489326443.1923\nbatch size: 512, m=38828.2346, b=56522091.8819, loss=12740514069383688.0000\n\n\nWe can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size.",
+    "text": "Learning rate\n\nfor i in 1, 2, 4, 8:\n    bs, lrm, lrb = np.array([64, 1e-7, 1e-1])*i\n    bs = int(bs)\n    m, b, l = train(int(bs), epochs=30, learning_rate_m = lrm, learning_rate_b = lrb)\n    print(f\"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}\")\n\nbatch size: 64, m=89.6547, b=34165.1186, loss=1483595671.6631\nbatch size: 128, m=88.0039, b=34035.0533, loss=1477884365.8506\nbatch size: 256, m=83.3510, b=37836.6704, loss=1492092921.4820\nbatch size: 512, m=144954.2815, b=-98364039.5467, loss=16908967819933548.0000\n\n\nWe can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size.",
     "crumbs": [
       "[00] Intro to AI and HPC",
       "[6] Linear Regression"
@@ -443,7 +443,7 @@
     "href": "content/00-intro-AI-HPC/2-jupyter-notebooks/index.html#server-shutdown-logout",
     "title": "Jupyter Notebooks on ThetaGPU",
     "section": "Server shutdown & logout",
-    "text": "Server shutdown & logout\nALCF’s guiding policy is:\n\n“We ask that all users follow good etiquette and be excellent to one another.”\n\nIf you simply close your browser window, or logout without shutting down the jupyter server, your job will continue to occupy the worker node. Be considerate and shutdown your job when you finish.\n\n\n\nShutdown GIF\n\n\nNEXT -&gt;",
+    "text": "Server shutdown & logout\nALCF’s guiding policy is:\n\n“We ask that all users follow good etiquette and be excellent to one another.”\n\nIf you simply close your browser window, or logout without shutting down the jupyter server, your job will continue to occupy the worker node. Be considerate and shutdown your job when you finish.\n\n\n\nShutdown GIF",
     "crumbs": [
       "[00] Intro to AI and HPC",
       "[2] Jupyter Notebooks"
@@ -833,7 +833,7 @@
     "href": "content/02-llms/0-intro-to-llms/index.html#sophia-setup",
     "title": "Intro to HPC Bootcamp 2025",
     "section": "Sophia Setup",
-    "text": "Sophia Setup\n\nIf you are using ALCF, first log in. From a terminal run the following command:\n\nssh username@sophia.alcf.anl.gov\n\nAlthough we already cloned the repo before, you’ll want the updated version. To be reminded of the instructions for syncing your fork, click here.\nNow that we have the updated notebooks, we can open them. If you are using ALCF JupyterHub or Google Colab, you can be reminded of the steps here.\nReminder: Change the notebook’s kernel to datascience/conda-2024-08-08 (you may need to change kernel each time you open a notebook for the first time):\n\nselect Kernel in the menu bar\nselect Change kernel…\nselect datascience/conda-2024-08-08 from the drop-down menu",
+    "text": "Sophia Setup\n\nIf you are using ALCF, first log in. From a terminal run the following command:\n\nssh username@sophia.alcf.anl.gov\n\nAlthough we already cloned the repo before, you’ll want the updated version. \nNow that we have the updated notebooks, we can open them. If you are using ALCF JupyterHub or Google Colab, you can be reminded of the steps here.\nReminder: Change the notebook’s kernel to datascience/conda-2024-08-08 (you may need to change kernel each time you open a notebook for the first time):\n\nselect Kernel in the menu bar\nselect Change kernel…\nselect datascience/conda-2024-08-08 from the drop-down menu",
     "crumbs": [
       "[02] Large Language Models",
       "[0] Intro to LLMs"

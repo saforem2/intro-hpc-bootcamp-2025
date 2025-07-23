@@ -20,7 +20,10 @@ This tutorial covers the some fundamental concepts necessary to to study of larg
 ssh username@sophia.alcf.anl.gov
 ```
 
-2. Although we already cloned the repo before, you'll want the updated version.  To be reminded of the instructions for syncing your fork, click [here](https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md).
+2. Although we already cloned the repo before, you'll want the updated version.
+   <!--
+   To be reminded of the instructions for syncing your fork, click [here](https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md).
+   -->
 
 3. Now that we have the updated notebooks, we can open them. If you are using ALCF JupyterHub or Google Colab, you can be reminded of the steps [here](https://github.com/argonne-lcf/ai-science-training-series/blob/main/01_intro_AI_on_Supercomputer/01_linear_regression_sgd.ipynb). 
 

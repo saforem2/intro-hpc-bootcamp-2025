@@ -43,9 +43,7 @@ of large language models (LLMs).
     ssh username@sophia.alcf.anl.gov
 
 2.  Although we already cloned the repo before, you’ll want the updated
-    version. To be reminded of the instructions for syncing your fork,
-    click
-    [here](https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md).
+    version.
 
 3.  Now that we have the updated notebooks, we can open them. If you are
     using ALCF JupyterHub or Google Colab, you can be reminded of the

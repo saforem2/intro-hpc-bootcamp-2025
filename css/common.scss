@@ -878,7 +878,7 @@ img a:hover {
 }
 
 div.sidebar.sidebar-navigation.rollup.quarto-sidebar-toggle-contents, nav.sidebar.sidebar-navigation:not(.rollup) {
-	background-color: rgba(0,0,0,0.0);
+	background-color: $body-bg;
 }
 
 .sidebar.sidebar-navigation > * {

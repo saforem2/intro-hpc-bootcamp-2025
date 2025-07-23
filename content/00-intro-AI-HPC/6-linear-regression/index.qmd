@@ -480,8 +480,10 @@ As described above, if the learning rate is too large, it will affect the conver
 - Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github
 - Provide the link of 01_linear_regression_sgd in the personal github. 
 
+<!--
 Follow the below instruction on how to do this: 
 https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md
+-->
 
 # Homework answer
 

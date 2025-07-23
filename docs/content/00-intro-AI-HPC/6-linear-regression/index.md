@@ -603,9 +603,6 @@ and learning rate until you see the training does not converge.
   your personal github
 - Provide the link of 01_linear_regression_sgd in the personal github.
 
-Follow the below instruction on how to do this:
-https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md
-
 # Homework answer
 
 Let us define a train function which allow us to try different
@@ -651,10 +648,10 @@ for bs in 64, 128, 256, 512:
 
     previously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291
     =======================================
-    batch size: 64, m=87.1842, b=36684.7767, loss=1479342563.5777
-    batch size: 128, m=85.4361, b=35156.3702, loss=1486839605.9575
-    batch size: 256, m=88.7383, b=35055.1679, loss=1481251749.0051
-    batch size: 512, m=88.9547, b=32714.6810, loss=1478287875.6166
+    batch size: 64, m=84.9390, b=39736.9451, loss=1481094476.3962
+    batch size: 128, m=88.0674, b=32609.6343, loss=1480414653.0240
+    batch size: 256, m=89.2466, b=32838.7659, loss=1478526569.7046
+    batch size: 512, m=88.8049, b=33210.2098, loss=1478125055.9181
 
 We see that eventually, we all get similar results with the minibatch
 training. Of course, here, we still keep the same learning rate. A gene
@@ -669,10 +666,10 @@ for i in 1, 2, 4, 8:
     print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    batch size: 64, m=89.6272, b=33435.6489, loss=1480807196.6681
-    batch size: 128, m=87.4666, b=30970.8066, loss=1494566183.7535
-    batch size: 256, m=89.0486, b=34667.2563, loss=1481633939.7021
-    batch size: 512, m=65904.8696, b=23461010.0801, loss=14667822103852094.0000
+    batch size: 64, m=89.5698, b=35762.8371, loss=1492135307.2394
+    batch size: 128, m=84.8458, b=37329.8015, loss=1482034606.9010
+    batch size: 256, m=87.3798, b=37819.9602, loss=1484733609.9185
+    batch size: 512, m=64166.0274, b=18687646.0335, loss=12981155296190482.0000
 
 We can see that, if we increase the batch size and the learning rate
 proportionally, at certain point, it does not converge for example for
