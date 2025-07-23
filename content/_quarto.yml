@@ -237,7 +237,8 @@ website:
   title: "Intro to HPC Bootcamp 2025"
   description: "An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience."
   image: assets/thumbnail.png
-  favicon: 🧑‍💻
+  favicon: assets/favicon-sf.svg
+  # favicon: 🧑‍💻
   # favicon: assets/favicon-sf.svg
   # favicon: assets/home-openmoji.svg
   page-navigation: true
@@ -245,6 +246,34 @@ website:
   # google-analytics: GTM-TC329HJ
   # google-analytics: G-XVM2Y822Y1
   # GTM-TC329HJ
+  # date-modified: last-modified
+  # link-external-newwindow: true
+  # link-external-icon: false
+  # callout-appearance: simple
+  # code-tools: true
+  # code-link: true
+  # code-line-numbers: true
+  # toc: true
+  # self-contained: false
+  # default-image-extension: svg
+  # toc-title: ""
+  # page-layout: article
+  # grid:
+  #   body-width: 1000px
+  #   margin-width: 250px
+  #   sidebar-width: 250px
+  #   # gutter-width: 1.5rem
+  # fig-align: center
+  # fig-responsive: true
+  # anchor-sections: true
+  # code-overflow: scroll
+  # code-copy: hover
+  # code-summary: " "
+  # citations-hover: true
+  # crossrefs-hover: true
+  # html-math-method: katex
+  # footnotes-hover: true
+  # section-divs: true
   site-url: "https://saforem2.github.io/hpc-bootcamp-2025/"
   repo-url: https://github.com/saforem2/intro-hpc-bootcamp-2025
   repo-actions: [source, edit, issue]

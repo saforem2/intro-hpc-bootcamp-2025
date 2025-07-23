@@ -17,7 +17,7 @@
    ```bash
    uv venv --python=3.13
    source .venv/bin/activate
-   uv pip install jupyter-cache ipykernel matplotlib torch torchvision torchdata torchinfo rich ptpython euporie deepspeed mpi4py "git+https://github.com/saforem2/ezpz[dev]" "git+https://github.com/saforem2/wordplay"
+   uv pip install jupyter-cache ipykernel matplotlib torch torchvision torchdata torchinfo rich ptpython euporie deepspeed mpi4py bertviz "git+https://github.com/saforem2/ezpz[dev]" "git+https://github.com/saforem2/wordplay"
    python3 -m wordplay.prepare
    python3 -m ipykernel install --sys-prefix
    ```
@@ -32,5 +32,5 @@
 5. Build the site:
 
    ```bash
-   quarto preview
+   quarto preview content
    ```
