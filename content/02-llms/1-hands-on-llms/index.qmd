@@ -1,74 +1,111 @@
 ---
-jupyter: python3
+# jupyter: python3
+title: "Hands On: Introduction to Large Language Models (LLMs)"
+description: "An introduction to Large Language Models (LLMs), their architecture, and how they can be applied to scientific applications."
+date: 2025-07-23
+date-modified: last-modified
 ---
 
 <a href="https://colab.research.google.com/github/argonne-lcf/ai-science-training-series/blob/main/04_intro_to_llms/IntroLLMs.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-# Introduction to Language models (LMs)
+::: {.callout-note title="Authors" collapse="false"}
 
-Author: Archit Vasan , including materials on LLMs by Varuni Sastri and Carlo Graziani at Argonne, and discussion/editorial work by Taylor Childers, Bethany Lusch, and Venkat Vishwanath (Argonne)
+Content in this notebook is modified from content originally written by:
 
-Inspiration from the blog posts "The Illustrated Transformer" and "The Illustrated GPT2" by Jay Alammar, highly recommended reading.
+- Archit Vasan, Huihuo Zheng, Marieme Ngom, Bethany Lusch, Taylor Childers,
+  Venkat Vishwanath
 
-Although the name "language models" is derived from Natural Language Processing, the models used in these approaches can be applied to diverse scientific applications as illustrated below.
+Inspiration from the blog posts "The Illustrated Transformer" and "The
+Illustrated GPT2" by Jay Alammar, highly recommended reading.
+
+:::
+
+Although the name "language models" is derived from Natural Language
+Processing, the models used in these approaches can be applied to diverse
+scientific applications as illustrated below.
+
 
 ## Outline
+
 During this session I will cover:
+
 1. Scientific applications for language models
 2. General overview of Transformers
 3. Tokenization
 4. Model Architecture
-5. Pipeline using HuggingFace  
+5. Pipeline using HuggingFace
 6. Model loading
 
 ## Modeling Sequential Data
 
-Sequences are variable-length lists with data in subsequent iterations that depends on previous iterations (or tokens).
+Sequences are variable-length lists with data in subsequent iterations that
+depends on previous iterations (or tokens).
 
 Mathematically:
-A sequence is a list of tokens: $$T = [t_1, t_2, t_3,...,t_N]$$ where each token within the list depends on the others with a particular probability:
+
+A sequence is a list of tokens:
+
+$$T = [t_1, t_2, t_3,...,t_N]$$
+
+where each token within the list depends on the others with a particular
+probability:
 
 $$P(t_N | t_{N-1}, ..., t_3, t_2, t_1)$$
 
-The purpose of sequential modeling is to learn these probabilities for possible tokens in a distribution to perform various tasks including:
-* Sequence generation based on a prompt
-* Language translation (e.g. English --> French)
-* Property prediction (predicting a property based on an entire sequence)
-* Identifying mistakes or missing elements in sequential data
+The purpose of sequential modeling is to learn these probabilities for possible
+tokens in a distribution to perform various tasks including:
+
+- Sequence generation based on a prompt
+- Language translation (e.g. English --> French)
+- Property prediction (predicting a property based on an entire sequence)
+- Identifying mistakes or missing elements in sequential data
 
 ## Scientific sequential data modeling examples
 
- ### Nucleic acid sequences + genomic data
+### Nucleic acid sequences \+ genomic data
 
- <div style="text-align: center">
-<img src="https://github.com/architvasan/ai_science_local/blob/main/images/RNA-codons.svg.png?raw=1"
- width="200">
-</div>
+::: {#fig-RNA-codons}
+
+![](https://github.com/architvasan/ai_science_local/blob/main/images/RNA-codons.svg.png?raw=1)
+
+RNA Codons
+:::
 
 Nucleic acid sequences can be used to predict translation of proteins, mutations, and gene expression levels.
 
 Here is an image of GenSLM. This is a language model developed by Argonne researchers that can model genomic information in a single model. It was shown to model the evolution of SARS-COV2 without expensive experiments.
 
-<div>
 
-<img src="https://github.com/architvasan/ai_science_local/blob/main/images/genslm.png?raw=1" width="450"/>
-</div>
+::: {#fig-genslm}
 
+![](https://github.com/architvasan/ai_science_local/blob/main/images/genslm.png?raw=1)
+
+Genomic Scale Language Models (GenSLM)
 [Zvyagin et. al 2022. BioRXiv](https://www.biorxiv.org/content/10.1101/2022.10.10.511571v1)
+:::
 
 ### Protein sequences
+
 Protein sequences can be used to predict folding structure, protein-protein interactions, chemical/binding properties, protein function and many more properties.
-<div>
-<img src="https://github.com/architvasan/ai_science_local/blob/main/images/Protein-Structure-06.png?raw=1" width="400"/>
-</div>
 
-<div>
-<img src="https://github.com/argonne-lcf/ai-science-training-series/blob/main/04_intro_to_llms/images/ESMFold.png?raw=1" width="700"/>
-</div>
+::: {#fig-protein-structure}
 
+![](https://github.com/architvasan/ai_science_local/blob/main/images/Protein-Structure-06.png?raw=1)
+
+Protein Structure
+:::
+
+
+::: {#fig-esmfold}
+
+![](https://github.com/argonne-lcf/ai-science-training-series/blob/main/04_intro_to_llms/images/ESMFold.png?raw=1)
+
+ESMFold
 [Lin et. al. 2023. Science](https://www.science.org/doi/10.1126/science.ade2574)
+:::
 
-### Other applications:
+
+### Other applications
 
 * Biomedical text
 * SMILES strings
@@ -83,27 +120,52 @@ We will now briefly talk about the progression of language models.
 
 The most common LMs base their design on the Transformer architecture that was introduced in 2017 in the "Attention is all you need" paper.
 
-<div>
-<img src="https://github.com/architvasan/ai_science_local/blob/main/images/attention_is_all_you_need.png?raw=1" width="500"/>
-</div>
 
+::: {#fig-attention-is-all-you-need}
+
+![](https://github.com/architvasan/ai_science_local/blob/main/images/attention_is_all_you_need.png?raw=1)
+
+Attention is all you need
 [Vaswani 2017. Advances in Neural Information Processing Systems](https://arxiv.org/pdf/1706.03762)
+:::
+
 
 Since then a multitude of LLM architectures have been designed.
 
-<div>
-<img src="https://github.com/architvasan/ai_science_local/blob/main/images/en_chapter1_transformers_chrono.svg?raw=1" width="600"/>
-</div>
+::: {#fig-ch1-transformers}
+
+![](https://github.com/architvasan/ai_science_local/blob/main/images/en_chapter1_transformers_chrono.svg?raw=1)
+
+Transformers, chronologically
+:::
 
 [HuggingFace NLP Course](https://huggingface.co/learn/nlp-course/chapter1/4)
 
 ## Coding example of LLMs in action!
 
-Let's look at an example of running inference with a LLM as a block box to generate text given a prompt and we will also initiate a training loop for an LLM:
+Let's look at an example of running inference with a LLM as a block box to
+generate text given a prompt and we will also initiate a training loop for an
+LLM
 
-Here, we will use the `transformers` library which is as part of HuggingFace, a repository of different models, tokenizers and information on how to apply these models
+Here, we will use the `transformers` library which is as part of HuggingFace, a
+repository of different models, tokenizers and information on how to apply
+these models
 
-*Warning: Large Language Models are only as good as their training data. They have no ethics, no judgement, or editing ability. We will be using some pretrained models from Hugging Face which used wide samples of internet hosted text. The datasets have not been strictly filtered to restrict all malign content so the generated text may be surprisingly dark or questionable. They do not reflect our core values and are only used for demonstration purposes.*
+::: {.callout-warning collapse="false" title="🦜 Stochastic Parrots"}
+
+**Warning**: _Large Language Models are only as good as their training data_.
+
+They have no ethics, judgement, or editing ability.
+
+We will be using some pretrained models from Hugging Face which used wide
+samples of internet hosted text.
+
+The datasets have not been strictly filtered to restrict all malign content so
+the generated text may be surprisingly dark or questionable.
+
+They do not reflect our core values and are only used for demonstration
+purposes.
+:::
 
 ```{python}
 #| colab: {base_uri: https://localhost:8080/, height: 35}
@@ -120,9 +182,21 @@ Uncomment below section if running on sophia jupyter notebook
 
 ```{python}
 #| colab: {base_uri: https://localhost:8080/}
+#| output: false
 !pip install transformers
 !pip install pandas
 !pip install torch
+```
+
+```{python}
+import ambivalent
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.style.use(ambivalent.STYLES['ambivalent'])
+sns.set_context("notebook")
+plt.rcParams["figure.figsize"] = [6.4, 4.8]
 ```
 
 ```{python}
@@ -136,6 +210,7 @@ generator(input_text, max_length=20, num_return_sequences=5)
 ```
 
 ## What's going on under the hood?
+
 There are two components that are "black-boxes" here:
 
 1. The method for tokenization
@@ -316,6 +391,7 @@ We are going to use the powerful visualization tool bertviz, which allows an int
 
 ```{python}
 #| colab: {base_uri: https://localhost:8080/}
+#| output: false
 !pip install bertviz
 ```
 

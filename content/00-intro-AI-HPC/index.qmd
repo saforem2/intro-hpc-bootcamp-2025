@@ -33,11 +33,12 @@ date-modified: last-modified
 
 ## Contents
 
-- [0-compute-systems](./0-compute-systems/index.qmd)
-- [1-shared-resources](./1-shared-resources/index.qmd)
-- [2-jupyter-notebooks](./2-jupyter-notebooks/index.qmd)
-- [3-homework](./3-homework/index.qmd)
-- [4-nersc](./4-nersc/index.qmd)
+- 📂 [00-intro-AI-HPC/](./index.qmd)
+  - 📄 [0-compute-systems](./0-compute-systems/index.qmd)
+  - 📄 [1-shared-resources](./1-shared-resources/index.qmd)
+  - 📗 [2-jupyter-notebooks](./2-jupyter-notebooks/index.qmd)
+  - 📄 [3-homework](./3-homework/index.qmd)
+  - 📄 [4-nersc](./4-nersc/index.qmd)
 
 <!--
 Recording for this lecture will be here: https://www.alcf.anl.gov/events/intro-ai-series-intro-artificial-intelligence-supercomputers

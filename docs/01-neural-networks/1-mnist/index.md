@@ -15,6 +15,8 @@ Sam Foreman, Marieme Ngom, Huihuo Zheng, Bethany Lusch, Taylor Childers
 - [Homework](#homework)
 - [Homework solution](#homework-solution)
 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/1-hands-on-llms/index.ipynb)
+
 > [!NOTE]
 >
 > Content for this tutorial has been modified from content originally
@@ -134,7 +136,7 @@ Let’s take a closer look. Here are the first 10 training digits:
 
 ``` python
 pltsize=1
-plt.figure(figsize=(10*pltsize, pltsize))
+# plt.figure(figsize=(10*pltsize, pltsize))
 
 for i in range(10):
     plt.subplot(1,10,i+1)
@@ -334,18 +336,18 @@ for j in range(epochs):
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    Epoch 0: training loss: 0.5019417692820232, accuracy: 87.65625
-    Epoch 0: val. loss: 0.49453334890781564, val. accuracy: 87.75833333333334
-    Epoch 1: training loss: 0.42155386352539065, accuracy: 89.01041666666667
-    Epoch 1: val. loss: 0.4124343642529021, val. accuracy: 88.98333333333333
-    Epoch 2: training loss: 0.38763896147410076, accuracy: 89.67291666666667
-    Epoch 2: val. loss: 0.3779091825510593, val. accuracy: 89.54166666666666
-    Epoch 3: training loss: 0.3677106781403224, accuracy: 90.1125
-    Epoch 3: val. loss: 0.3577830016295961, val. accuracy: 90.00833333333334
-    Epoch 4: training loss: 0.35415473226706184, accuracy: 90.43541666666667
-    Epoch 4: val. loss: 0.34422522688165624, val. accuracy: 90.25
-    CPU times: user 12.4 s, sys: 837 ms, total: 13.2 s
-    Wall time: 13.1 s
+    Epoch 0: training loss: 0.5025057712395986, accuracy: 87.54375
+    Epoch 0: val. loss: 0.4949572016584112, val. accuracy: 87.54166666666666
+    Epoch 1: training loss: 0.42195725258191424, accuracy: 88.94583333333334
+    Epoch 1: val. loss: 0.41266093292134876, val. accuracy: 88.775
+    Epoch 2: training loss: 0.387925906141599, accuracy: 89.62916666666668
+    Epoch 2: val. loss: 0.3779900108880185, val. accuracy: 89.43333333333334
+    Epoch 3: training loss: 0.36791757301489514, accuracy: 90.08749999999999
+    Epoch 3: val. loss: 0.35776667407852536, val. accuracy: 89.91666666666667
+    Epoch 4: training loss: 0.35430582706133523, accuracy: 90.40833333333333
+    Epoch 4: val. loss: 0.34414399415254593, val. accuracy: 90.25
+    CPU times: user 12.2 s, sys: 713 ms, total: 12.9 s
+    Wall time: 12.6 s
 
 ``` python
 pltsize=1
@@ -398,7 +400,7 @@ acc_test, loss_test = evaluate(test_dataloader, linear_model, loss_fn)
 print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
-    Test loss: 0.3323, test accuracy: 90.83%
+    Test loss: 0.3325, test accuracy: 90.82%
 
 We can now take a closer look at the results.
 
@@ -583,17 +585,17 @@ for j in range(epochs):
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    Epoch 0: training loss: 0.8326800467173259, accuracy: 75.37916666666666
-    Epoch 0: val. loss: 0.8224604630723913, val. accuracy: 75.5
-    Epoch 1: training loss: 0.39998693362871807, accuracy: 88.33958333333334
-    Epoch 1: val. loss: 0.39147761892131033, val. accuracy: 88.13333333333333
-    Epoch 2: training loss: 0.3035385671059291, accuracy: 91.22708333333334
-    Epoch 2: val. loss: 0.29642046211247747, val. accuracy: 90.95833333333333
-    Epoch 3: training loss: 0.2532479837536812, accuracy: 92.63333333333334
-    Epoch 3: val. loss: 0.2517396567508261, val. accuracy: 92.36666666666666
-    Epoch 4: training loss: 0.20894792079925537, accuracy: 93.9125
-    Epoch 4: val. loss: 0.21075309147226048, val. accuracy: 93.51666666666667
-    CPU times: user 13.1 s, sys: 986 ms, total: 14.1 s
+    Epoch 0: training loss: 0.8384387362798055, accuracy: 74.78958333333333
+    Epoch 0: val. loss: 0.8399026577777051, val. accuracy: 74.40833333333333
+    Epoch 1: training loss: 0.39524854520956676, accuracy: 88.80416666666666
+    Epoch 1: val. loss: 0.39328785462582366, val. accuracy: 88.625
+    Epoch 2: training loss: 0.2915764428774516, accuracy: 91.71249999999999
+    Epoch 2: val. loss: 0.2868045774546075, val. accuracy: 91.55
+    Epoch 3: training loss: 0.24042355535427729, accuracy: 93.09375
+    Epoch 3: val. loss: 0.23711574006270855, val. accuracy: 92.98333333333333
+    Epoch 4: training loss: 0.20882231179873148, accuracy: 93.97708333333334
+    Epoch 4: val. loss: 0.21011522150737175, val. accuracy: 93.7
+    CPU times: user 13.2 s, sys: 911 ms, total: 14.1 s
     Wall time: 13.7 s
 
 ``` python
@@ -731,22 +733,22 @@ for j in range(epochs):
 ```
 
     Epoch 1/6, Learning Rate: 0.1
-    Epoch 0: training loss: 0.3724592179507017, accuracy: 89.16875
-    Epoch 0: val. loss: 0.35989899677038195, val. accuracy: 89.2
+    Epoch 0: training loss: 0.3647457490811745, accuracy: 89.48125
+    Epoch 0: val. loss: 0.35504370160897575, val. accuracy: 89.48333333333333
     Epoch 2/6, Learning Rate: 0.010000000000000002
-    Epoch 1: training loss: 0.2524490567247073, accuracy: 92.45833333333333
-    Epoch 1: val. loss: 0.2413639495621125, val. accuracy: 92.51666666666667
+    Epoch 1: training loss: 0.25263923656071224, accuracy: 92.52916666666667
+    Epoch 1: val. loss: 0.2470438565214475, val. accuracy: 92.56666666666666
     Epoch 3/6, Learning Rate: 0.010000000000000002
-    Epoch 2: training loss: 0.231600853258123, accuracy: 93.16250000000001
-    Epoch 2: val. loss: 0.2229825319002072, val. accuracy: 93.20833333333334
+    Epoch 2: training loss: 0.22962171956027547, accuracy: 93.25625
+    Epoch 2: val. loss: 0.22448390883704025, val. accuracy: 93.21666666666667
     Epoch 4/6, Learning Rate: 0.0010000000000000002
-    Epoch 3: training loss: 0.22557585212712486, accuracy: 93.36041666666667
-    Epoch 3: val. loss: 0.21765362410744032, val. accuracy: 93.31666666666666
+    Epoch 3: training loss: 0.22187904121975105, accuracy: 93.43333333333334
+    Epoch 3: val. loss: 0.21712347280979155, val. accuracy: 93.44166666666666
     Epoch 5/6, Learning Rate: 0.0010000000000000002
-    Epoch 4: training loss: 0.22345272558803358, accuracy: 93.35416666666667
-    Epoch 4: val. loss: 0.21569474031031133, val. accuracy: 93.41666666666667
+    Epoch 4: training loss: 0.22113818613563974, accuracy: 93.38958333333333
+    Epoch 4: val. loss: 0.21664778976639112, val. accuracy: 93.43333333333334
     Epoch 6/6, Learning Rate: 0.00010000000000000003
-    Epoch 5: training loss: 0.2226053462761144, accuracy: 93.4
-    Epoch 5: val. loss: 0.21482140025993188, val. accuracy: 93.43333333333334
-    CPU times: user 19.4 s, sys: 3.7 s, total: 23.1 s
-    Wall time: 21.2 s
+    Epoch 5: training loss: 0.22040408893426258, accuracy: 93.41874999999999
+    Epoch 5: val. loss: 0.21594954155385493, val. accuracy: 93.45833333333333
+    CPU times: user 19.9 s, sys: 3.45 s, total: 23.4 s
+    Wall time: 22.5 s

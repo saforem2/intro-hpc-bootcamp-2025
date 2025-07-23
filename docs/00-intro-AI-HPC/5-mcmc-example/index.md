@@ -55,6 +55,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 import time
+from rich import print
 fig, ax = plt.subplots()
 #ax = fig.add_subplot(111)
 circle = plt.Circle(( 0. , 0. ), 0.5 )
@@ -83,10 +84,13 @@ print(f"Pi = {res/float(N/4.0)}")
 print("Time: %s" %(t1 - t0))
 ```
 
-    Pi = 3.096
-    Time: 20.088017225265503
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pi = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.136</span>
+</pre>
 
-![](index_files/figure-commonmark/cell-2-output-2.png)
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19.586968660354614</span>
+</pre>
+
+![](index_files/figure-commonmark/cell-2-output-3.png)
 
 ### MPI example
 
@@ -114,8 +118,11 @@ if comm.rank==0:
     print("Time: %s" %(t1 - t0))
 ```
 
-    3.1406328
-    Time: 2.8174331188201904
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1413384</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.836608648300171</span>
+</pre>
 
 ### Running $\pi$ example on Google Colab
 
@@ -129,16 +136,16 @@ if comm.rank==0:
 ! pip install mpi4py
 ```
 
-    --2025-07-23 08:52:09--  https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py
+    --2025-07-23 13:13:24--  https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py
     Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...
     Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
     HTTP request sent, awaiting response... 200 OK
     Length: 555 [text/plain]
-    Saving to: ‘mpi_pi.py.39’
+    Saving to: ‘mpi_pi.py.41’
 
-    mpi_pi.py.39          0%[                    ]       0  --.-KB/s               mpi_pi.py.39        100%[===================>]     555  --.-KB/s    in 0s      
+    mpi_pi.py.41          0%[                    ]       0  --.-KB/s               mpi_pi.py.41        100%[===================>]     555  --.-KB/s    in 0s      
 
-    2025-07-23 08:52:09 (21.2 MB/s) - ‘mpi_pi.py.39’ saved [555/555]
+    2025-07-23 13:13:24 (58.8 MB/s) - ‘mpi_pi.py.41’ saved [555/555]
 
     Requirement already satisfied: mpi4py in /opt/homebrew/lib/python3.11/site-packages (4.1.0)
 
@@ -147,24 +154,24 @@ if comm.rank==0:
 ```
 
     Number of processes: 1
-    Pi = 3.1414536
-    Time: 2.883116
+    Pi = 3.1419568
+    Time: 2.904698
 
 ``` python
 ! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 2
-    Pi = 3.1414488
-    Time: 1.536774
+    Pi = 3.1425624
+    Time: 1.429394
 
 ``` python
 ! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 4
-    Pi = 3.1416384
-    Time: 0.747621
+    Pi = 3.1422776
+    Time: 0.735125
 
 ### Running $\pi$ on Polaris
 

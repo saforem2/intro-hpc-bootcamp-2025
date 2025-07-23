@@ -1,5 +1,5 @@
-# Foundation Models
-Sam Foreman
+# Representation Learning with Neural Networks
+
 2025-07-22
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -7,12 +7,12 @@ Sam Foreman
 - [This notebook is not officially part of the
   course.](#this-notebook-is-not-officially-part-of-the-course)
 
-# This notebook is not officially part of the course.
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/4-representation-learning/index.ipynb)
+
+## This notebook is not officially part of the course.
 
 But you are welcome to look through it anyways, you can send questions
 on slack, and we are happy to talk about it.
-
-Author: Corey Adams
 
 The previous notebook trained a classifier network which did ok. But
 what if we didn’t have a lot of data? In this notebook, we’ll apply that
@@ -27,10 +27,12 @@ if sys.platform == "darwin":
 ```
 
 ``` python
-import numpy, random
+import numpy
+import random
 import torch
 import torchvision
 from torchvision.transforms import v2
+from rich import print
 
 
 import torch.distributed as dist
@@ -49,89 +51,78 @@ Here’s the Convolutional Neural Network Again:
 from torch import nn
 
 class Downsampler(nn.Module):
-
     def __init__(self, in_channels, out_channels, stride=2):
         super(Downsampler, self).__init__()
-
         self.norm = nn.InstanceNorm2d(in_channels)
-
         self.downsample = nn.Conv2d(
             in_channels=in_channels, 
             out_channels=out_channels,
             kernel_size = stride,
             stride = stride,
         )
-    
-    def forward(self, inputs):
 
+    def forward(self, inputs):
         return self.downsample(self.norm(inputs))
-        
-        
+
 
 class ConvNextBlock(nn.Module):
-    """This block of operations is loosely based on this paper:
-
-    """
-
-
     def __init__(self, in_channels):
         super(ConvNextBlock, self).__init__()
-
         # Depthwise, seperable convolution with a large number of output filters:
-        self.conv1 = nn.Conv2d(in_channels=in_channels, 
-                                     out_channels=in_channels, 
-                                     groups=in_channels,
-                                     kernel_size=[7,7],
-                                     padding='same' )
-
+        self.conv1 = nn.Conv2d(
+            in_channels=in_channels,
+            out_channels=in_channels,
+            groups=in_channels,
+            kernel_size=(7, 7),
+            padding='same'
+        )
         self.norm = nn.InstanceNorm2d(in_channels)
-
-        # Two more convolutions:
-        self.conv2 = nn.Conv2d(in_channels=in_channels, 
-                                     out_channels=4*in_channels,
-                                     kernel_size=1)
-
-        self.conv3 = nn.Conv2d(in_channels=4*in_channels, 
-                                     out_channels=in_channels,
-                                     kernel_size=1
-                                     )
+        self.conv2 = nn.Conv2d(
+            in_channels=in_channels,
+            out_channels=4*in_channels,
+            kernel_size=1
+        )
+        self.conv3 = nn.Conv2d(
+            in_channels=4*in_channels,
+            out_channels=in_channels,
+            kernel_size=1
+        )
 
 
     def forward(self, inputs):
-        x = self.conv1(inputs)
-
+        # x = self.conv1(inputs)
         # The normalization layer:
-        x = self.norm(x)
-
-        x = self.conv2(x)
-
+        # x = self.norm(x)
+        # x = self.conv2(x)
         # The non-linear activation layer:
-        x = torch.nn.functional.gelu(x)
-
-        x = self.conv3(x)
-
+        # x = torch.nn.functional.gelu(x)
+        # x = self.conv3(x)
         # This makes it a residual network:
-        return x + inputs
-    
+        return inputs + self.conv3(
+            torch.nn.functional.gelu(
+                self.conv2(
+                    self.norm(
+                        self.conv1(inputs)
+                    )
+                )
+            )
+        )
+
 
 class Classifier(nn.Module):
 
 
     def __init__(self, n_initial_filters, n_stages, blocks_per_stage, n_outputs):
         super(Classifier, self).__init__()
-
         # This is a downsampling convolution that will produce patches of output.
-
         # This is similar to what vision transformers do to tokenize the images.
         self.stem = nn.Conv2d(in_channels=3,
                                     out_channels=n_initial_filters,
                                     kernel_size=1,
                                     stride=1)
-        
         self.norm1 = nn.InstanceNorm2d(n_initial_filters)
 
         current_n_filters = n_initial_filters
-        
         self.layers = nn.Sequential()
         for n_blocks in range(n_stages):
             # Add a convnext block series:
@@ -141,8 +132,6 @@ class Classifier(nn.Module):
             self.layers.append(Downsampler(in_channels=current_n_filters, out_channels=2*current_n_filters))
             # Double the number of filters:
             current_n_filters = 2*current_n_filters
-
-
         self.head = nn.Sequential(
             nn.Flatten(),
             nn.LayerNorm(current_n_filters),
@@ -150,33 +139,24 @@ class Classifier(nn.Module):
         )
 
     def forward(self, inputs):
-
         x = self.stem(inputs)
         # Apply a normalization after the initial patching:
         x = self.norm1(x)
-
         # Apply the main chunk of the network:
         x = self.layers(x)
-
         # Normalize and readout:
         x = nn.functional.avg_pool2d(x, x.shape[2:])
         x = self.head(x)
-
         return x
 ```
 
 ``` python
 def create_representation_model(n_features, rank, size):
-
     model = Classifier(32, 2, 2, n_features)
-
-
     model.to(torch.get_default_device())
-
     return model
 
 model = create_representation_model(256, 0, 1)
-
 head = torch.nn.Sequential(
     nn.Linear(256,128),
 )
@@ -184,7 +164,6 @@ head = torch.nn.Sequential(
 head.to(torch.get_default_device())
 
 from torchinfo import summary
-    
 print(summary(model, input_size=(batch_size, 3, 32, 32)))
 print(summary(head, input_size=(batch_size, 256)))
 ```

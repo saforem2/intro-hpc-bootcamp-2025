@@ -21,6 +21,7 @@ execute:
 project:
   type: website
   output-dir: "../docs"
+  execute-dir: project
   preview:
     port: 4208
   render:
@@ -37,6 +38,7 @@ project:
     - "./02-llms/5-advanced-llms/index.qmd"
     - "./02-llms/6-parallel-training/index.qmd"
     - "./02-llms/7-shakespeare-example/index.qmd"
+    - "./02-llms/8-shakespeare-example-colab/index.ipynb"
     - "./03-ai-for-science/index.qmd"
     - "./03-ai-for-science/index.qmd"
     - "./03-ai-for-science/0-genslm/index.qmd"
@@ -428,6 +430,8 @@ website:
             href: "02-llms/6-parallel-training/index.qmd"
           - text: "[7] Shakespeare Example"
             href: "02-llms/7-shakespeare-example/index.qmd"
+          - text: "[8] Shakespeare Example (Colab)"
+            href: "02-llms/8-shakespeare-example-colab/index.ipynb"
 
       - id: 03-ai-for-science
         section: "[03] AI for Science"

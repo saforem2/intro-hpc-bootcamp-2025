@@ -18,10 +18,12 @@ Sam Foreman
 - [Putting it together](#putting-it-together)
 - [Homework](#homework)
   - [Mini Batch Training](#mini-batch-training)
-  - [Learning rate issue (Bonus)](#learning-rate-issue-bonus)
+- [Learning rate issue (Bonus)](#learning-rate-issue-bonus)
 - [Homework answer](#homework-answer)
   - [Minibatch training](#minibatch-training)
   - [Learning rate](#learning-rate)
+
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/6-linear-regression/index.ipynb)
 
 In this notebook, we will talk about:
 
@@ -48,11 +50,13 @@ Figure 1
 **How to run this notebook on Google Colab**
 
 - Go to https://colab.research.google.com/, sign in or sign up
+
 - “File”-\> “open notebook”
-- choose `01_intro_AI_on_Supercomputer/01_linear_regression_sgd.ipynb`
+
+- Choose `01_intro_AI_on_Supercomputer/01_linear_regression_sgd.ipynb`
   from the list
 
-![Google Colab](../figures/colab.png)
+  ![Google Colab](../figures/colab.png)
 
 ## What is AI training?
 
@@ -150,17 +154,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 import IPython.display as ipydis
 import time
+from rich import print
 ```
 
 ### Dataset
 
 We used a realestate dataset from Kaggle to produce this reduced
-dataset. This dataset contains the *sale price* and *above ground square
-feet* of many houses. We can use this data for our linear regression.
+dataset.
+
+This dataset contains the *sale price* and *above ground square feet* of
+many houses. We can use this data for our linear regression.
 
 We use Pandas to read the data file which is stored as Comma Separated
-Values (CSV). and print the column labels. CSV files are similar to
-excel sheets.
+Values (CSV) and print the column labels.
+
+CSV files are similar to excel sheets.
 
 ``` python
 ! [ -e ./slimmed_realestate_data.csv ] || wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv
@@ -168,12 +176,15 @@ data = pd.read_csv('slimmed_realestate_data.csv')
 print(data.columns)
 ```
 
-    Index(['Unnamed: 0', 'SalePrice', 'GrLivArea'], dtype='object')
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Index</span><span style="font-weight: bold">([</span><span style="color: #008000; text-decoration-color: #008000">'Unnamed: 0'</span>, <span style="color: #008000; text-decoration-color: #008000">'SalePrice'</span>, <span style="color: #008000; text-decoration-color: #008000">'GrLivArea'</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #008000; text-decoration-color: #008000">'object'</span><span style="font-weight: bold">)</span>
+</pre>
 
-Now pandas provides some helpful tools for us to inspect our data. It
-provides a `plot()` function that, behind the scenes, is calling into
+Now pandas provides some helpful tools for us to inspect our data.
+
+It provides a `plot()` function that, behind the scenes, is calling into
 the *Matplotlib* library and calling the function
 [matplotlib.pyplot.plot()](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html).
+
 In this case, we simply tell it the names of the columns we want as our
 *x* and *y* values and the `style` (`'.'` tells `matplotlib` to use a
 small dot to represent each data point).
@@ -252,7 +263,8 @@ m_calc = m
 b_calc = b
 ```
 
-    y = 87.688145 * x + 34754.077892
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.688145</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.077892</span>
+</pre>
 
 Now we can plot the fit results with our data to see how we did.
 
@@ -445,7 +457,7 @@ def updated_b(x,y,m,b,learning_rate):
    return b - learning_rate * dL_db
 ```
 
-# Putting it together
+## Putting it together
 
 We can now randomly select our initial slope and intercept:
 
@@ -455,7 +467,8 @@ b = 1000.
 print('y_i = %.2f * x + %.2f' % (m,b))
 ```
 
-    y_i = 5.00 * x + 1000.00
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.00</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>
+</pre>
 
 Then we can calculate our Loss function:
 
@@ -464,9 +477,10 @@ l = loss(x,y,m,b)
 print('first 10 loss values: ',l[:10])
 ```
 
-    first 10 loss values:  [3.03421561e+10 3.55511025e+10 1.24579082e+10 1.91656336e+10
-     1.60604929e+10 2.04432804e+10 1.72410030e+10 1.76517796e+10
-     1.52769600e+10 2.18152900e+10]
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">first <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> loss values:  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.03421561e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.55511025e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.24579082e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.91656336e+10</span>
+ <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.60604929e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.04432804e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.72410030e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.76517796e+10</span>
+ <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.52769600e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.18152900e+10</span><span style="font-weight: bold">]</span>
+</pre>
 
 ``` python
 learning_rate = 1e-9
@@ -476,7 +490,8 @@ print('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' %
 plot_data(x,y,m,b)
 ```
 
-    y_i = 5.47 * x + 1000.00     previously calculated: y_i = 87.69 * x + 34754.08
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.47</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>     previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>
+</pre>
 
 ![](index_files/figure-commonmark/cell-17-output-2.png)
 
@@ -508,12 +523,12 @@ for i in range(loop_N):
 
    # print our progress
    print('[%03d]  dy_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f    loss: %f' % (i,m,b,m_calc,b_calc,loss_value))
-   
+
    # close/delete previous plots
    plt.close('all')
-   
+
    # create a 1 by 2 plot grid
-   fig,ax = plt.subplots(1,2,figsize=(18,6),dpi=80)
+   fig,ax = plt.subplots(1,2,dpi=400)
    # lot our usual output
    plot_data(data_x,data_y,m,b,ax[0])
 
@@ -540,13 +555,14 @@ for i in range(loop_N):
    ipydis.clear_output(wait=True)
 ```
 
-    [029]  dy_i = 88.89 * x + 32912.24     previously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">029</span><span style="font-weight: bold">]</span>  dy_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.89</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32912.24</span>     previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>    loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.641291</span>
+</pre>
 
 ![](index_files/figure-commonmark/cell-18-output-2.png)
 
-# Homework
+## Homework
 
-## Mini Batch Training
+### Mini Batch Training
 
 In AI, datasets are often very large and cannot be processed all at once
 as is done in the loop above. The data is instead randomly sampled in
@@ -646,12 +662,21 @@ for bs in 64, 128, 256, 512:
     print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    previously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291
-    =======================================
-    batch size: 64, m=84.9390, b=39736.9451, loss=1481094476.3962
-    batch size: 128, m=88.0674, b=32609.6343, loss=1480414653.0240
-    batch size: 256, m=89.2466, b=32838.7659, loss=1478526569.7046
-    batch size: 512, m=88.8049, b=33210.2098, loss=1478125055.9181
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>    loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.641291</span>
+=======================================
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.5608</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30680.1392</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1495876661.2322</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">84.4710</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37866.7183</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1482632504.5137</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.7792</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34895.0902</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1480921466.4450</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.7037</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33096.9643</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478116584.4095</span>
+</pre>
 
 We see that eventually, we all get similar results with the minibatch
 training. Of course, here, we still keep the same learning rate. A gene
@@ -666,10 +691,17 @@ for i in 1, 2, 4, 8:
     print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    batch size: 64, m=89.5698, b=35762.8371, loss=1492135307.2394
-    batch size: 128, m=84.8458, b=37329.8015, loss=1482034606.9010
-    batch size: 256, m=87.3798, b=37819.9602, loss=1484733609.9185
-    batch size: 512, m=64166.0274, b=18687646.0335, loss=12981155296190482.0000
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">91.4115</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34101.6875</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1502656819.8174</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95.4995</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31373.3717</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1552565554.5144</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.9591</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38436.4276</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1484059943.5231</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">112913.7992</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-36913118.8855</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18357905114683364.0000</span>
+</pre>
 
 We can see that, if we increase the batch size and the learning rate
 proportionally, at certain point, it does not converge for example for

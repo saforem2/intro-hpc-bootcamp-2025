@@ -53,6 +53,8 @@ author:
         url: https://alcf.anl.gov/about/people/taylor-childers
 ---
 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/1-hands-on-llms/index.ipynb)
+
 
 ::: {.callout-note}
 Content for this tutorial has been modified from content originally written by:
@@ -162,12 +164,18 @@ Let's take a closer look. Here are the first 10 training digits:
 
 ```{python}
 pltsize=1
-plt.figure(figsize=(10*pltsize, pltsize))
+# plt.figure(figsize=(10*pltsize, pltsize))
 
 for i in range(10):
     plt.subplot(1,10,i+1)
     plt.axis('off')
-    plt.imshow(numpy.reshape(training_data[i][0], (28, 28)), cmap="gray")
+    plt.imshow(
+        numpy.reshape(
+            training_data[i][0],
+            (28, 28)
+        ),
+        cmap="gray"
+    )
     plt.title('Class: '+str(training_data[i][1]))
 ```
 

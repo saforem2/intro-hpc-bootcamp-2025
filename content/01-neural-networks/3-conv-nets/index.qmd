@@ -19,8 +19,11 @@ author:
     id: bl
 ---
 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/3-conv-nets/index.ipynb)
+
 Up until transformers, convolutions were *the* state of the art in computer
-vision.  
+vision.
+
 In many ways and applications they still are!
 
 Large Language Models, which are what we'll focus on the rest of the series after this lecture, are really good at ordered, *tokenized data.  But there is lots of data that isn't _implicitly_ ordered like `images`, and their more general cousins `graphs`.
@@ -452,6 +455,7 @@ class Classifier(nn.Module):
 ```
 
 ```{python}
+#| output: false
 !pip install torchinfo # if not on Polaris
 ```
 

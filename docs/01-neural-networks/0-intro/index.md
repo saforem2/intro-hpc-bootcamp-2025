@@ -47,7 +47,7 @@ Figure 1: MNIST Data Sample
 We’ll start with the MNIST problem in this notebook:
 
 [📓 Fitting MNIST with a multi-layer perceptron
-(MLP)](../01-neural-networks/1-mnist/index.qmd)
+(MLP)](../1-mnist/index.qmd)
 
 Next week, we’ll learn about other types of neural networks.
 
