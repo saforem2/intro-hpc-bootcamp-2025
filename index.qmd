@@ -1,11 +1,11 @@
 ---
+# toc: true
 title: "Intro to HPC Bootcamp 2025"
 description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"
 categories:
   - ai4science
   - hpc
   - llm
-toc: true
 date: 2025-07-15
 date-modified: last-modified
 citation:
@@ -22,7 +22,9 @@ twitter-card:
   description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"
   site: "saforem2"
   creator: "saforem2"
+sidebar: sidebar
 ---
+
 
 - [00-intro-AI-hpc/](content/00-intro-AI-HPC/index.qmd)
   - [0-compute-systems](content/00-intro-AI-hpc/0-compute-systems/index.qmd)

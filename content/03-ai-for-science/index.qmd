@@ -8,3 +8,11 @@ categories:
 date: 2025-07-15
 date-modified: last-modified
 ---
+
+## Applications 
+
+- GenSLM
+- MProt-DPO
+- Aeris
+- l2hmc-qcd
+- ...

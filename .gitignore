@@ -1,4 +1,14 @@
+*.zip
+*.tar.gz
+*.safetensors
+*.quarto_ipynb
+*.jupyternb
+*.ipynb_checkpoints
 /.quarto/
+/._freeze/
+old/
+ignore/
+.venv/
 content/01-neural-networks/3-conv-nets/data/cifar-10-python.tar.gz
 content/01-neural-networks/1-mnist/data/MNIST/raw/
 content/01-neural-networks/3-conv-nets/data/

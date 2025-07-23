@@ -61,7 +61,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
@@ -77,24 +76,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-1ba5600575b524666f3a728b03aeaa80.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0434ab73b344d2590fb99d65eafd6ba5.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-91d739a91857e5ee0f716b3778aa1769.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-a705dff081455d498a1e40f6513ed96a.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-b317b8dee75fda138faee2cae944a601.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-701130cf095060d5a6253c897e10af94.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script src="../../../site_libs/quarto-contrib/iconify-3.0.0/iconify-icon.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-2ad96067a077d98a9920c0f0dfed5d89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-ce2689c9ce5076b8017ee0a1b57e2b32.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
-    "?",
-    "H"
+    "f",
+    "/",
+    "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -124,6 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TC329HJ');</script>
 <!-- End Google Tag Manager -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../../static/fonts/MIosevkaQp/MIosevkaQp.css">
@@ -209,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="citation_reference" content="citation_title=GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics;,citation_abstract=We seek to transform how new and emergent variants of pandemiccausing viruses, specifically SARS-CoV-2, are identified and classified. By adapting large language models (LLMs) for genomic data, we build genome-scale language models (GenSLMs) which can learn the evolutionary landscape of SARS-CoV-2 genomes. By pretraining on over 110 million prokaryotic gene sequences and finetuning a SARS-CoV-2-specific model on 1.5 million genomes, we show that GenSLMs can accurately and rapidly identify variants of concern. Thus, to our knowledge, GenSLMs represents one of the first whole genome scale foundation models which can generalize to other prediction tasks. We demonstrate scaling of GenSLMs on GPU-based supercomputers and AI-hardware accelerators utilizing 1.63 Zettaflops in training runs with a sustained performance of 121 PFLOPS in mixed precision and peak of 850 PFLOPS. We present initial scientific insights from examining GenSLMs in tracking evolutionary dynamics of SARS-CoV-2, paving the path to realizing this on large biological data.Competing Interest StatementThe authors have declared no competing interest.;,citation_author=Maxim Zvyagin;,citation_author=Alexander Brace;,citation_author=Kyle Hippe;,citation_author=Yuntian Deng;,citation_author=Bin Zhang;,citation_author=Cindy Orozco Bohorquez;,citation_author=Austin Clyde;,citation_author=Bharat Kale;,citation_author=Danilo Perez-Rivera;,citation_author=Heng Ma;,citation_author=Carla M. Mann;,citation_author=Michael Irvin;,citation_author=J. Gregory Pauloski;,citation_author=Logan Ward;,citation_author=Valerie Hayot-Sasson;,citation_author=Murali Emani;,citation_author=Sam Foreman;,citation_author=Zhen Xie;,citation_author=Diangen Lin;,citation_author=Maulik Shukla;,citation_author=Weili Nie;,citation_author=Josh Romero;,citation_author=Christian Dallago;,citation_author=Arash Vahdat;,citation_author=Chaowei Xiao;,citation_author=Thomas Gibbs;,citation_author=Ian Foster;,citation_author=James J. Davis;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Rick Stevens;,citation_author=Anima Anandkumar;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.biorxiv.org/content/early/2022/11/23/2022.10.10.511571;,citation_doi=10.1101/2022.10.10.511571;,citation_journal_title=bioRxiv;,citation_publisher=Cold Spring Harbor Laboratory;">
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -382,36 +383,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
-    <a class="navbar-brand" href="../../../index.html">
-    <span class="navbar-title">Intro to HPC Bootcamp 2025</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/saforem2/intro-hpc-bootcamp-2025"> 
-<span class="menu-text"><span class="icon" style="font-size: 1.25rem; color:var(--bs-nav-link-color);"><iconify-icon role="img" inline="" icon="ph:github-logo" aria-label="Icon github-logo from ph Iconify.design set." title="Icon github-logo from ph Iconify.design set."></iconify-icon></span></span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../../../index.xml"> 
-<span class="menu-text"><span class="icon" style="font-size: 1.25rem; color:var(--bs-nav-link-color);"><iconify-icon role="img" inline="" icon="ph:rss" aria-label="Icon rss from ph Iconify.design set." title="Icon rss from ph Iconify.design set."></iconify-icon></span></span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -427,12 +398,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../../../index.html" class="sidebar-logo-link">
       </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../">Intro to HPC Bootcamp 2025</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="../../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-home"></i></a>
+    <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -583,8 +562,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">[03] AI for Science</span></span>
+      <div class="sidebar-item-container"> 
+            <a href="../../../content/03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[03] AI for Science</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../content/03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[0] GenSLM</span></a>
+  </div>
+</li>
+      </ul>
   </li>
     </ul>
     </div>
@@ -658,14 +650,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>But you are welcome to look through it anyways, you can send questions on slack, and we are happy to talk about it.</p>
 <p>Author: Corey Adams</p>
 <p>The previous notebook trained a classifier network which did ok. But what if we didn’t have a lot of data? In this notebook, we’ll apply that model in a new way with <em>representation learning</em>.</p>
-<div id="752e19ca" class="cell">
+<div id="656ca37f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="cf">if</span> sys.platform <span class="op">==</span> <span class="st">"darwin"</span>:</span>
 <span id="cb1-4"><a href="#cb1-4"></a>    os.environ[<span class="st">"TORCH_DEVICE"</span>] <span class="op">=</span> <span class="st">"cpu"</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a>    os.environ[<span class="st">'PYTORCH_ENABLE_MPS_FALLBACK'</span>] <span class="op">=</span> <span class="st">"1"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5bbc3ab8" class="cell">
+<div id="0c24da81" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> numpy, random</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> torch</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> torchvision</span>
@@ -682,7 +674,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-14"><a href="#cb2-14"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s the Convolutional Neural Network Again:</p>
-<div id="3837528f" class="cell">
+<div id="bc5a1c72" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="kw">class</span> Downsampler(nn.Module):</span>
@@ -801,7 +793,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-116"><a href="#cb3-116"></a></span>
 <span id="cb3-117"><a href="#cb3-117"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="46e92b73" class="cell">
+<div id="52caf8c8" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> create_representation_model(n_features, rank, size):</span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
 <span id="cb4-3"><a href="#cb4-3"></a>    model <span class="op">=</span> Classifier(<span class="dv">32</span>, <span class="dv">2</span>, <span class="dv">2</span>, n_features)</span>
@@ -827,7 +819,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This will download the data if needed:</p>
 <p>We’re going to train this on Polaris nodes which have 4 A100s (But only using one node at a time). So, the following helper functions will automatically distribute the code and model to use all 4 GPUs at once:</p>
 <p>(They are all from the <a href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">DDP Tutorial</a> )</p>
-<div id="deea8d60" class="cell">
+<div id="8f12714f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> setup(rank, world_size):</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    os.environ[<span class="st">'MASTER_ADDR'</span>] <span class="op">=</span> <span class="st">'localhost'</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>    os.environ[<span class="st">'MASTER_PORT'</span>] <span class="op">=</span> <span class="st">'12355'</span></span>
@@ -838,7 +830,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8"></a><span class="kw">def</span> cleanup():</span>
 <span id="cb5-9"><a href="#cb5-9"></a>    dist.destroy_process_group()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c11e71bc" class="cell">
+<div id="5e91779c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> ezpz</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="kw">def</span> create_data_loaders(transforms, batch_size, rank, seed):</span>
@@ -894,7 +886,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-53"><a href="#cb6-53"></a></span>
 <span id="cb6-54"><a href="#cb6-54"></a>    <span class="cf">return</span> train_dataloader, val_dataloader</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="bac167ac" class="cell">
+<div id="b361995f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># def demo_basic(rank, world_size, n_epochs):</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="co">#     print(f"Running basic DDP example on rank {rank}.")</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">#     setup(rank, world_size)</span></span>
@@ -922,7 +914,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-25"><a href="#cb7-25"></a><span class="co">#              nprocs=world_size,</span></span>
 <span id="cb7-26"><a href="#cb7-26"></a><span class="co">#              join=True)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="17300edb" class="cell">
+<div id="2d239c15" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># import sys, os</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="co"># from multiprocessing import Pool</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co"># from multiprocessing.reduction import ForkingPickler</span></span>
@@ -944,7 +936,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-19"><a href="#cb8-19"></a><span class="co"># # the command line).</span></span>
 <span id="cb8-20"><a href="#cb8-20"></a><span class="co"># ForkingPickler.reducer_override = staticmethod(reducer_override)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cad42b57" class="cell">
+<div id="44a5ee3b" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># This method is from the pytorch implementation of SimCLR:</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="co"># https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
@@ -961,32 +953,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-14"><a href="#cb9-14"></a>                                        ])</span>
 <span id="cb9-15"><a href="#cb9-15"></a>    <span class="cf">return</span> data_transforms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2d6471b0" class="cell">
+<div id="65c422c1" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>transforms1 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
 <span id="cb10-2"><a href="#cb10-2"></a>transforms2 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b11cfe62" class="cell">
+<div id="eaa0a47f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>train, val <span class="op">=</span> create_data_loaders(v2.ToTensor(), batch_size, <span class="dv">0</span>, seed <span class="op">=</span> <span class="dv">1234</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="bd3b32ef" class="cell">
+<div id="7d3c38c9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>batch, (X, Y) <span class="op">=</span> <span class="bu">next</span>(<span class="bu">enumerate</span>(train))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="39f4aefc" class="cell">
+<div id="7e1c4b5f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>X1 <span class="op">=</span> transforms1(X)<span class="op">;</span> X2 <span class="op">=</span> transforms2(X)</span>
 <span id="cb13-2"><a href="#cb13-2"></a></span>
 <span id="cb13-3"><a href="#cb13-3"></a><span class="bu">print</span>(<span class="bu">type</span>(X1))</span>
 <span id="cb13-4"><a href="#cb13-4"></a><span class="bu">print</span>(<span class="bu">type</span>(X2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b0f62645" class="cell">
+<div id="d17ec9d0" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="op">%</span>matplotlib inline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7f1a8f67" class="cell">
+<div id="5935af27" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>plt.imshow(X[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb15-2"><a href="#cb15-2"></a>plt.imshow(X1[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb15-3"><a href="#cb15-3"></a>plt.imshow(X2[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8bc84868" class="cell">
+<div id="595d3971" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">def</span> contrastive_loss(first_images, second_images, rank, world_size <span class="op">=</span> <span class="dv">1</span>, temperature<span class="op">=</span><span class="fl">0.1</span>):</span>
 <span id="cb16-2"><a href="#cb16-2"></a>        <span class="co"># Each image is represented with k parameters,</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>        <span class="co"># Assume the batch size is N, so the</span></span>
@@ -1133,7 +1125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-144"><a href="#cb16-144"></a>        loss <span class="op">=</span> torch.mean( <span class="op">-</span> alignment <span class="op">+</span> log_sum_exp)</span>
 <span id="cb16-145"><a href="#cb16-145"></a>        <span class="cf">return</span> loss, loss_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2bb0ac4c" class="cell">
+<div id="feafe87d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">def</span> train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):</span>
 <span id="cb17-2"><a href="#cb17-2"></a>    model.train()</span>
 <span id="cb17-3"><a href="#cb17-3"></a>    head.train()</span>
@@ -1163,7 +1155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-27"><a href="#cb17-27"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb17-28"><a href="#cb17-28"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c424e737" class="cell">
+<div id="9eb13506" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">def</span> validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):</span>
 <span id="cb18-2"><a href="#cb18-2"></a>    model.train()</span>
 <span id="cb18-3"><a href="#cb18-3"></a>    head.train()</span>
@@ -1203,10 +1195,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-37"><a href="#cb18-37"></a>        sum_metrics[key] <span class="op">=</span> sum_metrics[key] <span class="op">/</span> n</span>
 <span id="cb18-38"><a href="#cb18-38"></a>    <span class="cf">return</span> sum_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c2a88c03" class="cell">
+<div id="6864f1f3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>optimizer <span class="op">=</span> torch.optim.AdamW(<span class="bu">list</span>(model.parameters()) <span class="op">+</span> <span class="bu">list</span>(head.parameters()), lr<span class="op">=</span><span class="fl">0.001</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="b6210c23" class="cell">
+<div id="2d12596c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
 <span id="cb20-2"><a href="#cb20-2"></a></span>
 <span id="cb20-3"><a href="#cb20-3"></a></span>
@@ -1223,10 +1215,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-14"><a href="#cb20-14"></a><span class="co">#         print_metrics = "; ".join(print_metrics.values())</span></span>
 <span id="cb20-15"><a href="#cb20-15"></a><span class="co">#         print(f"Validate epoch {j}: ", print_metrics)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cd182a63" class="cell">
+<div id="5fb0368c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Now, we retrain the classification head without touching the representation. This is called fine tuning.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cbf90765" class="cell">
+<div id="52575da2" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> evaluate(dataloader, model, head, loss_fn, val_bar):</span>
 <span id="cb22-2"><a href="#cb22-2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -1252,7 +1244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-23"><a href="#cb22-23"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
 <span id="cb22-24"><a href="#cb22-24"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="71f9b3bf" class="cell">
+<div id="827e0a9c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">def</span> fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):</span>
 <span id="cb23-2"><a href="#cb23-2"></a>    head.train()</span>
 <span id="cb23-3"><a href="#cb23-3"></a>    model.<span class="bu">eval</span>()</span>
@@ -1284,13 +1276,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-29"><a href="#cb23-29"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb23-30"><a href="#cb23-30"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8c42a4c9" class="cell">
+<div id="c6e9220d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>classification_head <span class="op">=</span> nn.Linear(<span class="dv">256</span>, <span class="dv">10</span>)  <span class="co"># .cuda()</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a>classification_loss <span class="op">=</span> loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb24-3"><a href="#cb24-3"></a>fine_tune_optimizer <span class="op">=</span> torch.optim.AdamW(classification_head.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
 <span id="cb24-4"><a href="#cb24-4"></a><span class="bu">print</span>(fine_tune_optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="33e5456a" class="cell">
+<div id="6d38003e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># for j in range(5):</span></span>
 <span id="cb25-2"><a href="#cb25-2"></a><span class="co">#     with tqdm(total=len(train), position=0, leave=True, desc=f"Fine Tune Epoch {j}") as train_bar1:</span></span>
 <span id="cb25-3"><a href="#cb25-3"></a><span class="co">#</span></span>
@@ -2532,8 +2524,8 @@ Foreman, Sam. 2025. <span>“Foundation Models.”</span> July 22, 2025. <a href
     <div class="nav-footer-left">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://samforeman.me">
-<p>samforeman.me</p>
+    <a class="nav-link" href="https://saforem2.github.io/intro-hpc-bootcamp-2025/">
+<p>saforem2.github.io/intro-hpc-bootcamp-2025</p>
 </a>
   </li>  
 </ul>
@@ -2550,7 +2542,7 @@ Foreman, Sam. 2025. <span>“Foundation Models.”</span> July 22, 2025. <a href
     </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/saforem2/intro-hpc-bootcamp-2025">
+    <a class="nav-link active" href="https://github.com/saforem2/intro-hpc-bootcamp-2025" aria-current="page">
       <i class="bi bi-github" role="img" aria-label="Sam Foreman GitHub">
 </i> 
     </a>

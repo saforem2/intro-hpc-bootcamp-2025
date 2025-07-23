@@ -36,9 +36,11 @@ project:
     - "./content/02-llms/4-evaluating-llms/index.qmd"
     - "./content/02-llms/5-advanced-llms/index.qmd"
     - "./content/02-llms/6-parallel-training/index.qmd"
-    - "./content/03-ai-for-science/index.qmd"
-    - "!./content/02-llms/0-intro-to-llms/OLD/**/**/*.qmd"
     - "./content/02-llms/7-shakespeare-example/index.qmd"
+    - "./content/03-ai-for-science/index.qmd"
+    - "./content/03-ai-for-science/index.qmd"
+    - "./content/03-ai-for-science/0-genslm/index.qmd"
+    - "!./content/02-llms/0-intro-to-llms/OLD/**/**/*.qmd"
     # - "./content/02-llms/**/**/*.qmd"
     # - "./content/**/**/*.ipynb"
 author:
@@ -158,7 +160,37 @@ format:
           <!-- Google Tag Manager (noscript) -->
           <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <!-- End Google Tag Manager (noscript) -->
+    header-includes: |
+      <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
 
+    # <pre>
+    # @font-face {
+    #     font-family: 'Iosevka Web';
+    #     font-display: swap;
+    #     font-weight: 100;
+    #     font-stretch: normal;
+    #     font-style: normal;
+    #     src: url('ttf/iosevka-thin.ttf') format('truetype'), url('woff2/iosevka-thin.woff2') format('woff2');
+    # }
+    # @font-face {
+    #     font-family: 'Iosevka Web';
+    #     font-display: swap;
+    #     font-weight: 100;
+    #     font-stretch: expanded;
+    #     font-style: normal;
+    #     src: url('ttf/iosevka-extendedthin.ttf') format('truetype'), url('woff2/iosevka-extendedthin.woff2') format('woff2');
+    # }
+    #
+    # @font-face {
+    #     font-family: 'Iosevka Web';
+    #     font-display: swap;
+    #     font-weight: 100;
+    #     font-stretch: normal;
+    #     font-style: oblique;
+    #     src: url('ttf/iosevka-thinoblique.ttf') format('truetype'), url('woff2/iosevka-thinoblique.woff2') format('woff2');
+    # }
+    # </pre>
+    #
   # revealjs:
   #   # width: 1280
   #   # height: 720
@@ -229,7 +261,6 @@ website:
   bread-crumbs: true
   title: "Intro to HPC Bootcamp 2025"
   description: "An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience."
-  site-url: "https://saforem2.github.io/hpc-bootcamp-2025/"
   image: assets/thumbnail.png
   favicon: 🧑‍💻
   # favicon: assets/favicon-sf.svg
@@ -239,6 +270,7 @@ website:
   # google-analytics: GTM-TC329HJ
   # google-analytics: G-XVM2Y822Y1
   # GTM-TC329HJ
+  site-url: "https://saforem2.github.io/hpc-bootcamp-2025/"
   repo-url: https://github.com/saforem2/intro-hpc-bootcamp-2025
   repo-actions: [source, edit, issue]
   comments:
@@ -266,10 +298,10 @@ website:
   # search:
   #   show-item-context: true
   #   type: textbox
-  search:
-    location: navbar
-    type: overlay
-    keyboard-shortcut: ["?", "H"]
+  # search:
+  #   location: sidebar
+  #   type: overlay
+  #   keyboard-shortcut: ["?", "H"]
 
   open-graph:
     true
@@ -282,57 +314,59 @@ website:
     # title: "Sam Foreman"
     # description: ""
     # image: "https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/assets/thumbnail.png?raw=true"
-  navbar:
-    # logo: 
-    # logo-alt: "Intro to HPC Bootcamp 2025"
-    # title: true
-    background: "rgba(34, 34, 34, 0.95)"
-    foregound: "#838383"
-    right:
-      # - id: talks
-      #   text: "talks"
-      #   # text: "[talks]{style='color:var(--bs-nav-link-color);'}"
-      #   url: "talks/index.qmd"
-      #
-      # - id: posts
-      #   text: "posts"
-      #   # text: "[projects]{style='color:var(--bs-nav-link-color);'}"
-      #   url: "posts/index.qmd"
-      #
-      # - id: projects
-      #   text: "projects"
-      #   # text: "[projects]{style='color:var(--bs-nav-link-color);'}"
-      #   url: "projects/index.qmd"
-
-      - href: https://github.com/saforem2/intro-hpc-bootcamp-2025
-        text: "[{{< iconify ph github-logo >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}"
-        aria-label: GitHub
-
-      - href: index.xml
-        text: "[{{< iconify ph rss >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}"
-        aria-label: RSS
+  # navbar:
+  #   # logo: 
+  #   # logo-alt: "Intro to HPC Bootcamp 2025"
+  #   # title: true
+  #   background: "rgba(34, 34, 34, 0.95)"
+  #   foregound: "#838383"
+  #   right:
+  #     # - id: talks
+  #     #   text: "talks"
+  #     #   # text: "[talks]{style='color:var(--bs-nav-link-color);'}"
+  #     #   url: "talks/index.qmd"
+  #     #
+  #     # - id: posts
+  #     #   text: "posts"
+  #     #   # text: "[projects]{style='color:var(--bs-nav-link-color);'}"
+  #     #   url: "posts/index.qmd"
+  #     #
+  #     # - id: projects
+  #     #   text: "projects"
+  #     #   # text: "[projects]{style='color:var(--bs-nav-link-color);'}"
+  #     #   url: "projects/index.qmd"
+  #
+  #     - href: https://github.com/saforem2/intro-hpc-bootcamp-2025
+  #       text: "[{{< iconify ph github-logo >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}"
+  #       aria-label: GitHub
+  #
+  #     - href: index.xml
+  #       text: "[{{< iconify ph rss >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}"
+  #       aria-label: RSS
 
 
   sidebar:
     # style: "docked"
     style: "floating"
-    search: true
     align: left
+    search: true
+    pinned: true
+    title: "Intro to HPC Bootcamp 2025"
     # search: true
     # contents: auto
     collapse-level: 1
     # contents: auto
+    tools:
+      - icon: home
+        href: "index.qmd"
+        text: "Home"
+      - icon: github
+        href: "https://github.com/saforem2/intro-hpc-bootcamp-2025"
+        text: "GitHub"
+
+
+    id: sidebar
     contents:
-      # - id: projects
-      #   section: "📚 Projects"
-      #   href: "projects/index.qmd"
-      #   collapse-level: 1
-      #   contents:
-      # - id: hpc-bootcamp-2025
-      #   section: "🎒 Intro to HPC Bootcamp 2025"
-      #   href: "projects/hpc-bootcamp-2025/index.qmd"
-      #   collapse-level: 1
-      #   contents:
       - id: 00-intro-AI-HPC
         section: "[00] Intro to AI and HPC"
         href: "content/00-intro-AI-HPC/index.qmd"
@@ -388,22 +422,12 @@ website:
           - text: "[7] Shakespeare Example"
             href: "content/02-llms/7-shakespeare-example/index.qmd"
 
-          # - text: "[1] LLMs"
-          #   href: "content/02-llms/0-intro-to-llms/IntroLLMs."
-          # [1/9] content/02-llms/0-intro-to-llms/IntroLLMHWSols.ipynb
-          # [2/9] content/02-llms/0-intro-to-llms/IntroLLMs.ipynb
-          # [3/9] content/02-llms/0-intro-to-llms/OLD/Homework_1.ipynb
-          # [4/9] content/02-llms/0-intro-to-llms/OLD/Sequential_Data_Models.ipynb
-          # [5/9] content/02-llms/0-intro-to-llms/OLD/Session_4_Homework_Solutions.ipynb
-          # [6/9] content/02-llms/1-advanced-llms/Intro_to_Prompt_Engineering.ipynb
-          # [7/9] content/02-llms/1-advanced-llms/Introduction_to_Prompt_Engineering.ipynb
-          # [8/9] content/02-llms/1-advanced-llms/OLD/ExerciseConcurrency.ipynb
-          # [9/9] content/02-llms/1-advanced-llms/RAGTutorial.ipynb
-          # - auto: "01-neural-networks/**/**/*.qmd"
-            #
       - id: 03-ai-for-science
         section: "[03] AI for Science"
         href: "content/03-ai-for-science/index.qmd"
+        contents:
+          - text: "[0] GenSLM"
+            href: "content/03-ai-for-science/0-genslm/index.qmd"
 
         # contents:
           # - text: "[0] Intro to AI for Science"
@@ -461,8 +485,8 @@ website:
     #   Proudly supported by
     #   [![](/images/Posit-Logos-2024_horiz-full-color.svg){fig-alt="Posit" width=65px .light-content}](https://posit.co) [![](/images/Posit-Logos-2024_horiz-full-color-white-text.svg){fig-alt="Posit" width=65px .dark-content}](https://posit.co)
     left:
-      - text: "samforeman.me"
-        href: "https://samforeman.me"
+      - text: "saforem2.github.io/intro-hpc-bootcamp-2025"
+        href: "https://saforem2.github.io/intro-hpc-bootcamp-2025/"
     right:
       - icon: twitter
         href: https://twitter.com/saforem2

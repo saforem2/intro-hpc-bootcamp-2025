@@ -1,6 +1,6 @@
 ---
 title: Convolutional Neural Networks
-jupyter: python3
+# jupyter: python3
 author:
   - name: Sam Foreman
     id: sf

@@ -2,17 +2,17 @@
 
 /*-- scss:defaults --*/
 $right-arrow: "\2192"; // Unicode character for right arrow
-$font-family-monospace: "mIosevka-Term Web";
-$font-family-sans-serif: "mIosevka-QP Web";
-$headings-font-family: $font-family-sans-serif;
-$heading-font: "mIosevka-QP Web";
-$monofont: $font-family-monospace;
-$font-family-headings: "mIosevka-QP Web";
-$mermaid-font-family: "mIosevka-Term Web";
+$font-family-monospace: "Iosevka Web", monospace;
+$font-family-sans-serif: "Iosevka Web", monospace;
+$headings-font-family: $font-family-sans-serif, monospace;
+$heading-font: "Iosevka Web", monospace;
+$monofont: $font-family-monospace, monospace;
+$font-family-headings: "Iosevka Web", monospace;
+$mermaid-font-family: "Iosevka Web", monospace;
 
-$presentation-main-font: "IBM Plex Sans";
+$presentation-main-font: "Iosevka Web", monospace;
 $presentation-font-size-root: 28px !default;
-$presentation-heading-font: "IBM Plex Sans Condensed";
+$presentation-heading-font: "Iosevka Web", monospace;
 $presentation-h1-font-size: 1.5em !default;
 $presentation-h2-font-size: 1.33em !default;
 $presentation-h3-font-size: 1.25em !default;
@@ -284,6 +284,34 @@ $primary: $code-fg !default;
 /*-- scss:mixins --*/
 
 /*-- scss:rules --*/
+
+@font-face {
+    font-family: 'Iosevka Web';
+    font-display: swap;
+    font-weight: 100;
+    font-stretch: normal;
+    font-style: normal;
+    src: url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-thin.ttf') format('truetype'), url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-thin.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Iosevka Web';
+    font-display: swap;
+    font-weight: 100;
+    font-stretch: expanded;
+    font-style: normal;
+    src: url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-extendedthin.ttf') format('truetype'), url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-extendedthin.woff2') format('woff2');
+    // src: url('ttf/iosevka-extendedthin.ttf') format('truetype'), url('woff2/iosevka-extendedthin.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Iosevka Web';
+    font-display: swap;
+    font-weight: 100;
+    font-stretch: normal;
+    font-style: oblique;
+    src: url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-thinoblique.ttf') format('truetype'), url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-thinoblique.woff2') format('woff2');
+    // src: url('ttf/iosevka-thinoblique.ttf') format('truetype'), url('woff2/iosevka-thinoblique.woff2') format('woff2');
+}
+
 
 html {
   color-scheme: light dark;
@@ -839,6 +867,20 @@ img a:hover {
   background: none !important;
 }
 
+.sidebar-header-stacked .sidebar-title {
+	display: inline-flex;
+}
+
+.sidebar #quarto-search svg.aa-SubmitIcon {
+	width: 18px;
+	height: 18px;
+	margin-inline-start: 4pt;
+}
+
+div.sidebar.sidebar-navigation.rollup.quarto-sidebar-toggle-contents, nav.sidebar.sidebar-navigation:not(.rollup) {
+	background-color: rgba(0,0,0,0.0);
+}
+
 .sidebar.sidebar-navigation > * {
   padding-top: unset!important;
 }
@@ -962,9 +1004,9 @@ div.sidebar-item-container .sidebar-link > code {
 .sidebar nav[role="doc-toc"] ul > li > ul > li > a.active {
   border: none;
   color: $link-color;
-  max-width: min-content;
-  min-width: max-content;
-  border-left: 1px solid $link-color;
+  // min-width: max-content;
+  // max-width: min-content;
+  border-left: 1px dashed $link-color;
   border-right: 1px dashed $link-color;
   border-top: 1px dashed $link-color;
   border-bottom: 1px dashed $link-color;
@@ -2162,6 +2204,11 @@ dd {
 
 .tippy-content > * {
   margin: auto;
+}
+
+.blockquote > :last-child {
+	margin-bottom: 0;
+	margin: auto;
 }
 
 blockquote,
