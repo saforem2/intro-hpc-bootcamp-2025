@@ -582,10 +582,11 @@ p {
 
 body p {
   // text-wrap: balance;
-  margin-block: auto;
+  // margin-block: auto;
   overflow-wrap: break-word;
   overflow-x: auto;
   line-height: initial;
+  margin: inherit;
   // padding-inline: 5pt;
   // margin-top: 0.5rem;
   // margin-bottom: 0.5rem;
@@ -1559,7 +1560,6 @@ div.callout-important.callout-style-default .callout-title {
   max-height: 3lh;
   border: 1pt solid rgba(0, 0, 0, 0);
   margin-inline-end: 1em;
-  padding: 5pt;
   overflow-y: auto;
 }
 
@@ -2235,7 +2235,7 @@ boxed {
   white-space-collapse: collapse;
   overflow-x: auto;
   font-family: $monofont;
-  box-shadow: inset 1px 1px 2px;
+  // box-shadow: inset 1px 1px 2px;
   margin-block: 0.5lh;
 }
 
@@ -2248,47 +2248,57 @@ boxed {
   // border-radius: 2px;
   border: 1px solid rgba(0, 0, 0, 0);
   overflow: auto;
-  box-shadow: inset 1px 1px 2px;
+  // box-shadow: inset 1px 1px 2px;
+  box-shadow: none;
   padding-block-start: 0.5lh;
-  background-color: $code-block-bg-color;
+  background-color: none;
   padding-inline: 1ch;
   margin-block: 0.5lh;
   // margin-block: 1lh;
   line-height: initial;
+  border-left: unset;
+  border-left: 1px solid rgba(0,0,0,0.0) !important;
+  padding: 0;
+  margin: 0;
+  &:hover {
+    background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1)!important;
+    border-left: 1px solid $link-color-hover!important;
+  }
+
   // margin-bottom: 0;
   // color: var(--dim-text);
   // overflow: auto;
 }
 
-.cell-output.cell-output-display:hover {
-  white-space-collapse: collapse;
-  font-family: $font-family-monospace !important;
-  white-space: pre;
-  overflow: auto;
-  display: block;
-  overflow-x: auto;
-  padding-block-start: 0.5lh;
-  // border-radius: 2px;
-  // border: 1px solid $code-color;
-  white-space-collapse: collapse;
-}
-
-.cell-output {
-  // border-left: 2px solid $dim-text;
-  // margin-inline-start: 17pt;
-  // background: oklch(from $code-bg calc(l * 1.15) c h / 0.1);
-  padding-inline: 1ch;
-  margin-block: 1lh;
-  background: $code-block-bg-color;
-  &:hover {
-    box-shadow: inset 1px 1px 2px $link-color-hover;
-    background: $code-block-bg-color;
-
-    // border-left: 2px solid $link-color-hover;
-    // background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1);
-    // color: $link-color-hover;
-  }
-}
+// .cell-output.cell-output-display:hover {
+//   white-space-collapse: collapse;
+//   font-family: $font-family-monospace !important;
+//   white-space: pre;
+//   overflow: auto;
+//   display: block;
+//   overflow-x: auto;
+//   padding-block-start: 0.5lh;
+//   // border-radius: 2px;
+//   // border: 1px solid $code-color;
+//   white-space-collapse: collapse;
+// }
+//
+// .cell-output {
+//   // border-left: 2px solid $dim-text;
+//   // margin-inline-start: 17pt;
+//   // background: oklch(from $code-bg calc(l * 1.15) c h / 0.1);
+//   padding-inline: 1ch;
+//   margin-block: 1lh;
+//   background: $code-block-bg-color;
+//   &:hover {
+//     box-shadow: inset 1px 1px 2px $link-color-hover;
+//     background: $code-block-bg-color;
+//
+//     // border-left: 2px solid $link-color-hover;
+//     // background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1);
+//     // color: $link-color-hover;
+//   }
+// }
 
 thead,
 tbody,

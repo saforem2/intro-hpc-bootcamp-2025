@@ -14,6 +14,7 @@ jupyter: python3
 header-includes: |
   <link rel="preconnect" href="https://fonts.googleapis.com">
 execute:
+  cache: true
   # keep-md: true
   freeze: auto
   # keep-ipynb: true
@@ -37,6 +38,7 @@ project:
     - "./content/02-llms/6-parallel-training/index.qmd"
     - "./content/03-ai-for-science/index.qmd"
     - "!./content/02-llms/0-intro-to-llms/OLD/**/**/*.qmd"
+    - "./content/02-llms/7-shakespeare-example/index.qmd"
     # - "./content/02-llms/**/**/*.qmd"
     # - "./content/**/**/*.ipynb"
 author:
@@ -383,6 +385,8 @@ website:
             href: "content/02-llms/5-advanced-llms/index.qmd"
           - text: "[6] Parallel Training"
             href: "content/02-llms/6-parallel-training/index.qmd"
+          - text: "[7] Shakespeare Example"
+            href: "content/02-llms/7-shakespeare-example/index.qmd"
 
           # - text: "[1] LLMs"
           #   href: "content/02-llms/0-intro-to-llms/IntroLLMs."

@@ -29,9 +29,10 @@ quarter circle inscribed within that square.
 
 The ratio between the area of the circle and the square is
 
-$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$
+$$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$$
 
-Therefore, we can calculate $\pi$ using \$= \$
+Therefore, we can calculate $\pi$ using
+$\pi = \frac{4N_\text{in}}{N_\text{total}}$
 
 ``` python
 import ambivalent
@@ -76,8 +77,8 @@ print(f"Pi = {res/float(N/4.0)}")
 print("Time: %s" %(t1 - t0))
 ```
 
-    Pi = 2.992
-    Time: 19.821304082870483
+    Pi = 3.208
+    Time: 19.733683109283447
 
 ![](index_files/figure-commonmark/cell-2-output-2.png)
 
@@ -107,6 +108,9 @@ if comm.rank==0:
     print("Time: %s" %(t1 - t0))
 ```
 
+    3.1411808
+    Time: 3.3200621604919434
+
 ### Running $\pi$ example on Google Colab
 
 - Go to https://colab.research.google.com/, sign in or sign up
@@ -119,16 +123,16 @@ if comm.rank==0:
 ! pip install mpi4py
 ```
 
-    --2025-07-22 19:09:19--  https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py
+    --2025-07-22 19:21:33--  https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py
     Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
     Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
     HTTP request sent, awaiting response... 200 OK
     Length: 555 [text/plain]
-    Saving to: ‘mpi_pi.py.33’
+    Saving to: ‘mpi_pi.py.36’
 
-    mpi_pi.py.33          0%[                    ]       0  --.-KB/s               mpi_pi.py.33        100%[===================>]     555  --.-KB/s    in 0s      
+    mpi_pi.py.36          0%[                    ]       0  --.-KB/s               mpi_pi.py.36        100%[===================>]     555  --.-KB/s    in 0s      
 
-    2025-07-22 19:09:19 (37.8 MB/s) - ‘mpi_pi.py.33’ saved [555/555]
+    2025-07-22 19:21:33 (48.1 MB/s) - ‘mpi_pi.py.36’ saved [555/555]
 
     Requirement already satisfied: mpi4py in /opt/homebrew/lib/python3.11/site-packages (4.1.0)
 
@@ -137,24 +141,24 @@ if comm.rank==0:
 ```
 
     Number of processes: 1
-    Pi = 3.1407448
-    Time: 3.026009
+    Pi = 3.1420352
+    Time: 2.982737
 
 ``` python
 ! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 2
-    Pi = 3.1409632
-    Time: 1.491461
+    Pi = 3.1416608
+    Time: 1.405053
 
 ``` python
 ! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 4
-    Pi = 3.142324
-    Time: 0.714551
+    Pi = 3.1426296
+    Time: 0.737657
 
 ### Running $\pi$ on Polaris
 
@@ -174,21 +178,37 @@ mpirun -np 4 python mpi_pi.py   # 3.1425632   2.093632459640503  s
 mpirun -np 8 python mpi_pi.py   # 3.1411632   1.0610620975494385 s
 ```
 
-**Attention: Please use `debug` queue outside of lecture time instead of
-`ALCFAITP`.**
-
 ## Parallel computing in AI
 
 The parallel computing in AI is usually called distributed training.
+
 Distributed training is the process of training I models across multiple
 GPUs or other accelerators, with the goal of speeding up the training
 process and enabling the training of larger models on larger datasets.
 
-There are two ways of parallelization in distributed training. \* **Data
-parallelism**: \* Each worker (GPU) has a complete set of model \*
-different workers work on different subsets of data. \* **Model
-parallelism** \* The model is splitted into different parts and stored
-on different workers \* Different workers work on computation involved
-in different parts of the model ![PI](../figures/parallel_computing.png)
+There are two ways of parallelization in distributed training.
 
-![3D LLM](../figures/3DLLM.png)
+- **Data parallelism**:
+  - Each worker (GPU) has a complete set of model
+  - different workers work on different subsets of data.
+- **Model parallelism**
+  - The model is splitted into different parts and stored on different
+    workers
+  - Different workers work on computation involved in different parts of
+    the model
+
+<div id="fig-parallel-computing">
+
+![](../figures/parallel_computing.png)
+
+Figure 1: PI
+
+</div>
+
+<div id="fig-3dllm">
+
+![](../figures/3DLLM.png)
+
+Figure 2: 3D LLM
+
+</div>

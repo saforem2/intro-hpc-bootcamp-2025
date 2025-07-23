@@ -15,9 +15,13 @@ Sam Foreman, Marieme Ngom, Huihuo Zheng, Bethany Lusch, Taylor Childers
 - [Homework](#homework)
 - [Homework solution](#homework-solution)
 
-Author: Marieme Ngom, adapting materials from Bethany Lusch, Asad Khan,
-Prasanna Balaprakash, Taylor Childers, Corey Adams, Kyle Felker, and
-Tanwi Mallick.
+> [!NOTE]
+>
+> Content for this tutorial has been modified from content originally
+> written by:
+>
+> Marieme Ngom, Bethany Lusch, Asad Khan, Prasanna Balaprakash, Taylor
+> Childers, Corey Adams, Kyle Felker, and Tanwi Mallick
 
 This tutorial will serve as a gentle introduction to neural networks and
 deep learning through a hands-on classification problem using the MNIST
@@ -40,7 +44,18 @@ Figure 1: MNIST sample
 </div>
 
 ``` python
-%matplotlib inline
+import ambivalent
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.style.use(ambivalent.STYLES['ambivalent'])
+sns.set_context("notebook")
+plt.rcParams["figure.figsize"] = [6.4, 4.8]
+```
+
+``` python
+# %matplotlib inline
 
 import torch
 import torchvision
@@ -55,15 +70,23 @@ import time
 
 We will now download the dataset that contains handwritten digits. MNIST
 is a popular dataset, so we can download it via the PyTorch library.
-Note: - x is for the inputs (images of handwritten digits) and y is for
-the labels or outputs (digits 0-9) - We are given “training” and “test”
-datasets. Training datasets are used to fit the model. Test datasets are
-saved until the end, when we are satisfied with our model, to estimate
-how well our model generalizes to new data.
 
-Note that downloading it the first time might take some time. The data
-is split as follows: - 60,000 training examples, 10,000 test examples -
-inputs: 1 x 28 x 28 pixels - outputs (labels): one integer per example
+Note:
+
+- `x` is for the inputs (images of handwritten digits)
+- `y` is for the labels or outputs (digits 0-9)
+- We are given “training” and “test” datasets.
+  - Training datasets are used to fit the model.
+  - Test datasets are saved until the end, when we are satisfied with
+    our model, to estimate how well our model generalizes to new data.
+
+Note that downloading it the first time might take some time.
+
+The data is split as follows:
+
+- 60,000 training examples, 10,000 test examples
+- inputs: 1 x 28 x 28 pixels
+- outputs (labels): one integer per example
 
 ``` python
 training_data = torchvision.datasets.MNIST(
@@ -92,7 +115,15 @@ training_data, validation_data = torch.utils.data.random_split(
 ```
 
 ``` python
-print('MNIST data loaded: train:',len(training_data),' examples, validation: ', len(validation_data), 'examples, test:',len(test_data), 'examples')
+print(
+    'MNIST data loaded: train:',
+    len(training_data),
+    ' examples, validation: ',
+    len(validation_data),
+    'examples, test:',
+    len(test_data),
+    'examples'
+)
 print('Input shape', training_data[0][0].shape)
 ```
 
@@ -112,22 +143,27 @@ for i in range(10):
     plt.title('Class: '+str(training_data[i][1]))
 ```
 
-![](index_files/figure-commonmark/cell-6-output-1.png)
+![](index_files/figure-commonmark/cell-7-output-1.png)
 
 ## Generalities:
 
-To train our classifier, we need (besides the data): - A model that
-depend on parameters $\mathbf{\theta}$. Here we are going to use neural
-networks. - A loss function $J(\mathbf{\theta})$ to measure the
-capabilities of the model. - An optimization method.
+To train our classifier, we need (besides the data):
+
+- A model that depend on parameters $\mathbf{\theta}$. Here we are going
+  to use neural networks.
+- A loss function $J(\mathbf{\theta})$ to measure the capabilities of
+  the model.
+- An optimization method.
 
 ## Linear Model
 
 Let’s begin with a simple linear model: linear regression, like last
-week. We add one complication: each example is a vector (flattened
-image), so the “slope” multiplication becomes a dot product. If the
-target output is a vector as well, then the multiplication becomes
-matrix multiplication.
+week.
+
+We add one complication: each example is a vector (flattened image), so
+the “slope” multiplication becomes a dot product. If the target output
+is a vector as well, then the multiplication becomes matrix
+multiplication.
 
 Note, like before, we consider multiple examples at once, adding another
 dimension to the input.
@@ -140,29 +176,33 @@ Figure 2: Linear model for classification
 
 </div>
 
-The linear layers in PyTorch perform a basic $xW + b$. These “fully
-connected” layers connect each input to each output with some weight
-parameter. We wouldn’t expect a simple linear model $f(x) = xW+b$
-directly outputting the class label and minimizing mean squared error to
-work well - the model would output labels like 3.55 and 2.11 instead of
+The linear layers in PyTorch perform a basic $xW + b$.
+
+These “fully connected” layers connect each input to each output with
+some weight parameter.
+
+We wouldn’t expect a simple linear model $f(x) = xW+b$ directly
+outputting the class label and minimizing mean squared error to work
+well - the model would output labels like 3.55 and 2.11 instead of
 skipping to integers.
 
-We now need: - A loss function $J(\theta)$ where $\theta$ is the list of
-parameters (here W and b). Last week, we used mean squared error (MSE),
-but this week let’s make two changes that make more sense for
-classification: - Change the output to be a length-10 vector of class
-probabilities (0 to 1, adding to 1). - Cross entropy as the loss
-function, which is typical for classification. You can read more
-[here](https://gombru.github.io/2018/05/23/cross_entropy_loss/).
+We now need:
 
+- A loss function $J(\theta)$ where $\theta$ is the list of parameters
+  (here W and b). Last week, we used mean squared error (MSE), but this
+  week let’s make two changes that make more sense for classification:
+  - Change the output to be a length-10 vector of class probabilities (0
+    to 1, adding to 1).
+  - Cross entropy as the loss function, which is typical for
+    classification. You can read more
+    [here](https://gombru.github.io/2018/05/23/cross_entropy_loss/).
 - An optimization method or optimizer such as the stochastic gradient
   descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let’s
   start with stochastic gradient descent (sgd), like last week. For far
   more information about more advanced optimizers than basic SGD, with
   some cool animations, see
-  https://ruder.io/optimizing-gradient-descent/ or
-  https://distill.pub/2017/momentum/.
-
+  <https://ruder.io/optimizing-gradient-descent/> or
+  <https://distill.pub/2017/momentum/>.
 - A learning rate. As we learned last week, the learning rate controls
   how far we move during each step.
 
@@ -171,20 +211,16 @@ class LinearClassifier(nn.Module):
 
     def __init__(self):
         super().__init__()
-        
         # First, we need to convert the input image to a vector by using 
         # nn.Flatten(). For MNIST, it means the second dimension 28*28 becomes 784.
         self.flatten = nn.Flatten()
-        
         # Here, we add a fully connected ("dense") layer that has 28 x 28 = 784 input nodes 
         #(one for each pixel in the input image) and 10 output nodes (for probabilities of each class).
         self.layer_1 = nn.Linear(28*28, 10)
-        
-    def forward(self, x):
 
+    def forward(self, x):
         x = self.flatten(x)
         x = self.layer_1(x)
-
         return x
 ```
 
@@ -203,24 +239,32 @@ optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
 
 ## Learning
 
-Now we are ready to train our first model. A training step is comprised
-of: - A forward pass: the input is passed through the network -
-Backpropagation: A backward pass to compute the gradient
-$\frac{\partial J}{\partial \mathbf{W}}$ of the loss function with
-respect to the parameters of the network. - Weight updates \$ =  - \$
-where $\alpha$ is the learning rate.
+Now we are ready to train our first model.
 
-How many steps do we take? - The batch size corresponds to the number of
-training examples in one pass (forward + backward). A smaller batch size
-allows the model to learn from individual examples but takes longer to
-train. A larger batch size requires fewer steps but may result in the
-model not capturing the nuances in the data. The higher the batch size,
-the more memory you will require.  
+A training step is comprised of:
+
+- A forward pass: the input is passed through the network
+- Backpropagation: A backward pass to compute the gradient
+  $\frac{\partial J}{\partial \mathbf{W}}$ of the loss function with
+  respect to the parameters of the network.
+- Weight updates
+  $\mathbf{W} = \mathbf{W} - \alpha \frac{\partial J}{\partial \mathbf{W}}$
+  where $\alpha$ is the learning rate.
+
+How many steps do we take?
+
+- The batch size corresponds to the number of training examples in one
+  pass (forward + backward).
+  - A smaller batch size allows the model to learn from individual
+    examples but takes longer to train.
+  - A larger batch size requires fewer steps but may result in the model
+    not capturing the nuances in the data.
+- The higher the batch size, the more memory you will require.
 - An epoch means one pass through the whole training data (looping over
-the batches). Using few epochs can lead to underfitting and using too
-many can lead to overfitting. - The choice of batch size and learning
-rate are important for performance, generalization and accuracy in deep
-learning.
+  the batches). Using few epochs can lead to underfitting and using too
+  many can lead to overfitting.
+- The choice of batch size and learning rate are important for
+  performance, generalization and accuracy in deep learning.
 
 ``` python
 batch_size = 128
@@ -237,13 +281,10 @@ def train_one_epoch(dataloader, model, loss_fn, optimizer):
         # forward pass
         pred = model(X)
         loss = loss_fn(pred, y)
-        
         # backward pass calculates gradients
         loss.backward()
-        
         # take one step with these gradients
         optimizer.step()
-        
         # resets the gradients 
         optimizer.zero_grad()
 ```
@@ -268,7 +309,7 @@ def evaluate(dataloader, model, loss_fn):
 
     loss /= num_batches
     correct /= size
-    
+
     accuracy = 100*correct
     return accuracy, loss
 ```
@@ -281,30 +322,30 @@ train_acc_all = []
 val_acc_all = []
 for j in range(epochs):
     train_one_epoch(train_dataloader, linear_model, loss_fn, optimizer)
-    
+
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, linear_model, loss_fn)
     train_acc_all.append(acc)
     print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
-    
+
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, linear_model, loss_fn)
     val_acc_all.append(val_acc)
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    Epoch 0: training loss: 0.5026922580401103, accuracy: 87.51458333333333
-    Epoch 0: val. loss: 0.4952121950844501, val. accuracy: 87.56666666666668
-    Epoch 1: training loss: 0.42193300398190814, accuracy: 88.96875
-    Epoch 1: val. loss: 0.41284254763988737, val. accuracy: 88.88333333333334
-    Epoch 2: training loss: 0.3878041599988937, accuracy: 89.64375
-    Epoch 2: val. loss: 0.37812154121855474, val. accuracy: 89.50833333333334
-    Epoch 3: training loss: 0.36775436107317605, accuracy: 90.09583333333333
-    Epoch 3: val. loss: 0.35787109047808546, val. accuracy: 89.90833333333333
-    Epoch 4: training loss: 0.3541248002449671, accuracy: 90.36874999999999
-    Epoch 4: val. loss: 0.34423094337925, val. accuracy: 90.25833333333333
-    CPU times: user 11.1 s, sys: 793 ms, total: 11.9 s
-    Wall time: 11.5 s
+    Epoch 0: training loss: 0.5019417692820232, accuracy: 87.65625
+    Epoch 0: val. loss: 0.49453334890781564, val. accuracy: 87.75833333333334
+    Epoch 1: training loss: 0.42155386352539065, accuracy: 89.01041666666667
+    Epoch 1: val. loss: 0.4124343642529021, val. accuracy: 88.98333333333333
+    Epoch 2: training loss: 0.38763896147410076, accuracy: 89.67291666666667
+    Epoch 2: val. loss: 0.3779091825510593, val. accuracy: 89.54166666666666
+    Epoch 3: training loss: 0.3677106781403224, accuracy: 90.1125
+    Epoch 3: val. loss: 0.3577830016295961, val. accuracy: 90.00833333333334
+    Epoch 4: training loss: 0.35415473226706184, accuracy: 90.43541666666667
+    Epoch 4: val. loss: 0.34422522688165624, val. accuracy: 90.25
+    CPU times: user 12.4 s, sys: 837 ms, total: 13.2 s
+    Wall time: 13.1 s
 
 ``` python
 pltsize=1
@@ -316,7 +357,7 @@ plt.ylabel('Loss')
 plt.legend()
 ```
 
-![](index_files/figure-commonmark/cell-13-output-1.png)
+![](index_files/figure-commonmark/cell-14-output-1.png)
 
 ``` python
 # Visualize how the model is doing on the first 10 examples
@@ -333,7 +374,7 @@ for i in range(10):
     plt.title('%d' % predictions[i,:].argmax())
 ```
 
-![](index_files/figure-commonmark/cell-14-output-1.png)
+![](index_files/figure-commonmark/cell-15-output-1.png)
 
 Exercise: How can you improve the accuracy? Some things you might
 consider: increasing the number of epochs, changing the learning rate,
@@ -357,7 +398,7 @@ acc_test, loss_test = evaluate(test_dataloader, linear_model, loss_fn)
 print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
-    Test loss: 0.3329, test accuracy: 90.78%
+    Test loss: 0.3323, test accuracy: 90.83%
 
 We can now take a closer look at the results.
 
@@ -369,7 +410,7 @@ def show_failures(model, dataloader, maxtoshow=10):
     model.eval()
     batch = next(iter(dataloader))
     predictions = model(batch[0])
-    
+
     rounded = predictions.argmax(1)
     errors = rounded!=batch[1]
     print('Showing max', maxtoshow, 'first failures. '
@@ -396,7 +437,7 @@ show_failures(linear_model, test_dataloader)
 
     Showing max 10 first failures. The predicted class is shown first and the correct class in parentheses.
 
-![](index_files/figure-commonmark/cell-18-output-2.png)
+![](index_files/figure-commonmark/cell-19-output-2.png)
 
 ## Multilayer Model
 
@@ -542,18 +583,18 @@ for j in range(epochs):
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    Epoch 0: training loss: 0.7425157825152079, accuracy: 79.32083333333333
-    Epoch 0: val. loss: 0.737684650624052, val. accuracy: 79.36666666666666
-    Epoch 1: training loss: 0.3808951369921366, accuracy: 89.26041666666666
-    Epoch 1: val. loss: 0.3756366603552027, val. accuracy: 89.35
-    Epoch 2: training loss: 0.3041859518289566, accuracy: 91.4875
-    Epoch 2: val. loss: 0.29854600179068586, val. accuracy: 91.24166666666666
-    Epoch 3: training loss: 0.2508001677195231, accuracy: 92.86666666666666
-    Epoch 3: val. loss: 0.24918026445393868, val. accuracy: 92.54166666666667
-    Epoch 4: training loss: 0.21329388912518818, accuracy: 93.89583333333333
-    Epoch 4: val. loss: 0.21432479518525144, val. accuracy: 93.49166666666666
-    CPU times: user 11.7 s, sys: 853 ms, total: 12.5 s
-    Wall time: 12.1 s
+    Epoch 0: training loss: 0.8326800467173259, accuracy: 75.37916666666666
+    Epoch 0: val. loss: 0.8224604630723913, val. accuracy: 75.5
+    Epoch 1: training loss: 0.39998693362871807, accuracy: 88.33958333333334
+    Epoch 1: val. loss: 0.39147761892131033, val. accuracy: 88.13333333333333
+    Epoch 2: training loss: 0.3035385671059291, accuracy: 91.22708333333334
+    Epoch 2: val. loss: 0.29642046211247747, val. accuracy: 90.95833333333333
+    Epoch 3: training loss: 0.2532479837536812, accuracy: 92.63333333333334
+    Epoch 3: val. loss: 0.2517396567508261, val. accuracy: 92.36666666666666
+    Epoch 4: training loss: 0.20894792079925537, accuracy: 93.9125
+    Epoch 4: val. loss: 0.21075309147226048, val. accuracy: 93.51666666666667
+    CPU times: user 13.1 s, sys: 986 ms, total: 14.1 s
+    Wall time: 13.7 s
 
 ``` python
 pltsize=1
@@ -565,7 +606,7 @@ plt.ylabel('Loss')
 plt.legend()
 ```
 
-![](index_files/figure-commonmark/cell-22-output-1.png)
+![](index_files/figure-commonmark/cell-23-output-1.png)
 
 ``` python
 show_failures(nonlinear_model, test_dataloader)
@@ -573,29 +614,33 @@ show_failures(nonlinear_model, test_dataloader)
 
     Showing max 10 first failures. The predicted class is shown first and the correct class in parentheses.
 
-![](index_files/figure-commonmark/cell-23-output-2.png)
+![](index_files/figure-commonmark/cell-24-output-2.png)
 
 ## Recap
 
-To train and validate a neural network model, you need: - Data split
-into training/validation/test sets, - A model with parameters to
-learn, - An appropriate loss function, - An optimizer (with tunable
-parameters such as learning rate, weight decay etc.) used to learn the
-parameters of the model.
+To train and validate a neural network model, you need:
+
+- Data split into training/validation/test sets,
+- A model with parameters to learn
+- An appropriate loss function
+- An optimizer (with tunable parameters such as learning rate, weight
+  decay etc.) used to learn the parameters of the model.
 
 ## Homework
 
 1.  Compare the quality of your model when using different:
 
-- batch sizes,
-- learning rates,
-- activation functions.
+- batch sizes
+- learning rates
+- activation functions
 
 3.  Bonus: What is a learning rate scheduler?
 
-If you have time, experiment with how to improve the model. Note:
-training and validation data can be used to compare models, but test
-data should be saved until the end as a final check of generalization.
+If you have time, experiment with how to improve the model.
+
+Note: training and validation data can be used to compare models, but
+test data should be saved until the end as a final check of
+generalization.
 
 ## Homework solution
 
@@ -647,7 +692,7 @@ class NonlinearClassifier(nn.Module):
 Bonus question: A learning rate scheduler is an essential deep learning
 technique used to dynamically adjust the learning rate during training.
 This strategic can significantly impact the convergence speed and
-overall performance of a neural network.See below on how to incorporate
+overall performance of a neural network. See below on how to incorporate
 it to your training.
 
 ``` python
@@ -673,12 +718,12 @@ for j in range(epochs):
     # Print the current learning rate
     current_lr = optimizer.param_groups[0]['lr']
     print(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
-        
+
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
     print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
-    
+
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
@@ -686,22 +731,22 @@ for j in range(epochs):
 ```
 
     Epoch 1/6, Learning Rate: 0.1
-    Epoch 0: training loss: 0.4048061025490363, accuracy: 88.52499999999999
-    Epoch 0: val. loss: 0.3970934894482295, val. accuracy: 88.4
+    Epoch 0: training loss: 0.3724592179507017, accuracy: 89.16875
+    Epoch 0: val. loss: 0.35989899677038195, val. accuracy: 89.2
     Epoch 2/6, Learning Rate: 0.010000000000000002
-    Epoch 1: training loss: 0.2733225430250168, accuracy: 92.11041666666667
-    Epoch 1: val. loss: 0.2649124986330668, val. accuracy: 92.10833333333333
+    Epoch 1: training loss: 0.2524490567247073, accuracy: 92.45833333333333
+    Epoch 1: val. loss: 0.2413639495621125, val. accuracy: 92.51666666666667
     Epoch 3/6, Learning Rate: 0.010000000000000002
-    Epoch 2: training loss: 0.24848947271083793, accuracy: 92.84583333333333
-    Epoch 2: val. loss: 0.24238888505597908, val. accuracy: 92.80833333333334
+    Epoch 2: training loss: 0.231600853258123, accuracy: 93.16250000000001
+    Epoch 2: val. loss: 0.2229825319002072, val. accuracy: 93.20833333333334
     Epoch 4/6, Learning Rate: 0.0010000000000000002
-    Epoch 3: training loss: 0.24087528042619427, accuracy: 93.07291666666667
-    Epoch 3: val. loss: 0.235569269562761, val. accuracy: 92.95
+    Epoch 3: training loss: 0.22557585212712486, accuracy: 93.36041666666667
+    Epoch 3: val. loss: 0.21765362410744032, val. accuracy: 93.31666666666666
     Epoch 5/6, Learning Rate: 0.0010000000000000002
-    Epoch 4: training loss: 0.23911077519133686, accuracy: 93.09375
-    Epoch 4: val. loss: 0.23367740372816723, val. accuracy: 93.06666666666666
+    Epoch 4: training loss: 0.22345272558803358, accuracy: 93.35416666666667
+    Epoch 4: val. loss: 0.21569474031031133, val. accuracy: 93.41666666666667
     Epoch 6/6, Learning Rate: 0.00010000000000000003
-    Epoch 5: training loss: 0.23841313693424065, accuracy: 93.12708333333333
-    Epoch 5: val. loss: 0.23312869017819562, val. accuracy: 93.05833333333334
-    CPU times: user 17.2 s, sys: 3.35 s, total: 20.5 s
-    Wall time: 18.6 s
+    Epoch 5: training loss: 0.2226053462761144, accuracy: 93.4
+    Epoch 5: val. loss: 0.21482140025993188, val. accuracy: 93.43333333333334
+    CPU times: user 19.4 s, sys: 3.7 s, total: 23.1 s
+    Wall time: 21.2 s

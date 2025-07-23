@@ -17,7 +17,9 @@
    ```bash
    uv venv --python=3.13
    source .venv/bin/activate
-   uv pip install jupyter-cache ipykernel matplotlib "git+https://github.com/saforem2/ezpz[dev]" torch torchvision torchdata torchinfo rich ptpython euporie deepspeed mpi4py
+   uv pip install jupyter-cache ipykernel matplotlib torch torchvision torchdata torchinfo rich ptpython euporie deepspeed mpi4py "git+https://github.com/saforem2/ezpz[dev]" "git+https://github.com/saforem2/wordplay"
+   python3 -m wordplay.prepare
+   python3 -m ipykernel install --sys-prefix
    ```
 
 4. Install `mcanouil/quarto-iconify`:

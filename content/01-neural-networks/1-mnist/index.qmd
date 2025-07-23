@@ -3,7 +3,7 @@ title: "Intro to NNs: MNIST"
 description: "Introduction to Neural Networks with MNIST dataset"
 date: 2025-07-17
 date-modified: last-modified
-jupyter: python3
+# jupyter: python3
 author:
   - name: Sam Foreman
     id: sf
@@ -53,7 +53,13 @@ author:
         url: https://alcf.anl.gov/about/people/taylor-childers
 ---
 
-Author: Marieme Ngom, adapting materials from Bethany Lusch, Asad Khan, Prasanna Balaprakash, Taylor Childers, Corey Adams, Kyle Felker, and Tanwi Mallick.
+
+::: {.callout-note}
+Content for this tutorial has been modified from content originally written by:
+
+Marieme Ngom, Bethany Lusch, Asad Khan, Prasanna Balaprakash, Taylor Childers,
+Corey Adams, Kyle Felker, and Tanwi Mallick
+:::
 
 This tutorial will serve as a gentle introduction to neural networks and deep learning through a hands-on classification problem using the MNIST dataset. 
 
@@ -68,10 +74,19 @@ The [MNIST dataset](http://yann.lecun.com/exdb/mnist/) contains thousands of exa
 MNIST sample
 :::
 
+```{python}
+import ambivalent
 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.style.use(ambivalent.STYLES['ambivalent'])
+sns.set_context("notebook")
+plt.rcParams["figure.figsize"] = [6.4, 4.8]
+```
 
 ```{python}
-%matplotlib inline
+# %matplotlib inline
 
 import torch
 import torchvision
@@ -84,12 +99,22 @@ import time
 
 ## The MNIST dataset
 
-We will now download the dataset that contains handwritten digits. MNIST is a popular dataset, so we can download it via the PyTorch library. Note:
-- x is for the inputs (images of handwritten digits) and y is for the labels or outputs (digits 0-9)
-- We are given "training" and "test" datasets. Training datasets are used to fit the model. Test datasets are saved until the end, when we are satisfied with our model, to estimate how well our model generalizes to new data.
+We will now download the dataset that contains handwritten digits.
+MNIST is a popular dataset, so we can download it via the PyTorch library.
+
+Note:
+
+- `x` is for the inputs (images of handwritten digits)
+- `y` is for the labels or outputs (digits 0-9)
+- We are given "training" and "test" datasets.
+  - Training datasets are used to fit the model.
+  - Test datasets are saved until the end, when we are satisfied with our
+    model, to estimate how well our model generalizes to new data.
 
 Note that downloading it the first time might take some time.
+
 The data is split as follows:
+
 - 60,000 training examples, 10,000 test examples
 - inputs: 1 x 28 x 28 pixels
 - outputs (labels): one integer per example 
@@ -121,7 +146,15 @@ training_data, validation_data = torch.utils.data.random_split(
 ```
 
 ```{python}
-print('MNIST data loaded: train:',len(training_data),' examples, validation: ', len(validation_data), 'examples, test:',len(test_data), 'examples')
+print(
+    'MNIST data loaded: train:',
+    len(training_data),
+    ' examples, validation: ',
+    len(validation_data),
+    'examples, test:',
+    len(test_data),
+    'examples'
+)
 print('Input shape', training_data[0][0].shape)
 ```
 
@@ -139,17 +172,25 @@ for i in range(10):
 ```
 
 ## Generalities:
+
 To train our classifier, we need (besides the data):
-- A model that depend on parameters $\mathbf{\theta}$. Here we are going to use neural networks.
+
+- A model that depend on parameters $\mathbf{\theta}$.
+  Here we are going to use neural networks.
 - A loss function $J(\mathbf{\theta})$ to measure the capabilities of the model.
 - An optimization method.
 
 ## Linear Model
+
 Let's begin with a simple linear model: linear regression, like last week. 
-We add one complication: each example is a vector (flattened image), so the "slope" multiplication becomes a dot product. If the target output is a vector as well, then the multiplication becomes matrix multiplication. 
 
-Note, like before, we consider multiple examples at once, adding another dimension to the input. 
+We add one complication: each example is a vector (flattened image), so the
+"slope" multiplication becomes a dot product.
+If the target output is a vector as well, then the multiplication becomes
+matrix multiplication. 
 
+Note, like before, we consider multiple examples at once, adding another
+dimension to the input.
 
 ::: {#fig-linear-model}
 
@@ -157,39 +198,53 @@ Note, like before, we consider multiple examples at once, adding another dimensi
 
 Linear model for classification
 :::
- 
 
 
-The linear layers in PyTorch perform a basic $xW + b$. These "fully connected" layers connect each input to each output with some weight parameter. We wouldn't expect a simple linear model $f(x) = xW+b$ directly outputting the class label and minimizing mean squared error to work well - the model would output labels like 3.55 and 2.11 instead of skipping to integers.
+The linear layers in PyTorch perform a basic $xW + b$.
+
+These "fully connected" layers connect each input to each output with some
+weight parameter.
+
+We wouldn't expect a simple linear model $f(x) = xW+b$ directly outputting the
+class label and minimizing mean squared error to work well - the model would
+output labels like 3.55 and 2.11 instead of skipping to integers.
 
 We now need:
-- A loss function $J(\theta)$ where $\theta$ is the list of parameters (here W and b). Last week, we used mean squared error (MSE), but this week let's make two changes that make more sense for classification:
-    - Change the output to be a length-10 vector of class probabilities (0 to 1, adding to 1).
-    - Cross entropy as the loss function, which is typical for classification. You can read more [here](https://gombru.github.io/2018/05/23/cross_entropy_loss/). 
 
-- An optimization method or optimizer such as the stochastic gradient descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let's start with stochastic gradient descent (sgd), like last week. For far more information about more advanced optimizers than basic SGD, with some cool animations, see https://ruder.io/optimizing-gradient-descent/ or https://distill.pub/2017/momentum/.
-
-- A learning rate. As we learned last week, the learning rate controls how far we move during each step. 
+- A loss function $J(\theta)$ where $\theta$ is the list of parameters (here W
+  and b).
+  Last week, we used mean squared error (MSE), but this week let's make two
+  changes that make more sense for classification:
+  - Change the output to be a length-10 vector of class probabilities (0 to 1,
+    adding to 1).
+  - Cross entropy as the loss function, which is typical for classification.
+    You can read more
+    [here](https://gombru.github.io/2018/05/23/cross_entropy_loss/).
+- An optimization method or optimizer such as the stochastic gradient descent
+  (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let's start with
+  stochastic gradient descent (sgd), like last week. For far more information
+  about more advanced optimizers than basic SGD, with some cool animations, see
+  <https://ruder.io/optimizing-gradient-descent/> or
+  <https://distill.pub/2017/momentum/>.
+- A learning rate.
+  As we learned last week, the learning rate controls how far we move during
+  each step. 
 
 ```{python}
 class LinearClassifier(nn.Module):
 
     def __init__(self):
         super().__init__()
-        
         # First, we need to convert the input image to a vector by using 
         # nn.Flatten(). For MNIST, it means the second dimension 28*28 becomes 784.
         self.flatten = nn.Flatten()
-        
         # Here, we add a fully connected ("dense") layer that has 28 x 28 = 784 input nodes 
         #(one for each pixel in the input image) and 10 output nodes (for probabilities of each class).
         self.layer_1 = nn.Linear(28*28, 10)
-        
-    def forward(self, x):
 
+    def forward(self, x):
         x = self.flatten(x)
         x = self.layer_1(x)
-
         return x
 ```
 
@@ -203,18 +258,34 @@ optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
 
 ## Learning
 
-Now we are ready to train our first model. A training step is comprised of:
+Now we are ready to train our first model.
+
+A training step is comprised of:
+
 - A forward pass: the input is passed through the network
-- Backpropagation: A backward pass to compute the gradient $\frac{\partial J}{\partial \mathbf{W}}$ of the loss function with respect to the parameters of the network.
-- Weight updates $\mathbf{W} = \mathbf{W} - \alpha \frac{\partial J}{\partial \mathbf{W}} $ where $\alpha$ is the learning rate.
+- Backpropagation:
+  A backward pass to compute the gradient
+  $\frac{\partial J}{\partial \mathbf{W}}$ 
+  of the loss function with respect to the parameters of the network.
+- Weight updates
+  $\mathbf{W} = \mathbf{W} - \alpha \frac{\partial J}{\partial \mathbf{W}}$
+  where $\alpha$ is the learning rate.
 
 How many steps do we take?
-- The batch size corresponds to the number of training examples in one pass (forward + backward). A smaller batch size allows the model to learn from individual examples but takes longer to train. A larger batch size requires fewer steps but may result in the model not capturing the nuances in the data. The higher the batch size, the more memory you will require.  
-- An epoch means one pass through the whole training data (looping over the batches). Using few epochs can lead to underfitting and using too many can lead to overfitting.
-- The choice of batch size and learning rate are important for performance, generalization and accuracy in deep learning.
 
-
-
+- The batch size corresponds to the number of training examples in one pass
+  (forward + backward).
+  - A smaller batch size allows the model to learn from individual examples but
+    takes longer to train.
+  - A larger batch size requires fewer steps but may result in the model not
+    capturing the nuances in the data.
+- The higher the batch size, the more memory you will require.
+- An epoch means one pass through the whole training data (looping over the
+  batches).
+  Using few epochs can lead to underfitting and using too many can lead
+  to overfitting.
+- The choice of batch size and learning rate are important for performance,
+  generalization and accuracy in deep learning.
 
 
 ```{python}
@@ -232,13 +303,10 @@ def train_one_epoch(dataloader, model, loss_fn, optimizer):
         # forward pass
         pred = model(X)
         loss = loss_fn(pred, y)
-        
         # backward pass calculates gradients
         loss.backward()
-        
         # take one step with these gradients
         optimizer.step()
-        
         # resets the gradients 
         optimizer.zero_grad()
 ```
@@ -263,7 +331,7 @@ def evaluate(dataloader, model, loss_fn):
 
     loss /= num_batches
     correct /= size
-    
+
     accuracy = 100*correct
     return accuracy, loss
 ```
@@ -276,12 +344,12 @@ train_acc_all = []
 val_acc_all = []
 for j in range(epochs):
     train_one_epoch(train_dataloader, linear_model, loss_fn, optimizer)
-    
+
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, linear_model, loss_fn)
     train_acc_all.append(acc)
     print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
-    
+
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, linear_model, loss_fn)
     val_acc_all.append(val_acc)
@@ -343,7 +411,7 @@ def show_failures(model, dataloader, maxtoshow=10):
     model.eval()
     batch = next(iter(dataloader))
     predictions = model(batch[0])
-    
+
     rounded = predictions.argmax(1)
     errors = rounded!=batch[1]
     print('Showing max', maxtoshow, 'first failures. '
@@ -531,21 +599,26 @@ show_failures(nonlinear_model, test_dataloader)
 ## Recap
 
 To train and validate a neural network model, you need:
+
 - Data split into training/validation/test sets,
-- A model with parameters to learn,
-- An appropriate loss function,
-- An optimizer (with tunable parameters such as learning rate, weight decay etc.) used to learn the parameters of the model.
+- A model with parameters to learn
+- An appropriate loss function
+- An optimizer (with tunable parameters such as learning rate, weight decay
+  etc.) used to learn the parameters of the model.
 
 ## Homework
 
 1. Compare the quality of your model when using different:
- - batch sizes, 
- - learning rates,
- - activation functions.
+ - batch sizes
+ - learning rates
+ - activation functions
 
 3. Bonus: What is a learning rate scheduler?
 
-If you have time, experiment with how to improve the model. Note: training and validation data can be used to compare models, but test data should be saved until the end as a final check of generalization. 
+If you have time, experiment with how to improve the model.
+
+Note: training and validation data can be used to compare models, but test data
+should be saved until the end as a final check of generalization.
 
 ## Homework solution
 
@@ -594,7 +667,11 @@ class NonlinearClassifier(nn.Module):
 ##############################################################################
 ```
 
-Bonus question: A learning rate scheduler is an essential deep learning technique used to dynamically adjust the learning rate during training. This strategic can significantly impact the convergence speed and overall performance of a neural network.See below on how to incorporate it to your training.
+Bonus question: A learning rate scheduler is an essential deep learning
+technique used to dynamically adjust the learning rate during training.
+This strategic can significantly impact the convergence speed and overall
+performance of a neural network.
+See below on how to incorporate it to your training.
 
 ```{python}
 nonlinear_model = NonlinearClassifier()
@@ -619,16 +696,15 @@ for j in range(epochs):
     # Print the current learning rate
     current_lr = optimizer.param_groups[0]['lr']
     print(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
-        
+
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
     print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
-    
+
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
-
 
