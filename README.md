@@ -6,7 +6,7 @@
 2. Clone the repository:
 
    ```bash
-   git clone https://github.com/saforem2/intro-hpc-bootcamp-2025.git
+   git clone --filter=tree:0 https://github.com/saforem2/intro-hpc-bootcamp-2025
    cd intro-hpc-bootcamp-2025 
    ```
 

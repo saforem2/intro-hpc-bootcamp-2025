@@ -1,0 +1,474 @@
+title: "Intro to HPC Bootcamp 2025"
+date: 2025-07-22
+lightbox: true
+title-block-categories: true
+number-sections: false
+image-lazy-loading: true
+bibliography: references.bib
+google-scholar: true
+site-url: "https://saforem2.github.io/hpc-bootcamp-2025/"
+citation: true
+strip-comments: true
+affiliation: "[ALCF](https://alcf.anl.gov/about/people/sam-foreman)"
+jupyter: python3
+header-includes: |
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+execute:
+  cache: true
+  # keep-md: true
+  freeze: auto
+  # keep-ipynb: true
+project:
+  type: website
+  output-dir: "../docs"
+  preview:
+    port: 4208
+  render:
+    - "index.qmd"
+    # - "./**/**/*.qmd"
+    - "./00-intro-AI-HPC/**/**/*.qmd"
+    - "./01-neural-networks/**/**/*.qmd"
+    - "./02-llms/index.qmd"
+    - "./02-llms/0-intro-to-llms/index.qmd"
+    - "./02-llms/1-hands-on-llms/index.qmd"
+    # - "./02-llms/2-prompt-engineering/index.qmd"
+    # - "./02-llms/3-rag-tutorial/index.qmd"
+    - "./02-llms/4-evaluating-llms/index.qmd"
+    - "./02-llms/5-advanced-llms/index.qmd"
+    - "./02-llms/6-parallel-training/index.qmd"
+    - "./02-llms/7-shakespeare-example/index.qmd"
+    - "./03-ai-for-science/index.qmd"
+    - "./03-ai-for-science/index.qmd"
+    - "./03-ai-for-science/0-genslm/index.qmd"
+    - "!./02-llms/0-intro-to-llms/OLD/**/**/*.qmd"
+    # - "./02-llms/**/**/*.qmd"
+    # - "./**/**/*.ipynb"
+author:
+  name: "Sam Foreman"
+  url: "https://samforeman.me"
+  email: "foremans@anl.gov"
+  affiliation: "[ALCF](https://alcf.anl.gov/about/people/sam-foreman)"
+  affiliation-url: "https://alcf.anl.gov/about/people/sam-foreman"
+# metadata-files:
+#   - quarto/_website.yml
+#   - quarto/_format.yml
+#   # - posts/_metadata.yml
+#   # - posts/_metadata.yml
+#   # - talks/_metadata.yml
+#   # - _reveal.yml
+
+# image-lazy-loading: true
+# revealjs-plugins:
+#   - revealjs-text-resizer
+
+# resources:
+#   # - static/fonts/IosevkaQP/*
+#   # - static/fonts-iosevka/IosevkaQP/IosevkaQP.css
+#   # - static/fonts/IosevkaTerm/*
+#   # - static/fonts-iosevka/IosevkaTerm/IosevkaTerm.css
+format:
+  gfm:
+    toc: true
+  ipynb: default
+  html:
+    respect-user-color-scheme: true
+    date-modified: last-modified
+    link-external-newwindow: true
+    link-external-icon: false
+    callout-appearance: simple
+    code-tools: true
+    code-link: true
+    code-line-numbers: true
+    toc: true
+    self-contained: false
+    default-image-extension: svg
+    toc-title: ""
+    page-layout: article
+    grid:
+      body-width: 1000px
+      margin-width: 250px
+      sidebar-width: 250px
+      # gutter-width: 1.5rem
+    fig-align: center
+    fig-responsive: true
+    anchor-sections: true
+    code-overflow: scroll
+    code-copy: hover
+    code-summary: " "
+    citations-hover: true
+    crossrefs-hover: true
+    html-math-method: katex
+    footnotes-hover: true
+    section-divs: true
+    highlight-style:
+      light: github
+      dark: github-dark
+    # css:
+    #   # - css/colors-oklch.min.css
+    #   # - css/custom.css
+    #   # - css/svgbob.css
+    #   # - static/fonts/IosevkaQP/IosevkaQP.css
+    #   - static/fonts/MIosevkaQp/MIosevkaQp.css
+    #   - static/fonts/MIosevkaterm/MIosevkaTerm.css
+    #   # - static/fonts/IosevkaTerm/IosevkaTerm.css
+    #   # - css/giscus.css
+    theme:
+      dark:
+        # - css/sam/callouts.scss
+        # - css/global.scss
+        # - css/now_playing.scss
+        # - css/common.cleaned.scss
+        # - css/common.cleaned.minimal.scss
+        - css/common.scss
+        # - css/sf.scss
+        - css/dark.scss
+        - css/syntax-dark.scss
+        - css/callout-cards.scss
+        - default
+      light:
+        # - css/sam/callouts.scss
+        # - css/global.scss
+        # - css/now_playing.scss
+        - css/common.scss
+        # - css/sf.scss
+        # - css/common.cleaned.minimal.scss
+        - css/light.scss
+        - css/syntax-light.scss
+        - css/callout-cards.scss
+        - default
+    include-in-header:
+      - text: | # KaTeX
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+
+          <!-- The loading of KaTeX is deferred to speed up page rendering -->
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
+
+          <!-- To automatically render math in text elements, include the auto-render extension: -->
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+      - text: | # Google fonts
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&family=IBM+Plex+Sans+Condensed&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+      - text: | # Google Tag Manager
+          <!-- Google Tag Manager -->
+          <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TC329HJ');</script>
+          <!-- End Google Tag Manager -->
+    include-before-body:
+      - text: |
+          <!-- Google Tag Manager (noscript) -->
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+          <!-- End Google Tag Manager (noscript) -->
+    header-includes: |
+      <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
+
+    # <pre>
+    # </pre>
+    #
+  # revealjs:
+  #   # width: 1280
+  #   # height: 720
+  #   auto-animate: true
+  #   background-color: white
+  #   comments: false
+  #   # callout-style: simple
+  #   citations-hover: true
+  #   code-line-numbers: false
+  #   center: true
+  #   code-overflow: scroll
+  #   chalkboard:
+  #     buttons: false
+  #   controls-tutorial: true
+  #   controls: false
+  #   default-image-extension: svg
+  #   pdf-separate-fragments: true
+  #   footnotes-hover: true
+  #   history: false
+  #   higlight-style: atom-one
+  #   html-math-method: katex
+  #   logo: "/assets/anl.svg"
+  #   mermaid-format: png
+  #   mermaid:
+  #     format: png
+  #     layout: elk
+  #     useMaxWidth: true
+  #   navigation-mode: linear
+  #   output-file: "slides.html"
+  #   pause: false
+  #   # preview-links: true
+  #   slide-number: c
+  #   touch: true
+  #   css:
+  #     - css/navbar-active.css
+  #     # - css/colors-oklch.min.css
+  #     - css/custom.css
+  #     - css/svgbob.css
+  #     - static/fonts/MIosevkaQp/MIosevkaQp.css
+  #     - static/fonts/MIosevkaTerm/MIosevkaTerm.css
+  #     # - static/fonts/IosevkaQP/IosevkaQP.css
+  #     # - static/fonts/IosevkaTerm/IosevkaTerm.css
+  #     # - static/fonts/IosevkaTerm/IosevkaTerm.css
+  #     # - static/fonts/IosevkaQP/IosevkaQP.css
+  #   theme:
+  #     # - css/sam/callouts.scss
+  #     - css/global.scss
+  #     - css/title-slide-template.scss
+  #     # - css/pdf.scss
+  #     - css/reveal/reveal.scss
+  #     - css/common.scss
+  #     - css/light.scss
+  #     - css/syntax-light.scss
+  #     - css/callout-cards.scss
+  #     - white
+  #   include-in-header:
+  #     - text: | # Google Tag Manager
+  #         <!-- Google Tag Manager -->
+  #         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TC329HJ');</script>
+  #         <!-- End Google Tag Manager -->
+  #   include-before-body:
+  #     - text: |
+  #         <!-- Google Tag Manager (noscript) -->
+  #         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  #         <!-- End Google Tag Manager (noscript) -->
+
+website:
+  bread-crumbs: true
+  title: "Intro to HPC Bootcamp 2025"
+  description: "An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience."
+  image: assets/thumbnail.png
+  favicon: 🧑‍💻
+  # favicon: assets/favicon-sf.svg
+  # favicon: assets/home-openmoji.svg
+  page-navigation: true
+  # google-analytics: "G-E72QE53WSY"
+  # google-analytics: GTM-TC329HJ
+  # google-analytics: G-XVM2Y822Y1
+  # GTM-TC329HJ
+  site-url: "https://saforem2.github.io/hpc-bootcamp-2025/"
+  repo-url: https://github.com/saforem2/intro-hpc-bootcamp-2025
+  repo-actions: [source, edit, issue]
+  comments:
+    giscus:
+      repo: saforem2/intro-hpc-bootcamp-2025
+  # back-to-top-navigation: true
+  # page-footer:
+  #   # center: "<img src='https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsamforeman.me&count_bg=%23838383&title_bg=%23303030&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false'><br>© Copyright [Sam Foreman](https://samforeman.me)"
+  #   # center: |
+  #   #   © Copyright [Sam Foreman](https://samforeman.me)
+  # comments:
+  #   hypothesis:
+  #     theme: clean
+  #     openSidebar: false
+  # sidebar: false
+  # search: true
+  # cookie-consent:
+  #   type: implied
+  #   # style: simple
+  #   palette: dark
+
+  # gtag: G-E72QE53WSY
+  # issue-url: https://github.com/saforem2/personal_size/issues/new/choose
+  # repo-actions: [source]
+  # search:
+  #   show-item-context: true
+  #   type: textbox
+  # search:
+  #   location: sidebar
+  #   type: overlay
+  #   keyboard-shortcut: ["?", "H"]
+
+  open-graph:
+    true
+    # title: "Sam Foreman"
+    # description: ""
+    # image: "https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/assets/thumbnail.png?raw=true"
+  twitter-card:
+    site: "saforem2"
+    # creator: "@saforem2"
+    # title: "Sam Foreman"
+    # description: ""
+    # image: "https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/assets/thumbnail.png?raw=true"
+  # navbar:
+  #   # logo: 
+  #   # logo-alt: "Intro to HPC Bootcamp 2025"
+  #   # title: true
+  #   background: "rgba(34, 34, 34, 0.95)"
+  #   foregound: "#838383"
+  #   right:
+  #     # - id: talks
+  #     #   text: "talks"
+  #     #   # text: "[talks]{style='color:var(--bs-nav-link-color);'}"
+  #     #   url: "talks/index.qmd"
+  #     #
+  #     # - id: posts
+  #     #   text: "posts"
+  #     #   # text: "[projects]{style='color:var(--bs-nav-link-color);'}"
+  #     #   url: "posts/index.qmd"
+  #     #
+  #     # - id: projects
+  #     #   text: "projects"
+  #     #   # text: "[projects]{style='color:var(--bs-nav-link-color);'}"
+  #     #   url: "projects/index.qmd"
+  #
+  #     - href: https://github.com/saforem2/intro-hpc-bootcamp-2025
+  #       text: "[{{< iconify ph github-logo >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}"
+  #       aria-label: GitHub
+  #
+  #     - href: index.xml
+  #       text: "[{{< iconify ph rss >}}]{.icon style='font-size: 1.25rem; color:var(--bs-nav-link-color);'}"
+  #       aria-label: RSS
+
+
+  sidebar:
+    # style: "docked"
+    style: "floating"
+    align: left
+    search: true
+    pinned: true
+    title: "Intro to HPC Bootcamp 2025"
+    # search: true
+    # contents: auto
+    collapse-level: 1
+    # contents: auto
+    tools:
+      - icon: home
+        href: "index.qmd"
+        text: "Home"
+      - icon: github
+        href: "https://github.com/saforem2/intro-hpc-bootcamp-2025"
+        text: "GitHub"
+
+
+    id: sidebar
+    contents:
+      - id: 00-intro-AI-HPC
+        section: "[00] Intro to AI and HPC"
+        href: "00-intro-AI-HPC/index.qmd"
+        contents:
+          - text: "[0] Compute Systems"
+            href: "00-intro-AI-HPC/0-compute-systems/index.qmd"
+          - text: "[1] Shared Resources"
+            href: "00-intro-AI-HPC/1-shared-resources/index.qmd"
+          - text: "[2] Jupyter Notebooks"
+            href: "00-intro-AI-HPC/2-jupyter-notebooks/index.qmd"
+          - text: "[3] Homework"
+            href: "00-intro-AI-HPC/3-homework/index.qmd"
+          - text: "[4] NERSC"
+            href: "00-intro-AI-HPC/4-nersc/index.qmd"
+          - text: "[5] MCMC Example"
+            href: "00-intro-AI-HPC/5-mcmc-example/index.qmd"
+          - text: "[6] Linear Regression"
+            href: "00-intro-AI-HPC/6-linear-regression/index.qmd"
+
+      - id: 01-neural-networks
+        section: "[01] Neural Networks"
+        href: "01-neural-networks/index.qmd"
+        contents:
+          - text: "[0] Intro to NNs"
+            href: "01-neural-networks/0-intro/index.qmd"
+          - text: "[1] MNIST Example"
+            href: "01-neural-networks/1-mnist/index.qmd"
+          - text: "[2] Advanced"
+            href: "01-neural-networks/2-advanced/index.qmd"
+          - text: "[3] Conv. Nets"
+            href: "01-neural-networks/3-conv-nets/index.qmd"
+          - text: "[4] Representation Learning"
+            href: "01-neural-networks/4-representation-learning/index.qmd"
+
+      - id: 02-llms
+        section: "[02] Large Language Models"
+        href: "02-llms/index.qmd"
+        contents:
+          - text: "[0] Intro to LLMs"
+            href: "02-llms/0-intro-to-llms/index.qmd"
+          - text: "[1] Hands-on LLMs"
+            href: "02-llms/1-hands-on-llms/index.qmd"
+          # - text: "[2] Prompt Engineering"
+          #   href: "02-llms/2-prompt-engineering/index.qmd"
+          # - text: "[3] RAG Tutorial"
+          #   href: "02-llms/3-rag-tutorial/index.qmd"
+          - text: "[4] Evaluating LLMs"
+            href: "02-llms/4-evaluating-llms/index.qmd"
+          - text: "[5] Advanced LLMs"
+            href: "02-llms/5-advanced-llms/index.qmd"
+          - text: "[6] Parallel Training"
+            href: "02-llms/6-parallel-training/index.qmd"
+          - text: "[7] Shakespeare Example"
+            href: "02-llms/7-shakespeare-example/index.qmd"
+
+      - id: 03-ai-for-science
+        section: "[03] AI for Science"
+        href: "03-ai-for-science/index.qmd"
+        contents:
+          - text: "[0] GenSLM"
+            href: "03-ai-for-science/0-genslm/index.qmd"
+
+        # contents:
+          # - text: "[0] Intro to AI for Science"
+          #   href: "03-ai-for-science/0-intro/index.qmd"
+          # - text: "[1] AI for Materials Science"
+          #   href: "03-ai-for-science/1-materials-science/index.qmd"
+          # - text: "[2] AI for Chemistry"
+          #   href: "03-ai-for-science/2-chemistry/index.qmd"
+          # - text: "[3] AI for Biology"
+          #   href: "03-ai-for-science/3-biology/index.qmd"
+
+    #
+    #           # - id: 02-llms
+    #           #   section: "02 Large Language Models"
+    #           #   href: "projects/hpc-bootcamp-2025/02-llms/index.qmd"
+    #           #   contents:
+    #           #     - auto: "projects/hpc-bootcamp-2025/02-llms/**/**/*.qmd"
+    #           #
+    #           # - id: 03-ai-for-science
+    #           #   section: "03 AI for Science"
+    #           #   href: "projects/hpc-bootcamp-2025/03-ai-for-science/index.qmd"
+    #           #   contents:
+    #           #     - auto: "projects/hpc-bootcamp-2025/03-ai-for-science/**/**/*.qmd"
+    #
+    #           # - auto: "projects/hpc-bootcamp-2025/**/**/*.qmd"
+    #           # - id: 00-intro-supercomputers
+    #           #   section: "00 Intro to Supercomputers"
+    #           #   href: "projects/hpc-bootcamp-2025/00-intro-supercomputers/index.qmd"
+    #           #   contents:
+    #           #     # - auto: "projects/hpc-bootcamp-2025/00-intro-supercomputers/**/**/*.qmd"
+    #           # - id: 01-intro-AI-HPC
+    #           #   section: "01 Intro to AI and HPC"
+    #           #   href: "projects/hpc-bootcamp-2025/01-intro-AI-HPC/index.qmd"
+    #           #   contents:
+    #           #     - auto: "projects/hpc-bootcamp-2025/01-intro-AI-HPC/**/**/*.qmd"
+    #           # - id: 02-neural-networks
+    #           #   section: "02 Neural Networks"
+    #           #   href: "projects/hpc-bootcamp-2025/02-neural-networks/index.qmd"
+    #           #   contents:
+    #           #     - auto: "projects/hpc-bootcamp-2025/02-neural-networks/**/**/*.qmd"
+    #           # - id: 03-llms
+    #           #   section: "03 Large Language Models"
+    #           #   href: "projects/hpc-bootcamp-2025/03-llms/index.qmd"
+    #           #   contents:
+    #           #     - auto: "projects/hpc-bootcamp-2025/03-llms/**/**/*.qmd"
+    #           # - id: 04-ai-for-science
+    #           #   section: "04 AI for Science"
+    #           #   href: "projects/hpc-bootcamp-2025/04-ai-for-science/index.qmd"
+    #           #   contents:
+    #           #     - auto: "projects/hpc-bootcamp-2025/04-ai-for-science/**/**/*.qmd"
+
+
+  page-footer:
+    # left: |
+    #   Proudly supported by
+    #   [![](/images/Posit-Logos-2024_horiz-full-color.svg){fig-alt="Posit" width=65px .light-content}](https://posit.co) [![](/images/Posit-Logos-2024_horiz-full-color-white-text.svg){fig-alt="Posit" width=65px .dark-content}](https://posit.co)
+    left:
+      - text: "saforem2.github.io/intro-hpc-bootcamp-2025"
+        href: "https://saforem2.github.io/intro-hpc-bootcamp-2025/"
+    right:
+      - icon: twitter
+        href: https://twitter.com/saforem2
+        aria-label: Sam Foreman Twitter
+      - icon: github
+        href: https://github.com/saforem2/intro-hpc-bootcamp-2025
+        aria-label: Sam Foreman GitHub
+      # - icon: rss
+      #   href: https://samforeman.me/index.xml
+      #   aria-label: Sam Foreman's Blog RSS
