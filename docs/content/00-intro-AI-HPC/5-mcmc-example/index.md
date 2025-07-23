@@ -76,8 +76,8 @@ print(f"Pi = {res/float(N/4.0)}")
 print("Time: %s" %(t1 - t0))
 ```
 
-    Pi = 3.296
-    Time: 18.63779616355896
+    Pi = 2.992
+    Time: 19.821304082870483
 
 ![](index_files/figure-commonmark/cell-2-output-2.png)
 
@@ -119,16 +119,16 @@ if comm.rank==0:
 ! pip install mpi4py
 ```
 
-    --2025-07-22 12:38:55--  https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py
-    Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.109.133, 185.199.110.133, 185.199.111.133, ...
-    Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.109.133|:443... connected.
+    --2025-07-22 19:09:19--  https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/mpi_pi.py
+    Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
+    Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
     HTTP request sent, awaiting response... 200 OK
     Length: 555 [text/plain]
-    Saving to: ‘mpi_pi.py.18’
+    Saving to: ‘mpi_pi.py.33’
 
-    mpi_pi.py.18          0%[                    ]       0  --.-KB/s               mpi_pi.py.18        100%[===================>]     555  --.-KB/s    in 0s      
+    mpi_pi.py.33          0%[                    ]       0  --.-KB/s               mpi_pi.py.33        100%[===================>]     555  --.-KB/s    in 0s      
 
-    2025-07-22 12:38:55 (75.6 MB/s) - ‘mpi_pi.py.18’ saved [555/555]
+    2025-07-22 19:09:19 (37.8 MB/s) - ‘mpi_pi.py.33’ saved [555/555]
 
     Requirement already satisfied: mpi4py in /opt/homebrew/lib/python3.11/site-packages (4.1.0)
 
@@ -137,24 +137,24 @@ if comm.rank==0:
 ```
 
     Number of processes: 1
-    Pi = 3.1416536
-    Time: 2.809984
+    Pi = 3.1407448
+    Time: 3.026009
 
 ``` python
 ! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 2
-    Pi = 3.1420664
-    Time: 1.457715
+    Pi = 3.1409632
+    Time: 1.491461
 
 ``` python
 ! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 4
-    Pi = 3.1399648
-    Time: 0.747771
+    Pi = 3.142324
+    Time: 0.714551
 
 ### Running $\pi$ on Polaris
 

@@ -585,6 +585,7 @@ body p {
   margin-block: auto;
   overflow-wrap: break-word;
   overflow-x: auto;
+  line-height: initial;
   // padding-inline: 5pt;
   // margin-top: 0.5rem;
   // margin-bottom: 0.5rem;
@@ -2599,13 +2600,13 @@ div.quarto-about-trestles {
     position: relative;
     width: min-content;
 
-    &:hover {
-      filter: drop-shadow(RGBA(0, 0, 0, 0.13) 0px 1px 2px);
-      border: 1px solid $red !important;
-      // background: unset;
-      color: $red !important;
-      background-color: oklch(from $red calc(l * 1.15) c h/0.1);
-    }
+    // &:hover {
+    //   filter: drop-shadow(RGBA(0, 0, 0, 0.13) 0px 1px 2px);
+    //   border: 1px solid $red !important;
+    //   // background: unset;
+    //   color: $red !important;
+    //   background-color: oklch(from $red calc(l * 1.15) c h/0.1);
+    // }
   }
 
   .navbar .navbar-container > .navbar-brand-container {
@@ -2915,7 +2916,7 @@ nav.quarto-secondary-nav {
   // padding-left: 0.5rem;
   // padding-right: 0.5rem;
   // box-shadow: var(--bs-navbar-box-shadow) !important;
-  box-shadow: 0 0 11px $link-color-hover !important;
+  // box-shadow: 0 0 11px $link-color-hover !important;
   // border: 1px solid $link-color-hover;
 }
 

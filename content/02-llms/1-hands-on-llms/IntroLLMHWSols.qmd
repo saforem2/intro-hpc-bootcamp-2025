@@ -1,0 +1,122 @@
+---
+jupyter: python3
+---
+
+```{python}
+'''
+Uncomment below section if running on sophia jupyter notebook
+'''
+import os
+os.environ["HTTP_PROXY"]="proxy.alcf.anl.gov:3128"
+os.environ["HTTPS_PROXY"]="proxy.alcf.anl.gov:3128"
+os.environ["http_proxy"]="proxy.alcf.anl.gov:3128"
+os.environ["https_proxy"]="proxy.alcf.anl.gov:3128"
+os.environ["ftp_proxy"]="proxy.alcf.anl.gov:3128"
+```
+
+```{python}
+!pip install transformers
+!pip install pandas
+!pip install torch
+```
+
+1. Load in a generative model using the HuggingFace pipeline and generate text using a batch of prompts.
+  * Play with generative parameters such as temperature, max_new_tokens, and the model itself and explain the effect on the legibility of the model response. Try at least 4 different parameter/model combinations.
+
+GPT2 model
+
+```{python}
+from transformers import AutoTokenizer,AutoModelForCausalLM, AutoConfig
+prompts = ['No, I am your',
+           'Im sorry Dave, Im afraid I',
+           'What is your favorite color?',
+          'Forget it Jake, its',
+          'You cant handle the']
+
+from transformers import pipeline
+generator = pipeline("text-generation", model="gpt2")
+pipe = pipeline("text-generation", model="gpt2")
+generator(prompts, max_length=20, num_return_sequences=5)
+```
+
+```{python}
+generator(prompts, max_length=10, num_return_sequences=4)
+```
+
+```{python}
+generator(prompts, max_length=10, num_return_sequences=4, temperature=1)
+```
+
+Llama 3.2 1B
+
+```{python}
+from huggingface_hub import login
+hf_token = "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"
+login(token=hf_token, add_to_git_credential=True)
+from transformers import AutoTokenizer,AutoModelForCausalLM, AutoConfig
+from transformers import pipeline
+
+pipe = pipeline("text-generation", model="meta-llama/Llama-3.2-1B", device=0)
+```
+
+```{python}
+messages = [
+    "Star Wars: No, I am your",
+    "Space Odyssey: Im sorry Dave, Im afraid I",
+    "Monty Python: What is your favorite ",
+    "Chinatown: Forget it Jake, its",
+    "A few good men: You cant handle the",
+]
+pipe(messages, max_length=20, num_return_sequences=5, temperature=1)
+```
+
+```{python}
+#| scrolled: true
+pipe(messages, max_length=20, num_return_sequences=5, temperature=0.05)
+```
+
+2. Load in 2 models of different parameter size (e.g. GPT2, meta-llama/Llama-2-7b-chat-hf, or distilbert/distilgpt2) and analyze the BertViz for each. How does the attention mechanisms change depending on model size?
+
+GPT2
+
+```{python}
+!pip install bertviz
+```
+
+```{python}
+from transformers import AutoTokenizer, AutoModel, utils, AutoModelForCausalLM
+
+from bertviz import model_view
+utils.logging.set_verbosity_error()  # Suppress standard warnings
+
+model_name = 'openai-community/gpt2'
+input_text = "Forget it Jake, its"
+model = AutoModelForCausalLM.from_pretrained(model_name, output_attentions=True)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+inputs = tokenizer.encode(input_text, return_tensors='pt')  # Tokenize input text
+outputs = model(inputs)  # Run model
+attention = outputs[-1]  # Retrieve attention from model outputs
+tokens = tokenizer.convert_ids_to_tokens(inputs[0])  # Convert input ids to token strings
+model_view(attention, tokens)  # Display model view
+```
+
+```{python}
+from transformers import AutoTokenizer, AutoModel, utils, AutoModelForCausalLM
+
+from bertviz import model_view
+utils.logging.set_verbosity_error()  # Suppress standard warnings
+
+model_name = "meta-llama/Llama-3.2-1B"
+input_text = "Forget it Jake, its"
+model = AutoModelForCausalLM.from_pretrained(model_name, output_attentions=True)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+inputs = tokenizer.encode(input_text, return_tensors='pt')  # Tokenize input text
+outputs = model(inputs)  # Run model
+attention = outputs[-1]  # Retrieve attention from model outputs
+tokens = tokenizer.convert_ids_to_tokens(inputs[0])  # Convert input ids to token strings
+model_view(attention, tokens)  # Display model view
+```
+
+We can see that loading in the llama model drastically increases the number of attention mechanisms. Although the attention mechanisms look quite similar in a lot of the heads/layers (a lot of attention to "<|begin_of_text|>"), due to the large number of heads + layers, there is variability in a few heads.
+
+

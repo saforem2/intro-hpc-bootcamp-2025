@@ -51,13 +51,24 @@ In this notebook, we will talk about:
 Data Driven Learning
 :::
 
-I learned English in my middle school, and memorized a lot of grammar rules in my mind. Every time when I speak, I try to follow the grammar rules as much as I can. But I always break the rules. 
+I learned English in my middle school, and memorized a lot of grammar rules in
+my mind.
+Every time when I speak, I try to follow the grammar rules as much as I can.
+But I always break the rules.
 
-However, my daugher learned English differently. She learns speaking by hearing a lot of speaking from TV, teachers, classmates, and her older brother. The fact is that, she seldomly breaks grammar rules. This way of learning by observing patterns is very powerful! This is the essence of AI or data driven science. 
+However, my daugher learned English differently.
+She learns speaking by hearing a lot of speaking from TV, teachers, classmates,
+and her older brother.
+The fact is that, she seldomly breaks grammar rules. This way of learning by
+observing patterns is very powerful! This is the essence of AI or data driven
+science.
 
 ## How does large language model work? 
 
-Large Language Models, like GPT, function by pre-training on extensive datasets to learn language patterns, utilizing transformer architecture for contextual understanding, and can be fine-tuned for specific tasks, enabling them to generate coherent and contextually relevant text based on provided inputs.
+Large Language Models, like GPT, function by pre-training on extensive datasets
+to learn language patterns, utilizing transformer architecture for contextual
+understanding, and can be fine-tuned for specific tasks, enabling them to
+generate coherent and contextually relevant text based on provided inputs.
 
 ::: {#fig-llm}
 
@@ -80,24 +91,42 @@ You can do this on https://chat.openai.com
 
 This example is adopted from Bethany Lusch, ALCF.
 
-Linear regression is the simplest example ``learning" from existing data for
+Linear regression is the simplest example learning from existing data for
 future prediction.
 
-<p float="center">
-  <img src="../figures/excel_linear_regression.jpg" width="400" />
-</p>
+::: {#fig-excel-linear-regression}
+
+![](../figures/excel_linear_regression.jpg)
+
+Linear regression in Excel
+:::
+
 
 We're going to review the math involved in this process to help understand how
 training an AI works.
 
 First we will load some tools that others wrote and we can use to help us work.
 
-- [Pandas](https://pandas.pydata.org/docs/): a toolkit for working with row vs. column data, like excel sheets, and CSV (Comma Seperated Values) files.
-- [Numpy](https://numpy.org/doc/): a toolkit for managing arrays, vectors, matrices, etc, doing math with them, slicing them up, and many other handy things.
-- [Matplotlib](https://matplotlib.org/stable/index.html): a toolkit for plotting data
+- [Pandas](https://pandas.pydata.org/docs/): a toolkit for working with row vs.
+  column data, like excel sheets, and CSV (Comma Seperated Values) files.
+- [Numpy](https://numpy.org/doc/): a toolkit for managing arrays, vectors,
+  matrices, etc, doing math with them, slicing them up, and many other handy
+  things.
+- [Matplotlib](https://matplotlib.org/stable/index.html): a toolkit for
+  plotting data
 
 
 ```{python}
+
+import ambivalent
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.style.use(ambivalent.STYLES['ambivalent'])
+sns.set_context("notebook")
+plt.rcParams["figure.figsize"] = [6.4, 4.8]
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -434,7 +463,9 @@ loop_N = 30*len(data)//batch_size
 Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512. 
 
 ## Learning rate issue (Bonus)
+
 As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge. 
+
 ```
 (64, 1e-7, 1e-1)*1
 (64, 1e-7, 1e-1)*2
@@ -444,9 +475,10 @@ As described above, if the learning rate is too large, it will affect the conver
 ```
 
 **How to submit your homework**
-* Fork the github repo to your personal github 
-* Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github
-* Provide the link of 01_linear_regression_sgd in the personal github. 
+
+- Fork the github repo to your personal github 
+- Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github
+- Provide the link of 01_linear_regression_sgd in the personal github. 
 
 Follow the below instruction on how to do this: 
 https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md

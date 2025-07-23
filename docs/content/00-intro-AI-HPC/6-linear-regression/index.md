@@ -109,13 +109,16 @@ You can do this on https://chat.openai.com
 
 This example is adopted from Bethany Lusch, ALCF.
 
-Linear regression is the simplest example \`\`learning” from existing
-data for future prediction.
+Linear regression is the simplest example learning from existing data
+for future prediction.
 
-<p float="center">
+<div id="fig-excel-linear-regression">
 
-<img src="../figures/excel_linear_regression.jpg" width="400" />
-</p>
+![](../figures/excel_linear_regression.jpg)
+
+Figure 4: Linear regression in Excel
+
+</div>
 
 We’re going to review the math involved in this process to help
 understand how training an AI works.
@@ -124,7 +127,7 @@ First we will load some tools that others wrote and we can use to help
 us work.
 
 - [Pandas](https://pandas.pydata.org/docs/): a toolkit for working with
-  row vs. column data, like excel sheets, and CSV (Comma Seperated
+  row vs. column data, like excel sheets, and CSV (Comma Seperated
   Values) files.
 - [Numpy](https://numpy.org/doc/): a toolkit for managing arrays,
   vectors, matrices, etc, doing math with them, slicing them up, and
@@ -133,6 +136,15 @@ us work.
   plotting data
 
 ``` python
+import ambivalent
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.style.use(ambivalent.STYLES['ambivalent'])
+sns.set_context("notebook")
+plt.rcParams["figure.figsize"] = [6.4, 4.8]
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -319,7 +331,7 @@ possible to $\hat{y_i}$.
 
 ![](../figures/loss_func.png)
 
-Figure 4: Loss function for linear regression
+Figure 5: Loss function for linear regression
 
 </div>
 
@@ -584,10 +596,12 @@ and learning rate until you see the training does not converge.
     (64, 1e-7, 1e-1)*8
     ...
 
-**How to submit your homework** \* Fork the github repo to your personal
-github \* Make change to the 01_linear_regression_sgd.ipynb, and then
-push to your personal github \* Provide the link of
-01_linear_regression_sgd in the personal github.
+**How to submit your homework**
+
+- Fork the github repo to your personal github
+- Make change to the 01_linear_regression_sgd.ipynb, and then push to
+  your personal github
+- Provide the link of 01_linear_regression_sgd in the personal github.
 
 Follow the below instruction on how to do this:
 https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md
@@ -637,10 +651,10 @@ for bs in 64, 128, 256, 512:
 
     previously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291
     =======================================
-    batch size: 64, m=87.6565, b=36102.5746, loss=1479482152.1960
-    batch size: 128, m=91.0466, b=34038.4247, loss=1496983751.2680
-    batch size: 256, m=88.6168, b=33434.3635, loss=1478018671.1810
-    batch size: 512, m=88.9138, b=33003.0781, loss=1478194911.5484
+    batch size: 64, m=87.1842, b=36684.7767, loss=1479342563.5777
+    batch size: 128, m=85.4361, b=35156.3702, loss=1486839605.9575
+    batch size: 256, m=88.7383, b=35055.1679, loss=1481251749.0051
+    batch size: 512, m=88.9547, b=32714.6810, loss=1478287875.6166
 
 We see that eventually, we all get similar results with the minibatch
 training. Of course, here, we still keep the same learning rate. A gene
@@ -655,10 +669,10 @@ for i in 1, 2, 4, 8:
     print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    batch size: 64, m=87.0561, b=35532.9395, loss=1477903741.4368
-    batch size: 128, m=82.1587, b=38032.1623, loss=1506494322.7814
-    batch size: 256, m=83.6677, b=37360.4459, loss=1491549933.3942
-    batch size: 512, m=46453.9501, b=70601016.9730, loss=19045303720552816.0000
+    batch size: 64, m=89.6272, b=33435.6489, loss=1480807196.6681
+    batch size: 128, m=87.4666, b=30970.8066, loss=1494566183.7535
+    batch size: 256, m=89.0486, b=34667.2563, loss=1481633939.7021
+    batch size: 512, m=65904.8696, b=23461010.0801, loss=14667822103852094.0000
 
 We can see that, if we increase the batch size and the learning rate
 proportionally, at certain point, it does not converge for example for

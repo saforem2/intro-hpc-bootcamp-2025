@@ -1,0 +1,53 @@
+---
+title: Let's write an elementary tokenizer that uses words as tokens.
+jupyter: python3
+---
+
+
+We will use Mark Twain's _Life On The Mississippi_ as a test bed. The text is in the accompanying file 'Life_On_The_Mississippi.txt'
+
+Here's a not-terribly-good such tokenizer:
+
+
+```{python}
+wdict = {}
+with open('Life_On_The_Mississippi.txt', 'r') as L:
+    line = L.readline()
+    nlines = 1
+    while line:
+
+        words = line.split()
+        for word in words:
+            if wdict.get(word) is not None:
+                wdict[word] += 1
+            else:
+                wdict[word] = 1
+        line = L.readline()
+        nlines += 1
+
+nitem = 0 ; maxitems = 100
+for item in wdict.items():
+    nitem += 1
+    print(item)
+    if nitem == maxitems: break
+```
+
+This is unsatisfactory for a few reasons:
+
+* There are non-ASCII (Unicode) characters that should be stripped (the so-called "Byte-Order Mark" or BOM \ufeff at the beginning of the text);
+
+* There are punctuation marks, which we don't want to concern ourselves with;
+
+* The same word can appear capitalized, or lower-case, or with its initial letter upper-cased, whereas we want them all to be normalized to lower-case.
+
+Part 1 of this assignment: insert code in this loop to operate on the str variable 'line' so as to fix these problems before 'line' is split into words.
+
+A hint to one possible way to do this: use the 'punctuation' character definition in the Python 'string' module, the 'maketrans' and 'translate' methods of Python's str class, to eliminate punctuation, and the regular expression ('re') Python module to eliminate any Unicode---it is useful to know that the regular expression r'[^\x00-x7f]' means "any character not in the vanilla ASCII set.
+
+Part 2: Add code to sort the contents of wdict by word occurrence frequency.  What are the top 100 most frequent word tokens?  Adding up occurrence frequencies starting from the most frequent words, how many distinct words make up the top 90% of word occurrences in this "corpus"?
+
+For this part, the docs of Python's 'sorted' and of the helper 'itemgetter' from 'operator' reward study.
+
+Write your modified code in the cell below.
+
+

@@ -9,6 +9,7 @@ categories:
 toc: true
 date: 2025-07-15
 date-modified: last-modified
+jupyter: python3
 ---
 
 > **Parallel computing** refers to the process of breaking down larger problems
@@ -29,10 +30,9 @@ square.
 
 The ratio between the area of the circle and the square is
 
-$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$
+$$\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}$$
 
-Therefore, we can calculate $\pi$ using 
-$\pi = \frac{4N_\text{in}}{N_\text{total}} $
+Therefore, we can calculate $\pi$ using $\pi = \frac{4N_\text{in}}{N_\text{total}}$
 
 
 ```{python}
@@ -79,7 +79,8 @@ print("Time: %s" %(t1 - t0))
 ```
 
 ### MPI example
-```python
+
+```{python}
 from mpi4py import MPI
 import numpy as np
 import random
@@ -106,7 +107,7 @@ if comm.rank==0:
 ### Running $\pi$ example on Google Colab
 * Go to https://colab.research.google.com/, sign in or sign up
 * "File"-> "open notebook"
-* choose ```01_intro_AI_on_Supercomputer/00_mpi.ipynb``` from the list
+* choose `01_intro_AI_on_Supercomputer/00_mpi.ipynb` from the list
 ![Google Colab](../figures/colab.png)
 
 ```{python}
@@ -127,6 +128,7 @@ if comm.rank==0:
 ```
 
 ### Running $\pi$ on Polaris
+
 ```bash
 ssh <username>@polaris.alcf.anl.gov
 qsub -A ALCFAITP -l select=1 -q ALCFAITP -l walltime=0:30:00 -l filesystems=home:eagle
@@ -143,21 +145,36 @@ mpirun -np 4 python mpi_pi.py   # 3.1425632   2.093632459640503  s
 mpirun -np 8 python mpi_pi.py   # 3.1411632   1.0610620975494385 s
 ```
 
-**Attention: Please use ```debug``` queue outside of lecture time instead of ```ALCFAITP```.** 
-
 ## Parallel computing in AI
-The parallel computing in AI is usually called distributed training. Distributed training is the process of training I models across multiple GPUs or other accelerators, with the goal of speeding up the training process and enabling the training of larger models on larger datasets.
 
-There are two ways of parallelization in distributed training. 
-* **Data parallelism**: 
-    * Each worker (GPU) has a complete set of model
-    * different workers work on different subsets of data. 
+The parallel computing in AI is usually called distributed training.
+
+Distributed training is the process of training I models across multiple GPUs
+or other accelerators, with the goal of speeding up the training process and
+enabling the training of larger models on larger datasets.
+
+There are two ways of parallelization in distributed training.
+
+* **Data parallelism**:
+    - Each worker (GPU) has a complete set of model
+    - different workers work on different subsets of data. 
 * **Model parallelism** 
-    * The model is splitted into different parts and stored on different workers
-    * Different workers work on computation involved in different parts of the model
-![PI](../figures/parallel_computing.png)
+    - The model is splitted into different parts and stored on different workers
+    - Different workers work on computation involved in different parts of the model
 
-![3D LLM](../figures/3DLLM.png)
+::: {#fig-parallel-computing}
+
+![](../figures/parallel_computing.png)
+
+PI
+:::
+
+:::{#fig-3dllm}
+
+![](../figures/3DLLM.png)
+
+3D LLM
+:::
 
 
 
