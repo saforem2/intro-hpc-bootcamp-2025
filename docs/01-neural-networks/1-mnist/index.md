@@ -51,6 +51,8 @@ import ambivalent
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from rich import print
+
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
 plt.rcParams["figure.figsize"] = [6.4, 4.8]
@@ -129,8 +131,12 @@ print(
 print('Input shape', training_data[0][0].shape)
 ```
 
-    MNIST data loaded: train: 48000  examples, validation:  12000 examples, test: 10000 examples
-    Input shape torch.Size([1, 28, 28])
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">MNIST data loaded: train: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">48000</span>  examples, validation:  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12000</span> examples, test: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10000</span> examples
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Input shape
+<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">torch.Size</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28</span><span style="font-weight: bold">])</span>
+</pre>
 
 Let’s take a closer look. Here are the first 10 training digits:
 
@@ -141,7 +147,13 @@ pltsize=1
 for i in range(10):
     plt.subplot(1,10,i+1)
     plt.axis('off')
-    plt.imshow(numpy.reshape(training_data[i][0], (28, 28)), cmap="gray")
+    plt.imshow(
+        numpy.reshape(
+            training_data[i][0],
+            (28, 28)
+        ),
+        cmap="gray"
+    )
     plt.title('Class: '+str(training_data[i][1]))
 ```
 
@@ -234,10 +246,11 @@ loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
 ```
 
-    LinearClassifier(
-      (flatten): Flatten(start_dim=1, end_dim=-1)
-      (layer_1): Linear(in_features=784, out_features=10, bias=True)
-    )
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">LinearClassifier</span><span style="font-weight: bold">(</span>
+  <span style="font-weight: bold">(</span>flatten<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Flatten</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">start_dim</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">end_dim</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-1</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span>layer_1<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">784</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+<span style="font-weight: bold">)</span>
+</pre>
 
 ## Learning
 
@@ -336,18 +349,38 @@ for j in range(epochs):
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    Epoch 0: training loss: 0.5025057712395986, accuracy: 87.54375
-    Epoch 0: val. loss: 0.4949572016584112, val. accuracy: 87.54166666666666
-    Epoch 1: training loss: 0.42195725258191424, accuracy: 88.94583333333334
-    Epoch 1: val. loss: 0.41266093292134876, val. accuracy: 88.775
-    Epoch 2: training loss: 0.387925906141599, accuracy: 89.62916666666668
-    Epoch 2: val. loss: 0.3779900108880185, val. accuracy: 89.43333333333334
-    Epoch 3: training loss: 0.36791757301489514, accuracy: 90.08749999999999
-    Epoch 3: val. loss: 0.35776667407852536, val. accuracy: 89.91666666666667
-    Epoch 4: training loss: 0.35430582706133523, accuracy: 90.40833333333333
-    Epoch 4: val. loss: 0.34414399415254593, val. accuracy: 90.25
-    CPU times: user 12.2 s, sys: 713 ms, total: 12.9 s
-    Wall time: 12.6 s
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.501631488164266</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.60833333333333</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.49451633590333005</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.56666666666668</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.4212685720523198</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.025</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.41240807321477446</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.89166666666667</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.38735757915178937</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.65625</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.37784629045648777</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.43333333333334</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3674350977341334</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.12083333333332</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.35769936806978064</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.95</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.35388582932949064</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.39166666666667</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3441310136559162</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.29166666666667</span>
+</pre>
+
+    CPU times: user 12.5 s, sys: 848 ms, total: 13.4 s
+    Wall time: 13.1 s
 
 ``` python
 pltsize=1
@@ -400,7 +433,8 @@ acc_test, loss_test = evaluate(test_dataloader, linear_model, loss_fn)
 print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
-    Test loss: 0.3325, test accuracy: 90.82%
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Test loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3330</span>, test accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.88</span>%
+</pre>
 
 We can now take a closer look at the results.
 
@@ -437,7 +471,8 @@ classified to a wrong class:
 show_failures(linear_model, test_dataloader)
 ```
 
-    Showing max 10 first failures. The predicted class is shown first and the correct class in parentheses.
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Showing max <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> first failures. The predicted class is shown first and the correct class in parentheses.
+</pre>
 
 ![](index_files/figure-commonmark/cell-19-output-2.png)
 
@@ -585,18 +620,38 @@ for j in range(epochs):
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    Epoch 0: training loss: 0.8384387362798055, accuracy: 74.78958333333333
-    Epoch 0: val. loss: 0.8399026577777051, val. accuracy: 74.40833333333333
-    Epoch 1: training loss: 0.39524854520956676, accuracy: 88.80416666666666
-    Epoch 1: val. loss: 0.39328785462582366, val. accuracy: 88.625
-    Epoch 2: training loss: 0.2915764428774516, accuracy: 91.71249999999999
-    Epoch 2: val. loss: 0.2868045774546075, val. accuracy: 91.55
-    Epoch 3: training loss: 0.24042355535427729, accuracy: 93.09375
-    Epoch 3: val. loss: 0.23711574006270855, val. accuracy: 92.98333333333333
-    Epoch 4: training loss: 0.20882231179873148, accuracy: 93.97708333333334
-    Epoch 4: val. loss: 0.21011522150737175, val. accuracy: 93.7
-    CPU times: user 13.2 s, sys: 911 ms, total: 14.1 s
-    Wall time: 13.7 s
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8872237205505371</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75.97291666666666</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.8816802317791796</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">75.94999999999999</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3921313156286875</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.99166666666667</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3853916012226267</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.71666666666667</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2993239839076996</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">91.44375</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2925813859130474</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">91.38333333333334</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.24143239198128383</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.07083333333334</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.23606742022836463</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">92.95833333333333</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.21155723758538564</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.87291666666667</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2084924522391025</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.83333333333333</span>
+</pre>
+
+    CPU times: user 13.2 s, sys: 909 ms, total: 14.1 s
+    Wall time: 13.6 s
 
 ``` python
 pltsize=1
@@ -614,7 +669,8 @@ plt.legend()
 show_failures(nonlinear_model, test_dataloader)
 ```
 
-    Showing max 10 first failures. The predicted class is shown first and the correct class in parentheses.
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Showing max <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> first failures. The predicted class is shown first and the correct class in parentheses.
+</pre>
 
 ![](index_files/figure-commonmark/cell-24-output-2.png)
 
@@ -732,23 +788,59 @@ for j in range(epochs):
     print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
-    Epoch 1/6, Learning Rate: 0.1
-    Epoch 0: training loss: 0.3647457490811745, accuracy: 89.48125
-    Epoch 0: val. loss: 0.35504370160897575, val. accuracy: 89.48333333333333
-    Epoch 2/6, Learning Rate: 0.010000000000000002
-    Epoch 1: training loss: 0.25263923656071224, accuracy: 92.52916666666667
-    Epoch 1: val. loss: 0.2470438565214475, val. accuracy: 92.56666666666666
-    Epoch 3/6, Learning Rate: 0.010000000000000002
-    Epoch 2: training loss: 0.22962171956027547, accuracy: 93.25625
-    Epoch 2: val. loss: 0.22448390883704025, val. accuracy: 93.21666666666667
-    Epoch 4/6, Learning Rate: 0.0010000000000000002
-    Epoch 3: training loss: 0.22187904121975105, accuracy: 93.43333333333334
-    Epoch 3: val. loss: 0.21712347280979155, val. accuracy: 93.44166666666666
-    Epoch 5/6, Learning Rate: 0.0010000000000000002
-    Epoch 4: training loss: 0.22113818613563974, accuracy: 93.38958333333333
-    Epoch 4: val. loss: 0.21664778976639112, val. accuracy: 93.43333333333334
-    Epoch 6/6, Learning Rate: 0.00010000000000000003
-    Epoch 5: training loss: 0.22040408893426258, accuracy: 93.41874999999999
-    Epoch 5: val. loss: 0.21594954155385493, val. accuracy: 93.45833333333333
-    CPU times: user 19.9 s, sys: 3.45 s, total: 23.4 s
-    Wall time: 22.5 s
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>, Learning Rate: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.36565482659141224</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.14791666666667</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.3545160645842552</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.325</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>, Learning Rate: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.010000000000000002</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.25591424079611896</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">92.35</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2481062646905581</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">92.625</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>, Learning Rate: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.010000000000000002</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.23092377361779412</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.07083333333334</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.22465816505253314</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.28333333333333</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>, Learning Rate: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0010000000000000002</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.22441808087627094</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.30625</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.21959520582854747</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.475</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>, Learning Rate: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0010000000000000002</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.22319479938596487</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.31458333333333</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2183368367155393</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.59166666666667</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>/<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>, Learning Rate: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.00010000000000000003</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>: training loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.22227232499420643</span>, accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.3125</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Epoch <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>: val. loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.21743223170936107</span>, val. accuracy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">93.625</span>
+</pre>
+
+    CPU times: user 19.8 s, sys: 3.59 s, total: 23.4 s
+    Wall time: 21.2 s

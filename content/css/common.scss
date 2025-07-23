@@ -600,29 +600,29 @@ body {
   font-feature-settings: "kern";
 }
 
-p {
-  display: block;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: 0;
-  margin-right: 0;
-}
+// p {
+//   display: block;
+//   // margin-top: 1em;
+//   // margin-bottom: 1em;
+//   // margin-left: 0;
+//   // margin-right: 0;
+// }
 
-body p {
-  // text-wrap: balance;
-  // margin-block: auto;
-  overflow-wrap: break-word;
-  overflow-x: auto;
-  line-height: initial;
-  margin: inherit;
-  // padding-inline: 5pt;
-  // margin-top: 0.5rem;
-  // margin-bottom: 0.5rem;
-}
+// body p {
+//   // text-wrap: balance;
+//   // margin-block: auto;
+//   overflow-wrap: break-word;
+//   overflow-x: auto;
+//   // line-height: initial;
+//   // margin: inherit;
+//   // padding-inline: 5pt;
+//   // margin-top: 0.5rem;
+//   // margin-bottom: 0.5rem;
+// }
 
-body li p {
-  margin-bottom: 0;
-}
+// body li p {
+//   margin-bottom: 0;
+// }
 
 // body ol,
 // body ul,
@@ -645,25 +645,25 @@ body li p {
   margin-inline-end: 8pt;
 }
 
-body ol p,
-body ul p,
-body dl p {
-  margin-bottom: 0;
-}
+// body ol p,
+// body ul p,
+// body dl p {
+//   margin-bottom: 0;
+// }
 
-ul > li:not(:has(> p)) > ul,
-ol > li:not(:has(> p)) > ul,
-ul > li:not(:has(> p)) > ol,
-ol > li:not(:has(> p)) > ol {
-  margin-bottom: 0;
-}
-
-ul > li:not(:has(> p)) > ul > li:has(> p),
-ol > li:not(:has(> p)) > ul > li:has(> p),
-ul > li:not(:has(> p)) > ol > li:has(> p),
-ol > li:not(:has(> p)) > ol > li:has(> p) {
-  margin: auto;
-}
+// ul > li:not(:has(> p)) > ul,
+// ol > li:not(:has(> p)) > ul,
+// ul > li:not(:has(> p)) > ol,
+// ol > li:not(:has(> p)) > ol {
+//   margin-bottom: 0;
+// }
+//
+// ul > li:not(:has(> p)) > ul > li:has(> p),
+// ol > li:not(:has(> p)) > ul > li:has(> p),
+// ul > li:not(:has(> p)) > ol > li:has(> p),
+// ol > li:not(:has(> p)) > ol > li:has(> p) {
+//   margin: auto;
+// }
 
 pre,
 code,
@@ -677,9 +677,7 @@ samp {
 pre {
   font-family: $font-family-monospace !important;
   color: $body-color;
-
   background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1);
-
   overflow: auto;
   // line-height: 1rem;
   // font-size: inherit;
@@ -2293,6 +2291,10 @@ boxed {
   margin-block: 0.5lh;
 }
 
+.cell-output figure {
+  text-align: center;
+}
+
 .cell-output.cell-output-display {
   white-space: pre;
   overflow-x: auto;
@@ -3633,12 +3635,12 @@ svg:not(:root) {
   color: $dim-text;
 }
 
-.reveal p code:not(.sourceCode),
-p code:not(.sourceCode),
-li code:not(.sourceCode),
-td code:not(.sourceCode) {
-  line-height: 1rem;
-}
+// .reveal p code:not(.sourceCode),
+// p code:not(.sourceCode),
+// li code:not(.sourceCode),
+// td code:not(.sourceCode) {
+//   line-height: 1rem;
+// }
 .reveal img {
   max-width: 90%;
   max-height: calc(0.9 * 100vh);

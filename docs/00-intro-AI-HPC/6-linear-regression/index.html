@@ -81,8 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-443033a9f5e99878e7a0f602c75fe65b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-e16b86569eb0ee0a29795e9a01f276ff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a2a703216f7c591c435c65ebef040c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-625d52d0780d2d11077eab6bb479a02e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -659,13 +659,10 @@ window.Quarto = {
   <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">Homework</a>
   <ul class="collapse">
   <li><a href="#mini-batch-training" id="toc-mini-batch-training" class="nav-link" data-scroll-target="#mini-batch-training">Mini Batch Training</a></li>
-  </ul></li>
   <li><a href="#learning-rate-issue-bonus" id="toc-learning-rate-issue-bonus" class="nav-link" data-scroll-target="#learning-rate-issue-bonus">Learning rate issue (Bonus)</a></li>
-  <li><a href="#homework-answer" id="toc-homework-answer" class="nav-link" data-scroll-target="#homework-answer">Homework answer</a>
-  <ul class="collapse">
+  </ul></li>
   <li><a href="#minibatch-training" id="toc-minibatch-training" class="nav-link" data-scroll-target="#minibatch-training">Minibatch training</a></li>
   <li><a href="#learning-rate" id="toc-learning-rate" class="nav-link" data-scroll-target="#learning-rate">Learning rate</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
     </div>
@@ -829,7 +826,7 @@ Figure&nbsp;4: Linear regression in Excel
 <li><a href="https://numpy.org/doc/">Numpy</a>: a toolkit for managing arrays, vectors, matrices, etc, doing math with them, slicing them up, and many other handy things.</li>
 <li><a href="https://matplotlib.org/stable/index.html">Matplotlib</a>: a toolkit for plotting data</li>
 </ul>
-<div id="bc632427" class="cell" data-execution_count="1">
+<div id="6e3c5dbb" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> ambivalent</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -852,7 +849,7 @@ Figure&nbsp;4: Linear regression in Excel
 <p>This dataset contains the <em>sale price</em> and <em>above ground square feet</em> of many houses. We can use this data for our linear regression.</p>
 <p>We use Pandas to read the data file which is stored as Comma Separated Values (CSV) and print the column labels.</p>
 <p>CSV files are similar to excel sheets.</p>
-<div id="58c521e3" class="cell" data-execution_count="2">
+<div id="c8786d8d" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">!</span> [ <span class="op">-</span>e .<span class="op">/</span>slimmed_realestate_data.csv ] <span class="op">||</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>slimmed_realestate_data.csv</span>
 <span id="cb2-2"><a href="#cb2-2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'slimmed_realestate_data.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="bu">print</span>(data.columns)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -864,7 +861,7 @@ Figure&nbsp;4: Linear regression in Excel
 <p>Now pandas provides some helpful tools for us to inspect our data.</p>
 <p>It provides a <code>plot()</code> function that, behind the scenes, is calling into the <em>Matplotlib</em> library and calling the function <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib.pyplot.plot()</a>.</p>
 <p>In this case, we simply tell it the names of the columns we want as our <em>x</em> and <em>y</em> values and the <code>style</code> (<code>'.'</code> tells <code>matplotlib</code> to use a small dot to represent each data point).</p>
-<div id="6dd76e9f" class="cell" data-execution_count="3">
+<div id="8bf09be4" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>data.plot(x<span class="op">=</span><span class="st">'GrLivArea'</span>, y<span class="op">=</span><span class="st">'SalePrice'</span>,style<span class="op">=</span><span class="st">'.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -884,27 +881,27 @@ Figure&nbsp;4: Linear regression in Excel
 <p>Details derivation of this can be found <a href="https://en.wikipedia.org/wiki/Simple_linear_regression">here</a>.</p>
 <p>We’ll break this calculation into a few steps to help make it easier.</p>
 <p>First lets define <span class="math inline">x</span> and <span class="math inline">y</span>. <span class="math inline">x</span> will be our <em>above ground square footage</em> and <span class="math inline">y</span> will be <em>sale price</em>. In our equations we have a few different values we need, such as <span class="math inline">n</span> which is just the number of points we have:</p>
-<div id="88f6ff72" class="cell" data-execution_count="4">
+<div id="6450a084" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>n <span class="op">=</span> <span class="bu">len</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we need our <span class="math inline">x</span> and <span class="math inline">y</span> by selecting only the column we care about for each one. Note about data formats: <code>data</code> is a Pandas <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame">DataFrame</a> object which has rows and columns; <code>data['GrLivArea']</code> is a Pandas <a href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html">Series</a> object which only has rows; then we also convert from <em>Pandas</em> data formats (in this case a <em>Series</em>) to <em>Numpy</em> data formats using the <code>to_numpy()</code> function which is part of the Pandas <em>Series</em> object.</p>
-<div id="c78859d2" class="cell" data-execution_count="5">
+<div id="6ef872aa" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
 <span id="cb5-2"><a href="#cb5-2"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we will calculate <span class="math inline">\Sigma xy</span>, <span class="math inline">\Sigma x</span>, <span class="math inline">\Sigma y</span>, and <span class="math inline">\Sigma x^2</span>:</p>
-<div id="be1ac7f5" class="cell" data-execution_count="6">
+<div id="40fa36d5" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>sum_xy <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>y)</span>
 <span id="cb6-2"><a href="#cb6-2"></a>sum_x <span class="op">=</span> np.<span class="bu">sum</span>(x)</span>
 <span id="cb6-3"><a href="#cb6-3"></a>sum_y <span class="op">=</span> np.<span class="bu">sum</span>(y)</span>
 <span id="cb6-4"><a href="#cb6-4"></a>sum_x2 <span class="op">=</span> np.<span class="bu">sum</span>(x<span class="op">*</span>x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The denominator in the equation for <span class="math inline">m</span> and <span class="math inline">b</span> are the same so we can calculate that once:</p>
-<div id="fe8eab59" class="cell" data-execution_count="7">
+<div id="b0133429" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>denominator <span class="op">=</span> n <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we can calculate our fit values:</p>
-<div id="679bb232" class="cell" data-execution_count="8">
+<div id="b56389c3" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>m <span class="op">=</span> (n <span class="op">*</span> sum_xy <span class="op">-</span> sum_x <span class="op">*</span> sum_y) <span class="op">/</span> denominator</span>
 <span id="cb8-2"><a href="#cb8-2"></a>b <span class="op">=</span> (sum_y <span class="op">*</span> sum_x2 <span class="op">-</span> sum_x <span class="op">*</span> sum_xy) <span class="op">/</span> denominator</span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="bu">print</span>(<span class="st">'y = </span><span class="sc">%f</span><span class="st"> * x + </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
@@ -919,7 +916,7 @@ Figure&nbsp;4: Linear regression in Excel
 </div>
 <p>Now we can plot the fit results with our data to see how we did.</p>
 <p>First we define a plotting function because we’re going to do this often and we want to reuse our code:</p>
-<div id="72a840e9" class="cell" data-execution_count="9">
+<div id="97cc19a5" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> plot_data(x,y,m,b,plt <span class="op">=</span> plt):</span>
 <span id="cb9-2"><a href="#cb9-2"></a>   <span class="co"># plot our data points with 'bo' = blue circles</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>   plt.plot(x,y,<span class="st">'bo'</span>)</span>
@@ -933,7 +930,7 @@ Figure&nbsp;4: Linear regression in Excel
 <span id="cb9-11"><a href="#cb9-11"></a>   plt.plot(linear_x,linear_y,<span class="st">'r-'</span>,label<span class="op">=</span><span class="st">'fit'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now can use this function to plot our results:</p>
-<div id="8584d2c3" class="cell" data-execution_count="10">
+<div id="bd8827d8" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>plot_data(x,y,m,b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -950,9 +947,9 @@ Figure&nbsp;4: Linear regression in Excel
 <section id="the-model" class="level4">
 <h4 class="anchored" data-anchor-id="the-model">The model</h4>
 <p>In AI, neural networks are often referred to as a <em>model</em> because, once fully trained, they should model (AKA predict) the behavior of our system. In our example, the system is how house prices vary based on house size. We know our system is roughly driven by a linear function:</p>
-<p><span class="math display"> \hat{y_i}(x_i) = m * x_i + b </span></p>
+<p><span class="math display">\hat{y_i}(x_i) = m * x_i + b </span></p>
 <p>We just need to figure out <span class="math inline">m</span> and <span class="math inline">b</span>. Let’s create a function that calculates our model given <span class="math inline">x</span>, <span class="math inline">m</span>, and <span class="math inline">b</span>.</p>
-<div id="5666240e" class="cell" data-execution_count="11">
+<div id="a46f49fb" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> model(x,m,b):</span>
 <span id="cb11-2"><a href="#cb11-2"></a>   <span class="cf">return</span> m <span class="op">*</span> x <span class="op">+</span> b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -975,7 +972,7 @@ Figure&nbsp;5: Loss function for linear regression
 </figure>
 </div>
 <p>Here we crate a function that calculates this for us.</p>
-<div id="4f0f2bdb" class="cell" data-execution_count="12">
+<div id="ad089d2e" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">def</span> loss(x,y,m,b):</span>
 <span id="cb12-2"><a href="#cb12-2"></a>   y_predicted <span class="op">=</span> model(x,m,b)</span>
 <span id="cb12-3"><a href="#cb12-3"></a>   <span class="cf">return</span> np.power( y <span class="op">-</span> y_predicted, <span class="dv">2</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -991,29 +988,64 @@ Figure&nbsp;5: Loss function for linear regression
 <p><span class="math display"> m' = m - \eta { \partial L \over \partial m }</span> <span class="math display"> b' = b - \eta { \partial L \over \partial b }</span></p>
 <p>Here our original <span class="math inline">m</span> and <span class="math inline">b</span> are adjusted by the partial derivative multiplied by some small factor, <span class="math inline">\eta</span>, called the <em>learning rate</em>. This learning rate is very important in our process and must be tuned for every problem.</p>
 <p>In our example, the selection of the learning rate essentially defines how close we can get to the minimum, AKA the best fit solution. This figure shows what happens when we pick a large learning rate. We first select a starting point in our loss function (typically randomly), then every update from <span class="math inline">m</span>/<span class="math inline">b</span> to <span class="math inline">m'</span>/<span class="math inline">b'</span> results in a shift to somewhere else on our loss function (following the red arrows). In this example, our learning rate (<span class="math inline">\eta</span>) has been selected too large such that we bounce back and forth around the minimum, never reaching it.</p>
-<p float="center">
-<img src="../figures/parabola_largeLR.png" width="400">
-</p>
+<div id="fig-parabola-largeLR" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-parabola-largeLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="../figures/parabola_largeLR.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;6: Large LR"><img src="../figures/parabola_largeLR.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-parabola-largeLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Large LR
+</figcaption>
+</figure>
+</div>
 <p>If we select a smaller learning we can see better behavior in the next figure.</p>
-<p float="center">
-<img src="../figures/parabola_smallLR.png" width="400">
-</p>
+<div id="fig-parabola-smallLR" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-parabola-smallLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="../figures/parabola_smallLR.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;7: Small LR"><img src="../figures/parabola_smallLR.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-parabola-smallLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Small LR
+</figcaption>
+</figure>
+</div>
 <p>Though, keep in mind, too small a learning rate results is so little progress toward the minimum that you may never reach it!</p>
 <p>A pit fall of SGD that one must be aware of is when your loss function is complex, with many minima. The next figure shows such a case, in which we select a small learning rate and our starting point happens to be near a local minimum that is not the lowest minimum. As shown, we do reach a minimum, but it isn’t the lowest minimum in our loss function. It could be that we randomly select a starting point near the minimum we care about, but we should build methods that are more robust against randomly getting the right answer.</p>
-<p float="center">
-<img src="../figures/local_min_smallLR.png" width="400">
-</p>
+<div id="fig-local-min-smallLR" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-local-min-smallLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="../figures/local_min_smallLR.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;8: Local minimal with small LR"><img src="../figures/local_min_smallLR.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-local-min-smallLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Local minimal with small LR
+</figcaption>
+</figure>
+</div>
 <p>Then, if we increase our learning rate too much, we bounce around again.</p>
-<p float="center">
-<img src="../figures/local_min_largeLR.png" width="400">
-</p>
+<div id="fig-local-min-largeLR" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-local-min-largeLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="../figures/local_min_largeLR.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;9: Local minimal with large LR"><img src="../figures/local_min_largeLR.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-local-min-largeLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Local minimal with large LR
+</figcaption>
+</figure>
+</div>
 <p>What we want to do in this situation is start with a large learning rate and slowly reduce its size as we progress. That is shown in this next figure.</p>
-<p float="center">
-<img src="../figures/local_min_variableLR.png" width="400">
-</p>
+<div id="fig-local-min-variableLR" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-local-min-variableLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="../figures/local_min_variableLR.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;10: Local min with variable LR"><img src="../figures/local_min_variableLR.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-local-min-variableLR-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Local min with variable LR
+</figcaption>
+</figure>
+</div>
 <p>As you can see, this process is not perfect and could still land in a local minimum, but it is important to be aware of these behaviors as you utilize SGD in machine learning.</p>
 <p>So let’s continue, we’ll build functions we can use to update our fit parameters, <span class="math inline">m</span> and <span class="math inline">b</span>.</p>
-<div id="a7b6dbb3" class="cell" data-execution_count="13">
+<div id="0d26d7ed" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
 <span id="cb13-2"><a href="#cb13-2"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
 <span id="cb13-3"><a href="#cb13-3"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
@@ -1030,7 +1062,7 @@ Figure&nbsp;5: Loss function for linear regression
 <section id="putting-it-together" class="level2">
 <h2 class="anchored" data-anchor-id="putting-it-together">Putting it together</h2>
 <p>We can now randomly select our initial slope and intercept:</p>
-<div id="44607899" class="cell" data-execution_count="14">
+<div id="dfaecb46" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1040,7 +1072,7 @@ Figure&nbsp;5: Loss function for linear regression
 </div>
 </div>
 <p>Then we can calculate our Loss function:</p>
-<div id="011ff2f3" class="cell" data-execution_count="15">
+<div id="b3a70d21" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="bu">print</span>(<span class="st">'first 10 loss values: '</span>,l[:<span class="dv">10</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -1050,7 +1082,7 @@ Figure&nbsp;5: Loss function for linear regression
 </pre>
 </div>
 </div>
-<div id="ba965253" class="cell" data-execution_count="16">
+<div id="54ec8471" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
 <span id="cb16-2"><a href="#cb16-2"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
 <span id="cb16-3"><a href="#cb16-3"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
@@ -1063,12 +1095,12 @@ Figure&nbsp;5: Loss function for linear regression
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-17-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="index_files/figure-html/cell-17-output-2.png" width="578" height="400" class="figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-17-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14"><img src="index_files/figure-html/cell-17-output-2.png" width="578" height="400" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="c4d9fea2" class="cell" data-execution_count="17">
+<div id="1643a917" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># set our initial slope and intercept</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
 <span id="cb17-3"><a href="#cb17-3"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
@@ -1101,7 +1133,7 @@ Figure&nbsp;5: Loss function for linear regression
 <span id="cb17-30"><a href="#cb17-30"></a>   plt.close(<span class="st">'all'</span>)</span>
 <span id="cb17-31"><a href="#cb17-31"></a></span>
 <span id="cb17-32"><a href="#cb17-32"></a>   <span class="co"># create a 1 by 2 plot grid</span></span>
-<span id="cb17-33"><a href="#cb17-33"></a>   fig,ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>,dpi<span class="op">=</span><span class="dv">400</span>)</span>
+<span id="cb17-33"><a href="#cb17-33"></a>   fig,ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>)</span>
 <span id="cb17-34"><a href="#cb17-34"></a>   <span class="co"># lot our usual output</span></span>
 <span id="cb17-35"><a href="#cb17-35"></a>   plot_data(data_x,data_y,m,b,ax[<span class="dv">0</span>])</span>
 <span id="cb17-36"><a href="#cb17-36"></a></span>
@@ -1133,7 +1165,7 @@ Figure&nbsp;5: Loss function for linear regression
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-18-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="index_files/figure-html/cell-18-output-2.png" width="2445" height="1754" class="figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-18-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15"><img src="index_files/figure-html/cell-18-output-2.png" width="587" height="421" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -1157,9 +1189,8 @@ Figure&nbsp;5: Loss function for linear regression
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>loop_N <span class="op">=</span> <span class="dv">30</span><span class="op">*</span><span class="bu">len</span>(data)<span class="op">//</span>batch_size</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512.</p>
 </section>
-</section>
-<section id="learning-rate-issue-bonus" class="level2">
-<h2 class="anchored" data-anchor-id="learning-rate-issue-bonus">Learning rate issue (Bonus)</h2>
+<section id="learning-rate-issue-bonus" class="level3">
+<h3 class="anchored">Learning rate issue (Bonus)</h3>
 <p>As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge.</p>
 <pre><code>(64, 1e-7, 1e-1)*1
 (64, 1e-7, 1e-1)*2
@@ -1172,11 +1203,14 @@ Figure&nbsp;5: Loss function for linear regression
 <li>Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github</li>
 <li>Provide the link of 01_linear_regression_sgd in the personal github.</li>
 </ul>
-</section>
-<section id="homework-answer" class="level1">
-<h1>Homework answer</h1>
+<details closed="">
+<summary>
+<h2 class="anchored" data-anchor-id="learning-rate-issue-bonus">
+Homework Answer
+</h2>
+</summary>
 <p>Let us define a train function which allow us to try different hyperparameter setups.</p>
-<div id="ac1a5c49" class="cell" data-execution_count="18">
+<div id="3467a199" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
 <span id="cb22-2"><a href="#cb22-2"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
 <span id="cb22-3"><a href="#cb22-3"></a></span>
@@ -1193,18 +1227,20 @@ Figure&nbsp;5: Loss function for linear regression
 <span id="cb22-14"><a href="#cb22-14"></a>        <span class="co"># update our slope and intercept based on the current values</span></span>
 <span id="cb22-15"><a href="#cb22-15"></a>        m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
 <span id="cb22-16"><a href="#cb22-16"></a>        b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
-<span id="cb22-17"><a href="#cb22-17"></a>    </span>
+<span id="cb22-17"><a href="#cb22-17"></a></span>
 <span id="cb22-18"><a href="#cb22-18"></a>        <span class="co"># calculate the loss value</span></span>
 <span id="cb22-19"><a href="#cb22-19"></a>        loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
-<span id="cb22-20"><a href="#cb22-20"></a>        </span>
+<span id="cb22-20"><a href="#cb22-20"></a></span>
 <span id="cb22-21"><a href="#cb22-21"></a>        <span class="co"># keep a history of our loss values</span></span>
 <span id="cb22-22"><a href="#cb22-22"></a>        loss_history.append(loss_value)</span>
 <span id="cb22-23"><a href="#cb22-23"></a>    <span class="co">#loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)</span></span>
 <span id="cb22-24"><a href="#cb22-24"></a>    <span class="cf">return</span> m, b, np.mean(loss(x,y,m,b))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</details></section>
+</section>
 <section id="minibatch-training" class="level2">
 <h2 class="anchored" data-anchor-id="minibatch-training">Minibatch training</h2>
-<div id="148ad331" class="cell" data-execution_count="19">
+<div id="4eaacd8e" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
 <span id="cb23-2"><a href="#cb23-2"></a></span>
 <span id="cb23-3"><a href="#cb23-3"></a></span>
@@ -1217,19 +1253,19 @@ Figure&nbsp;5: Loss function for linear regression
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.9663</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32643.1812</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1487006854.3919</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">81.0977</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36251.7634</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1550261630.6644</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.0652</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32821.7920</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478302553.7203</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">84.9566</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37764.3042</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1480529291.7573</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.2146</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33264.9921</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1482490667.0737</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.5818</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36263.4818</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479633378.3386</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.1415</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32522.1649</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478396294.6190</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.4285</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32751.0946</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478854848.4918</span>
 </pre>
 </div>
 </div>
@@ -1237,26 +1273,26 @@ Figure&nbsp;5: Loss function for linear regression
 </section>
 <section id="learning-rate" class="level2">
 <h2 class="anchored" data-anchor-id="learning-rate">Learning rate</h2>
-<div id="0e995b2d" class="cell" data-execution_count="20">
+<div id="f0eae9d7" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
 <span id="cb24-2"><a href="#cb24-2"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
 <span id="cb24-3"><a href="#cb24-3"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
 <span id="cb24-4"><a href="#cb24-4"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
 <span id="cb24-5"><a href="#cb24-5"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86.9542</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37142.0636</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479764694.3415</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.6193</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35515.1241</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1504034543.6371</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.4863</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37040.1726</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1518692999.8363</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.8523</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32115.6669</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479152631.1347</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">82.6279</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35378.1901</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1527071701.4395</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">84.4836</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37128.7062</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1485170284.7169</span>
 </pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">148512.3574</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-97545880.5803</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18460029965171340.0000</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">59994.7866</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">52603553.0304</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19731760388021600.0000</span>
 </pre>
 </div>
 </div>
@@ -1264,7 +1300,7 @@ Figure&nbsp;5: Loss function for linear regression
 
 
 
-</section>
+
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
@@ -2069,7 +2105,7 @@ Nutshell.”</span> July 15, 2025. <a href="https://saforem2.github.io/hpc-bootc
 <span id="cb25-297"><a href="#cb25-297"></a>In our example, the system is how house prices vary based on house size.</span>
 <span id="cb25-298"><a href="#cb25-298"></a>We know our system is roughly driven by a linear function:</span>
 <span id="cb25-299"><a href="#cb25-299"></a></span>
-<span id="cb25-300"><a href="#cb25-300"></a>$$ \hat{y_i}(x_i) = m * x_i + b $$</span>
+<span id="cb25-300"><a href="#cb25-300"></a>$$\hat{y_i}(x_i) = m * x_i + b $$</span>
 <span id="cb25-301"><a href="#cb25-301"></a></span>
 <span id="cb25-302"><a href="#cb25-302"></a>We just need to figure out $m$ and $b$. Let's create a function that calculates</span>
 <span id="cb25-303"><a href="#cb25-303"></a>our model given $x$, $m$, and $b$.</span>
@@ -2157,269 +2193,284 @@ Nutshell.”</span> July 15, 2025. <a href="https://saforem2.github.io/hpc-bootc
 <span id="cb25-389"><a href="#cb25-389"></a>been selected too large such that we bounce back and forth around the minimum,</span>
 <span id="cb25-390"><a href="#cb25-390"></a>never reaching it.</span>
 <span id="cb25-391"><a href="#cb25-391"></a></span>
-<span id="cb25-392"><a href="#cb25-392"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb25-393"><a href="#cb25-393"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/parabola_largeLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb25-394"><a href="#cb25-394"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb25-395"><a href="#cb25-395"></a></span>
-<span id="cb25-396"><a href="#cb25-396"></a>If we select a smaller learning we can see better behavior in the next figure.</span>
+<span id="cb25-392"><a href="#cb25-392"></a>::: {#fig-parabola-largeLR}</span>
+<span id="cb25-393"><a href="#cb25-393"></a><span class="al">![](../figures/parabola_largeLR.png)</span></span>
+<span id="cb25-394"><a href="#cb25-394"></a></span>
+<span id="cb25-395"><a href="#cb25-395"></a>Large LR</span>
+<span id="cb25-396"><a href="#cb25-396"></a>:::</span>
 <span id="cb25-397"><a href="#cb25-397"></a></span>
-<span id="cb25-398"><a href="#cb25-398"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb25-399"><a href="#cb25-399"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/parabola_smallLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb25-400"><a href="#cb25-400"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb25-398"><a href="#cb25-398"></a>If we select a smaller learning we can see better behavior in the next figure.</span>
+<span id="cb25-399"><a href="#cb25-399"></a></span>
+<span id="cb25-400"><a href="#cb25-400"></a>::: {#fig-parabola-smallLR}</span>
 <span id="cb25-401"><a href="#cb25-401"></a></span>
-<span id="cb25-402"><a href="#cb25-402"></a>Though, keep in mind, too small a learning rate results is so little progress</span>
-<span id="cb25-403"><a href="#cb25-403"></a>toward the minimum that you may never reach it!</span>
-<span id="cb25-404"><a href="#cb25-404"></a></span>
-<span id="cb25-405"><a href="#cb25-405"></a>A pit fall of SGD that one must be aware of is when your loss function is</span>
-<span id="cb25-406"><a href="#cb25-406"></a>complex, with many minima.</span>
-<span id="cb25-407"><a href="#cb25-407"></a>The next figure shows such a case, in which we</span>
-<span id="cb25-408"><a href="#cb25-408"></a>select a small learning rate and our starting point happens to be near a local</span>
-<span id="cb25-409"><a href="#cb25-409"></a>minimum that is not the lowest minimum.</span>
-<span id="cb25-410"><a href="#cb25-410"></a>As shown, we do reach a minimum, but it</span>
-<span id="cb25-411"><a href="#cb25-411"></a>isn't the lowest minimum in our loss function.</span>
-<span id="cb25-412"><a href="#cb25-412"></a>It could be that we randomly</span>
-<span id="cb25-413"><a href="#cb25-413"></a>select a starting point near the minimum we care about, but we should build</span>
-<span id="cb25-414"><a href="#cb25-414"></a>methods that are more robust against randomly getting the right answer.</span>
-<span id="cb25-415"><a href="#cb25-415"></a></span>
-<span id="cb25-416"><a href="#cb25-416"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb25-417"><a href="#cb25-417"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_smallLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb25-418"><a href="#cb25-418"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb25-419"><a href="#cb25-419"></a></span>
-<span id="cb25-420"><a href="#cb25-420"></a>Then, if we increase our learning rate too much, we bounce around again.</span>
-<span id="cb25-421"><a href="#cb25-421"></a></span>
-<span id="cb25-422"><a href="#cb25-422"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb25-423"><a href="#cb25-423"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_largeLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb25-424"><a href="#cb25-424"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb25-425"><a href="#cb25-425"></a></span>
-<span id="cb25-426"><a href="#cb25-426"></a>What we want to do in this situation is start with a large learning rate and</span>
-<span id="cb25-427"><a href="#cb25-427"></a>slowly reduce its size as we progress.</span>
-<span id="cb25-428"><a href="#cb25-428"></a>That is shown in this next figure.</span>
+<span id="cb25-402"><a href="#cb25-402"></a><span class="al">![](../figures/parabola_smallLR.png)</span></span>
+<span id="cb25-403"><a href="#cb25-403"></a></span>
+<span id="cb25-404"><a href="#cb25-404"></a>Small LR</span>
+<span id="cb25-405"><a href="#cb25-405"></a>:::</span>
+<span id="cb25-406"><a href="#cb25-406"></a></span>
+<span id="cb25-407"><a href="#cb25-407"></a>Though, keep in mind, too small a learning rate results is so little progress</span>
+<span id="cb25-408"><a href="#cb25-408"></a>toward the minimum that you may never reach it!</span>
+<span id="cb25-409"><a href="#cb25-409"></a></span>
+<span id="cb25-410"><a href="#cb25-410"></a>A pit fall of SGD that one must be aware of is when your loss function is</span>
+<span id="cb25-411"><a href="#cb25-411"></a>complex, with many minima.</span>
+<span id="cb25-412"><a href="#cb25-412"></a>The next figure shows such a case, in which we</span>
+<span id="cb25-413"><a href="#cb25-413"></a>select a small learning rate and our starting point happens to be near a local</span>
+<span id="cb25-414"><a href="#cb25-414"></a>minimum that is not the lowest minimum.</span>
+<span id="cb25-415"><a href="#cb25-415"></a>As shown, we do reach a minimum, but it</span>
+<span id="cb25-416"><a href="#cb25-416"></a>isn't the lowest minimum in our loss function.</span>
+<span id="cb25-417"><a href="#cb25-417"></a>It could be that we randomly</span>
+<span id="cb25-418"><a href="#cb25-418"></a>select a starting point near the minimum we care about, but we should build</span>
+<span id="cb25-419"><a href="#cb25-419"></a>methods that are more robust against randomly getting the right answer.</span>
+<span id="cb25-420"><a href="#cb25-420"></a></span>
+<span id="cb25-421"><a href="#cb25-421"></a>::: {#fig-local-min-smallLR}</span>
+<span id="cb25-422"><a href="#cb25-422"></a></span>
+<span id="cb25-423"><a href="#cb25-423"></a><span class="al">![](../figures/local_min_smallLR.png)</span></span>
+<span id="cb25-424"><a href="#cb25-424"></a></span>
+<span id="cb25-425"><a href="#cb25-425"></a>Local minimal with small LR</span>
+<span id="cb25-426"><a href="#cb25-426"></a>:::</span>
+<span id="cb25-427"><a href="#cb25-427"></a></span>
+<span id="cb25-428"><a href="#cb25-428"></a>Then, if we increase our learning rate too much, we bounce around again.</span>
 <span id="cb25-429"><a href="#cb25-429"></a></span>
-<span id="cb25-430"><a href="#cb25-430"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> float</span><span class="op">=</span><span class="st">"center"</span><span class="dt">&gt;</span></span>
-<span id="cb25-431"><a href="#cb25-431"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"../figures/local_min_variableLR.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="ot"> </span><span class="dt">/&gt;</span> </span>
-<span id="cb25-432"><a href="#cb25-432"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb25-430"><a href="#cb25-430"></a>::: {#fig-local-min-largeLR}</span>
+<span id="cb25-431"><a href="#cb25-431"></a></span>
+<span id="cb25-432"><a href="#cb25-432"></a><span class="al">![](../figures/local_min_largeLR.png)</span></span>
 <span id="cb25-433"><a href="#cb25-433"></a></span>
-<span id="cb25-434"><a href="#cb25-434"></a>As you can see, this process is not perfect and could still land in a local</span>
-<span id="cb25-435"><a href="#cb25-435"></a>minimum, but it is important to be aware of these behaviors as you utilize SGD</span>
-<span id="cb25-436"><a href="#cb25-436"></a>in machine learning.</span>
-<span id="cb25-437"><a href="#cb25-437"></a></span>
-<span id="cb25-438"><a href="#cb25-438"></a>So let's continue, we'll build functions we can use to update our fit</span>
-<span id="cb25-439"><a href="#cb25-439"></a>parameters, $m$ and $b$.</span>
+<span id="cb25-434"><a href="#cb25-434"></a>Local minimal with large LR</span>
+<span id="cb25-435"><a href="#cb25-435"></a>:::</span>
+<span id="cb25-436"><a href="#cb25-436"></a></span>
+<span id="cb25-437"><a href="#cb25-437"></a>What we want to do in this situation is start with a large learning rate and</span>
+<span id="cb25-438"><a href="#cb25-438"></a>slowly reduce its size as we progress.</span>
+<span id="cb25-439"><a href="#cb25-439"></a>That is shown in this next figure.</span>
 <span id="cb25-440"><a href="#cb25-440"></a></span>
-<span id="cb25-443"><a href="#cb25-443"></a><span class="in">```{python}</span></span>
-<span id="cb25-444"><a href="#cb25-444"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
-<span id="cb25-445"><a href="#cb25-445"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
-<span id="cb25-446"><a href="#cb25-446"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
-<span id="cb25-447"><a href="#cb25-447"></a>   <span class="cf">return</span> m <span class="op">-</span> learning_rate <span class="op">*</span> dL_dm</span>
-<span id="cb25-448"><a href="#cb25-448"></a></span>
-<span id="cb25-449"><a href="#cb25-449"></a><span class="kw">def</span> updated_b(x,y,m,b,learning_rate):</span>
-<span id="cb25-450"><a href="#cb25-450"></a>   dL_db <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
-<span id="cb25-451"><a href="#cb25-451"></a>   dL_db <span class="op">=</span> np.mean(dL_db)</span>
-<span id="cb25-452"><a href="#cb25-452"></a>   <span class="cf">return</span> b <span class="op">-</span> learning_rate <span class="op">*</span> dL_db</span>
-<span id="cb25-453"><a href="#cb25-453"></a><span class="in">```</span></span>
+<span id="cb25-441"><a href="#cb25-441"></a>::: {#fig-local-min-variableLR}</span>
+<span id="cb25-442"><a href="#cb25-442"></a></span>
+<span id="cb25-443"><a href="#cb25-443"></a><span class="al">![](../figures/local_min_variableLR.png)</span></span>
+<span id="cb25-444"><a href="#cb25-444"></a></span>
+<span id="cb25-445"><a href="#cb25-445"></a>Local min with variable LR</span>
+<span id="cb25-446"><a href="#cb25-446"></a>:::</span>
+<span id="cb25-447"><a href="#cb25-447"></a></span>
+<span id="cb25-448"><a href="#cb25-448"></a>As you can see, this process is not perfect and could still land in a local</span>
+<span id="cb25-449"><a href="#cb25-449"></a>minimum, but it is important to be aware of these behaviors as you utilize SGD</span>
+<span id="cb25-450"><a href="#cb25-450"></a>in machine learning.</span>
+<span id="cb25-451"><a href="#cb25-451"></a></span>
+<span id="cb25-452"><a href="#cb25-452"></a>So let's continue, we'll build functions we can use to update our fit</span>
+<span id="cb25-453"><a href="#cb25-453"></a>parameters, $m$ and $b$.</span>
 <span id="cb25-454"><a href="#cb25-454"></a></span>
-<span id="cb25-455"><a href="#cb25-455"></a><span class="fu">## Putting it together</span></span>
-<span id="cb25-456"><a href="#cb25-456"></a></span>
-<span id="cb25-457"><a href="#cb25-457"></a>We can now randomly select our initial slope and intercept:</span>
-<span id="cb25-458"><a href="#cb25-458"></a></span>
-<span id="cb25-461"><a href="#cb25-461"></a><span class="in">```{python}</span></span>
-<span id="cb25-462"><a href="#cb25-462"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb25-463"><a href="#cb25-463"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb25-464"><a href="#cb25-464"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
-<span id="cb25-465"><a href="#cb25-465"></a><span class="in">```</span></span>
-<span id="cb25-466"><a href="#cb25-466"></a></span>
-<span id="cb25-467"><a href="#cb25-467"></a>Then we can calculate our Loss function:</span>
+<span id="cb25-457"><a href="#cb25-457"></a><span class="in">```{python}</span></span>
+<span id="cb25-458"><a href="#cb25-458"></a><span class="kw">def</span> updated_m(x,y,m,b,learning_rate):</span>
+<span id="cb25-459"><a href="#cb25-459"></a>   dL_dm <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
+<span id="cb25-460"><a href="#cb25-460"></a>   dL_dm <span class="op">=</span> np.mean(dL_dm)</span>
+<span id="cb25-461"><a href="#cb25-461"></a>   <span class="cf">return</span> m <span class="op">-</span> learning_rate <span class="op">*</span> dL_dm</span>
+<span id="cb25-462"><a href="#cb25-462"></a></span>
+<span id="cb25-463"><a href="#cb25-463"></a><span class="kw">def</span> updated_b(x,y,m,b,learning_rate):</span>
+<span id="cb25-464"><a href="#cb25-464"></a>   dL_db <span class="op">=</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> (y <span class="op">-</span> model(x,m,b))</span>
+<span id="cb25-465"><a href="#cb25-465"></a>   dL_db <span class="op">=</span> np.mean(dL_db)</span>
+<span id="cb25-466"><a href="#cb25-466"></a>   <span class="cf">return</span> b <span class="op">-</span> learning_rate <span class="op">*</span> dL_db</span>
+<span id="cb25-467"><a href="#cb25-467"></a><span class="in">```</span></span>
 <span id="cb25-468"><a href="#cb25-468"></a></span>
-<span id="cb25-471"><a href="#cb25-471"></a><span class="in">```{python}</span></span>
-<span id="cb25-472"><a href="#cb25-472"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
-<span id="cb25-473"><a href="#cb25-473"></a><span class="bu">print</span>(<span class="st">'first 10 loss values: '</span>,l[:<span class="dv">10</span>])</span>
-<span id="cb25-474"><a href="#cb25-474"></a><span class="in">```</span></span>
-<span id="cb25-475"><a href="#cb25-475"></a></span>
-<span id="cb25-478"><a href="#cb25-478"></a><span class="in">```{python}</span></span>
-<span id="cb25-479"><a href="#cb25-479"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
-<span id="cb25-480"><a href="#cb25-480"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
-<span id="cb25-481"><a href="#cb25-481"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
-<span id="cb25-482"><a href="#cb25-482"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b,m_calc,b_calc))</span>
-<span id="cb25-483"><a href="#cb25-483"></a>plot_data(x,y,m,b)</span>
-<span id="cb25-484"><a href="#cb25-484"></a><span class="in">```</span></span>
-<span id="cb25-485"><a href="#cb25-485"></a></span>
-<span id="cb25-488"><a href="#cb25-488"></a><span class="in">```{python}</span></span>
-<span id="cb25-489"><a href="#cb25-489"></a><span class="co"># set our initial slope and intercept</span></span>
-<span id="cb25-490"><a href="#cb25-490"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb25-491"><a href="#cb25-491"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb25-492"><a href="#cb25-492"></a><span class="co"># batch_size = 60</span></span>
-<span id="cb25-493"><a href="#cb25-493"></a><span class="co"># set a learning rate for each parameter</span></span>
-<span id="cb25-494"><a href="#cb25-494"></a>learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span></span>
-<span id="cb25-495"><a href="#cb25-495"></a>learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span></span>
-<span id="cb25-496"><a href="#cb25-496"></a><span class="co"># use these to plot our progress over time</span></span>
-<span id="cb25-497"><a href="#cb25-497"></a>loss_history <span class="op">=</span> []</span>
-<span id="cb25-498"><a href="#cb25-498"></a><span class="co"># convert panda data to numpy arrays, one for the "Ground Living Area" and one for "Sale Price"</span></span>
-<span id="cb25-499"><a href="#cb25-499"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb25-500"><a href="#cb25-500"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb25-501"><a href="#cb25-501"></a><span class="co"># we run our loop N times</span></span>
-<span id="cb25-502"><a href="#cb25-502"></a>loop_N <span class="op">=</span> <span class="dv">30</span></span>
-<span id="cb25-503"><a href="#cb25-503"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
-<span id="cb25-504"><a href="#cb25-504"></a>   <span class="co"># update our slope and intercept based on the current values</span></span>
-<span id="cb25-505"><a href="#cb25-505"></a>   m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
-<span id="cb25-506"><a href="#cb25-506"></a>   b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
-<span id="cb25-507"><a href="#cb25-507"></a></span>
-<span id="cb25-508"><a href="#cb25-508"></a>   <span class="co"># calculate the loss value</span></span>
-<span id="cb25-509"><a href="#cb25-509"></a>   loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
-<span id="cb25-510"><a href="#cb25-510"></a></span>
-<span id="cb25-511"><a href="#cb25-511"></a>   <span class="co"># keep a history of our loss values</span></span>
-<span id="cb25-512"><a href="#cb25-512"></a>   loss_history.append(loss_value)</span>
-<span id="cb25-513"><a href="#cb25-513"></a></span>
-<span id="cb25-514"><a href="#cb25-514"></a>   <span class="co"># print our progress</span></span>
-<span id="cb25-515"><a href="#cb25-515"></a>   <span class="bu">print</span>(<span class="st">'[</span><span class="sc">%03d</span><span class="st">]  dy_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (i,m,b,m_calc,b_calc,loss_value))</span>
-<span id="cb25-516"><a href="#cb25-516"></a></span>
-<span id="cb25-517"><a href="#cb25-517"></a>   <span class="co"># close/delete previous plots</span></span>
-<span id="cb25-518"><a href="#cb25-518"></a>   plt.close(<span class="st">'all'</span>)</span>
-<span id="cb25-519"><a href="#cb25-519"></a></span>
-<span id="cb25-520"><a href="#cb25-520"></a>   <span class="co"># create a 1 by 2 plot grid</span></span>
-<span id="cb25-521"><a href="#cb25-521"></a>   fig,ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>,dpi<span class="op">=</span><span class="dv">400</span>)</span>
-<span id="cb25-522"><a href="#cb25-522"></a>   <span class="co"># lot our usual output</span></span>
-<span id="cb25-523"><a href="#cb25-523"></a>   plot_data(data_x,data_y,m,b,ax[<span class="dv">0</span>])</span>
+<span id="cb25-469"><a href="#cb25-469"></a><span class="fu">## Putting it together</span></span>
+<span id="cb25-470"><a href="#cb25-470"></a></span>
+<span id="cb25-471"><a href="#cb25-471"></a>We can now randomly select our initial slope and intercept:</span>
+<span id="cb25-472"><a href="#cb25-472"></a></span>
+<span id="cb25-475"><a href="#cb25-475"></a><span class="in">```{python}</span></span>
+<span id="cb25-476"><a href="#cb25-476"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb25-477"><a href="#cb25-477"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb25-478"><a href="#cb25-478"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b))</span>
+<span id="cb25-479"><a href="#cb25-479"></a><span class="in">```</span></span>
+<span id="cb25-480"><a href="#cb25-480"></a></span>
+<span id="cb25-481"><a href="#cb25-481"></a>Then we can calculate our Loss function:</span>
+<span id="cb25-482"><a href="#cb25-482"></a></span>
+<span id="cb25-485"><a href="#cb25-485"></a><span class="in">```{python}</span></span>
+<span id="cb25-486"><a href="#cb25-486"></a>l <span class="op">=</span> loss(x,y,m,b)</span>
+<span id="cb25-487"><a href="#cb25-487"></a><span class="bu">print</span>(<span class="st">'first 10 loss values: '</span>,l[:<span class="dv">10</span>])</span>
+<span id="cb25-488"><a href="#cb25-488"></a><span class="in">```</span></span>
+<span id="cb25-489"><a href="#cb25-489"></a></span>
+<span id="cb25-492"><a href="#cb25-492"></a><span class="in">```{python}</span></span>
+<span id="cb25-493"><a href="#cb25-493"></a>learning_rate <span class="op">=</span> <span class="fl">1e-9</span></span>
+<span id="cb25-494"><a href="#cb25-494"></a>m <span class="op">=</span> updated_m(x,y,m,b,learning_rate)</span>
+<span id="cb25-495"><a href="#cb25-495"></a>b <span class="op">=</span> updated_b(x,y,m,b,learning_rate)</span>
+<span id="cb25-496"><a href="#cb25-496"></a><span class="bu">print</span>(<span class="st">'y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">'</span> <span class="op">%</span> (m,b,m_calc,b_calc))</span>
+<span id="cb25-497"><a href="#cb25-497"></a>plot_data(x,y,m,b)</span>
+<span id="cb25-498"><a href="#cb25-498"></a><span class="in">```</span></span>
+<span id="cb25-499"><a href="#cb25-499"></a></span>
+<span id="cb25-502"><a href="#cb25-502"></a><span class="in">```{python}</span></span>
+<span id="cb25-503"><a href="#cb25-503"></a><span class="co"># set our initial slope and intercept</span></span>
+<span id="cb25-504"><a href="#cb25-504"></a>m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb25-505"><a href="#cb25-505"></a>b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb25-506"><a href="#cb25-506"></a><span class="co"># batch_size = 60</span></span>
+<span id="cb25-507"><a href="#cb25-507"></a><span class="co"># set a learning rate for each parameter</span></span>
+<span id="cb25-508"><a href="#cb25-508"></a>learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span></span>
+<span id="cb25-509"><a href="#cb25-509"></a>learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span></span>
+<span id="cb25-510"><a href="#cb25-510"></a><span class="co"># use these to plot our progress over time</span></span>
+<span id="cb25-511"><a href="#cb25-511"></a>loss_history <span class="op">=</span> []</span>
+<span id="cb25-512"><a href="#cb25-512"></a><span class="co"># convert panda data to numpy arrays, one for the "Ground Living Area" and one for "Sale Price"</span></span>
+<span id="cb25-513"><a href="#cb25-513"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb25-514"><a href="#cb25-514"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb25-515"><a href="#cb25-515"></a><span class="co"># we run our loop N times</span></span>
+<span id="cb25-516"><a href="#cb25-516"></a>loop_N <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb25-517"><a href="#cb25-517"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
+<span id="cb25-518"><a href="#cb25-518"></a>   <span class="co"># update our slope and intercept based on the current values</span></span>
+<span id="cb25-519"><a href="#cb25-519"></a>   m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
+<span id="cb25-520"><a href="#cb25-520"></a>   b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
+<span id="cb25-521"><a href="#cb25-521"></a></span>
+<span id="cb25-522"><a href="#cb25-522"></a>   <span class="co"># calculate the loss value</span></span>
+<span id="cb25-523"><a href="#cb25-523"></a>   loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
 <span id="cb25-524"><a href="#cb25-524"></a></span>
-<span id="cb25-525"><a href="#cb25-525"></a>   <span class="co"># here we also plot the calculated linear fit for comparison</span></span>
-<span id="cb25-526"><a href="#cb25-526"></a>   line_x <span class="op">=</span> np.arange(data_x.<span class="bu">min</span>(),data_x.<span class="bu">max</span>())</span>
-<span id="cb25-527"><a href="#cb25-527"></a>   line_y <span class="op">=</span> line_x <span class="op">*</span> m_calc <span class="op">+</span> b_calc</span>
-<span id="cb25-528"><a href="#cb25-528"></a>   ax[<span class="dv">0</span>].plot(line_x,line_y,<span class="st">'b-'</span>,label<span class="op">=</span><span class="st">'calculated'</span>)</span>
-<span id="cb25-529"><a href="#cb25-529"></a>   <span class="co"># add a legend to the plot and x/y labels</span></span>
-<span id="cb25-530"><a href="#cb25-530"></a>   ax[<span class="dv">0</span>].legend()</span>
-<span id="cb25-531"><a href="#cb25-531"></a>   ax[<span class="dv">0</span>].set_xlabel(<span class="st">'square footage'</span>)</span>
-<span id="cb25-532"><a href="#cb25-532"></a>   ax[<span class="dv">0</span>].set_ylabel(<span class="st">'sale price'</span>)</span>
+<span id="cb25-525"><a href="#cb25-525"></a>   <span class="co"># keep a history of our loss values</span></span>
+<span id="cb25-526"><a href="#cb25-526"></a>   loss_history.append(loss_value)</span>
+<span id="cb25-527"><a href="#cb25-527"></a></span>
+<span id="cb25-528"><a href="#cb25-528"></a>   <span class="co"># print our progress</span></span>
+<span id="cb25-529"><a href="#cb25-529"></a>   <span class="bu">print</span>(<span class="st">'[</span><span class="sc">%03d</span><span class="st">]  dy_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">     previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (i,m,b,m_calc,b_calc,loss_value))</span>
+<span id="cb25-530"><a href="#cb25-530"></a></span>
+<span id="cb25-531"><a href="#cb25-531"></a>   <span class="co"># close/delete previous plots</span></span>
+<span id="cb25-532"><a href="#cb25-532"></a>   plt.close(<span class="st">'all'</span>)</span>
 <span id="cb25-533"><a href="#cb25-533"></a></span>
-<span id="cb25-534"><a href="#cb25-534"></a>   <span class="co"># plot the loss </span></span>
-<span id="cb25-535"><a href="#cb25-535"></a>   loss_x <span class="op">=</span> np.arange(<span class="dv">0</span>,<span class="bu">len</span>(loss_history))</span>
-<span id="cb25-536"><a href="#cb25-536"></a>   loss_y <span class="op">=</span> np.asarray(loss_history)</span>
-<span id="cb25-537"><a href="#cb25-537"></a>   ax[<span class="dv">1</span>].plot(loss_x,loss_y, <span class="st">'o-'</span>)</span>
-<span id="cb25-538"><a href="#cb25-538"></a>   ax[<span class="dv">1</span>].set_yscale(<span class="st">'log'</span>)</span>
-<span id="cb25-539"><a href="#cb25-539"></a>   ax[<span class="dv">1</span>].set_xlabel(<span class="st">'loop step'</span>)</span>
-<span id="cb25-540"><a href="#cb25-540"></a>   ax[<span class="dv">1</span>].set_ylabel(<span class="st">'loss'</span>)</span>
-<span id="cb25-541"><a href="#cb25-541"></a>   plt.show()</span>
-<span id="cb25-542"><a href="#cb25-542"></a>   <span class="co"># gives us time to see the plot</span></span>
-<span id="cb25-543"><a href="#cb25-543"></a>   time.sleep(<span class="fl">2.5</span>)</span>
-<span id="cb25-544"><a href="#cb25-544"></a>   <span class="co"># clears the plot when the next plot is ready to show.</span></span>
-<span id="cb25-545"><a href="#cb25-545"></a>   ipydis.clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb25-546"><a href="#cb25-546"></a></span>
-<span id="cb25-547"><a href="#cb25-547"></a><span class="in">```</span></span>
-<span id="cb25-548"><a href="#cb25-548"></a></span>
-<span id="cb25-549"><a href="#cb25-549"></a><span class="fu">## Homework</span></span>
-<span id="cb25-550"><a href="#cb25-550"></a></span>
-<span id="cb25-551"><a href="#cb25-551"></a><span class="fu">### Mini Batch Training</span></span>
-<span id="cb25-552"><a href="#cb25-552"></a></span>
-<span id="cb25-553"><a href="#cb25-553"></a>In AI, datasets are often very large and cannot be processed all at once as is</span>
-<span id="cb25-554"><a href="#cb25-554"></a>done in the loop above.</span>
-<span id="cb25-555"><a href="#cb25-555"></a>The data is instead randomly sampled in smaller</span>
-<span id="cb25-556"><a href="#cb25-556"></a>_batches_ where each _batch_ contains <span class="in">`batch_size`</span> inputs.</span>
-<span id="cb25-557"><a href="#cb25-557"></a></span>
-<span id="cb25-558"><a href="#cb25-558"></a>How can you change the loop above to sample the dataset in smaller batches?</span>
-<span id="cb25-559"><a href="#cb25-559"></a></span>
-<span id="cb25-560"><a href="#cb25-560"></a>Hint: Our <span class="in">`data`</span> variable is a Pandas <span class="in">`DataFrame`</span> object, search for "how to</span>
-<span id="cb25-561"><a href="#cb25-561"></a>sample a DataFrame".</span>
+<span id="cb25-534"><a href="#cb25-534"></a>   <span class="co"># create a 1 by 2 plot grid</span></span>
+<span id="cb25-535"><a href="#cb25-535"></a>   fig,ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb25-536"><a href="#cb25-536"></a>   <span class="co"># lot our usual output</span></span>
+<span id="cb25-537"><a href="#cb25-537"></a>   plot_data(data_x,data_y,m,b,ax[<span class="dv">0</span>])</span>
+<span id="cb25-538"><a href="#cb25-538"></a></span>
+<span id="cb25-539"><a href="#cb25-539"></a>   <span class="co"># here we also plot the calculated linear fit for comparison</span></span>
+<span id="cb25-540"><a href="#cb25-540"></a>   line_x <span class="op">=</span> np.arange(data_x.<span class="bu">min</span>(),data_x.<span class="bu">max</span>())</span>
+<span id="cb25-541"><a href="#cb25-541"></a>   line_y <span class="op">=</span> line_x <span class="op">*</span> m_calc <span class="op">+</span> b_calc</span>
+<span id="cb25-542"><a href="#cb25-542"></a>   ax[<span class="dv">0</span>].plot(line_x,line_y,<span class="st">'b-'</span>,label<span class="op">=</span><span class="st">'calculated'</span>)</span>
+<span id="cb25-543"><a href="#cb25-543"></a>   <span class="co"># add a legend to the plot and x/y labels</span></span>
+<span id="cb25-544"><a href="#cb25-544"></a>   ax[<span class="dv">0</span>].legend()</span>
+<span id="cb25-545"><a href="#cb25-545"></a>   ax[<span class="dv">0</span>].set_xlabel(<span class="st">'square footage'</span>)</span>
+<span id="cb25-546"><a href="#cb25-546"></a>   ax[<span class="dv">0</span>].set_ylabel(<span class="st">'sale price'</span>)</span>
+<span id="cb25-547"><a href="#cb25-547"></a></span>
+<span id="cb25-548"><a href="#cb25-548"></a>   <span class="co"># plot the loss </span></span>
+<span id="cb25-549"><a href="#cb25-549"></a>   loss_x <span class="op">=</span> np.arange(<span class="dv">0</span>,<span class="bu">len</span>(loss_history))</span>
+<span id="cb25-550"><a href="#cb25-550"></a>   loss_y <span class="op">=</span> np.asarray(loss_history)</span>
+<span id="cb25-551"><a href="#cb25-551"></a>   ax[<span class="dv">1</span>].plot(loss_x,loss_y, <span class="st">'o-'</span>)</span>
+<span id="cb25-552"><a href="#cb25-552"></a>   ax[<span class="dv">1</span>].set_yscale(<span class="st">'log'</span>)</span>
+<span id="cb25-553"><a href="#cb25-553"></a>   ax[<span class="dv">1</span>].set_xlabel(<span class="st">'loop step'</span>)</span>
+<span id="cb25-554"><a href="#cb25-554"></a>   ax[<span class="dv">1</span>].set_ylabel(<span class="st">'loss'</span>)</span>
+<span id="cb25-555"><a href="#cb25-555"></a>   plt.show()</span>
+<span id="cb25-556"><a href="#cb25-556"></a>   <span class="co"># gives us time to see the plot</span></span>
+<span id="cb25-557"><a href="#cb25-557"></a>   time.sleep(<span class="fl">2.5</span>)</span>
+<span id="cb25-558"><a href="#cb25-558"></a>   <span class="co"># clears the plot when the next plot is ready to show.</span></span>
+<span id="cb25-559"><a href="#cb25-559"></a>   ipydis.clear_output(wait<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb25-560"><a href="#cb25-560"></a></span>
+<span id="cb25-561"><a href="#cb25-561"></a><span class="in">```</span></span>
 <span id="cb25-562"><a href="#cb25-562"></a></span>
-<span id="cb25-563"><a href="#cb25-563"></a>Instead of using the entire dataset like:</span>
+<span id="cb25-563"><a href="#cb25-563"></a><span class="fu">## Homework</span></span>
 <span id="cb25-564"><a href="#cb25-564"></a></span>
-<span id="cb25-565"><a href="#cb25-565"></a><span class="in">```python</span></span>
-<span id="cb25-566"><a href="#cb25-566"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb25-567"><a href="#cb25-567"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb25-568"><a href="#cb25-568"></a><span class="in">```</span></span>
-<span id="cb25-569"><a href="#cb25-569"></a></span>
-<span id="cb25-570"><a href="#cb25-570"></a>Use</span>
+<span id="cb25-565"><a href="#cb25-565"></a><span class="fu">### Mini Batch Training</span></span>
+<span id="cb25-566"><a href="#cb25-566"></a></span>
+<span id="cb25-567"><a href="#cb25-567"></a>In AI, datasets are often very large and cannot be processed all at once as is</span>
+<span id="cb25-568"><a href="#cb25-568"></a>done in the loop above.</span>
+<span id="cb25-569"><a href="#cb25-569"></a>The data is instead randomly sampled in smaller</span>
+<span id="cb25-570"><a href="#cb25-570"></a>_batches_ where each _batch_ contains <span class="in">`batch_size`</span> inputs.</span>
 <span id="cb25-571"><a href="#cb25-571"></a></span>
-<span id="cb25-572"><a href="#cb25-572"></a><span class="in">```python</span></span>
-<span id="cb25-573"><a href="#cb25-573"></a>data_batch <span class="op">=</span> data.sample(batch_size)</span>
-<span id="cb25-574"><a href="#cb25-574"></a>data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb25-575"><a href="#cb25-575"></a>data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb25-576"><a href="#cb25-576"></a><span class="in">```</span></span>
-<span id="cb25-577"><a href="#cb25-577"></a></span>
-<span id="cb25-578"><a href="#cb25-578"></a>You also have to adjust the loop_N accordingly to make sure that it loop over the entire datasets the same number of times.</span>
+<span id="cb25-572"><a href="#cb25-572"></a>How can you change the loop above to sample the dataset in smaller batches?</span>
+<span id="cb25-573"><a href="#cb25-573"></a></span>
+<span id="cb25-574"><a href="#cb25-574"></a>Hint: Our <span class="in">`data`</span> variable is a Pandas <span class="in">`DataFrame`</span> object, search for "how to</span>
+<span id="cb25-575"><a href="#cb25-575"></a>sample a DataFrame".</span>
+<span id="cb25-576"><a href="#cb25-576"></a></span>
+<span id="cb25-577"><a href="#cb25-577"></a>Instead of using the entire dataset like:</span>
+<span id="cb25-578"><a href="#cb25-578"></a></span>
 <span id="cb25-579"><a href="#cb25-579"></a><span class="in">```python</span></span>
-<span id="cb25-580"><a href="#cb25-580"></a>loop_N <span class="op">=</span> <span class="dv">30</span><span class="op">*</span><span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
-<span id="cb25-581"><a href="#cb25-581"></a><span class="in">```</span></span>
-<span id="cb25-582"><a href="#cb25-582"></a></span>
-<span id="cb25-583"><a href="#cb25-583"></a>Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512. </span>
-<span id="cb25-584"><a href="#cb25-584"></a></span>
-<span id="cb25-585"><a href="#cb25-585"></a><span class="fu">### Learning rate issue (Bonus)</span></span>
-<span id="cb25-586"><a href="#cb25-586"></a></span>
-<span id="cb25-587"><a href="#cb25-587"></a>As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge. </span>
-<span id="cb25-588"><a href="#cb25-588"></a></span>
-<span id="cb25-589"><a href="#cb25-589"></a><span class="in">```</span></span>
-<span id="cb25-590"><a href="#cb25-590"></a><span class="in">(64, 1e-7, 1e-1)*1</span></span>
-<span id="cb25-591"><a href="#cb25-591"></a><span class="in">(64, 1e-7, 1e-1)*2</span></span>
-<span id="cb25-592"><a href="#cb25-592"></a><span class="in">(64, 1e-7, 1e-1)*4</span></span>
-<span id="cb25-593"><a href="#cb25-593"></a><span class="in">(64, 1e-7, 1e-1)*8</span></span>
-<span id="cb25-594"><a href="#cb25-594"></a><span class="in">...</span></span>
-<span id="cb25-595"><a href="#cb25-595"></a><span class="in">```</span></span>
-<span id="cb25-596"><a href="#cb25-596"></a></span>
-<span id="cb25-597"><a href="#cb25-597"></a>**How to submit your homework**</span>
-<span id="cb25-598"><a href="#cb25-598"></a></span>
-<span id="cb25-599"><a href="#cb25-599"></a><span class="ss">- </span>Fork the github repo to your personal github </span>
-<span id="cb25-600"><a href="#cb25-600"></a><span class="ss">- </span>Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github</span>
-<span id="cb25-601"><a href="#cb25-601"></a><span class="ss">- </span>Provide the link of 01_linear_regression_sgd in the personal github. </span>
-<span id="cb25-602"><a href="#cb25-602"></a></span>
-<span id="cb25-603"><a href="#cb25-603"></a><span class="co">&lt;!--</span></span>
-<span id="cb25-604"><a href="#cb25-604"></a><span class="co">Follow the below instruction on how to do this: </span></span>
-<span id="cb25-605"><a href="#cb25-605"></a><span class="co">https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md</span></span>
-<span id="cb25-606"><a href="#cb25-606"></a><span class="co">--&gt;</span></span>
-<span id="cb25-607"><a href="#cb25-607"></a></span>
-<span id="cb25-608"><a href="#cb25-608"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> closed</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">h2</span><span class="dt">&gt;</span>Homework Answer<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
-<span id="cb25-609"><a href="#cb25-609"></a></span>
-<span id="cb25-610"><a href="#cb25-610"></a>Let us define a train function which allow us to try different hyperparameter setups.</span>
+<span id="cb25-580"><a href="#cb25-580"></a>data_x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb25-581"><a href="#cb25-581"></a>data_y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb25-582"><a href="#cb25-582"></a><span class="in">```</span></span>
+<span id="cb25-583"><a href="#cb25-583"></a></span>
+<span id="cb25-584"><a href="#cb25-584"></a>Use</span>
+<span id="cb25-585"><a href="#cb25-585"></a></span>
+<span id="cb25-586"><a href="#cb25-586"></a><span class="in">```python</span></span>
+<span id="cb25-587"><a href="#cb25-587"></a>data_batch <span class="op">=</span> data.sample(batch_size)</span>
+<span id="cb25-588"><a href="#cb25-588"></a>data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb25-589"><a href="#cb25-589"></a>data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb25-590"><a href="#cb25-590"></a><span class="in">```</span></span>
+<span id="cb25-591"><a href="#cb25-591"></a></span>
+<span id="cb25-592"><a href="#cb25-592"></a>You also have to adjust the loop_N accordingly to make sure that it loop over the entire datasets the same number of times.</span>
+<span id="cb25-593"><a href="#cb25-593"></a></span>
+<span id="cb25-594"><a href="#cb25-594"></a><span class="in">```python</span></span>
+<span id="cb25-595"><a href="#cb25-595"></a>loop_N <span class="op">=</span> <span class="dv">30</span><span class="op">*</span><span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
+<span id="cb25-596"><a href="#cb25-596"></a><span class="in">```</span></span>
+<span id="cb25-597"><a href="#cb25-597"></a></span>
+<span id="cb25-598"><a href="#cb25-598"></a>Please plot your learning curve for different batch size, such as 32, 64, 128, 256, 512. </span>
+<span id="cb25-599"><a href="#cb25-599"></a></span>
+<span id="cb25-600"><a href="#cb25-600"></a><span class="fu">### Learning rate issue (Bonus)</span></span>
+<span id="cb25-601"><a href="#cb25-601"></a></span>
+<span id="cb25-602"><a href="#cb25-602"></a>As described above, if the learning rate is too large, it will affect the convergence. Do your training with (batch_size = 64, learning_rate_m = 1e-7, learning_rate_b = 1e-1). Then linearly increase the batch size and learning rate until you see the training does not converge. </span>
+<span id="cb25-603"><a href="#cb25-603"></a></span>
+<span id="cb25-604"><a href="#cb25-604"></a><span class="in">```</span></span>
+<span id="cb25-605"><a href="#cb25-605"></a><span class="in">(64, 1e-7, 1e-1)*1</span></span>
+<span id="cb25-606"><a href="#cb25-606"></a><span class="in">(64, 1e-7, 1e-1)*2</span></span>
+<span id="cb25-607"><a href="#cb25-607"></a><span class="in">(64, 1e-7, 1e-1)*4</span></span>
+<span id="cb25-608"><a href="#cb25-608"></a><span class="in">(64, 1e-7, 1e-1)*8</span></span>
+<span id="cb25-609"><a href="#cb25-609"></a><span class="in">...</span></span>
+<span id="cb25-610"><a href="#cb25-610"></a><span class="in">```</span></span>
 <span id="cb25-611"><a href="#cb25-611"></a></span>
-<span id="cb25-614"><a href="#cb25-614"></a><span class="in">```{python}</span></span>
-<span id="cb25-615"><a href="#cb25-615"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb25-616"><a href="#cb25-616"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb25-612"><a href="#cb25-612"></a>**How to submit your homework**</span>
+<span id="cb25-613"><a href="#cb25-613"></a></span>
+<span id="cb25-614"><a href="#cb25-614"></a><span class="ss">- </span>Fork the github repo to your personal github </span>
+<span id="cb25-615"><a href="#cb25-615"></a><span class="ss">- </span>Make change to the 01_linear_regression_sgd.ipynb, and then push to your personal github</span>
+<span id="cb25-616"><a href="#cb25-616"></a><span class="ss">- </span>Provide the link of 01_linear_regression_sgd in the personal github. </span>
 <span id="cb25-617"><a href="#cb25-617"></a></span>
-<span id="cb25-618"><a href="#cb25-618"></a><span class="kw">def</span> train(batch_size, epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span>, learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span>):</span>
-<span id="cb25-619"><a href="#cb25-619"></a>    loss_history <span class="op">=</span> []</span>
-<span id="cb25-620"><a href="#cb25-620"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
-<span id="cb25-621"><a href="#cb25-621"></a>    loop_N <span class="op">=</span> epochs<span class="op">*</span>num_batches</span>
-<span id="cb25-622"><a href="#cb25-622"></a>    m <span class="op">=</span> <span class="fl">5.</span></span>
-<span id="cb25-623"><a href="#cb25-623"></a>    b <span class="op">=</span> <span class="fl">1000.</span></span>
-<span id="cb25-624"><a href="#cb25-624"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
-<span id="cb25-625"><a href="#cb25-625"></a>        data_batch <span class="op">=</span> data.sample(batch_size)</span>
-<span id="cb25-626"><a href="#cb25-626"></a>        data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
-<span id="cb25-627"><a href="#cb25-627"></a>        data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
-<span id="cb25-628"><a href="#cb25-628"></a>        <span class="co"># update our slope and intercept based on the current values</span></span>
-<span id="cb25-629"><a href="#cb25-629"></a>        m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
-<span id="cb25-630"><a href="#cb25-630"></a>        b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
-<span id="cb25-631"><a href="#cb25-631"></a></span>
-<span id="cb25-632"><a href="#cb25-632"></a>        <span class="co"># calculate the loss value</span></span>
-<span id="cb25-633"><a href="#cb25-633"></a>        loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
-<span id="cb25-634"><a href="#cb25-634"></a></span>
-<span id="cb25-635"><a href="#cb25-635"></a>        <span class="co"># keep a history of our loss values</span></span>
-<span id="cb25-636"><a href="#cb25-636"></a>        loss_history.append(loss_value)</span>
-<span id="cb25-637"><a href="#cb25-637"></a>    <span class="co">#loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)</span></span>
-<span id="cb25-638"><a href="#cb25-638"></a>    <span class="cf">return</span> m, b, np.mean(loss(x,y,m,b))</span>
-<span id="cb25-639"><a href="#cb25-639"></a><span class="in">```</span></span>
-<span id="cb25-640"><a href="#cb25-640"></a></span>
-<span id="cb25-641"><a href="#cb25-641"></a><span class="fu">## Minibatch training</span></span>
-<span id="cb25-642"><a href="#cb25-642"></a></span>
-<span id="cb25-645"><a href="#cb25-645"></a><span class="in">```{python}</span></span>
-<span id="cb25-646"><a href="#cb25-646"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
-<span id="cb25-647"><a href="#cb25-647"></a></span>
-<span id="cb25-648"><a href="#cb25-648"></a></span>
-<span id="cb25-649"><a href="#cb25-649"></a><span class="cf">for</span> bs <span class="kw">in</span> <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>, <span class="dv">512</span>:</span>
-<span id="cb25-650"><a href="#cb25-650"></a>    m, b, l <span class="op">=</span> train(bs, epochs<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb25-651"><a href="#cb25-651"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb25-652"><a href="#cb25-652"></a><span class="in">```</span></span>
-<span id="cb25-653"><a href="#cb25-653"></a></span>
-<span id="cb25-654"><a href="#cb25-654"></a>We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene</span>
+<span id="cb25-618"><a href="#cb25-618"></a><span class="co">&lt;!--</span></span>
+<span id="cb25-619"><a href="#cb25-619"></a><span class="co">Follow the below instruction on how to do this: </span></span>
+<span id="cb25-620"><a href="#cb25-620"></a><span class="co">https://github.com/argonne-lcf/ai-science-training-series/blob/main/00_introToAlcf/03_githubHomework.md</span></span>
+<span id="cb25-621"><a href="#cb25-621"></a><span class="co">--&gt;</span></span>
+<span id="cb25-622"><a href="#cb25-622"></a></span>
+<span id="cb25-623"><a href="#cb25-623"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> closed</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">h2</span><span class="dt">&gt;</span>Homework Answer<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb25-624"><a href="#cb25-624"></a></span>
+<span id="cb25-625"><a href="#cb25-625"></a>Let us define a train function which allow us to try different hyperparameter setups.</span>
+<span id="cb25-626"><a href="#cb25-626"></a></span>
+<span id="cb25-629"><a href="#cb25-629"></a><span class="in">```{python}</span></span>
+<span id="cb25-630"><a href="#cb25-630"></a>x <span class="op">=</span> data[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb25-631"><a href="#cb25-631"></a>y <span class="op">=</span> data[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb25-632"><a href="#cb25-632"></a></span>
+<span id="cb25-633"><a href="#cb25-633"></a><span class="kw">def</span> train(batch_size, epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> <span class="fl">1e-7</span>, learning_rate_b <span class="op">=</span> <span class="fl">1e-1</span>):</span>
+<span id="cb25-634"><a href="#cb25-634"></a>    loss_history <span class="op">=</span> []</span>
+<span id="cb25-635"><a href="#cb25-635"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(data)<span class="op">//</span>batch_size</span>
+<span id="cb25-636"><a href="#cb25-636"></a>    loop_N <span class="op">=</span> epochs<span class="op">*</span>num_batches</span>
+<span id="cb25-637"><a href="#cb25-637"></a>    m <span class="op">=</span> <span class="fl">5.</span></span>
+<span id="cb25-638"><a href="#cb25-638"></a>    b <span class="op">=</span> <span class="fl">1000.</span></span>
+<span id="cb25-639"><a href="#cb25-639"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(loop_N):</span>
+<span id="cb25-640"><a href="#cb25-640"></a>        data_batch <span class="op">=</span> data.sample(batch_size)</span>
+<span id="cb25-641"><a href="#cb25-641"></a>        data_x <span class="op">=</span> data_batch[<span class="st">'GrLivArea'</span>].to_numpy()</span>
+<span id="cb25-642"><a href="#cb25-642"></a>        data_y <span class="op">=</span> data_batch[<span class="st">'SalePrice'</span>].to_numpy()</span>
+<span id="cb25-643"><a href="#cb25-643"></a>        <span class="co"># update our slope and intercept based on the current values</span></span>
+<span id="cb25-644"><a href="#cb25-644"></a>        m <span class="op">=</span> updated_m(data_x,data_y,m,b,learning_rate_m)</span>
+<span id="cb25-645"><a href="#cb25-645"></a>        b <span class="op">=</span> updated_b(data_x,data_y,m,b,learning_rate_b)</span>
+<span id="cb25-646"><a href="#cb25-646"></a></span>
+<span id="cb25-647"><a href="#cb25-647"></a>        <span class="co"># calculate the loss value</span></span>
+<span id="cb25-648"><a href="#cb25-648"></a>        loss_value <span class="op">=</span> np.mean(loss(data_x,data_y,m,b))</span>
+<span id="cb25-649"><a href="#cb25-649"></a></span>
+<span id="cb25-650"><a href="#cb25-650"></a>        <span class="co"># keep a history of our loss values</span></span>
+<span id="cb25-651"><a href="#cb25-651"></a>        loss_history.append(loss_value)</span>
+<span id="cb25-652"><a href="#cb25-652"></a>    <span class="co">#loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)</span></span>
+<span id="cb25-653"><a href="#cb25-653"></a>    <span class="cf">return</span> m, b, np.mean(loss(x,y,m,b))</span>
+<span id="cb25-654"><a href="#cb25-654"></a><span class="in">```</span></span>
 <span id="cb25-655"><a href="#cb25-655"></a></span>
-<span id="cb25-656"><a href="#cb25-656"></a><span class="fu">## Learning rate</span></span>
+<span id="cb25-656"><a href="#cb25-656"></a><span class="fu">## Minibatch training</span></span>
 <span id="cb25-657"><a href="#cb25-657"></a></span>
 <span id="cb25-660"><a href="#cb25-660"></a><span class="in">```{python}</span></span>
-<span id="cb25-661"><a href="#cb25-661"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
-<span id="cb25-662"><a href="#cb25-662"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
-<span id="cb25-663"><a href="#cb25-663"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
-<span id="cb25-664"><a href="#cb25-664"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
-<span id="cb25-665"><a href="#cb25-665"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb25-666"><a href="#cb25-666"></a><span class="in">```</span></span>
-<span id="cb25-667"><a href="#cb25-667"></a></span>
-<span id="cb25-668"><a href="#cb25-668"></a>We can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size. </span>
-<span id="cb25-669"><a href="#cb25-669"></a></span>
-<span id="cb25-670"><a href="#cb25-670"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb25-661"><a href="#cb25-661"></a><span class="bu">print</span>(<span class="st">'previously calculated: y_i = </span><span class="sc">%.2f</span><span class="st"> * x + </span><span class="sc">%.2f</span><span class="st">    loss: </span><span class="sc">%f</span><span class="ch">\n</span><span class="st">======================================='</span> <span class="op">%</span> (m_calc,b_calc,loss_value))</span>
+<span id="cb25-662"><a href="#cb25-662"></a></span>
+<span id="cb25-663"><a href="#cb25-663"></a></span>
+<span id="cb25-664"><a href="#cb25-664"></a><span class="cf">for</span> bs <span class="kw">in</span> <span class="dv">64</span>, <span class="dv">128</span>, <span class="dv">256</span>, <span class="dv">512</span>:</span>
+<span id="cb25-665"><a href="#cb25-665"></a>    m, b, l <span class="op">=</span> train(bs, epochs<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb25-666"><a href="#cb25-666"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb25-667"><a href="#cb25-667"></a><span class="in">```</span></span>
+<span id="cb25-668"><a href="#cb25-668"></a></span>
+<span id="cb25-669"><a href="#cb25-669"></a>We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene</span>
+<span id="cb25-670"><a href="#cb25-670"></a></span>
+<span id="cb25-671"><a href="#cb25-671"></a><span class="fu">## Learning rate</span></span>
+<span id="cb25-672"><a href="#cb25-672"></a></span>
+<span id="cb25-675"><a href="#cb25-675"></a><span class="in">```{python}</span></span>
+<span id="cb25-676"><a href="#cb25-676"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>:</span>
+<span id="cb25-677"><a href="#cb25-677"></a>    bs, lrm, lrb <span class="op">=</span> np.array([<span class="dv">64</span>, <span class="fl">1e-7</span>, <span class="fl">1e-1</span>])<span class="op">*</span>i</span>
+<span id="cb25-678"><a href="#cb25-678"></a>    bs <span class="op">=</span> <span class="bu">int</span>(bs)</span>
+<span id="cb25-679"><a href="#cb25-679"></a>    m, b, l <span class="op">=</span> train(<span class="bu">int</span>(bs), epochs<span class="op">=</span><span class="dv">30</span>, learning_rate_m <span class="op">=</span> lrm, learning_rate_b <span class="op">=</span> lrb)</span>
+<span id="cb25-680"><a href="#cb25-680"></a>    <span class="bu">print</span>(<span class="ss">f"batch size: </span><span class="sc">{</span>bs<span class="sc">}</span><span class="ss">, m=</span><span class="sc">{</span>m<span class="sc">:.4f}</span><span class="ss">, b=</span><span class="sc">{</span>b<span class="sc">:.4f}</span><span class="ss">, loss=</span><span class="sc">{</span>l<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb25-681"><a href="#cb25-681"></a><span class="in">```</span></span>
+<span id="cb25-682"><a href="#cb25-682"></a></span>
+<span id="cb25-683"><a href="#cb25-683"></a>We can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size. </span>
+<span id="cb25-684"><a href="#cb25-684"></a></span>
+<span id="cb25-685"><a href="#cb25-685"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

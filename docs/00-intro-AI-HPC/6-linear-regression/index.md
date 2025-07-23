@@ -18,10 +18,9 @@ Sam Foreman
 - [Putting it together](#putting-it-together)
 - [Homework](#homework)
   - [Mini Batch Training](#mini-batch-training)
-- [Learning rate issue (Bonus)](#learning-rate-issue-bonus)
-- [Homework answer](#homework-answer)
-  - [Minibatch training](#minibatch-training)
-  - [Learning rate](#learning-rate)
+  - [Learning rate issue (Bonus)](#learning-rate-issue-bonus)
+- [Minibatch training](#minibatch-training)
+- [Learning rate](#learning-rate)
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/6-linear-regression/index.ipynb)
 
@@ -307,7 +306,7 @@ fully trained, they should model (AKA predict) the behavior of our
 system. In our example, the system is how house prices vary based on
 house size. We know our system is roughly driven by a linear function:
 
-$$ \hat{y_i}(x_i) = m * x_i + b $$
+$$\hat{y_i}(x_i) = m * x_i + b $$
 
 We just need to figure out $m$ and $b$. Let’s create a function that
 calculates our model given $x$, $m$, and $b$.
@@ -392,18 +391,24 @@ else on our loss function (following the red arrows). In this example,
 our learning rate ($\eta$) has been selected too large such that we
 bounce back and forth around the minimum, never reaching it.
 
-<p float="center">
+<div id="fig-parabola-largeLR">
 
-<img src="../figures/parabola_largeLR.png" width="400" />
-</p>
+![](../figures/parabola_largeLR.png)
+
+Figure 6: Large LR
+
+</div>
 
 If we select a smaller learning we can see better behavior in the next
 figure.
 
-<p float="center">
+<div id="fig-parabola-smallLR">
 
-<img src="../figures/parabola_smallLR.png" width="400" />
-</p>
+![](../figures/parabola_smallLR.png)
+
+Figure 7: Small LR
+
+</div>
 
 Though, keep in mind, too small a learning rate results is so little
 progress toward the minimum that you may never reach it!
@@ -417,26 +422,35 @@ It could be that we randomly select a starting point near the minimum we
 care about, but we should build methods that are more robust against
 randomly getting the right answer.
 
-<p float="center">
+<div id="fig-local-min-smallLR">
 
-<img src="../figures/local_min_smallLR.png" width="400" />
-</p>
+![](../figures/local_min_smallLR.png)
+
+Figure 8: Local minimal with small LR
+
+</div>
 
 Then, if we increase our learning rate too much, we bounce around again.
 
-<p float="center">
+<div id="fig-local-min-largeLR">
 
-<img src="../figures/local_min_largeLR.png" width="400" />
-</p>
+![](../figures/local_min_largeLR.png)
+
+Figure 9: Local minimal with large LR
+
+</div>
 
 What we want to do in this situation is start with a large learning rate
 and slowly reduce its size as we progress. That is shown in this next
 figure.
 
-<p float="center">
+<div id="fig-local-min-variableLR">
 
-<img src="../figures/local_min_variableLR.png" width="400" />
-</p>
+![](../figures/local_min_variableLR.png)
+
+Figure 10: Local min with variable LR
+
+</div>
 
 As you can see, this process is not perfect and could still land in a
 local minimum, but it is important to be aware of these behaviors as you
@@ -528,7 +542,7 @@ for i in range(loop_N):
    plt.close('all')
 
    # create a 1 by 2 plot grid
-   fig,ax = plt.subplots(1,2,dpi=400)
+   fig,ax = plt.subplots(1,2)
    # lot our usual output
    plot_data(data_x,data_y,m,b,ax[0])
 
@@ -599,7 +613,7 @@ loop_N = 30*len(data)//batch_size
 Please plot your learning curve for different batch size, such as 32,
 64, 128, 256, 512.
 
-## Learning rate issue (Bonus)
+### Learning rate issue (Bonus)
 
 As described above, if the learning rate is too large, it will affect
 the convergence. Do your training with (batch_size = 64, learning_rate_m
@@ -619,7 +633,16 @@ and learning rate until you see the training does not converge.
   your personal github
 - Provide the link of 01_linear_regression_sgd in the personal github.
 
-# Homework answer
+<details closed>
+
+<summary>
+
+<h2>
+
+Homework Answer
+</h2>
+
+</summary>
 
 Let us define a train function which allow us to try different
 hyperparameter setups.
@@ -641,10 +664,10 @@ def train(batch_size, epochs=30, learning_rate_m = 1e-7, learning_rate_b = 1e-1)
         # update our slope and intercept based on the current values
         m = updated_m(data_x,data_y,m,b,learning_rate_m)
         b = updated_b(data_x,data_y,m,b,learning_rate_b)
-    
+
         # calculate the loss value
         loss_value = np.mean(loss(data_x,data_y,m,b))
-        
+
         # keep a history of our loss values
         loss_history.append(loss_value)
     #loss_last_epoch = np.sum(loss_history[-num_batches:]*batch_size)/len(data)
@@ -666,16 +689,16 @@ for bs in 64, 128, 256, 512:
 =======================================
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.5608</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30680.1392</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1495876661.2322</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86.0409</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36331.2636</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479077606.2690</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">84.4710</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37866.7183</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1482632504.5137</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85.8511</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34554.1349</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1486472532.8690</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.7792</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34895.0902</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1480921466.4450</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.9199</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34227.4857</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1485991630.1070</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.7037</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33096.9643</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478116584.4095</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.0474</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32784.0381</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478292294.9538</span>
 </pre>
 
 We see that eventually, we all get similar results with the minibatch
@@ -691,16 +714,16 @@ for i in 1, 2, 4, 8:
     print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">91.4115</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34101.6875</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1502656819.8174</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.9681</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35146.2689</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478421653.8283</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">95.4995</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31373.3717</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1552565554.5144</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.6876</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33741.8555</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478212126.0586</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">83.9591</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38436.4276</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1484059943.5231</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85.9542</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36589.7903</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478974332.5402</span>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">112913.7992</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-36913118.8855</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18357905114683364.0000</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">170947.7728</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-146058450.6103</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16943349706710192.0000</span>
 </pre>
 
 We can see that, if we increase the batch size and the learning rate
@@ -711,3 +734,5 @@ too large, it will continue to move around without finding a local
 minimum. One trick, people can do is to start with a smaller learning
 rate in the first few steps / epochs, and once the optimization becomes
 stable, increase the learning rate proportional to the batch size.
+
+</details>

@@ -277,7 +277,7 @@ trained, they should model (AKA predict) the behavior of our system.
 In our example, the system is how house prices vary based on house size.
 We know our system is roughly driven by a linear function:
 
-$$ \hat{y_i}(x_i) = m * x_i + b $$
+$$\hat{y_i}(x_i) = m * x_i + b $$
 
 We just need to figure out $m$ and $b$. Let's create a function that calculates
 our model given $x$, $m$, and $b$.
@@ -365,15 +365,20 @@ In this example, our learning rate ($\eta$) has
 been selected too large such that we bounce back and forth around the minimum,
 never reaching it.
 
-<p float="center">
-  <img src="../figures/parabola_largeLR.png" width="400" /> 
-</p>
+::: {#fig-parabola-largeLR}
+![](../figures/parabola_largeLR.png)
+
+Large LR
+:::
 
 If we select a smaller learning we can see better behavior in the next figure.
 
-<p float="center">
-  <img src="../figures/parabola_smallLR.png" width="400" /> 
-</p>
+::: {#fig-parabola-smallLR}
+
+![](../figures/parabola_smallLR.png)
+
+Small LR
+:::
 
 Though, keep in mind, too small a learning rate results is so little progress
 toward the minimum that you may never reach it!
@@ -389,23 +394,32 @@ It could be that we randomly
 select a starting point near the minimum we care about, but we should build
 methods that are more robust against randomly getting the right answer.
 
-<p float="center">
-  <img src="../figures/local_min_smallLR.png" width="400" /> 
-</p>
+::: {#fig-local-min-smallLR}
+
+![](../figures/local_min_smallLR.png)
+
+Local minimal with small LR
+:::
 
 Then, if we increase our learning rate too much, we bounce around again.
 
-<p float="center">
-  <img src="../figures/local_min_largeLR.png" width="400" /> 
-</p>
+::: {#fig-local-min-largeLR}
+
+![](../figures/local_min_largeLR.png)
+
+Local minimal with large LR
+:::
 
 What we want to do in this situation is start with a large learning rate and
 slowly reduce its size as we progress.
 That is shown in this next figure.
 
-<p float="center">
-  <img src="../figures/local_min_variableLR.png" width="400" /> 
-</p>
+::: {#fig-local-min-variableLR}
+
+![](../figures/local_min_variableLR.png)
+
+Local min with variable LR
+:::
 
 As you can see, this process is not perfect and could still land in a local
 minimum, but it is important to be aware of these behaviors as you utilize SGD
@@ -484,7 +498,7 @@ for i in range(loop_N):
    plt.close('all')
 
    # create a 1 by 2 plot grid
-   fig,ax = plt.subplots(1,2,dpi=400)
+   fig,ax = plt.subplots(1,2)
    # lot our usual output
    plot_data(data_x,data_y,m,b,ax[0])
 
@@ -542,6 +556,7 @@ data_y = data_batch['SalePrice'].to_numpy()
 ```
 
 You also have to adjust the loop_N accordingly to make sure that it loop over the entire datasets the same number of times.
+
 ```python
 loop_N = 30*len(data)//batch_size
 ```

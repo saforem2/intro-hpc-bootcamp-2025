@@ -21,7 +21,7 @@ execute:
 project:
   type: website
   output-dir: "../docs"
-  execute-dir: project
+  execute-dir: file
   preview:
     port: 4208
   render:

@@ -81,8 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-443033a9f5e99878e7a0f602c75fe65b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-e16b86569eb0ee0a29795e9a01f276ff.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a2a703216f7c591c435c65ebef040c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-625d52d0780d2d11077eab6bb479a02e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -2526,378 +2526,379 @@ Models (LLMs).”</span> July 23, 2025. <a href="https://saforem2.github.io/hpc-
 <span id="cb26-199"><a href="#cb26-199"></a></span>
 <span id="cb26-200"><a href="#cb26-200"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb26-201"><a href="#cb26-201"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb26-202"><a href="#cb26-202"></a></span>
-<span id="cb26-203"><a href="#cb26-203"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
-<span id="cb26-204"><a href="#cb26-204"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
-<span id="cb26-205"><a href="#cb26-205"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
-<span id="cb26-206"><a href="#cb26-206"></a><span class="in">```</span></span>
-<span id="cb26-207"><a href="#cb26-207"></a></span>
-<span id="cb26-210"><a href="#cb26-210"></a><span class="in">```{python}</span></span>
-<span id="cb26-211"><a href="#cb26-211"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
-<span id="cb26-212"><a href="#cb26-212"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer,AutoModelForCausalLM, AutoConfig</span>
-<span id="cb26-213"><a href="#cb26-213"></a>input_text <span class="op">=</span> <span class="st">"My dog really wanted to eat icecream because"</span></span>
-<span id="cb26-214"><a href="#cb26-214"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
-<span id="cb26-215"><a href="#cb26-215"></a>generator <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"gpt2"</span>)</span>
-<span id="cb26-216"><a href="#cb26-216"></a>pipe <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"gpt2"</span>)</span>
-<span id="cb26-217"><a href="#cb26-217"></a>generator(input_text, max_length<span class="op">=</span><span class="dv">20</span>, num_return_sequences<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb26-218"><a href="#cb26-218"></a><span class="in">```</span></span>
-<span id="cb26-219"><a href="#cb26-219"></a></span>
-<span id="cb26-220"><a href="#cb26-220"></a><span class="fu">## What's going on under the hood?</span></span>
-<span id="cb26-221"><a href="#cb26-221"></a></span>
-<span id="cb26-222"><a href="#cb26-222"></a>There are two components that are "black-boxes" here:</span>
-<span id="cb26-223"><a href="#cb26-223"></a></span>
-<span id="cb26-224"><a href="#cb26-224"></a><span class="ss">1. </span>The method for tokenization</span>
-<span id="cb26-225"><a href="#cb26-225"></a><span class="ss">2. </span>The model that generates novel text.</span>
-<span id="cb26-226"><a href="#cb26-226"></a></span>
-<span id="cb26-227"><a href="#cb26-227"></a><span class="fu">## Tokenization and embedding of sequential data</span></span>
-<span id="cb26-228"><a href="#cb26-228"></a></span>
-<span id="cb26-229"><a href="#cb26-229"></a>Humans can inherently understand language data because they previously learned phonetic sounds.</span>
-<span id="cb26-230"><a href="#cb26-230"></a></span>
-<span id="cb26-231"><a href="#cb26-231"></a>Machines don’t have phonetic knowledge so they need to be told how to break text into standard units to process it.</span>
-<span id="cb26-232"><a href="#cb26-232"></a></span>
-<span id="cb26-233"><a href="#cb26-233"></a>They use a system called “tokenization”, where sequences of text are broken into smaller parts, or “tokens”, and then fed as input.</span>
-<span id="cb26-234"><a href="#cb26-234"></a></span>
-<span id="cb26-235"><a href="#cb26-235"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-236"><a href="#cb26-236"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/text-processing---machines-vs-humans.png?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="dt">/&gt;</span></span>
-<span id="cb26-237"><a href="#cb26-237"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-238"><a href="#cb26-238"></a></span>
-<span id="cb26-239"><a href="#cb26-239"></a>Tokenization is a data preprocessing step which transforms the raw text data into a format suitable for machine learning models. Tokenizers break down raw text into smaller units called tokens. These tokens are what is fed into the language models. Based on the type and configuration of the tokenizer, these tokens can be words, subwords, or characters.</span>
-<span id="cb26-240"><a href="#cb26-240"></a></span>
-<span id="cb26-241"><a href="#cb26-241"></a>Types of tokenizers:</span>
-<span id="cb26-242"><a href="#cb26-242"></a></span>
-<span id="cb26-243"><a href="#cb26-243"></a><span class="ss">1. </span>Character Tokenizers: Split text into individual characters.</span>
-<span id="cb26-244"><a href="#cb26-244"></a><span class="ss">2. </span>Word Tokenizers: Split text into words based on whitespace or punctuation.</span>
-<span id="cb26-245"><a href="#cb26-245"></a><span class="ss">3. </span>Subword Tokenizers: Split text into subword units, such as morphemes or character n-grams. Common subword tokenization algorithms include:</span>
-<span id="cb26-246"><a href="#cb26-246"></a><span class="ss">  1. </span>Byte-Pair Encoding (BPE),</span>
-<span id="cb26-247"><a href="#cb26-247"></a><span class="ss">  2. </span>SentencePiece,</span>
-<span id="cb26-248"><a href="#cb26-248"></a><span class="ss">  3. </span>WordPiece.</span>
-<span id="cb26-249"><a href="#cb26-249"></a></span>
-<span id="cb26-250"><a href="#cb26-250"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-251"><a href="#cb26-251"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/tokenization_image.webp?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="dt">/&gt;</span></span>
-<span id="cb26-252"><a href="#cb26-252"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-253"><a href="#cb26-253"></a></span>
-<span id="cb26-254"><a href="#cb26-254"></a><span class="co">[</span><span class="ot">nlpiation</span><span class="co">](https://nlpiation.medium.com/how-to-use-huggingfaces-transformers-pre-trained-tokenizers-e029e8d6d1fa)</span></span>
-<span id="cb26-255"><a href="#cb26-255"></a></span>
-<span id="cb26-256"><a href="#cb26-256"></a><span class="fu">### Example of tokenization</span></span>
-<span id="cb26-257"><a href="#cb26-257"></a>Let's look at an example of tokenization using byte-pair encoding.</span>
-<span id="cb26-258"><a href="#cb26-258"></a></span>
-<span id="cb26-261"><a href="#cb26-261"></a><span class="in">```{python}</span></span>
-<span id="cb26-262"><a href="#cb26-262"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
-<span id="cb26-263"><a href="#cb26-263"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
-<span id="cb26-264"><a href="#cb26-264"></a></span>
-<span id="cb26-265"><a href="#cb26-265"></a><span class="co"># A utility function to tokenize a sequence and print out some information about it.</span></span>
-<span id="cb26-266"><a href="#cb26-266"></a></span>
-<span id="cb26-267"><a href="#cb26-267"></a><span class="kw">def</span> tokenization_summary(tokenizer, sequence):</span>
-<span id="cb26-268"><a href="#cb26-268"></a></span>
-<span id="cb26-269"><a href="#cb26-269"></a>    <span class="co"># get the vocabulary</span></span>
-<span id="cb26-270"><a href="#cb26-270"></a>    vocab <span class="op">=</span> tokenizer.vocab</span>
-<span id="cb26-271"><a href="#cb26-271"></a>    <span class="co"># Number of entries to print</span></span>
-<span id="cb26-272"><a href="#cb26-272"></a>    n <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb26-273"><a href="#cb26-273"></a></span>
-<span id="cb26-274"><a href="#cb26-274"></a>    <span class="co"># Print subset of the vocabulary</span></span>
-<span id="cb26-275"><a href="#cb26-275"></a>    <span class="bu">print</span>(<span class="st">"Subset of tokenizer.vocab:"</span>)</span>
-<span id="cb26-276"><a href="#cb26-276"></a>    <span class="cf">for</span> i, (token, index) <span class="kw">in</span> <span class="bu">enumerate</span>(tokenizer.vocab.items()):</span>
-<span id="cb26-277"><a href="#cb26-277"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>token<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb26-278"><a href="#cb26-278"></a>        <span class="cf">if</span> i <span class="op">&gt;=</span> n <span class="op">-</span> <span class="dv">1</span>:</span>
-<span id="cb26-279"><a href="#cb26-279"></a>            <span class="cf">break</span></span>
-<span id="cb26-280"><a href="#cb26-280"></a></span>
-<span id="cb26-281"><a href="#cb26-281"></a>    <span class="bu">print</span>(<span class="st">"Vocab size of the tokenizer = "</span>, <span class="bu">len</span>(vocab))</span>
-<span id="cb26-282"><a href="#cb26-282"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
-<span id="cb26-283"><a href="#cb26-283"></a></span>
-<span id="cb26-284"><a href="#cb26-284"></a>    <span class="co"># .tokenize chunks the existing sequence into different tokens based on the rules and vocab of the tokenizer.</span></span>
-<span id="cb26-285"><a href="#cb26-285"></a>    tokens <span class="op">=</span> tokenizer.tokenize(sequence)</span>
-<span id="cb26-286"><a href="#cb26-286"></a>    <span class="bu">print</span>(<span class="st">"Tokens : "</span>, tokens)</span>
-<span id="cb26-287"><a href="#cb26-287"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
-<span id="cb26-288"><a href="#cb26-288"></a></span>
-<span id="cb26-289"><a href="#cb26-289"></a>    <span class="co"># .convert_tokens_to_ids or .encode or .tokenize converts the tokens to their corresponding numerical representation.</span></span>
-<span id="cb26-290"><a href="#cb26-290"></a>    <span class="co">#  .convert_tokens_to_ids has a 1-1 mapping between tokens and numerical representation</span></span>
-<span id="cb26-291"><a href="#cb26-291"></a>    <span class="co"># ids = tokenizer.convert_tokens_to_ids(tokens)</span></span>
-<span id="cb26-292"><a href="#cb26-292"></a>    <span class="co"># print("encoded Ids: ", ids)</span></span>
-<span id="cb26-293"><a href="#cb26-293"></a></span>
-<span id="cb26-294"><a href="#cb26-294"></a>    <span class="co"># .encode also adds additional information like Start of sequence tokens and End of sequene</span></span>
-<span id="cb26-295"><a href="#cb26-295"></a>    <span class="bu">print</span>(<span class="st">"tokenized sequence : "</span>, tokenizer.encode(sequence))</span>
-<span id="cb26-296"><a href="#cb26-296"></a></span>
-<span id="cb26-297"><a href="#cb26-297"></a>    <span class="co"># .tokenizer has additional information about attention_mask.</span></span>
-<span id="cb26-298"><a href="#cb26-298"></a>    <span class="co"># encode = tokenizer(sequence)</span></span>
-<span id="cb26-299"><a href="#cb26-299"></a>    <span class="co"># print("Encode sequence : ", encode)</span></span>
-<span id="cb26-300"><a href="#cb26-300"></a>    <span class="co"># print("------------------------------------------")</span></span>
-<span id="cb26-301"><a href="#cb26-301"></a></span>
-<span id="cb26-302"><a href="#cb26-302"></a>    <span class="co"># .decode decodes the ids to raw text</span></span>
-<span id="cb26-303"><a href="#cb26-303"></a>    ids <span class="op">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
-<span id="cb26-304"><a href="#cb26-304"></a>    decode <span class="op">=</span> tokenizer.decode(ids)</span>
-<span id="cb26-305"><a href="#cb26-305"></a>    <span class="bu">print</span>(<span class="st">"Decode sequence : "</span>, decode)</span>
-<span id="cb26-306"><a href="#cb26-306"></a></span>
+<span id="cb26-202"><a href="#cb26-202"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
+<span id="cb26-203"><a href="#cb26-203"></a></span>
+<span id="cb26-204"><a href="#cb26-204"></a>plt.style.use(ambivalent.STYLES[<span class="st">'ambivalent'</span>])</span>
+<span id="cb26-205"><a href="#cb26-205"></a>sns.set_context(<span class="st">"notebook"</span>)</span>
+<span id="cb26-206"><a href="#cb26-206"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">6.4</span>, <span class="fl">4.8</span>]</span>
+<span id="cb26-207"><a href="#cb26-207"></a><span class="in">```</span></span>
+<span id="cb26-208"><a href="#cb26-208"></a></span>
+<span id="cb26-211"><a href="#cb26-211"></a><span class="in">```{python}</span></span>
+<span id="cb26-212"><a href="#cb26-212"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
+<span id="cb26-213"><a href="#cb26-213"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer,AutoModelForCausalLM, AutoConfig</span>
+<span id="cb26-214"><a href="#cb26-214"></a>input_text <span class="op">=</span> <span class="st">"My dog really wanted to eat icecream because"</span></span>
+<span id="cb26-215"><a href="#cb26-215"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
+<span id="cb26-216"><a href="#cb26-216"></a>generator <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"gpt2"</span>)</span>
+<span id="cb26-217"><a href="#cb26-217"></a>pipe <span class="op">=</span> pipeline(<span class="st">"text-generation"</span>, model<span class="op">=</span><span class="st">"gpt2"</span>)</span>
+<span id="cb26-218"><a href="#cb26-218"></a>generator(input_text, max_length<span class="op">=</span><span class="dv">20</span>, num_return_sequences<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb26-219"><a href="#cb26-219"></a><span class="in">```</span></span>
+<span id="cb26-220"><a href="#cb26-220"></a></span>
+<span id="cb26-221"><a href="#cb26-221"></a><span class="fu">## What's going on under the hood?</span></span>
+<span id="cb26-222"><a href="#cb26-222"></a></span>
+<span id="cb26-223"><a href="#cb26-223"></a>There are two components that are "black-boxes" here:</span>
+<span id="cb26-224"><a href="#cb26-224"></a></span>
+<span id="cb26-225"><a href="#cb26-225"></a><span class="ss">1. </span>The method for tokenization</span>
+<span id="cb26-226"><a href="#cb26-226"></a><span class="ss">2. </span>The model that generates novel text.</span>
+<span id="cb26-227"><a href="#cb26-227"></a></span>
+<span id="cb26-228"><a href="#cb26-228"></a><span class="fu">## Tokenization and embedding of sequential data</span></span>
+<span id="cb26-229"><a href="#cb26-229"></a></span>
+<span id="cb26-230"><a href="#cb26-230"></a>Humans can inherently understand language data because they previously learned phonetic sounds.</span>
+<span id="cb26-231"><a href="#cb26-231"></a></span>
+<span id="cb26-232"><a href="#cb26-232"></a>Machines don’t have phonetic knowledge so they need to be told how to break text into standard units to process it.</span>
+<span id="cb26-233"><a href="#cb26-233"></a></span>
+<span id="cb26-234"><a href="#cb26-234"></a>They use a system called “tokenization”, where sequences of text are broken into smaller parts, or “tokens”, and then fed as input.</span>
+<span id="cb26-235"><a href="#cb26-235"></a></span>
+<span id="cb26-236"><a href="#cb26-236"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-237"><a href="#cb26-237"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/text-processing---machines-vs-humans.png?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="dt">/&gt;</span></span>
+<span id="cb26-238"><a href="#cb26-238"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-239"><a href="#cb26-239"></a></span>
+<span id="cb26-240"><a href="#cb26-240"></a>Tokenization is a data preprocessing step which transforms the raw text data into a format suitable for machine learning models. Tokenizers break down raw text into smaller units called tokens. These tokens are what is fed into the language models. Based on the type and configuration of the tokenizer, these tokens can be words, subwords, or characters.</span>
+<span id="cb26-241"><a href="#cb26-241"></a></span>
+<span id="cb26-242"><a href="#cb26-242"></a>Types of tokenizers:</span>
+<span id="cb26-243"><a href="#cb26-243"></a></span>
+<span id="cb26-244"><a href="#cb26-244"></a><span class="ss">1. </span>Character Tokenizers: Split text into individual characters.</span>
+<span id="cb26-245"><a href="#cb26-245"></a><span class="ss">2. </span>Word Tokenizers: Split text into words based on whitespace or punctuation.</span>
+<span id="cb26-246"><a href="#cb26-246"></a><span class="ss">3. </span>Subword Tokenizers: Split text into subword units, such as morphemes or character n-grams. Common subword tokenization algorithms include:</span>
+<span id="cb26-247"><a href="#cb26-247"></a><span class="ss">  1. </span>Byte-Pair Encoding (BPE),</span>
+<span id="cb26-248"><a href="#cb26-248"></a><span class="ss">  2. </span>SentencePiece,</span>
+<span id="cb26-249"><a href="#cb26-249"></a><span class="ss">  3. </span>WordPiece.</span>
+<span id="cb26-250"><a href="#cb26-250"></a></span>
+<span id="cb26-251"><a href="#cb26-251"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-252"><a href="#cb26-252"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/tokenization_image.webp?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="dt">/&gt;</span></span>
+<span id="cb26-253"><a href="#cb26-253"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-254"><a href="#cb26-254"></a></span>
+<span id="cb26-255"><a href="#cb26-255"></a><span class="co">[</span><span class="ot">nlpiation</span><span class="co">](https://nlpiation.medium.com/how-to-use-huggingfaces-transformers-pre-trained-tokenizers-e029e8d6d1fa)</span></span>
+<span id="cb26-256"><a href="#cb26-256"></a></span>
+<span id="cb26-257"><a href="#cb26-257"></a><span class="fu">### Example of tokenization</span></span>
+<span id="cb26-258"><a href="#cb26-258"></a>Let's look at an example of tokenization using byte-pair encoding.</span>
+<span id="cb26-259"><a href="#cb26-259"></a></span>
+<span id="cb26-262"><a href="#cb26-262"></a><span class="in">```{python}</span></span>
+<span id="cb26-263"><a href="#cb26-263"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
+<span id="cb26-264"><a href="#cb26-264"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb26-265"><a href="#cb26-265"></a></span>
+<span id="cb26-266"><a href="#cb26-266"></a><span class="co"># A utility function to tokenize a sequence and print out some information about it.</span></span>
+<span id="cb26-267"><a href="#cb26-267"></a></span>
+<span id="cb26-268"><a href="#cb26-268"></a><span class="kw">def</span> tokenization_summary(tokenizer, sequence):</span>
+<span id="cb26-269"><a href="#cb26-269"></a></span>
+<span id="cb26-270"><a href="#cb26-270"></a>    <span class="co"># get the vocabulary</span></span>
+<span id="cb26-271"><a href="#cb26-271"></a>    vocab <span class="op">=</span> tokenizer.vocab</span>
+<span id="cb26-272"><a href="#cb26-272"></a>    <span class="co"># Number of entries to print</span></span>
+<span id="cb26-273"><a href="#cb26-273"></a>    n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb26-274"><a href="#cb26-274"></a></span>
+<span id="cb26-275"><a href="#cb26-275"></a>    <span class="co"># Print subset of the vocabulary</span></span>
+<span id="cb26-276"><a href="#cb26-276"></a>    <span class="bu">print</span>(<span class="st">"Subset of tokenizer.vocab:"</span>)</span>
+<span id="cb26-277"><a href="#cb26-277"></a>    <span class="cf">for</span> i, (token, index) <span class="kw">in</span> <span class="bu">enumerate</span>(tokenizer.vocab.items()):</span>
+<span id="cb26-278"><a href="#cb26-278"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>token<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-279"><a href="#cb26-279"></a>        <span class="cf">if</span> i <span class="op">&gt;=</span> n <span class="op">-</span> <span class="dv">1</span>:</span>
+<span id="cb26-280"><a href="#cb26-280"></a>            <span class="cf">break</span></span>
+<span id="cb26-281"><a href="#cb26-281"></a></span>
+<span id="cb26-282"><a href="#cb26-282"></a>    <span class="bu">print</span>(<span class="st">"Vocab size of the tokenizer = "</span>, <span class="bu">len</span>(vocab))</span>
+<span id="cb26-283"><a href="#cb26-283"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
+<span id="cb26-284"><a href="#cb26-284"></a></span>
+<span id="cb26-285"><a href="#cb26-285"></a>    <span class="co"># .tokenize chunks the existing sequence into different tokens based on the rules and vocab of the tokenizer.</span></span>
+<span id="cb26-286"><a href="#cb26-286"></a>    tokens <span class="op">=</span> tokenizer.tokenize(sequence)</span>
+<span id="cb26-287"><a href="#cb26-287"></a>    <span class="bu">print</span>(<span class="st">"Tokens : "</span>, tokens)</span>
+<span id="cb26-288"><a href="#cb26-288"></a>    <span class="bu">print</span>(<span class="st">"------------------------------------------"</span>)</span>
+<span id="cb26-289"><a href="#cb26-289"></a></span>
+<span id="cb26-290"><a href="#cb26-290"></a>    <span class="co"># .convert_tokens_to_ids or .encode or .tokenize converts the tokens to their corresponding numerical representation.</span></span>
+<span id="cb26-291"><a href="#cb26-291"></a>    <span class="co">#  .convert_tokens_to_ids has a 1-1 mapping between tokens and numerical representation</span></span>
+<span id="cb26-292"><a href="#cb26-292"></a>    <span class="co"># ids = tokenizer.convert_tokens_to_ids(tokens)</span></span>
+<span id="cb26-293"><a href="#cb26-293"></a>    <span class="co"># print("encoded Ids: ", ids)</span></span>
+<span id="cb26-294"><a href="#cb26-294"></a></span>
+<span id="cb26-295"><a href="#cb26-295"></a>    <span class="co"># .encode also adds additional information like Start of sequence tokens and End of sequene</span></span>
+<span id="cb26-296"><a href="#cb26-296"></a>    <span class="bu">print</span>(<span class="st">"tokenized sequence : "</span>, tokenizer.encode(sequence))</span>
+<span id="cb26-297"><a href="#cb26-297"></a></span>
+<span id="cb26-298"><a href="#cb26-298"></a>    <span class="co"># .tokenizer has additional information about attention_mask.</span></span>
+<span id="cb26-299"><a href="#cb26-299"></a>    <span class="co"># encode = tokenizer(sequence)</span></span>
+<span id="cb26-300"><a href="#cb26-300"></a>    <span class="co"># print("Encode sequence : ", encode)</span></span>
+<span id="cb26-301"><a href="#cb26-301"></a>    <span class="co"># print("------------------------------------------")</span></span>
+<span id="cb26-302"><a href="#cb26-302"></a></span>
+<span id="cb26-303"><a href="#cb26-303"></a>    <span class="co"># .decode decodes the ids to raw text</span></span>
+<span id="cb26-304"><a href="#cb26-304"></a>    ids <span class="op">=</span> tokenizer.convert_tokens_to_ids(tokens)</span>
+<span id="cb26-305"><a href="#cb26-305"></a>    decode <span class="op">=</span> tokenizer.decode(ids)</span>
+<span id="cb26-306"><a href="#cb26-306"></a>    <span class="bu">print</span>(<span class="st">"Decode sequence : "</span>, decode)</span>
 <span id="cb26-307"><a href="#cb26-307"></a></span>
-<span id="cb26-308"><a href="#cb26-308"></a>tokenizer_1  <span class="op">=</span>  AutoTokenizer.from_pretrained(<span class="st">"gpt2"</span>) <span class="co"># GPT-2 uses "Byte-Pair Encoding (BPE)"</span></span>
-<span id="cb26-309"><a href="#cb26-309"></a></span>
-<span id="cb26-310"><a href="#cb26-310"></a>sequence <span class="op">=</span> <span class="st">"Counselor, please adjust your Zoom filter to appear as a human, rather than as a cat"</span></span>
-<span id="cb26-311"><a href="#cb26-311"></a></span>
-<span id="cb26-312"><a href="#cb26-312"></a>tokenization_summary(tokenizer_1, sequence)</span>
-<span id="cb26-313"><a href="#cb26-313"></a><span class="in">```</span></span>
-<span id="cb26-314"><a href="#cb26-314"></a></span>
-<span id="cb26-315"><a href="#cb26-315"></a><span class="fu">### Token embedding:</span></span>
-<span id="cb26-316"><a href="#cb26-316"></a></span>
-<span id="cb26-317"><a href="#cb26-317"></a>Words are turned into vectors based on their location within a vocabulary.</span>
-<span id="cb26-318"><a href="#cb26-318"></a></span>
-<span id="cb26-319"><a href="#cb26-319"></a>The strategy of choice for learning language structure from tokenized text is to find a clever way to map each token into a moderate-dimension vector space, adjusting the mapping so that</span>
-<span id="cb26-320"><a href="#cb26-320"></a></span>
-<span id="cb26-321"><a href="#cb26-321"></a>Similar, or associated tokens take up residence nearby each other, and different regions of the space correspond to different position in the sequence.</span>
-<span id="cb26-322"><a href="#cb26-322"></a>Such a mapping from token ID to a point in a vector space is called a token embedding. The dimension of the vector space is often high (e.g. 1024-dimensional), but much smaller than the vocabulary size (30,000--500,000).</span>
-<span id="cb26-323"><a href="#cb26-323"></a></span>
-<span id="cb26-324"><a href="#cb26-324"></a>Various approaches have been attempted for generating such embeddings, including static algorithms that operate on a corpus of tokenized data as preprocessors for NLP tasks. Transformers, however, adjust their embeddings during training.</span>
-<span id="cb26-325"><a href="#cb26-325"></a></span>
-<span id="cb26-326"><a href="#cb26-326"></a><span class="fu">## Transformer Model Architecture</span></span>
-<span id="cb26-327"><a href="#cb26-327"></a></span>
-<span id="cb26-328"><a href="#cb26-328"></a>Now let's look at the base elements that</span>
-<span id="cb26-329"><a href="#cb26-329"></a>make up a Transformer by dissecting the popular GPT2 model</span>
-<span id="cb26-330"><a href="#cb26-330"></a></span>
-<span id="cb26-333"><a href="#cb26-333"></a><span class="in">```{python}</span></span>
-<span id="cb26-334"><a href="#cb26-334"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
-<span id="cb26-335"><a href="#cb26-335"></a><span class="im">from</span> transformers <span class="im">import</span> GPT2Tokenizer, GPT2LMHeadModel</span>
-<span id="cb26-336"><a href="#cb26-336"></a>model <span class="op">=</span> GPT2LMHeadModel.from_pretrained(<span class="st">'gpt2'</span>)</span>
-<span id="cb26-337"><a href="#cb26-337"></a><span class="bu">print</span>(model)</span>
-<span id="cb26-338"><a href="#cb26-338"></a><span class="in">```</span></span>
-<span id="cb26-339"><a href="#cb26-339"></a></span>
-<span id="cb26-340"><a href="#cb26-340"></a>GPT2 is an example of a Transformer Decoder which is used to generate novel text.</span>
-<span id="cb26-341"><a href="#cb26-341"></a></span>
-<span id="cb26-342"><a href="#cb26-342"></a>Decoder models use only the decoder of a Transformer model. At each stage, for a given word the attention layers can only access the words positioned before it in the sentence. These models are often called auto-regressive models. The pretraining of decoder models usually revolves around predicting the next word in the sentence.</span>
-<span id="cb26-343"><a href="#cb26-343"></a></span>
-<span id="cb26-344"><a href="#cb26-344"></a>These models are best suited for tasks involving text generation.</span>
-<span id="cb26-345"><a href="#cb26-345"></a></span>
-<span id="cb26-346"><a href="#cb26-346"></a>The architecture of GPT-2 is inspired by the paper: "Generating Wikipedia by Summarizing Long Sequences" which is another arrangement of the transformer block that can do language modeling. This model threw away the encoder and thus is known as the “Transformer-Decoder”.</span>
-<span id="cb26-347"><a href="#cb26-347"></a></span>
-<span id="cb26-348"><a href="#cb26-348"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-349"><a href="#cb26-349"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/transformer-decoder-intro.png?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"500"</span><span class="dt">/&gt;</span></span>
-<span id="cb26-350"><a href="#cb26-350"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-351"><a href="#cb26-351"></a></span>
-<span id="cb26-352"><a href="#cb26-352"></a><span class="co">[</span><span class="ot">Illustrated GPT2</span><span class="co">](https://jalammar.github.io/illustrated-gpt2/)</span></span>
-<span id="cb26-353"><a href="#cb26-353"></a></span>
-<span id="cb26-354"><a href="#cb26-354"></a>Key components of the transformer architecture include:</span>
-<span id="cb26-355"><a href="#cb26-355"></a></span>
-<span id="cb26-356"><a href="#cb26-356"></a><span class="ss">* </span>Input Embeddings: Word embedding or word vectors help us represent words or text as a numeric vector where words with similar meanings have the similar representation.</span>
-<span id="cb26-357"><a href="#cb26-357"></a></span>
-<span id="cb26-358"><a href="#cb26-358"></a><span class="ss">* </span>Positional Encoding: Injects information about the position of words in a sequence, helping the model understand word order.</span>
-<span id="cb26-359"><a href="#cb26-359"></a></span>
-<span id="cb26-360"><a href="#cb26-360"></a><span class="ss">* </span>Self-Attention Mechanism: Allows the model to weigh the importance of different words in a sentence, enabling it to effectively capture contextual information.</span>
-<span id="cb26-361"><a href="#cb26-361"></a></span>
-<span id="cb26-362"><a href="#cb26-362"></a><span class="ss">* </span>Feedforward Neural Networks: Process information from self-attention layers to generate output for each word/token.</span>
-<span id="cb26-363"><a href="#cb26-363"></a></span>
-<span id="cb26-364"><a href="#cb26-364"></a><span class="ss">* </span>Layer Normalization and Residual Connections: Aid in stabilizing training and mitigating the vanishing gradient problem.</span>
-<span id="cb26-365"><a href="#cb26-365"></a></span>
-<span id="cb26-366"><a href="#cb26-366"></a><span class="ss">* </span>Transformer Blocks: Comprised of multiple layers of self-attention and feedforward neural networks, stacked together to form the model.</span>
-<span id="cb26-367"><a href="#cb26-367"></a></span>
-<span id="cb26-368"><a href="#cb26-368"></a><span class="fu">### Attention mechanisms</span></span>
-<span id="cb26-369"><a href="#cb26-369"></a></span>
-<span id="cb26-370"><a href="#cb26-370"></a>Since attention mechanisms are arguably the most powerful component of the Transformer, let's discuss this in a little more detail.</span>
-<span id="cb26-371"><a href="#cb26-371"></a></span>
-<span id="cb26-372"><a href="#cb26-372"></a>Suppose the following sentence is an input sentence we want to translate using an LLM:</span>
-<span id="cb26-373"><a href="#cb26-373"></a></span>
-<span id="cb26-374"><a href="#cb26-374"></a><span class="in">`”The animal didn't cross the street because it was too tired”`</span></span>
-<span id="cb26-375"><a href="#cb26-375"></a></span>
-<span id="cb26-376"><a href="#cb26-376"></a>To understand a full sentence, the model needs to understand what each word means in relation to other words.</span>
-<span id="cb26-377"><a href="#cb26-377"></a></span>
-<span id="cb26-378"><a href="#cb26-378"></a>For example, when we read the sentence:</span>
-<span id="cb26-379"><a href="#cb26-379"></a><span class="in">`”The animal didn't cross the street because it was too tired”`</span></span>
-<span id="cb26-380"><a href="#cb26-380"></a>we know intuitively that the word <span class="in">`"it"`</span> refers to <span class="in">`"animal"`</span>, the state for <span class="in">`"it"`</span> is <span class="in">`"tired"`</span>, and the associated action is <span class="in">`"didn't cross"`</span>.</span>
-<span id="cb26-381"><a href="#cb26-381"></a></span>
-<span id="cb26-382"><a href="#cb26-382"></a>However, the model needs a way to learn all of this information in a simple yet generalizable way.</span>
-<span id="cb26-383"><a href="#cb26-383"></a>What makes Transformers particularly powerful compared to earlier sequential architectures is how it encodes context with the **self-attention mechanism**.</span>
-<span id="cb26-384"><a href="#cb26-384"></a></span>
-<span id="cb26-385"><a href="#cb26-385"></a>As the model processes each word in the input sequence, attention looks at other positions in the input sequence for clues to a better understanding for this word.</span>
-<span id="cb26-386"><a href="#cb26-386"></a></span>
-<span id="cb26-387"><a href="#cb26-387"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-388"><a href="#cb26-388"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/transformer_self-attention_visualization.png?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="dt">/&gt;</span></span>
-<span id="cb26-389"><a href="#cb26-389"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
-<span id="cb26-390"><a href="#cb26-390"></a></span>
-<span id="cb26-391"><a href="#cb26-391"></a><span class="co">[</span><span class="ot">The Illustrated Transformer</span><span class="co">](https://jalammar.github.io/illustrated-transformer/)</span></span>
-<span id="cb26-392"><a href="#cb26-392"></a></span>
-<span id="cb26-393"><a href="#cb26-393"></a><span class="fu">#### Multi-head attention</span></span>
-<span id="cb26-394"><a href="#cb26-394"></a>In practice, multiple attention heads are used simultaneously.</span>
-<span id="cb26-395"><a href="#cb26-395"></a></span>
-<span id="cb26-396"><a href="#cb26-396"></a>This:</span>
-<span id="cb26-397"><a href="#cb26-397"></a><span class="ss">* </span>Expands the model’s ability to focus on different positions.</span>
-<span id="cb26-398"><a href="#cb26-398"></a><span class="ss">* </span>Prevents the attention to be dominated by the word itself.</span>
-<span id="cb26-399"><a href="#cb26-399"></a></span>
-<span id="cb26-400"><a href="#cb26-400"></a><span class="fu">#### Let's see multi-head attention mechanisms in action!</span></span>
-<span id="cb26-401"><a href="#cb26-401"></a></span>
-<span id="cb26-402"><a href="#cb26-402"></a>We are going to use the powerful visualization tool bertviz, which allows an interactive experience of the attention mechanisms. Normally these mechanisms are abstracted away but this will allow us to inspect our model in more detail.</span>
-<span id="cb26-403"><a href="#cb26-403"></a></span>
-<span id="cb26-406"><a href="#cb26-406"></a><span class="in">```{python}</span></span>
-<span id="cb26-407"><a href="#cb26-407"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
-<span id="cb26-408"><a href="#cb26-408"></a><span class="co">#| output: false</span></span>
-<span id="cb26-409"><a href="#cb26-409"></a><span class="op">!</span>pip install bertviz</span>
-<span id="cb26-410"><a href="#cb26-410"></a><span class="in">```</span></span>
-<span id="cb26-411"><a href="#cb26-411"></a></span>
-<span id="cb26-412"><a href="#cb26-412"></a>Let's load in the model, GPT2 and look at the attention mechanisms.</span>
-<span id="cb26-413"><a href="#cb26-413"></a></span>
-<span id="cb26-414"><a href="#cb26-414"></a>**Hint... click on the different blocks in the visualization to see the attention**</span>
-<span id="cb26-415"><a href="#cb26-415"></a></span>
-<span id="cb26-418"><a href="#cb26-418"></a><span class="in">```{python}</span></span>
-<span id="cb26-419"><a href="#cb26-419"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 907, referenced_widgets: [ad748b4c592645cb90d427c9012d7368, a34cdc4592cf46ad9ccf69caa52363bd, c1eac1886ea84c87bed161c960569d3d, ca50498e237843709d8c44e7ea0e94b5, 8f4387f0bb3e402ab1ab4d443c693f96, 47316e9804804c8d9c9b031fa3d86052, 6cc5bd956c694bc5b63c0c7bba2a29f8, 93728bade1714bcabbe90f1b9b95b7c2, 83cea646339b4e74a9582827afdf5753, c765d253aa974bc59654f0398afb964d, 3d71478078bc4743a580dc6200cccbd0, 099e1574f4a14c308be2364d0bba2a76, 6f822f4ae7734ce09736d50bf17ad99e, 93fbd0ce38df488fa725d7c584344e6b, ee56c1c4c2be4086883a95e15adc655d, 846bb66c196540febf6a7bc32b60dc3a, 37dcd77ea3154208be44bfa35a88fa90, fdd9ba7947794f4aa0e2782e3b379f61, 64fa9056ffef4ab3a4e2db085a48cbfb, acee154ece2e4a939f42236ec38de871, 46acb20f74174029962ecb8142c576fb, b58662cfa5fb4406a171135e01d25368, c770f4a4cad0435ebedbb932c1431f52, 14dab4fee3d34783bf838cfbd4bdbcaa, d00cd656bc4f4f0d9cf52b942fceb155, d5fbc43ad5204bb88b11ddceaedc5d6d, 8d825e3d51524720ada2f1ecd9a9ffd5, 9a17934807c140eeb8c0a5cf80c4cb50, 7d2254be42234d24b044f6c9c0d49119, 9eddddc3c9034e6da5bf612da55f5714, 9548afdd0d154788ba3edb96c326c85f, 2213cf9588c545f2b200186766ac425d, d56ccfc975d949b7a6cbe7b9a89a1101, ff3907fe32a14ae681a6a01933e6eaf5, f08eac6bbad843ca95157d035c1ef043, 7e8af1c44d984d99a2b27e80c05cec75, 0a381955a75148d5a59815efb2b352bd, 7ac42549074746b48926a9cffe0a542c, 55b65d9fa1e44149bfc763a8c99e7c2a, cd7ca2bbf9b04de4842b316ea7a5535f, 0c0b4f2c4ef14413bc24340afc040431, 6442fa46c934428998cf8e3d5835e8bc, 8da520e3f829425b83e9b92149f792ad, 78c5836dbb6b4538abcc3cd348c5b958, 3f9fa0a2a0614bae87f7c698d043a3b5, 6c5fb86539584d6dad2af92729b9a1ef, 1eb460d0dad44857a14646782366c7c1, 67c1873c51d34503833366af483744a3, 713fef79f5d441b18f372c64d9569551, 4b5d59490f264d03a9ac52897ae94d33, 42519c4cca864ad78595214e86079c8f, bd3444ba231347378ae1a7ffa4181648, d701e46a5472481ea942b613e3506f03, e2effa7f78034f5c98a2c7f2d12b7ec3, 8ee1c3f4f84f49b9aa78590d20e03005, 00d232fe28f74a1ea9fad0510586ff9c, e2e8c12232854688802988193dd6bdc8, 3129da774c2c4298afbf3d766ca7f428, 0d36758d65ed404e8181bdc4e2a9d26b, 3e75401bc3bf42da8f9e1a377401b69d, fbd25c280a554d50ace7384d5939e335, 3371add482984a3bab5c31379484af71, 001363aab0a143a683a07e48cbbf5594, c87375d637f74dc4ab4bab00852c758c, b5f27258ef4a4b9e8b7d13387b14d9a1, d201d648b932443ca9141aa9129e5661, 0a2f04862b3a4c36becf5949c67a14a5, 8f57a09202cf4cddb2ba697ecfc78daf, a9fae2f4af744d33bddeeb48420cda3e, 2994daa8857945509c97e3f2cdb4ee97, 593dfccfa5ca4e56a32e9cead70714d2, 5f3d428e20334a3da4c82d0fc2e3eb3e, 5e028ae3b1824c74a0d610129dcc8246, 28ba4c7a70294e589cb2ced5766072e4, d3a9c7752afb49a5bb1ea70bdb8744fe, 09eed5891aa647da9f7c9beceac50622, 4868e95bf5ec4cecab53e5e65862aea6]}</span></span>
-<span id="cb26-420"><a href="#cb26-420"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer, AutoModel, utils, AutoModelForCausalLM</span>
-<span id="cb26-421"><a href="#cb26-421"></a></span>
-<span id="cb26-422"><a href="#cb26-422"></a><span class="im">from</span> bertviz <span class="im">import</span> model_view</span>
-<span id="cb26-423"><a href="#cb26-423"></a>utils.logging.set_verbosity_error()  <span class="co"># Suppress standard warnings</span></span>
-<span id="cb26-424"><a href="#cb26-424"></a></span>
-<span id="cb26-425"><a href="#cb26-425"></a>model_name <span class="op">=</span> <span class="st">'openai-community/gpt2'</span></span>
-<span id="cb26-426"><a href="#cb26-426"></a>input_text <span class="op">=</span> <span class="st">"No, I am your father"</span></span>
-<span id="cb26-427"><a href="#cb26-427"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(model_name, output_attentions<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb26-428"><a href="#cb26-428"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name)</span>
-<span id="cb26-429"><a href="#cb26-429"></a>inputs <span class="op">=</span> tokenizer.encode(input_text, return_tensors<span class="op">=</span><span class="st">'pt'</span>)  <span class="co"># Tokenize input text</span></span>
-<span id="cb26-430"><a href="#cb26-430"></a>outputs <span class="op">=</span> model(inputs)  <span class="co"># Run model</span></span>
-<span id="cb26-431"><a href="#cb26-431"></a>attention <span class="op">=</span> outputs[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Retrieve attention from model outputs</span></span>
-<span id="cb26-432"><a href="#cb26-432"></a>tokens <span class="op">=</span> tokenizer.convert_ids_to_tokens(inputs[<span class="dv">0</span>])  <span class="co"># Convert input ids to token strings</span></span>
-<span id="cb26-433"><a href="#cb26-433"></a>model_view(attention, tokens)  <span class="co"># Display model view</span></span>
-<span id="cb26-434"><a href="#cb26-434"></a><span class="in">```</span></span>
-<span id="cb26-435"><a href="#cb26-435"></a></span>
-<span id="cb26-436"><a href="#cb26-436"></a><span class="fu">## Pipeline using HuggingFace</span></span>
-<span id="cb26-437"><a href="#cb26-437"></a></span>
-<span id="cb26-438"><a href="#cb26-438"></a>Now, let's see a practical application of LLMs using a HuggingFace pipeline for classification.</span>
-<span id="cb26-439"><a href="#cb26-439"></a></span>
-<span id="cb26-440"><a href="#cb26-440"></a>This involves a few steps including:</span>
-<span id="cb26-441"><a href="#cb26-441"></a><span class="ss">1. </span>Setting up a prompt</span>
-<span id="cb26-442"><a href="#cb26-442"></a><span class="ss">2. </span>Loading in a pretrained model</span>
-<span id="cb26-443"><a href="#cb26-443"></a><span class="ss">3. </span>Loading in the tokenizer and tokenizing input text</span>
-<span id="cb26-444"><a href="#cb26-444"></a><span class="ss">4. </span>Performing model inference</span>
-<span id="cb26-445"><a href="#cb26-445"></a><span class="ss">5. </span>Interpreting inference output</span>
-<span id="cb26-446"><a href="#cb26-446"></a></span>
-<span id="cb26-449"><a href="#cb26-449"></a><span class="in">```{python}</span></span>
-<span id="cb26-450"><a href="#cb26-450"></a><span class="co"># STEP 0 : Installations and imports</span></span>
-<span id="cb26-451"><a href="#cb26-451"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer, AutoModelForSequenceClassification, AutoConfig</span>
-<span id="cb26-452"><a href="#cb26-452"></a><span class="im">import</span> torch</span>
-<span id="cb26-453"><a href="#cb26-453"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
-<span id="cb26-454"><a href="#cb26-454"></a><span class="in">```</span></span>
-<span id="cb26-455"><a href="#cb26-455"></a></span>
-<span id="cb26-456"><a href="#cb26-456"></a><span class="fu">### 1. Setting up a prompt</span></span>
-<span id="cb26-457"><a href="#cb26-457"></a></span>
-<span id="cb26-458"><a href="#cb26-458"></a>A "prompt" refers to a specific input or query provided to a language model. They guide the text processing and generation by providing the context for the model to generate coherent and relevant text based on the given input.</span>
-<span id="cb26-459"><a href="#cb26-459"></a></span>
-<span id="cb26-460"><a href="#cb26-460"></a>The choice and structure of the prompt depends on the specific task, the context and desired output. Prompts can be "discrete" or "instructive" where they are explicit instructions or questions directed to the language model. They can also be more nuanced by more providing suggestions, directions and contexts to the model.</span>
-<span id="cb26-461"><a href="#cb26-461"></a></span>
-<span id="cb26-462"><a href="#cb26-462"></a>We will use very simple prompts in this tutorial section, but we will learn more about prompt engineering and how it helps in optimizing the performance of the model for a given use case in the following tutorials.</span>
-<span id="cb26-463"><a href="#cb26-463"></a></span>
-<span id="cb26-466"><a href="#cb26-466"></a><span class="in">```{python}</span></span>
-<span id="cb26-467"><a href="#cb26-467"></a><span class="co"># STEP 1 : Set up the prompt</span></span>
-<span id="cb26-468"><a href="#cb26-468"></a>input_text <span class="op">=</span> <span class="st">"The panoramic view of the ocean was breathtaking."</span></span>
-<span id="cb26-469"><a href="#cb26-469"></a><span class="in">```</span></span>
-<span id="cb26-470"><a href="#cb26-470"></a></span>
-<span id="cb26-471"><a href="#cb26-471"></a><span class="fu">### 2. Loading Pretrained Models</span></span>
-<span id="cb26-472"><a href="#cb26-472"></a></span>
-<span id="cb26-473"><a href="#cb26-473"></a>The AutoModelForSequenceClassification from_pretrained() method instantiates a sequence classification model.</span>
-<span id="cb26-474"><a href="#cb26-474"></a></span>
-<span id="cb26-475"><a href="#cb26-475"></a>Refer to https://huggingface.co/transformers/v3.0.2/model_doc/auto.html#automodels for the list of model classes supported.</span>
-<span id="cb26-476"><a href="#cb26-476"></a></span>
-<span id="cb26-477"><a href="#cb26-477"></a>"from_pretrained" method downloads the pre-trained weights from the Hugging Face Model Hub or the specified URL if the model is not already cached locally. It then loads the weights into the instantiated model, initializing the model parameters with the pre-trained values.</span>
-<span id="cb26-478"><a href="#cb26-478"></a></span>
-<span id="cb26-479"><a href="#cb26-479"></a>The model cache contains:</span>
-<span id="cb26-480"><a href="#cb26-480"></a></span>
-<span id="cb26-481"><a href="#cb26-481"></a><span class="ss">* </span>model configuration (config.json)</span>
-<span id="cb26-482"><a href="#cb26-482"></a><span class="ss">* </span>pretrained model weights (model.safetensors)</span>
-<span id="cb26-483"><a href="#cb26-483"></a><span class="ss">* </span>tokenizer information (tokenizer.json, vocab.json, merges.txt, tokenizer.model)</span>
-<span id="cb26-484"><a href="#cb26-484"></a></span>
-<span id="cb26-487"><a href="#cb26-487"></a><span class="in">```{python}</span></span>
-<span id="cb26-488"><a href="#cb26-488"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 671, referenced_widgets: [bd858574deec4181bb0ba443be9a2088, b025f1fa9b61436f93515742e324b86f, 5073ff96876f4e04b246e466be18c186, 0c9e9d1ae5ed4ae4a7e37513d35f9c77, b29ed3c3e599460cbd3d693d71f456d2, 5b43c22a0fa94a7690d637dcef8f9e0a, 51736c335dd349e7bfcc529ada3c6f6a, 4791ebe7b3cc4444afdcbfd8d1b5967a, 93c49acd409c4616b22b28ef971c9dd6, 4777bd67c1e64692b294830f05c7143d, aeb6c3883112462c8ade793f34ebc4da, 82ebac62b0954db1b9fa3e3ae4025a04, 88bc6af07dc244b8bb3ea694ed31d2ae, 21364965ba974886ad36c5d9670e7a70, 00c33e96a50b4993a9f3387402fbccfe, 9de7b337c654426fac8f86b97c7ca7dd, d3d454f41f164fc5af66adf8d2caa53c, 06cd5703c7134fd49a66a259d0154b85, f6131609549c4e7eb89cbb3f430d8aca, e5a7799affd54336b99042ae28609630, 5ee4ce555b264be4becae07722f88a25, 4e181643cf4e449ca06776ecbba79c5e]}</span></span>
-<span id="cb26-489"><a href="#cb26-489"></a><span class="co"># STEP 2 : Load the pretrained model.</span></span>
-<span id="cb26-490"><a href="#cb26-490"></a>model_name <span class="op">=</span> <span class="st">"distilbert-base-uncased-finetuned-sst-2-english"</span></span>
-<span id="cb26-491"><a href="#cb26-491"></a>model <span class="op">=</span> AutoModelForSequenceClassification.from_pretrained(model_name)</span>
-<span id="cb26-492"><a href="#cb26-492"></a>config <span class="op">=</span> AutoConfig.from_pretrained(model_name)</span>
-<span id="cb26-493"><a href="#cb26-493"></a><span class="bu">print</span>(config)</span>
-<span id="cb26-494"><a href="#cb26-494"></a><span class="in">```</span></span>
-<span id="cb26-495"><a href="#cb26-495"></a></span>
-<span id="cb26-496"><a href="#cb26-496"></a><span class="fu">### 3. Loading in the tokenizer and tokenizing input text</span></span>
-<span id="cb26-497"><a href="#cb26-497"></a></span>
-<span id="cb26-498"><a href="#cb26-498"></a>Here, we load in a pretrained tokenizer associated with this model.</span>
-<span id="cb26-499"><a href="#cb26-499"></a></span>
-<span id="cb26-502"><a href="#cb26-502"></a><span class="in">```{python}</span></span>
-<span id="cb26-503"><a href="#cb26-503"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 116, referenced_widgets: [067f49dd461a44fabf2b2fbc48c38ea3, 8081fe15a05f4d93a263016d65f7c867, db4f4633a272445fb65b31b81cc13a47, 683187173eee4b4f84c42ee1b030041e, 9b356d4bb2584404b40a53e84ffd08ad, f8844d328728454cabd0c601f1dfac4c, 999973bfe8554a6b89b2214b39348331, 80f90f7e6d644d1d8b7df13c9e85225d, 683ed139b6384e78a7d16d8375640c74, aaca325b53f449519e4193981a4b3865, d1a67e3364a04697a740fac83669d9f9, 9489672461b54621bdb8bb24d0eb9934, 2862c54dff8c4f83829e946c69962221, 95367cef20634367b463b8f0a95e0503, fac8d31cc40e4c9e80f8ca93a9075077, e61474e5f4784cf6ab8a47decc035ae0, b28301ee0a554b009b4a04ab5c3bcaf0, 8a29da2807084308bd8ccf9414150e31, 545d6ab11dc744099b608face7404d0e, 6c4a6d9277f148c6a575b1b7c6c008f7, cac928cad64b40cb8d0ef32f3731451a, a0e7b739e9a44660b0b8b65448d89a93]}</span></span>
-<span id="cb26-504"><a href="#cb26-504"></a><span class="co">#STEP 3 : Load the tokenizer and tokenize the input text</span></span>
-<span id="cb26-505"><a href="#cb26-505"></a>tokenizer  <span class="op">=</span>  AutoTokenizer.from_pretrained(model_name)</span>
-<span id="cb26-506"><a href="#cb26-506"></a>input_ids <span class="op">=</span> tokenizer(input_text, return_tensors<span class="op">=</span><span class="st">"pt"</span>)[<span class="st">"input_ids"</span>]</span>
-<span id="cb26-507"><a href="#cb26-507"></a><span class="bu">print</span>(input_ids)</span>
-<span id="cb26-508"><a href="#cb26-508"></a><span class="in">```</span></span>
-<span id="cb26-509"><a href="#cb26-509"></a></span>
-<span id="cb26-510"><a href="#cb26-510"></a><span class="fu">### 4. Performing inference and interpreting</span></span>
-<span id="cb26-511"><a href="#cb26-511"></a></span>
-<span id="cb26-512"><a href="#cb26-512"></a>Here, we:</span>
-<span id="cb26-513"><a href="#cb26-513"></a><span class="ss">* </span>load data into the model,</span>
-<span id="cb26-514"><a href="#cb26-514"></a><span class="ss">* </span>perform inference to obtain logits,</span>
-<span id="cb26-515"><a href="#cb26-515"></a><span class="ss">* </span>Convert logits into probabilities</span>
-<span id="cb26-516"><a href="#cb26-516"></a><span class="ss">* </span>According to probabilities assign label</span>
-<span id="cb26-517"><a href="#cb26-517"></a></span>
-<span id="cb26-518"><a href="#cb26-518"></a>The end result is that we can predict whether the input phrase is positive or negative.</span>
-<span id="cb26-519"><a href="#cb26-519"></a></span>
-<span id="cb26-522"><a href="#cb26-522"></a><span class="in">```{python}</span></span>
-<span id="cb26-523"><a href="#cb26-523"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
-<span id="cb26-524"><a href="#cb26-524"></a><span class="co"># STEP 5 : Perform inference</span></span>
-<span id="cb26-525"><a href="#cb26-525"></a>outputs <span class="op">=</span> model(input_ids)</span>
-<span id="cb26-526"><a href="#cb26-526"></a>result <span class="op">=</span> outputs.logits</span>
-<span id="cb26-527"><a href="#cb26-527"></a><span class="bu">print</span>(result)</span>
-<span id="cb26-528"><a href="#cb26-528"></a></span>
-<span id="cb26-529"><a href="#cb26-529"></a><span class="co"># STEP 6 :  Interpret the output.</span></span>
-<span id="cb26-530"><a href="#cb26-530"></a>probabilities <span class="op">=</span> F.softmax(result, dim<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb26-531"><a href="#cb26-531"></a><span class="bu">print</span>(probabilities)</span>
-<span id="cb26-532"><a href="#cb26-532"></a>predicted_class <span class="op">=</span> torch.argmax(probabilities, dim<span class="op">=-</span><span class="dv">1</span>).item()</span>
-<span id="cb26-533"><a href="#cb26-533"></a>labels <span class="op">=</span> [<span class="st">"NEGATIVE"</span>, <span class="st">"POSITIVE"</span>]</span>
-<span id="cb26-534"><a href="#cb26-534"></a>out_string <span class="op">=</span> <span class="st">"[{'label': '"</span> <span class="op">+</span> <span class="bu">str</span>(labels[predicted_class]) <span class="op">+</span> <span class="st">"', 'score': "</span> <span class="op">+</span> <span class="bu">str</span>(probabilities[<span class="dv">0</span>][predicted_class].tolist()) <span class="op">+</span> <span class="st">"}]"</span></span>
-<span id="cb26-535"><a href="#cb26-535"></a><span class="bu">print</span>(out_string)</span>
-<span id="cb26-536"><a href="#cb26-536"></a><span class="in">```</span></span>
-<span id="cb26-537"><a href="#cb26-537"></a></span>
-<span id="cb26-538"><a href="#cb26-538"></a><span class="fu">### Saving and loading models</span></span>
-<span id="cb26-539"><a href="#cb26-539"></a></span>
-<span id="cb26-540"><a href="#cb26-540"></a>Model can be saved and loaded to and from a local model directory.</span>
-<span id="cb26-541"><a href="#cb26-541"></a></span>
-<span id="cb26-544"><a href="#cb26-544"></a><span class="in">```{python}</span></span>
-<span id="cb26-545"><a href="#cb26-545"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 81, referenced_widgets: [5c584862c1714236be9a4d72eacb7e8c, 878ac7474c814c56a1f8e4ca1307b446, 61d31a811e704e0b940337009892c774, 90d95ae3318b4f4bbda0f5d016347e91, c603255a544f47b280fd61e9e45d9204, bc69805bf372491d931e20940cf99cfc, 9eb1cc51fc0348069875ce5c52c992b9, a36bbfb2408944c39232013f53811f08, 16994401181f43238336a07a06be119b, dc6892bac378490abd7f628bca35906c, 1dcd4ce0732240aab355557623a19d59, 3933d404330d4d02913a7e075819f807, f286b77c68ce47ec9a5177f2dd35ea48, d15d08eb7374438f8edbcc2d78beafc8, a9a334e404fe47da819a7e97d0dbf958, ed261fb3eb6b4661a0dba67a3fc9858b, 95d2b19696f44d099e530f82ad213328, 725a53042a724dc0a9a658bd3dd3cb83, e4dd55f635a74dbeb0067d1c47769123, 832adb3112224a51ba9376a50076dd8c, c953196990624b0ea79c2a3c74cd1de9, 46f89e0a5ae84c6c97265c795fae9f88]}</span></span>
-<span id="cb26-546"><a href="#cb26-546"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel, AutoModelForCausalLM</span>
-<span id="cb26-547"><a href="#cb26-547"></a></span>
-<span id="cb26-548"><a href="#cb26-548"></a><span class="co"># Instantiate and train or fine-tune a model</span></span>
-<span id="cb26-549"><a href="#cb26-549"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(<span class="st">"bert-base-uncased"</span>)</span>
-<span id="cb26-550"><a href="#cb26-550"></a></span>
-<span id="cb26-551"><a href="#cb26-551"></a><span class="co"># Train or fine-tune the model...</span></span>
-<span id="cb26-552"><a href="#cb26-552"></a></span>
-<span id="cb26-553"><a href="#cb26-553"></a><span class="co"># Save the model to a local directory</span></span>
-<span id="cb26-554"><a href="#cb26-554"></a>directory <span class="op">=</span> <span class="st">"my_local_model"</span></span>
-<span id="cb26-555"><a href="#cb26-555"></a>model.save_pretrained(directory)</span>
-<span id="cb26-556"><a href="#cb26-556"></a></span>
-<span id="cb26-557"><a href="#cb26-557"></a><span class="co"># Load a pre-trained model from a local directory</span></span>
-<span id="cb26-558"><a href="#cb26-558"></a>loaded_model <span class="op">=</span> AutoModel.from_pretrained(directory)</span>
-<span id="cb26-559"><a href="#cb26-559"></a><span class="in">```</span></span>
-<span id="cb26-560"><a href="#cb26-560"></a></span>
-<span id="cb26-561"><a href="#cb26-561"></a><span class="fu">## Model Hub</span></span>
-<span id="cb26-562"><a href="#cb26-562"></a>The Model Hub is where the members of the Hugging Face community can host all of their model checkpoints for simple storage, discovery, and sharing.</span>
-<span id="cb26-563"><a href="#cb26-563"></a></span>
-<span id="cb26-564"><a href="#cb26-564"></a><span class="ss">* </span>Download pre-trained models with the huggingface_hub client library, with Transformers for fine-tuning.</span>
-<span id="cb26-565"><a href="#cb26-565"></a><span class="ss">* </span>Make use of Inference API to use models in production settings.</span>
-<span id="cb26-566"><a href="#cb26-566"></a><span class="ss">* </span>You can filter for different models for different tasks, frameworks used, datasets used, and many more.</span>
-<span id="cb26-567"><a href="#cb26-567"></a><span class="ss">* </span>You can select any model, that will show the model card.</span>
-<span id="cb26-568"><a href="#cb26-568"></a><span class="ss">* </span>Model card contains information of the model, including the description, usage, limitations etc. Some models also have inference API's that can be used directly.</span>
-<span id="cb26-569"><a href="#cb26-569"></a></span>
-<span id="cb26-570"><a href="#cb26-570"></a>Model Hub Link : https://huggingface.co/docs/hub/en/models-the-hub</span>
-<span id="cb26-571"><a href="#cb26-571"></a></span>
-<span id="cb26-572"><a href="#cb26-572"></a>Example of a model card : https://huggingface.co/bert-base-uncased/tree/main</span>
-<span id="cb26-573"><a href="#cb26-573"></a></span>
-<span id="cb26-574"><a href="#cb26-574"></a><span class="fu">## Recommended reading</span></span>
-<span id="cb26-575"><a href="#cb26-575"></a></span>
-<span id="cb26-576"><a href="#cb26-576"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"The Illustrated Transformer" by Jay Alammar</span><span class="co">](https://jalammar.github.io/illustrated-transformer/)</span></span>
-<span id="cb26-577"><a href="#cb26-577"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)" by Jay Alammar</span><span class="co">](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)</span></span>
-<span id="cb26-578"><a href="#cb26-578"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"The Illustrated GPT-2 (Visualizing Transformer Language Models)"</span><span class="co">](https://jalammar.github.io/illustrated-gpt2/)</span></span>
-<span id="cb26-579"><a href="#cb26-579"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"A gentle introduction to positional encoding"</span><span class="co">](https://machinelearningmastery.com/a-gentle-introduction-to-positional-encoding-in-transformer-models-part-1/)</span></span>
-<span id="cb26-580"><a href="#cb26-580"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"LLM Tutorial Workshop (Argonne National Laboratory)"</span><span class="co">](https://github.com/brettin/llm_tutorial)</span></span>
-<span id="cb26-581"><a href="#cb26-581"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"LLM Tutorial Workshop Part 2 (Argonne National Laboratory)"</span><span class="co">](https://github.com/argonne-lcf/llm-workshop)</span></span>
-<span id="cb26-582"><a href="#cb26-582"></a></span>
-<span id="cb26-583"><a href="#cb26-583"></a><span class="fu">## Homework</span></span>
-<span id="cb26-584"><a href="#cb26-584"></a></span>
-<span id="cb26-585"><a href="#cb26-585"></a><span class="ss">1. </span>Load in a generative model using the HuggingFace pipeline and generate text using a batch of prompts.</span>
-<span id="cb26-586"><a href="#cb26-586"></a><span class="ss">  * </span>Play with generative parameters such as temperature, max_new_tokens, and the model itself and explain the effect on the legibility of the model response. Try at least 4 different parameter/model combinations.</span>
-<span id="cb26-587"><a href="#cb26-587"></a><span class="ss">  * </span>Models that can be used include:</span>
-<span id="cb26-588"><a href="#cb26-588"></a><span class="ss">    * </span><span class="in">`google/gemma-2-2b-it`</span></span>
-<span id="cb26-589"><a href="#cb26-589"></a><span class="ss">    * </span><span class="in">`microsoft/Phi-3-mini-4k-instruct`</span></span>
-<span id="cb26-590"><a href="#cb26-590"></a><span class="ss">    * </span><span class="in">`meta-llama/Llama-3.2-1B`</span></span>
-<span id="cb26-591"><a href="#cb26-591"></a><span class="ss">    * </span>Any model from this list: <span class="co">[</span><span class="ot">Text-generation models</span><span class="co">](https://huggingface.co/models?pipeline_tag=text-generation)</span></span>
-<span id="cb26-592"><a href="#cb26-592"></a><span class="ss">    * </span><span class="in">`gpt2`</span> if having trouble loading these models in</span>
-<span id="cb26-593"><a href="#cb26-593"></a><span class="ss">  * </span>This guide should help! <span class="co">[</span><span class="ot">Text-generation strategies</span><span class="co">](https://huggingface.co/docs/transformers/en/generation_strategies)</span></span>
-<span id="cb26-594"><a href="#cb26-594"></a><span class="ss">2. </span>Load in 2 models of different parameter size (e.g. GPT2, meta-llama/Llama-2-7b-chat-hf, or distilbert/distilgpt2) and analyze the BertViz for each. How does the attention mechanisms change depending on model size?</span>
-<span id="cb26-595"><a href="#cb26-595"></a></span>
+<span id="cb26-308"><a href="#cb26-308"></a></span>
+<span id="cb26-309"><a href="#cb26-309"></a>tokenizer_1  <span class="op">=</span>  AutoTokenizer.from_pretrained(<span class="st">"gpt2"</span>) <span class="co"># GPT-2 uses "Byte-Pair Encoding (BPE)"</span></span>
+<span id="cb26-310"><a href="#cb26-310"></a></span>
+<span id="cb26-311"><a href="#cb26-311"></a>sequence <span class="op">=</span> <span class="st">"Counselor, please adjust your Zoom filter to appear as a human, rather than as a cat"</span></span>
+<span id="cb26-312"><a href="#cb26-312"></a></span>
+<span id="cb26-313"><a href="#cb26-313"></a>tokenization_summary(tokenizer_1, sequence)</span>
+<span id="cb26-314"><a href="#cb26-314"></a><span class="in">```</span></span>
+<span id="cb26-315"><a href="#cb26-315"></a></span>
+<span id="cb26-316"><a href="#cb26-316"></a><span class="fu">### Token embedding:</span></span>
+<span id="cb26-317"><a href="#cb26-317"></a></span>
+<span id="cb26-318"><a href="#cb26-318"></a>Words are turned into vectors based on their location within a vocabulary.</span>
+<span id="cb26-319"><a href="#cb26-319"></a></span>
+<span id="cb26-320"><a href="#cb26-320"></a>The strategy of choice for learning language structure from tokenized text is to find a clever way to map each token into a moderate-dimension vector space, adjusting the mapping so that</span>
+<span id="cb26-321"><a href="#cb26-321"></a></span>
+<span id="cb26-322"><a href="#cb26-322"></a>Similar, or associated tokens take up residence nearby each other, and different regions of the space correspond to different position in the sequence.</span>
+<span id="cb26-323"><a href="#cb26-323"></a>Such a mapping from token ID to a point in a vector space is called a token embedding. The dimension of the vector space is often high (e.g. 1024-dimensional), but much smaller than the vocabulary size (30,000--500,000).</span>
+<span id="cb26-324"><a href="#cb26-324"></a></span>
+<span id="cb26-325"><a href="#cb26-325"></a>Various approaches have been attempted for generating such embeddings, including static algorithms that operate on a corpus of tokenized data as preprocessors for NLP tasks. Transformers, however, adjust their embeddings during training.</span>
+<span id="cb26-326"><a href="#cb26-326"></a></span>
+<span id="cb26-327"><a href="#cb26-327"></a><span class="fu">## Transformer Model Architecture</span></span>
+<span id="cb26-328"><a href="#cb26-328"></a></span>
+<span id="cb26-329"><a href="#cb26-329"></a>Now let's look at the base elements that</span>
+<span id="cb26-330"><a href="#cb26-330"></a>make up a Transformer by dissecting the popular GPT2 model</span>
+<span id="cb26-331"><a href="#cb26-331"></a></span>
+<span id="cb26-334"><a href="#cb26-334"></a><span class="in">```{python}</span></span>
+<span id="cb26-335"><a href="#cb26-335"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
+<span id="cb26-336"><a href="#cb26-336"></a><span class="im">from</span> transformers <span class="im">import</span> GPT2Tokenizer, GPT2LMHeadModel</span>
+<span id="cb26-337"><a href="#cb26-337"></a>model <span class="op">=</span> GPT2LMHeadModel.from_pretrained(<span class="st">'gpt2'</span>)</span>
+<span id="cb26-338"><a href="#cb26-338"></a><span class="bu">print</span>(model)</span>
+<span id="cb26-339"><a href="#cb26-339"></a><span class="in">```</span></span>
+<span id="cb26-340"><a href="#cb26-340"></a></span>
+<span id="cb26-341"><a href="#cb26-341"></a>GPT2 is an example of a Transformer Decoder which is used to generate novel text.</span>
+<span id="cb26-342"><a href="#cb26-342"></a></span>
+<span id="cb26-343"><a href="#cb26-343"></a>Decoder models use only the decoder of a Transformer model. At each stage, for a given word the attention layers can only access the words positioned before it in the sentence. These models are often called auto-regressive models. The pretraining of decoder models usually revolves around predicting the next word in the sentence.</span>
+<span id="cb26-344"><a href="#cb26-344"></a></span>
+<span id="cb26-345"><a href="#cb26-345"></a>These models are best suited for tasks involving text generation.</span>
+<span id="cb26-346"><a href="#cb26-346"></a></span>
+<span id="cb26-347"><a href="#cb26-347"></a>The architecture of GPT-2 is inspired by the paper: "Generating Wikipedia by Summarizing Long Sequences" which is another arrangement of the transformer block that can do language modeling. This model threw away the encoder and thus is known as the “Transformer-Decoder”.</span>
+<span id="cb26-348"><a href="#cb26-348"></a></span>
+<span id="cb26-349"><a href="#cb26-349"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-350"><a href="#cb26-350"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/transformer-decoder-intro.png?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"500"</span><span class="dt">/&gt;</span></span>
+<span id="cb26-351"><a href="#cb26-351"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-352"><a href="#cb26-352"></a></span>
+<span id="cb26-353"><a href="#cb26-353"></a><span class="co">[</span><span class="ot">Illustrated GPT2</span><span class="co">](https://jalammar.github.io/illustrated-gpt2/)</span></span>
+<span id="cb26-354"><a href="#cb26-354"></a></span>
+<span id="cb26-355"><a href="#cb26-355"></a>Key components of the transformer architecture include:</span>
+<span id="cb26-356"><a href="#cb26-356"></a></span>
+<span id="cb26-357"><a href="#cb26-357"></a><span class="ss">* </span>Input Embeddings: Word embedding or word vectors help us represent words or text as a numeric vector where words with similar meanings have the similar representation.</span>
+<span id="cb26-358"><a href="#cb26-358"></a></span>
+<span id="cb26-359"><a href="#cb26-359"></a><span class="ss">* </span>Positional Encoding: Injects information about the position of words in a sequence, helping the model understand word order.</span>
+<span id="cb26-360"><a href="#cb26-360"></a></span>
+<span id="cb26-361"><a href="#cb26-361"></a><span class="ss">* </span>Self-Attention Mechanism: Allows the model to weigh the importance of different words in a sentence, enabling it to effectively capture contextual information.</span>
+<span id="cb26-362"><a href="#cb26-362"></a></span>
+<span id="cb26-363"><a href="#cb26-363"></a><span class="ss">* </span>Feedforward Neural Networks: Process information from self-attention layers to generate output for each word/token.</span>
+<span id="cb26-364"><a href="#cb26-364"></a></span>
+<span id="cb26-365"><a href="#cb26-365"></a><span class="ss">* </span>Layer Normalization and Residual Connections: Aid in stabilizing training and mitigating the vanishing gradient problem.</span>
+<span id="cb26-366"><a href="#cb26-366"></a></span>
+<span id="cb26-367"><a href="#cb26-367"></a><span class="ss">* </span>Transformer Blocks: Comprised of multiple layers of self-attention and feedforward neural networks, stacked together to form the model.</span>
+<span id="cb26-368"><a href="#cb26-368"></a></span>
+<span id="cb26-369"><a href="#cb26-369"></a><span class="fu">### Attention mechanisms</span></span>
+<span id="cb26-370"><a href="#cb26-370"></a></span>
+<span id="cb26-371"><a href="#cb26-371"></a>Since attention mechanisms are arguably the most powerful component of the Transformer, let's discuss this in a little more detail.</span>
+<span id="cb26-372"><a href="#cb26-372"></a></span>
+<span id="cb26-373"><a href="#cb26-373"></a>Suppose the following sentence is an input sentence we want to translate using an LLM:</span>
+<span id="cb26-374"><a href="#cb26-374"></a></span>
+<span id="cb26-375"><a href="#cb26-375"></a><span class="in">`”The animal didn't cross the street because it was too tired”`</span></span>
+<span id="cb26-376"><a href="#cb26-376"></a></span>
+<span id="cb26-377"><a href="#cb26-377"></a>To understand a full sentence, the model needs to understand what each word means in relation to other words.</span>
+<span id="cb26-378"><a href="#cb26-378"></a></span>
+<span id="cb26-379"><a href="#cb26-379"></a>For example, when we read the sentence:</span>
+<span id="cb26-380"><a href="#cb26-380"></a><span class="in">`”The animal didn't cross the street because it was too tired”`</span></span>
+<span id="cb26-381"><a href="#cb26-381"></a>we know intuitively that the word <span class="in">`"it"`</span> refers to <span class="in">`"animal"`</span>, the state for <span class="in">`"it"`</span> is <span class="in">`"tired"`</span>, and the associated action is <span class="in">`"didn't cross"`</span>.</span>
+<span id="cb26-382"><a href="#cb26-382"></a></span>
+<span id="cb26-383"><a href="#cb26-383"></a>However, the model needs a way to learn all of this information in a simple yet generalizable way.</span>
+<span id="cb26-384"><a href="#cb26-384"></a>What makes Transformers particularly powerful compared to earlier sequential architectures is how it encodes context with the **self-attention mechanism**.</span>
+<span id="cb26-385"><a href="#cb26-385"></a></span>
+<span id="cb26-386"><a href="#cb26-386"></a>As the model processes each word in the input sequence, attention looks at other positions in the input sequence for clues to a better understanding for this word.</span>
+<span id="cb26-387"><a href="#cb26-387"></a></span>
+<span id="cb26-388"><a href="#cb26-388"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-389"><a href="#cb26-389"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/architvasan/ai_science_local/blob/main/images/transformer_self-attention_visualization.png?raw=1"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"400"</span><span class="dt">/&gt;</span></span>
+<span id="cb26-390"><a href="#cb26-390"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb26-391"><a href="#cb26-391"></a></span>
+<span id="cb26-392"><a href="#cb26-392"></a><span class="co">[</span><span class="ot">The Illustrated Transformer</span><span class="co">](https://jalammar.github.io/illustrated-transformer/)</span></span>
+<span id="cb26-393"><a href="#cb26-393"></a></span>
+<span id="cb26-394"><a href="#cb26-394"></a><span class="fu">#### Multi-head attention</span></span>
+<span id="cb26-395"><a href="#cb26-395"></a>In practice, multiple attention heads are used simultaneously.</span>
+<span id="cb26-396"><a href="#cb26-396"></a></span>
+<span id="cb26-397"><a href="#cb26-397"></a>This:</span>
+<span id="cb26-398"><a href="#cb26-398"></a><span class="ss">* </span>Expands the model’s ability to focus on different positions.</span>
+<span id="cb26-399"><a href="#cb26-399"></a><span class="ss">* </span>Prevents the attention to be dominated by the word itself.</span>
+<span id="cb26-400"><a href="#cb26-400"></a></span>
+<span id="cb26-401"><a href="#cb26-401"></a><span class="fu">#### Let's see multi-head attention mechanisms in action!</span></span>
+<span id="cb26-402"><a href="#cb26-402"></a></span>
+<span id="cb26-403"><a href="#cb26-403"></a>We are going to use the powerful visualization tool bertviz, which allows an interactive experience of the attention mechanisms. Normally these mechanisms are abstracted away but this will allow us to inspect our model in more detail.</span>
+<span id="cb26-404"><a href="#cb26-404"></a></span>
+<span id="cb26-407"><a href="#cb26-407"></a><span class="in">```{python}</span></span>
+<span id="cb26-408"><a href="#cb26-408"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
+<span id="cb26-409"><a href="#cb26-409"></a><span class="co">#| output: false</span></span>
+<span id="cb26-410"><a href="#cb26-410"></a><span class="op">!</span>pip install bertviz</span>
+<span id="cb26-411"><a href="#cb26-411"></a><span class="in">```</span></span>
+<span id="cb26-412"><a href="#cb26-412"></a></span>
+<span id="cb26-413"><a href="#cb26-413"></a>Let's load in the model, GPT2 and look at the attention mechanisms.</span>
+<span id="cb26-414"><a href="#cb26-414"></a></span>
+<span id="cb26-415"><a href="#cb26-415"></a>**Hint... click on the different blocks in the visualization to see the attention**</span>
+<span id="cb26-416"><a href="#cb26-416"></a></span>
+<span id="cb26-419"><a href="#cb26-419"></a><span class="in">```{python}</span></span>
+<span id="cb26-420"><a href="#cb26-420"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 907, referenced_widgets: [ad748b4c592645cb90d427c9012d7368, a34cdc4592cf46ad9ccf69caa52363bd, c1eac1886ea84c87bed161c960569d3d, ca50498e237843709d8c44e7ea0e94b5, 8f4387f0bb3e402ab1ab4d443c693f96, 47316e9804804c8d9c9b031fa3d86052, 6cc5bd956c694bc5b63c0c7bba2a29f8, 93728bade1714bcabbe90f1b9b95b7c2, 83cea646339b4e74a9582827afdf5753, c765d253aa974bc59654f0398afb964d, 3d71478078bc4743a580dc6200cccbd0, 099e1574f4a14c308be2364d0bba2a76, 6f822f4ae7734ce09736d50bf17ad99e, 93fbd0ce38df488fa725d7c584344e6b, ee56c1c4c2be4086883a95e15adc655d, 846bb66c196540febf6a7bc32b60dc3a, 37dcd77ea3154208be44bfa35a88fa90, fdd9ba7947794f4aa0e2782e3b379f61, 64fa9056ffef4ab3a4e2db085a48cbfb, acee154ece2e4a939f42236ec38de871, 46acb20f74174029962ecb8142c576fb, b58662cfa5fb4406a171135e01d25368, c770f4a4cad0435ebedbb932c1431f52, 14dab4fee3d34783bf838cfbd4bdbcaa, d00cd656bc4f4f0d9cf52b942fceb155, d5fbc43ad5204bb88b11ddceaedc5d6d, 8d825e3d51524720ada2f1ecd9a9ffd5, 9a17934807c140eeb8c0a5cf80c4cb50, 7d2254be42234d24b044f6c9c0d49119, 9eddddc3c9034e6da5bf612da55f5714, 9548afdd0d154788ba3edb96c326c85f, 2213cf9588c545f2b200186766ac425d, d56ccfc975d949b7a6cbe7b9a89a1101, ff3907fe32a14ae681a6a01933e6eaf5, f08eac6bbad843ca95157d035c1ef043, 7e8af1c44d984d99a2b27e80c05cec75, 0a381955a75148d5a59815efb2b352bd, 7ac42549074746b48926a9cffe0a542c, 55b65d9fa1e44149bfc763a8c99e7c2a, cd7ca2bbf9b04de4842b316ea7a5535f, 0c0b4f2c4ef14413bc24340afc040431, 6442fa46c934428998cf8e3d5835e8bc, 8da520e3f829425b83e9b92149f792ad, 78c5836dbb6b4538abcc3cd348c5b958, 3f9fa0a2a0614bae87f7c698d043a3b5, 6c5fb86539584d6dad2af92729b9a1ef, 1eb460d0dad44857a14646782366c7c1, 67c1873c51d34503833366af483744a3, 713fef79f5d441b18f372c64d9569551, 4b5d59490f264d03a9ac52897ae94d33, 42519c4cca864ad78595214e86079c8f, bd3444ba231347378ae1a7ffa4181648, d701e46a5472481ea942b613e3506f03, e2effa7f78034f5c98a2c7f2d12b7ec3, 8ee1c3f4f84f49b9aa78590d20e03005, 00d232fe28f74a1ea9fad0510586ff9c, e2e8c12232854688802988193dd6bdc8, 3129da774c2c4298afbf3d766ca7f428, 0d36758d65ed404e8181bdc4e2a9d26b, 3e75401bc3bf42da8f9e1a377401b69d, fbd25c280a554d50ace7384d5939e335, 3371add482984a3bab5c31379484af71, 001363aab0a143a683a07e48cbbf5594, c87375d637f74dc4ab4bab00852c758c, b5f27258ef4a4b9e8b7d13387b14d9a1, d201d648b932443ca9141aa9129e5661, 0a2f04862b3a4c36becf5949c67a14a5, 8f57a09202cf4cddb2ba697ecfc78daf, a9fae2f4af744d33bddeeb48420cda3e, 2994daa8857945509c97e3f2cdb4ee97, 593dfccfa5ca4e56a32e9cead70714d2, 5f3d428e20334a3da4c82d0fc2e3eb3e, 5e028ae3b1824c74a0d610129dcc8246, 28ba4c7a70294e589cb2ced5766072e4, d3a9c7752afb49a5bb1ea70bdb8744fe, 09eed5891aa647da9f7c9beceac50622, 4868e95bf5ec4cecab53e5e65862aea6]}</span></span>
+<span id="cb26-421"><a href="#cb26-421"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer, AutoModel, utils, AutoModelForCausalLM</span>
+<span id="cb26-422"><a href="#cb26-422"></a></span>
+<span id="cb26-423"><a href="#cb26-423"></a><span class="im">from</span> bertviz <span class="im">import</span> model_view</span>
+<span id="cb26-424"><a href="#cb26-424"></a>utils.logging.set_verbosity_error()  <span class="co"># Suppress standard warnings</span></span>
+<span id="cb26-425"><a href="#cb26-425"></a></span>
+<span id="cb26-426"><a href="#cb26-426"></a>model_name <span class="op">=</span> <span class="st">'openai-community/gpt2'</span></span>
+<span id="cb26-427"><a href="#cb26-427"></a>input_text <span class="op">=</span> <span class="st">"No, I am your father"</span></span>
+<span id="cb26-428"><a href="#cb26-428"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(model_name, output_attentions<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-429"><a href="#cb26-429"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(model_name)</span>
+<span id="cb26-430"><a href="#cb26-430"></a>inputs <span class="op">=</span> tokenizer.encode(input_text, return_tensors<span class="op">=</span><span class="st">'pt'</span>)  <span class="co"># Tokenize input text</span></span>
+<span id="cb26-431"><a href="#cb26-431"></a>outputs <span class="op">=</span> model(inputs)  <span class="co"># Run model</span></span>
+<span id="cb26-432"><a href="#cb26-432"></a>attention <span class="op">=</span> outputs[<span class="op">-</span><span class="dv">1</span>]  <span class="co"># Retrieve attention from model outputs</span></span>
+<span id="cb26-433"><a href="#cb26-433"></a>tokens <span class="op">=</span> tokenizer.convert_ids_to_tokens(inputs[<span class="dv">0</span>])  <span class="co"># Convert input ids to token strings</span></span>
+<span id="cb26-434"><a href="#cb26-434"></a>model_view(attention, tokens)  <span class="co"># Display model view</span></span>
+<span id="cb26-435"><a href="#cb26-435"></a><span class="in">```</span></span>
+<span id="cb26-436"><a href="#cb26-436"></a></span>
+<span id="cb26-437"><a href="#cb26-437"></a><span class="fu">## Pipeline using HuggingFace</span></span>
+<span id="cb26-438"><a href="#cb26-438"></a></span>
+<span id="cb26-439"><a href="#cb26-439"></a>Now, let's see a practical application of LLMs using a HuggingFace pipeline for classification.</span>
+<span id="cb26-440"><a href="#cb26-440"></a></span>
+<span id="cb26-441"><a href="#cb26-441"></a>This involves a few steps including:</span>
+<span id="cb26-442"><a href="#cb26-442"></a><span class="ss">1. </span>Setting up a prompt</span>
+<span id="cb26-443"><a href="#cb26-443"></a><span class="ss">2. </span>Loading in a pretrained model</span>
+<span id="cb26-444"><a href="#cb26-444"></a><span class="ss">3. </span>Loading in the tokenizer and tokenizing input text</span>
+<span id="cb26-445"><a href="#cb26-445"></a><span class="ss">4. </span>Performing model inference</span>
+<span id="cb26-446"><a href="#cb26-446"></a><span class="ss">5. </span>Interpreting inference output</span>
+<span id="cb26-447"><a href="#cb26-447"></a></span>
+<span id="cb26-450"><a href="#cb26-450"></a><span class="in">```{python}</span></span>
+<span id="cb26-451"><a href="#cb26-451"></a><span class="co"># STEP 0 : Installations and imports</span></span>
+<span id="cb26-452"><a href="#cb26-452"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer, AutoModelForSequenceClassification, AutoConfig</span>
+<span id="cb26-453"><a href="#cb26-453"></a><span class="im">import</span> torch</span>
+<span id="cb26-454"><a href="#cb26-454"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb26-455"><a href="#cb26-455"></a><span class="in">```</span></span>
+<span id="cb26-456"><a href="#cb26-456"></a></span>
+<span id="cb26-457"><a href="#cb26-457"></a><span class="fu">### 1. Setting up a prompt</span></span>
+<span id="cb26-458"><a href="#cb26-458"></a></span>
+<span id="cb26-459"><a href="#cb26-459"></a>A "prompt" refers to a specific input or query provided to a language model. They guide the text processing and generation by providing the context for the model to generate coherent and relevant text based on the given input.</span>
+<span id="cb26-460"><a href="#cb26-460"></a></span>
+<span id="cb26-461"><a href="#cb26-461"></a>The choice and structure of the prompt depends on the specific task, the context and desired output. Prompts can be "discrete" or "instructive" where they are explicit instructions or questions directed to the language model. They can also be more nuanced by more providing suggestions, directions and contexts to the model.</span>
+<span id="cb26-462"><a href="#cb26-462"></a></span>
+<span id="cb26-463"><a href="#cb26-463"></a>We will use very simple prompts in this tutorial section, but we will learn more about prompt engineering and how it helps in optimizing the performance of the model for a given use case in the following tutorials.</span>
+<span id="cb26-464"><a href="#cb26-464"></a></span>
+<span id="cb26-467"><a href="#cb26-467"></a><span class="in">```{python}</span></span>
+<span id="cb26-468"><a href="#cb26-468"></a><span class="co"># STEP 1 : Set up the prompt</span></span>
+<span id="cb26-469"><a href="#cb26-469"></a>input_text <span class="op">=</span> <span class="st">"The panoramic view of the ocean was breathtaking."</span></span>
+<span id="cb26-470"><a href="#cb26-470"></a><span class="in">```</span></span>
+<span id="cb26-471"><a href="#cb26-471"></a></span>
+<span id="cb26-472"><a href="#cb26-472"></a><span class="fu">### 2. Loading Pretrained Models</span></span>
+<span id="cb26-473"><a href="#cb26-473"></a></span>
+<span id="cb26-474"><a href="#cb26-474"></a>The AutoModelForSequenceClassification from_pretrained() method instantiates a sequence classification model.</span>
+<span id="cb26-475"><a href="#cb26-475"></a></span>
+<span id="cb26-476"><a href="#cb26-476"></a>Refer to https://huggingface.co/transformers/v3.0.2/model_doc/auto.html#automodels for the list of model classes supported.</span>
+<span id="cb26-477"><a href="#cb26-477"></a></span>
+<span id="cb26-478"><a href="#cb26-478"></a>"from_pretrained" method downloads the pre-trained weights from the Hugging Face Model Hub or the specified URL if the model is not already cached locally. It then loads the weights into the instantiated model, initializing the model parameters with the pre-trained values.</span>
+<span id="cb26-479"><a href="#cb26-479"></a></span>
+<span id="cb26-480"><a href="#cb26-480"></a>The model cache contains:</span>
+<span id="cb26-481"><a href="#cb26-481"></a></span>
+<span id="cb26-482"><a href="#cb26-482"></a><span class="ss">* </span>model configuration (config.json)</span>
+<span id="cb26-483"><a href="#cb26-483"></a><span class="ss">* </span>pretrained model weights (model.safetensors)</span>
+<span id="cb26-484"><a href="#cb26-484"></a><span class="ss">* </span>tokenizer information (tokenizer.json, vocab.json, merges.txt, tokenizer.model)</span>
+<span id="cb26-485"><a href="#cb26-485"></a></span>
+<span id="cb26-488"><a href="#cb26-488"></a><span class="in">```{python}</span></span>
+<span id="cb26-489"><a href="#cb26-489"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 671, referenced_widgets: [bd858574deec4181bb0ba443be9a2088, b025f1fa9b61436f93515742e324b86f, 5073ff96876f4e04b246e466be18c186, 0c9e9d1ae5ed4ae4a7e37513d35f9c77, b29ed3c3e599460cbd3d693d71f456d2, 5b43c22a0fa94a7690d637dcef8f9e0a, 51736c335dd349e7bfcc529ada3c6f6a, 4791ebe7b3cc4444afdcbfd8d1b5967a, 93c49acd409c4616b22b28ef971c9dd6, 4777bd67c1e64692b294830f05c7143d, aeb6c3883112462c8ade793f34ebc4da, 82ebac62b0954db1b9fa3e3ae4025a04, 88bc6af07dc244b8bb3ea694ed31d2ae, 21364965ba974886ad36c5d9670e7a70, 00c33e96a50b4993a9f3387402fbccfe, 9de7b337c654426fac8f86b97c7ca7dd, d3d454f41f164fc5af66adf8d2caa53c, 06cd5703c7134fd49a66a259d0154b85, f6131609549c4e7eb89cbb3f430d8aca, e5a7799affd54336b99042ae28609630, 5ee4ce555b264be4becae07722f88a25, 4e181643cf4e449ca06776ecbba79c5e]}</span></span>
+<span id="cb26-490"><a href="#cb26-490"></a><span class="co"># STEP 2 : Load the pretrained model.</span></span>
+<span id="cb26-491"><a href="#cb26-491"></a>model_name <span class="op">=</span> <span class="st">"distilbert-base-uncased-finetuned-sst-2-english"</span></span>
+<span id="cb26-492"><a href="#cb26-492"></a>model <span class="op">=</span> AutoModelForSequenceClassification.from_pretrained(model_name)</span>
+<span id="cb26-493"><a href="#cb26-493"></a>config <span class="op">=</span> AutoConfig.from_pretrained(model_name)</span>
+<span id="cb26-494"><a href="#cb26-494"></a><span class="bu">print</span>(config)</span>
+<span id="cb26-495"><a href="#cb26-495"></a><span class="in">```</span></span>
+<span id="cb26-496"><a href="#cb26-496"></a></span>
+<span id="cb26-497"><a href="#cb26-497"></a><span class="fu">### 3. Loading in the tokenizer and tokenizing input text</span></span>
+<span id="cb26-498"><a href="#cb26-498"></a></span>
+<span id="cb26-499"><a href="#cb26-499"></a>Here, we load in a pretrained tokenizer associated with this model.</span>
+<span id="cb26-500"><a href="#cb26-500"></a></span>
+<span id="cb26-503"><a href="#cb26-503"></a><span class="in">```{python}</span></span>
+<span id="cb26-504"><a href="#cb26-504"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 116, referenced_widgets: [067f49dd461a44fabf2b2fbc48c38ea3, 8081fe15a05f4d93a263016d65f7c867, db4f4633a272445fb65b31b81cc13a47, 683187173eee4b4f84c42ee1b030041e, 9b356d4bb2584404b40a53e84ffd08ad, f8844d328728454cabd0c601f1dfac4c, 999973bfe8554a6b89b2214b39348331, 80f90f7e6d644d1d8b7df13c9e85225d, 683ed139b6384e78a7d16d8375640c74, aaca325b53f449519e4193981a4b3865, d1a67e3364a04697a740fac83669d9f9, 9489672461b54621bdb8bb24d0eb9934, 2862c54dff8c4f83829e946c69962221, 95367cef20634367b463b8f0a95e0503, fac8d31cc40e4c9e80f8ca93a9075077, e61474e5f4784cf6ab8a47decc035ae0, b28301ee0a554b009b4a04ab5c3bcaf0, 8a29da2807084308bd8ccf9414150e31, 545d6ab11dc744099b608face7404d0e, 6c4a6d9277f148c6a575b1b7c6c008f7, cac928cad64b40cb8d0ef32f3731451a, a0e7b739e9a44660b0b8b65448d89a93]}</span></span>
+<span id="cb26-505"><a href="#cb26-505"></a><span class="co">#STEP 3 : Load the tokenizer and tokenize the input text</span></span>
+<span id="cb26-506"><a href="#cb26-506"></a>tokenizer  <span class="op">=</span>  AutoTokenizer.from_pretrained(model_name)</span>
+<span id="cb26-507"><a href="#cb26-507"></a>input_ids <span class="op">=</span> tokenizer(input_text, return_tensors<span class="op">=</span><span class="st">"pt"</span>)[<span class="st">"input_ids"</span>]</span>
+<span id="cb26-508"><a href="#cb26-508"></a><span class="bu">print</span>(input_ids)</span>
+<span id="cb26-509"><a href="#cb26-509"></a><span class="in">```</span></span>
+<span id="cb26-510"><a href="#cb26-510"></a></span>
+<span id="cb26-511"><a href="#cb26-511"></a><span class="fu">### 4. Performing inference and interpreting</span></span>
+<span id="cb26-512"><a href="#cb26-512"></a></span>
+<span id="cb26-513"><a href="#cb26-513"></a>Here, we:</span>
+<span id="cb26-514"><a href="#cb26-514"></a><span class="ss">* </span>load data into the model,</span>
+<span id="cb26-515"><a href="#cb26-515"></a><span class="ss">* </span>perform inference to obtain logits,</span>
+<span id="cb26-516"><a href="#cb26-516"></a><span class="ss">* </span>Convert logits into probabilities</span>
+<span id="cb26-517"><a href="#cb26-517"></a><span class="ss">* </span>According to probabilities assign label</span>
+<span id="cb26-518"><a href="#cb26-518"></a></span>
+<span id="cb26-519"><a href="#cb26-519"></a>The end result is that we can predict whether the input phrase is positive or negative.</span>
+<span id="cb26-520"><a href="#cb26-520"></a></span>
+<span id="cb26-523"><a href="#cb26-523"></a><span class="in">```{python}</span></span>
+<span id="cb26-524"><a href="#cb26-524"></a><span class="co">#| colab: {base_uri: https://localhost:8080/}</span></span>
+<span id="cb26-525"><a href="#cb26-525"></a><span class="co"># STEP 5 : Perform inference</span></span>
+<span id="cb26-526"><a href="#cb26-526"></a>outputs <span class="op">=</span> model(input_ids)</span>
+<span id="cb26-527"><a href="#cb26-527"></a>result <span class="op">=</span> outputs.logits</span>
+<span id="cb26-528"><a href="#cb26-528"></a><span class="bu">print</span>(result)</span>
+<span id="cb26-529"><a href="#cb26-529"></a></span>
+<span id="cb26-530"><a href="#cb26-530"></a><span class="co"># STEP 6 :  Interpret the output.</span></span>
+<span id="cb26-531"><a href="#cb26-531"></a>probabilities <span class="op">=</span> F.softmax(result, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb26-532"><a href="#cb26-532"></a><span class="bu">print</span>(probabilities)</span>
+<span id="cb26-533"><a href="#cb26-533"></a>predicted_class <span class="op">=</span> torch.argmax(probabilities, dim<span class="op">=-</span><span class="dv">1</span>).item()</span>
+<span id="cb26-534"><a href="#cb26-534"></a>labels <span class="op">=</span> [<span class="st">"NEGATIVE"</span>, <span class="st">"POSITIVE"</span>]</span>
+<span id="cb26-535"><a href="#cb26-535"></a>out_string <span class="op">=</span> <span class="st">"[{'label': '"</span> <span class="op">+</span> <span class="bu">str</span>(labels[predicted_class]) <span class="op">+</span> <span class="st">"', 'score': "</span> <span class="op">+</span> <span class="bu">str</span>(probabilities[<span class="dv">0</span>][predicted_class].tolist()) <span class="op">+</span> <span class="st">"}]"</span></span>
+<span id="cb26-536"><a href="#cb26-536"></a><span class="bu">print</span>(out_string)</span>
+<span id="cb26-537"><a href="#cb26-537"></a><span class="in">```</span></span>
+<span id="cb26-538"><a href="#cb26-538"></a></span>
+<span id="cb26-539"><a href="#cb26-539"></a><span class="fu">### Saving and loading models</span></span>
+<span id="cb26-540"><a href="#cb26-540"></a></span>
+<span id="cb26-541"><a href="#cb26-541"></a>Model can be saved and loaded to and from a local model directory.</span>
+<span id="cb26-542"><a href="#cb26-542"></a></span>
+<span id="cb26-545"><a href="#cb26-545"></a><span class="in">```{python}</span></span>
+<span id="cb26-546"><a href="#cb26-546"></a><span class="co">#| colab: {base_uri: https://localhost:8080/, height: 81, referenced_widgets: [5c584862c1714236be9a4d72eacb7e8c, 878ac7474c814c56a1f8e4ca1307b446, 61d31a811e704e0b940337009892c774, 90d95ae3318b4f4bbda0f5d016347e91, c603255a544f47b280fd61e9e45d9204, bc69805bf372491d931e20940cf99cfc, 9eb1cc51fc0348069875ce5c52c992b9, a36bbfb2408944c39232013f53811f08, 16994401181f43238336a07a06be119b, dc6892bac378490abd7f628bca35906c, 1dcd4ce0732240aab355557623a19d59, 3933d404330d4d02913a7e075819f807, f286b77c68ce47ec9a5177f2dd35ea48, d15d08eb7374438f8edbcc2d78beafc8, a9a334e404fe47da819a7e97d0dbf958, ed261fb3eb6b4661a0dba67a3fc9858b, 95d2b19696f44d099e530f82ad213328, 725a53042a724dc0a9a658bd3dd3cb83, e4dd55f635a74dbeb0067d1c47769123, 832adb3112224a51ba9376a50076dd8c, c953196990624b0ea79c2a3c74cd1de9, 46f89e0a5ae84c6c97265c795fae9f88]}</span></span>
+<span id="cb26-547"><a href="#cb26-547"></a><span class="im">from</span> transformers <span class="im">import</span> AutoModel, AutoModelForCausalLM</span>
+<span id="cb26-548"><a href="#cb26-548"></a></span>
+<span id="cb26-549"><a href="#cb26-549"></a><span class="co"># Instantiate and train or fine-tune a model</span></span>
+<span id="cb26-550"><a href="#cb26-550"></a>model <span class="op">=</span> AutoModelForCausalLM.from_pretrained(<span class="st">"bert-base-uncased"</span>)</span>
+<span id="cb26-551"><a href="#cb26-551"></a></span>
+<span id="cb26-552"><a href="#cb26-552"></a><span class="co"># Train or fine-tune the model...</span></span>
+<span id="cb26-553"><a href="#cb26-553"></a></span>
+<span id="cb26-554"><a href="#cb26-554"></a><span class="co"># Save the model to a local directory</span></span>
+<span id="cb26-555"><a href="#cb26-555"></a>directory <span class="op">=</span> <span class="st">"my_local_model"</span></span>
+<span id="cb26-556"><a href="#cb26-556"></a>model.save_pretrained(directory)</span>
+<span id="cb26-557"><a href="#cb26-557"></a></span>
+<span id="cb26-558"><a href="#cb26-558"></a><span class="co"># Load a pre-trained model from a local directory</span></span>
+<span id="cb26-559"><a href="#cb26-559"></a>loaded_model <span class="op">=</span> AutoModel.from_pretrained(directory)</span>
+<span id="cb26-560"><a href="#cb26-560"></a><span class="in">```</span></span>
+<span id="cb26-561"><a href="#cb26-561"></a></span>
+<span id="cb26-562"><a href="#cb26-562"></a><span class="fu">## Model Hub</span></span>
+<span id="cb26-563"><a href="#cb26-563"></a>The Model Hub is where the members of the Hugging Face community can host all of their model checkpoints for simple storage, discovery, and sharing.</span>
+<span id="cb26-564"><a href="#cb26-564"></a></span>
+<span id="cb26-565"><a href="#cb26-565"></a><span class="ss">* </span>Download pre-trained models with the huggingface_hub client library, with Transformers for fine-tuning.</span>
+<span id="cb26-566"><a href="#cb26-566"></a><span class="ss">* </span>Make use of Inference API to use models in production settings.</span>
+<span id="cb26-567"><a href="#cb26-567"></a><span class="ss">* </span>You can filter for different models for different tasks, frameworks used, datasets used, and many more.</span>
+<span id="cb26-568"><a href="#cb26-568"></a><span class="ss">* </span>You can select any model, that will show the model card.</span>
+<span id="cb26-569"><a href="#cb26-569"></a><span class="ss">* </span>Model card contains information of the model, including the description, usage, limitations etc. Some models also have inference API's that can be used directly.</span>
+<span id="cb26-570"><a href="#cb26-570"></a></span>
+<span id="cb26-571"><a href="#cb26-571"></a>Model Hub Link : https://huggingface.co/docs/hub/en/models-the-hub</span>
+<span id="cb26-572"><a href="#cb26-572"></a></span>
+<span id="cb26-573"><a href="#cb26-573"></a>Example of a model card : https://huggingface.co/bert-base-uncased/tree/main</span>
+<span id="cb26-574"><a href="#cb26-574"></a></span>
+<span id="cb26-575"><a href="#cb26-575"></a><span class="fu">## Recommended reading</span></span>
+<span id="cb26-576"><a href="#cb26-576"></a></span>
+<span id="cb26-577"><a href="#cb26-577"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"The Illustrated Transformer" by Jay Alammar</span><span class="co">](https://jalammar.github.io/illustrated-transformer/)</span></span>
+<span id="cb26-578"><a href="#cb26-578"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)" by Jay Alammar</span><span class="co">](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/)</span></span>
+<span id="cb26-579"><a href="#cb26-579"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"The Illustrated GPT-2 (Visualizing Transformer Language Models)"</span><span class="co">](https://jalammar.github.io/illustrated-gpt2/)</span></span>
+<span id="cb26-580"><a href="#cb26-580"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"A gentle introduction to positional encoding"</span><span class="co">](https://machinelearningmastery.com/a-gentle-introduction-to-positional-encoding-in-transformer-models-part-1/)</span></span>
+<span id="cb26-581"><a href="#cb26-581"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"LLM Tutorial Workshop (Argonne National Laboratory)"</span><span class="co">](https://github.com/brettin/llm_tutorial)</span></span>
+<span id="cb26-582"><a href="#cb26-582"></a><span class="ss">* </span><span class="co">[</span><span class="ot">"LLM Tutorial Workshop Part 2 (Argonne National Laboratory)"</span><span class="co">](https://github.com/argonne-lcf/llm-workshop)</span></span>
+<span id="cb26-583"><a href="#cb26-583"></a></span>
+<span id="cb26-584"><a href="#cb26-584"></a><span class="fu">## Homework</span></span>
+<span id="cb26-585"><a href="#cb26-585"></a></span>
+<span id="cb26-586"><a href="#cb26-586"></a><span class="ss">1. </span>Load in a generative model using the HuggingFace pipeline and generate text using a batch of prompts.</span>
+<span id="cb26-587"><a href="#cb26-587"></a><span class="ss">  * </span>Play with generative parameters such as temperature, max_new_tokens, and the model itself and explain the effect on the legibility of the model response. Try at least 4 different parameter/model combinations.</span>
+<span id="cb26-588"><a href="#cb26-588"></a><span class="ss">  * </span>Models that can be used include:</span>
+<span id="cb26-589"><a href="#cb26-589"></a><span class="ss">    * </span><span class="in">`google/gemma-2-2b-it`</span></span>
+<span id="cb26-590"><a href="#cb26-590"></a><span class="ss">    * </span><span class="in">`microsoft/Phi-3-mini-4k-instruct`</span></span>
+<span id="cb26-591"><a href="#cb26-591"></a><span class="ss">    * </span><span class="in">`meta-llama/Llama-3.2-1B`</span></span>
+<span id="cb26-592"><a href="#cb26-592"></a><span class="ss">    * </span>Any model from this list: <span class="co">[</span><span class="ot">Text-generation models</span><span class="co">](https://huggingface.co/models?pipeline_tag=text-generation)</span></span>
+<span id="cb26-593"><a href="#cb26-593"></a><span class="ss">    * </span><span class="in">`gpt2`</span> if having trouble loading these models in</span>
+<span id="cb26-594"><a href="#cb26-594"></a><span class="ss">  * </span>This guide should help! <span class="co">[</span><span class="ot">Text-generation strategies</span><span class="co">](https://huggingface.co/docs/transformers/en/generation_strategies)</span></span>
+<span id="cb26-595"><a href="#cb26-595"></a><span class="ss">2. </span>Load in 2 models of different parameter size (e.g. GPT2, meta-llama/Llama-2-7b-chat-hf, or distilbert/distilgpt2) and analyze the BertViz for each. How does the attention mechanisms change depending on model size?</span>
+<span id="cb26-596"><a href="#cb26-596"></a></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

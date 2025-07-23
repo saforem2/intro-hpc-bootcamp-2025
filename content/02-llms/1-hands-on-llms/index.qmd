@@ -193,6 +193,7 @@ import ambivalent
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from rich import print
 
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
