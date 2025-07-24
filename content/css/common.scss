@@ -348,6 +348,8 @@ b {
       text-underline-offset: unset;
     }
   }
+  scrollbar-color: $dim-text;
+  scrollbar-width: thin;
   -moz-osx-font-smoothing: auto;
   -webkit-font-smoothing: auto;
   --headings-font-family: var($headings-font-family);
@@ -674,10 +676,16 @@ samp {
   unicode-bidi: bidi-override;
 }
 
+.cell-output.cell-output-display pre {
+  line-height: 1lh;
+  margin: 0;
+  padding: 0;
+}
+
 pre {
   font-family: $font-family-monospace !important;
   color: $body-color;
-  background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1);
+  // background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1);
   overflow: auto;
   // line-height: 1rem;
   // font-size: inherit;
@@ -723,9 +731,14 @@ body td code:not(.sourceCode) {
   /* font-size: .875rem; */
 }
 
-div.sourceCode {
+div.sourceCode,
+div.sourceCode pre.sourceCode {
   white-space: pre;
   font-family: $font-family-monospace;
+  line-height: 1lh;
+  margin: 0;
+  padding: 0;
+  // margin-block: 0.5lh
 }
 
 .edgeLabel > p {
@@ -2282,6 +2295,12 @@ boxed {
 // .cell-output pre {
 //
 // }
+//
+.cell-output pre > code {
+  line-height: 1lh;
+  padding: 0;
+  margin: 0;
+}
 
 .cell-output {
   white-space: pre;

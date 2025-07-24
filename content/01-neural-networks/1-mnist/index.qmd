@@ -152,7 +152,7 @@ training_data, validation_data = torch.utils.data.random_split(
 ```
 
 ```{python}
-console.log(
+console.print(
     'MNIST data loaded: train:',
     len(training_data),
     ' examples, validation: ',
@@ -161,7 +161,7 @@ console.log(
     len(test_data),
     'examples'
 )
-console.log('Input shape', training_data[0][0].shape)
+console.print('Input shape', training_data[0][0].shape)
 ```
 
 Let's take a closer look. Here are the first 10 training digits:
@@ -207,47 +207,18 @@ matrix multiplication.
 Note, like before, we consider multiple examples at once, adding another
 dimension to the input.
 
+<!--
 ::: {#fig-linear-model}
 
 ![](../images/LinearModel_1.png)
 
 Linear model for classification
 :::
-
-::: {#fig-fcn}
-
-```{mermaid}
-graph LR
-    A[Input Layer: x1, x2, ..., xn] --> B(Hidden Layer 1: W1*x + b1);
-    B --> C(Hidden Layer 2: W2*H1 + b2);
-    C --> D(Hidden Layer 3: W3*H2 + b3);
-    D --> E(Output Layer: Wout*H3 + bout);
-
-    subgraph Fully Connected Linear Net - 3 Hidden Layers
-    A
-    B
-    C
-    D
-    E
-    end
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#ccf,stroke:#333,stroke-width:2px
-    style C fill:#ccf,stroke:#333,stroke-width:2px
-    style D fill:#ccf,stroke:#333,stroke-width:2px
-    style E fill:#f9f,stroke:#333,stroke-width:2px
-
-    linkStyle 0 stroke:#333,stroke-width:2px
-    linkStyle 1 stroke:#333,stroke-width:2px
-    linkStyle 2 stroke:#333,stroke-width:2px
-    linkStyle 3 stroke:#333,stroke-width:2px
-```
-
-:::
+-->
 
 ::: {#fig-linear-svg}
 
-![](../../assets/linear-net-weights.svg)
+![](../../assets/linear-net-with-weights.svg)
 
 Fully connected linear net
 :::
@@ -302,7 +273,7 @@ class LinearClassifier(nn.Module):
 
 ```{python}
 linear_model = LinearClassifier()
-console.log(linear_model)
+console.print(linear_model)
 
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
@@ -400,12 +371,12 @@ for j in range(epochs):
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, linear_model, loss_fn)
     train_acc_all.append(acc)
-    console.log(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    console.print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, linear_model, loss_fn)
     val_acc_all.append(val_acc)
-    console.log(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    console.print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
 ```{python}
@@ -450,7 +421,7 @@ test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=batch_size_t
 
 ```{python}
 acc_test, loss_test = evaluate(test_dataloader, linear_model, loss_fn)
-console.log("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
+console.print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
 We can now take a closer look at the results.
@@ -465,7 +436,7 @@ def show_failures(model, dataloader, maxtoshow=10):
 
     rounded = predictions.argmax(1)
     errors = rounded!=batch[1]
-    console.log('Showing max', maxtoshow, 'first failures. '
+    console.print('Showing max', maxtoshow, 'first failures. '
           'The predicted class is shown first and the correct class in parentheses.')
     ii = 0
     plt.figure(figsize=(maxtoshow, 1))
@@ -536,7 +507,6 @@ Adding more layers to obtain a deep neural network:
 ![](../images/deep_nn_annotated.jpg)
 
 :::
-
 
 
 ## Important things to know
@@ -635,12 +605,12 @@ for j in range(epochs):
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
-    console.log(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    console.print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
-    console.log(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    console.print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
 ```{python}
@@ -755,17 +725,17 @@ for j in range(epochs):
     #step the scheduler
     scheduler.step()
 
-    # console.log the current learning rate
+    # console.print the current learning rate
     current_lr = optimizer.param_groups[0]['lr']
-    console.log(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
+    console.print(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
 
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
-    console.log(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    console.print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
-    console.log(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    console.print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
