@@ -56,13 +56,9 @@ import numpy as np
 import random
 import time
 
-# from rich import console.log
-# from ezpz.log import get_console
-from ezpz.log.config import STYLES
-from rich.console import Console
-from rich.theme import Theme
+import ezpz
+console = ezpz.log.get_console()
 
-console = Console(theme=Theme(STYLES))
 
 fig, ax = plt.subplots()
 #ax = fig.add_subplot(111)
@@ -93,6 +89,13 @@ console.log("Time: %s" %(t1 - t0))
 ```
 
 ### MPI example
+
+
+| Nodes  | PyTorch-2.5 | PyTorch-2.7 | PyTorch-2.8 |
+| :----: | :---------: | :---------: | :---------: |
+| N1xR12 |    17.39    |    31.01    |    33.09    |
+| N2xR12 |    3.81     |    32.71    |    33.26    |
+
 
 ```{python}
 from mpi4py import MPI

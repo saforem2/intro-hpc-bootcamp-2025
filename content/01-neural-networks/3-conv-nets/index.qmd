@@ -35,7 +35,12 @@ Tip: this notebook is much faster on the GPU!
 
 ## Convolutional Networks: A brief historical context
 
+<!--
 ![ImageNet Accuracy by Yearh](./ImageNet.png)
+-->
+
+Performance on ImageNet over time[^image-net-historical]
+
 
 ```{python}
 import ambivalent
@@ -44,17 +49,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 plt.style.use(ambivalent.STYLES['ambivalent'])
+plt.rcParams["figure.figsize"] = [6.4, 4.8]
 sns.set_context("notebook")
 
-from ezpz.log.config import STYLES
-from rich.console import Console
-from rich.theme import Theme
-
-console = Console(theme=Theme(STYLES))
+import ezpz
+console = ezpz.log.get_console()
 
 # Data
-years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
-image_net_error_rates = [28, 26, 16, 12, 7, 5, 3, 2]
 data = {
     2010: 28,
     2011: 26,
@@ -68,7 +69,7 @@ data = {
 human_error_rate = 5
 
 # Create bar plot
-plt.bar(years, image_net_error_rates, color='blue')
+plt.bar(list(data.keys()), list(data.values()), color='blue')
 
 # Add human error rate line
 plt.axhline(y=human_error_rate, color='red', linestyle='--', label='Human error rate')
@@ -85,15 +86,14 @@ plt.show()
 ```
 
 
+[^image-net-historical]: |
+    [A Roadmap for Foundational Research on Artificial Intelligence in Medical Imaging From the 2018 NIHRSNAACR](https://www.researchgate.net/publication/332452649_A_Roadmap_for_Foundational_Research_on_Artificial_Intelligence_in_Medical_Imaging_From_the_2018_NIHRSNAACRThe_Academy_Workshop)
 
-[reference](https://www.researchgate.net/publication/332452649_A_Roadmap_for_Foundational_Research_on_Artificial_Intelligence_in_Medical_Imaging_From_the_2018_NIHRSNAACRThe_Academy_Workshop)
-
+## Convolutional Building Blocks
 
 ```{python}
 import torch, torchvision
 ```
-
-## Convolutional Building Blocks
 
 We're going to go through some examples of building blocks for convolutional networks.  To help illustate some of these, let's use an image for examples:
 

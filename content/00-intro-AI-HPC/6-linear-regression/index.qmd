@@ -149,18 +149,8 @@ import matplotlib.pyplot as plt
 import IPython.display as ipydis
 import time
 
-from ezpz.log.config import STYLES
-from rich.console import Console
-from rich.theme import Theme
-
-console = Console(
-    color_system='truecolor',
-    force_jupyter=True,
-    force_interactive=True,
-    log_path=False,
-    log_time=True,
-    theme=Theme(STYLES)
-)
+import ezpz
+console = ezpz.log.get_console()
 ```
 
 ### Dataset
