@@ -80,11 +80,9 @@ import ambivalent
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from ezpz.log.config import STYLES
-from rich.console import Console
-from rich.theme import Theme
-
-console = Console(theme=Theme(STYLES))
+import ezpz
+# console = ezpz.log.get_console()
+logger = ezpz.get_logger('mnist')
 
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
@@ -152,16 +150,16 @@ training_data, validation_data = torch.utils.data.random_split(
 ```
 
 ```{python}
-console.print(
-    'MNIST data loaded: train:',
-    len(training_data),
-    ' examples, validation: ',
-    len(validation_data),
-    'examples, test:',
-    len(test_data),
-    'examples'
+logger.info(
+    " ".join([
+        f"MNIST data loaded:",
+        f"train={len(training_data)} examples",
+        f"validation={len(validation_data)} examples",
+        f"test={len(test_data)} examples",
+        f"input shape={training_data[0][0].shape}" 
+    ])
 )
-console.print('Input shape', training_data[0][0].shape)
+# logger.info(f'Input shape', training_data[0][0].shape)
 ```
 
 Let's take a closer look. Here are the first 10 training digits:
@@ -273,7 +271,7 @@ class LinearClassifier(nn.Module):
 
 ```{python}
 linear_model = LinearClassifier()
-console.print(linear_model)
+logger.info(linear_model)
 
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
@@ -371,12 +369,12 @@ for j in range(epochs):
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, linear_model, loss_fn)
     train_acc_all.append(acc)
-    console.print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    logger.info(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, linear_model, loss_fn)
     val_acc_all.append(val_acc)
-    console.print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
 ```{python}
@@ -421,7 +419,8 @@ test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=batch_size_t
 
 ```{python}
 acc_test, loss_test = evaluate(test_dataloader, linear_model, loss_fn)
-console.print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
+logger.info(f"Test loss: {loss_test}, test accuracy: {acc_test}")
+# logger.info("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
 We can now take a closer look at the results.
@@ -436,8 +435,10 @@ def show_failures(model, dataloader, maxtoshow=10):
 
     rounded = predictions.argmax(1)
     errors = rounded!=batch[1]
-    console.print('Showing max', maxtoshow, 'first failures. '
-          'The predicted class is shown first and the correct class in parentheses.')
+    logger.info(
+        f"Showing max {maxtoshow} first failures."
+    )
+    logger.info("The predicted class is shown first and the correct class in parentheses.")
     ii = 0
     plt.figure(figsize=(maxtoshow, 1))
     for i in range(batch[0].shape[0]):
@@ -605,12 +606,12 @@ for j in range(epochs):
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
-    console.print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    logger.info(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
-    console.print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
 ```{python}
@@ -725,17 +726,17 @@ for j in range(epochs):
     #step the scheduler
     scheduler.step()
 
-    # console.print the current learning rate
+    # logger.info the current learning rate
     current_lr = optimizer.param_groups[0]['lr']
-    console.print(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
+    logger.info(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
 
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
-    console.print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    logger.info(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
-    console.print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    logger.info(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```

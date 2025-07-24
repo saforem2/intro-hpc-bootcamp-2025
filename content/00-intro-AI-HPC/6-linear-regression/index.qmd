@@ -150,7 +150,7 @@ import IPython.display as ipydis
 import time
 
 import ezpz
-console = ezpz.log.get_console()
+logger = ezpz.get_logger('linear-regression')
 ```
 
 ### Dataset
@@ -162,14 +162,14 @@ houses.
 We can use this data for our linear regression.
 
 We use Pandas to read the data file which is stored as Comma Separated Values
-(CSV) and console.log the column labels.
+(CSV) and logger.info the column labels.
 
 CSV files are similar to excel sheets.
 
 ```{python}
 ! [ -e ./slimmed_realestate_data.csv ] || wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv
 data = pd.read_csv('slimmed_realestate_data.csv')
-console.log(data.columns)
+logger.info(data.columns)
 ```
 
 Now pandas provides some helpful tools for us to inspect our data.
@@ -245,7 +245,7 @@ Then we can calculate our fit values:
 ```{python}
 m = (n * sum_xy - sum_x * sum_y) / denominator
 b = (sum_y * sum_x2 - sum_x * sum_xy) / denominator
-console.log('y = %f * x + %f' % (m,b))
+logger.info('y = %f * x + %f' % (m,b))
 
 # saving these for later comparison
 m_calc = m
@@ -463,21 +463,22 @@ We can now randomly select our initial slope and intercept:
 ```{python}
 m = 5.
 b = 1000.
-console.log('y_i = %.2f * x + %.2f' % (m,b))
+logger.info(f"y_i = {m:.2f} * x + {b:.2f}")
+# logger.info('y_i = %.2f * x + %.2f' % (m,b))
 ```
 
 Then we can calculate our Loss function:
 
 ```{python}
 l = loss(x,y,m,b)
-console.log('first 10 loss values: ',l[:10])
+logger.info(f'first 10 loss values: {l[:10]}')
 ```
 
 ```{python}
 learning_rate = 1e-9
 m = updated_m(x,y,m,b,learning_rate)
 b = updated_b(x,y,m,b,learning_rate)
-console.log('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
+logger.info('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
 plot_data(x,y,m,b)
 ```
 
@@ -507,15 +508,15 @@ for i in range(loop_N):
     # keep a history of our loss values
     loss_history.append(loss_value)
 
-    # console.log our progress
+    # logger.info our progress
     mstr = " ".join([
         f"[{i:03d}]",
         f"dy_i = {m:.2f} * x + {b:.2f}",
         f"previously calculated: y_i = {m_calc:.2f} * x + {b_calc:.2f}",
         f"loss: {loss_value:.2f}",
     ])
-    console.log(mstr)
-    # console.log(
+    logger.info(mstr)
+    # logger.info(
     #         '[%03d]  dy_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f    loss: %f' % (i,m,b,m_calc,b_calc,loss_value))
 
     # close/delete previous plots
@@ -644,12 +645,12 @@ def train(batch_size, epochs=30, learning_rate_m = 1e-7, learning_rate_b = 1e-1)
 ## Minibatch training
 
 ```{python}
-console.log('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
+logger.info('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
 
 
 for bs in 64, 128, 256, 512:
     m, b, l = train(bs, epochs=30)
-    console.log(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    logger.info(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
 We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene
@@ -661,7 +662,7 @@ for i in 1, 2, 4, 8:
     bs, lrm, lrb = np.array([64, 1e-7, 1e-1])*i
     bs = int(bs)
     m, b, l = train(int(bs), epochs=30, learning_rate_m = lrm, learning_rate_b = lrb)
-    console.log(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    logger.info(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
 We can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size. 

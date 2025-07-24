@@ -238,6 +238,7 @@ format:
   #         <!-- End Google Tag Manager (noscript) -->
 
 website:
+  google-analytics: "GTM-MRCG68M5"
   bread-crumbs: true
   title: "Intro to HPC Bootcamp 2025"
   description: "An introduction to High Performance Computing (HPC) and Artificial Intelligence (AI) for scientific applications, with a focus on practical skills and hands-on experience."

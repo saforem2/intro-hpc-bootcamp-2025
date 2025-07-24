@@ -3748,3 +3748,234 @@ img {
 .reveal .slides section .callout {
   font-size: calc(0.5625 * $presentation-font-size-root) !important;
 }
+
+div.ansi-escaped-output {
+  font-family:monospace;
+  display:block
+}
+/*!
+*
+* ansi colors from IPython notebook's
+*
+* we also add `bright-[color]-` synonyms for the `-[color]-intense` classes since
+* that seems to be what ansi_up emits
+*
+*/
+
+.ansi-black-fg {
+  color: $ansi-black-fg;
+}
+.ansi-black-bg {
+  background-color:$ansi-black-bg;
+}
+.ansi-black-intense-black,
+.ansi-bright-black-fg {
+     color: $ansi-bright-black-fg;
+}
+.ansi-black-intense-black,
+.ansi-bright-black-bg {
+   background-color: $ansi-bright-black-bg;
+}
+
+.ansi-red-fg {
+   color: $ansi-red-fg;
+}
+.ansi-red-bg {
+   background-color:$ansi-red-bg;
+}
+.ansi-red-intense-red,
+.ansi-bright-red-fg {
+     color: $ansi-bright-red-fg;
+}
+.ansi-red-intense-red,
+.ansi-bright-red-bg {
+   background-color:$ansi-bright-red-bg;
+}
+
+.ansi-green-fg {
+   color: $ansi-green-fg;
+}
+.ansi-green-bg {
+   background-color:$ansi-green-bg;
+}
+.ansi-green-intense-green,
+.ansi-bright-green-fg {
+    color: $ansi-bright-green-fg;
+}
+.ansi-green-intense-green,
+.ansi-bright-green-bg {
+   background-color:$ansi-bright-green-bg;
+}
+
+.ansi-yellow-fg {
+   color:$ansi-yellow-fg;
+}
+.ansi-yellow-bg {
+   background-color:$ansi-yellow-bg;
+}
+.ansi-yellow-intense-yellow,
+.ansi-bright-yellow-fg {
+   color:$ansi-bright-yellow-fg;
+}
+.ansi-yellow-intense-yellow,
+.ansi-bright-yellow-bg {
+   background-color:$ansi-bright-yellow-bg;
+}
+
+.ansi-blue-fg {
+    color:$ansi-blue-fg;
+}
+.ansi-blue-bg {
+   background-color:$ansi-blue-bg;
+}
+.ansi-blue-intense-blue,
+.ansi-bright-blue-fg {
+   color:$ansi-bright-blue-fg;
+}
+.ansi-blue-intense-blue,
+.ansi-bright-blue-bg {
+   background-color:$ansi-bright-blue-bg;
+}
+
+.ansi-magenta-fg {
+   color:$ansi-magenta-fg;
+}
+.ansi-magenta-bg {
+   background-color:$ansi-magenta-bg;
+}
+.ansi-magenta-intense-magenta,
+.ansi-bright-magenta-fg {
+   color:$ansi-bright-magenta-fg;
+}
+.ansi-magenta-intense-magenta,
+.ansi-bright-magenta-bg {
+   background-color:$ansi-bright-magenta-bg;
+}
+
+.ansi-cyan-fg {
+   color:$ansi-cyan-fg;
+}
+.ansi-cyan-bg {
+    background-color:$ansi-cyan-bg;
+}
+.ansi-cyan-intense-cyan,
+.ansi-bright-cyan-fg {
+   color:$ansi-bright-cyan-fg;
+}
+.ansi-cyan-intense-cyan,
+.ansi-bright-cyan-bg {
+   background-color:$ansi-bright-cyan-bg;
+}
+
+.ansi-white-fg {
+   color:$ansi-white-fg;
+}
+.ansi-white-bg {
+   background-color:$ansi-white-bg;
+}
+.ansi-white-intense-white,
+.ansi-bright-white-fg {
+   color:$ansi-bright-white-fg;
+}
+.ansi-white-intense-white,
+.ansi-bright-white-bg {
+   background-color:$ansi-bright-white-bg;
+}
+
+
+// .ansi-green-fg {
+//   color:#00a250
+// }
+// .ansi-green-bg {
+//   background-color:#00a250
+// }
+// .ansi-green-intense-green,
+// .ansi-bright-green-fg {
+//   color:#007427
+// }
+// .ansi-green-intense-green,
+// .ansi-bright-green-bg {
+//   background-color:#007427
+// }
+// .ansi-yellow-fg {
+//   color:#ddb62b
+// }
+// .ansi-yellow-bg {
+//   background-color:#ddb62b
+// }
+// .ansi-yellow-intense-yellow,
+// .ansi-bright-yellow-fg {
+//   color:#b27d12
+// }
+// .ansi-yellow-intense-yellow,
+// .ansi-bright-yellow-bg {
+//   background-color:#b27d12
+// }
+// .ansi-blue-fg {
+//   color:#208ffb
+// }
+// .ansi-blue-bg {
+//   background-color:#208ffb
+// }
+// .ansi-blue-intense-blue,
+// .ansi-bright-blue-fg {
+//   color:#0065ca
+// }
+// .ansi-blue-intense-blue,
+// .ansi-bright-blue-bg {
+//   background-color:#0065ca
+// }
+// .ansi-magenta-fg {
+//   color:#d160c4
+// }
+// .ansi-magenta-bg {
+//   background-color:#d160c4
+// }
+// .ansi-magenta-intense-magenta,
+// .ansi-bright-magenta-fg {
+//   color:#a03196
+// }
+// .ansi-magenta-intense-magenta,
+// .ansi-bright-magenta-bg {
+//   background-color:#a03196
+// }
+// .ansi-cyan-fg {
+//   color:#60c6c8
+// }
+// .ansi-cyan-bg {
+//   background-color:#60c6c8
+// }
+// .ansi-cyan-intense-cyan,
+// .ansi-bright-cyan-fg {
+//   color:#258f8f
+// }
+// .ansi-cyan-intense-cyan,
+// .ansi-bright-cyan-bg {
+//   background-color:#258f8f
+// }
+// .ansi-white-fg {
+//   color:#c5c1b4
+// }
+// .ansi-white-bg {
+//   background-color:#c5c1b4
+// }
+// .ansi-white-intense-white,
+// .ansi-bright-white-fg {
+//   color:#a1a6b2
+// }
+// .ansi-white-intense-white,
+// .ansi-bright-white-bg {
+//   background-color:#a1a6b2
+// }
+// .ansi-default-inverse-fg {
+//   color:#fff
+// }
+// .ansi-default-inverse-bg {
+//   background-color:#000
+// }
+// .ansi-bold {
+//   font-weight:bold
+// }
+// .ansi-underline {
+//   text-decoration:underline
+// }

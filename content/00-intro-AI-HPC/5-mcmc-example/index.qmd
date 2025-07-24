@@ -57,7 +57,7 @@ import random
 import time
 
 import ezpz
-console = ezpz.log.get_console()
+logger = ezpz.get_logger('mcmc')
 
 
 fig, ax = plt.subplots()
@@ -84,8 +84,8 @@ for i in range(1, N+1):
 
 res = np.array(Nin, dtype='d')
 t1 = time.time()
-console.log(f"Pi = {res/float(N/4.0)}")
-console.log("Time: %s" %(t1 - t0))
+logger.info(f"Pi = {res/float(N/4.0)}")
+logger.info("Time: %s" %(t1 - t0))
 ```
 
 ### MPI example
@@ -117,8 +117,8 @@ res_tot = np.array(Nin, dtype='d')
 comm.Allreduce(res, res_tot, op=MPI.SUM)
 t1 = time.time()
 if comm.rank==0:
-    console.log(res_tot/float(N/4.0))
-    console.log("Time: %s" %(t1 - t0))
+    logger.info(res_tot/float(N/4.0))
+    logger.info("Time: %s" %(t1 - t0))
 ```
 
 ### Running $\pi$ example on Google Colab
