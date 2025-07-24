@@ -3,10 +3,9 @@ title: "Intro to NNs: MNIST"
 description: "Introduction to Neural Networks with MNIST dataset"
 date: 2025-07-17
 date-modified: last-modified
-# jupyter: python3
 author:
-  - name: Sam Foreman
-    id: sf
+  - id: sf
+    name: Sam Foreman
     orcid: 0000-0002-9981-0876
     email: foremans@anl.gov
     affiliation:
@@ -14,8 +13,8 @@ author:
         city: Lemont
         state: IL
         url: https://alcf.anl.gov/about/people/sam-foreman
-  - name: Marieme Ngom
-    id: mn
+  - id: mn
+    name: Marieme Ngom
     # orcid: 0000-0002-9981-0876
     email: mngom@anl.gov
     affiliation:
@@ -23,8 +22,8 @@ author:
         city: Lemont
         state: IL
         url: https://alcf.anl.gov/about/people/marieme-ngom
-  - name: Huihuo Zheng
-    id: hz
+  - id: hz
+    name: Huihuo Zheng
     # orcid: 0000-0002-9981-0876
     email: huihuo.zheng@anl.gov
     affiliation:
@@ -32,8 +31,8 @@ author:
         city: Lemont
         state: IL
         url: https://alcf.anl.gov/about/people/huihuo-zheng
-  - name: Bethany Lusch
-    id: bl
+  - id: bl
+    name: Bethany Lusch
     email: blusch@anl.gov
     orcid: 0000-0002-9521-9990
     # orcid: 0000-0002-9981-0876
@@ -42,8 +41,8 @@ author:
         city: Lemont
         state: IL
         url: https://alcf.anl.gov/about/people/bethany-lusch
-  - name: Taylor Childers
-    id: tc
+  - id: tc
+    name: Taylor Childers
     orcid: 0000-0002-0492-613X
     email: jchilders@anl.gov
     affiliation:
@@ -54,7 +53,6 @@ author:
 ---
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/1-hands-on-llms/index.ipynb)
-
 
 ::: {.callout-note}
 Content for this tutorial has been modified from content originally written by:
@@ -82,7 +80,11 @@ import ambivalent
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from rich import print
+from ezpz.log.config import STYLES
+from rich.console import Console
+from rich.theme import Theme
+
+console = Console(theme=Theme(STYLES))
 
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
@@ -150,7 +152,7 @@ training_data, validation_data = torch.utils.data.random_split(
 ```
 
 ```{python}
-print(
+console.log(
     'MNIST data loaded: train:',
     len(training_data),
     ' examples, validation: ',
@@ -159,7 +161,7 @@ print(
     len(test_data),
     'examples'
 )
-print('Input shape', training_data[0][0].shape)
+console.log('Input shape', training_data[0][0].shape)
 ```
 
 Let's take a closer look. Here are the first 10 training digits:
@@ -171,6 +173,9 @@ pltsize=1
 for i in range(10):
     plt.subplot(1,10,i+1)
     plt.axis('off')
+    # x, y = training_data[i]
+    # plt.imshow(x.reshape(28, 28), cmap="gray")
+    # x[0] is the image, x[1] is the label
     plt.imshow(
         numpy.reshape(
             training_data[i][0],
@@ -178,7 +183,7 @@ for i in range(10):
         ),
         cmap="gray"
     )
-    plt.title('Class: '+str(training_data[i][1]))
+    plt.title(f"{training_data[i][1]}") 
 ```
 
 ## Generalities:
@@ -209,6 +214,43 @@ dimension to the input.
 Linear model for classification
 :::
 
+::: {#fig-fcn}
+
+```{mermaid}
+graph LR
+    A[Input Layer: x1, x2, ..., xn] --> B(Hidden Layer 1: W1*x + b1);
+    B --> C(Hidden Layer 2: W2*H1 + b2);
+    C --> D(Hidden Layer 3: W3*H2 + b3);
+    D --> E(Output Layer: Wout*H3 + bout);
+
+    subgraph Fully Connected Linear Net - 3 Hidden Layers
+    A
+    B
+    C
+    D
+    E
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#ccf,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style D fill:#ccf,stroke:#333,stroke-width:2px
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+
+    linkStyle 0 stroke:#333,stroke-width:2px
+    linkStyle 1 stroke:#333,stroke-width:2px
+    linkStyle 2 stroke:#333,stroke-width:2px
+    linkStyle 3 stroke:#333,stroke-width:2px
+```
+
+:::
+
+::: {#fig-linear-svg}
+
+![](../../assets/linear-net-weights.svg)
+
+Fully connected linear net
+:::
 
 The linear layers in PyTorch perform a basic $xW + b$.
 
@@ -260,7 +302,7 @@ class LinearClassifier(nn.Module):
 
 ```{python}
 linear_model = LinearClassifier()
-print(linear_model)
+console.log(linear_model)
 
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(linear_model.parameters(), lr=0.05)
@@ -358,19 +400,18 @@ for j in range(epochs):
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, linear_model, loss_fn)
     train_acc_all.append(acc)
-    print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    console.log(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, linear_model, loss_fn)
     val_acc_all.append(val_acc)
-    print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    console.log(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
 ```{python}
-pltsize=1
-plt.figure(figsize=(10*pltsize, 10 * pltsize))
-plt.plot(range(epochs), train_acc_all,label = 'Training Acc.' )
-plt.plot(range(epochs), val_acc_all, label = 'Validation Acc.' )
+plt.figure()
+plt.plot(range(epochs), train_acc_all, label='Training Acc.' )
+plt.plot(range(epochs), val_acc_all, label='Validation Acc.' )
 plt.xlabel('Epoch #')
 plt.ylabel('Loss')
 plt.legend()
@@ -409,7 +450,7 @@ test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=batch_size_t
 
 ```{python}
 acc_test, loss_test = evaluate(test_dataloader, linear_model, loss_fn)
-print("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
+console.log("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))
 ```
 
 We can now take a closer look at the results.
@@ -424,7 +465,7 @@ def show_failures(model, dataloader, maxtoshow=10):
 
     rounded = predictions.argmax(1)
     errors = rounded!=batch[1]
-    print('Showing max', maxtoshow, 'first failures. '
+    console.log('Showing max', maxtoshow, 'first failures. '
           'The predicted class is shown first and the correct class in parentheses.')
     ii = 0
     plt.figure(figsize=(maxtoshow, 1))
@@ -462,10 +503,20 @@ Shallow neural network
 :::
 
 The output of this NN can be written as
-\begin{equation}\label{eq: NN1d}
+
+$$
+\begin{equation}
   \hat{u}(x) = \sigma_2(\sigma_1(\mathbf{x}\mathbf{W}_1 + \mathbf{b}_1)\mathbf{W}_2 + \mathbf{b}_2),
 \end{equation}
-where $\mathbf{x}$ is the input, $\mathbf{W}_j$ are the weights of the neural network, $\sigma_j$ the (nonlinear) activation functions, and $\mathbf{b}_j$ its biases. The activation function introduces the nonlinearity and makes it possible to learn more complex tasks. Desirable properties in an activation function include being differentiable, bounded, and monotonic.
+$$
+
+where $\mathbf{x}$ is the input, $\mathbf{W}_j$ are the weights of the neural
+network, $\sigma_j$ the (nonlinear) activation functions, and $\mathbf{b}_j$
+its biases.
+The activation function introduces the nonlinearity and makes it
+possible to learn more complex tasks.
+Desirable properties in an activation
+function include being differentiable, bounded, and monotonic.
 
 
 Image source: [PragatiBaheti](https://www.v7labs.com/blog/neural-networks-activation-functions)
@@ -474,7 +525,7 @@ Image source: [PragatiBaheti](https://www.v7labs.com/blog/neural-networks-activa
 
 ![](../images/activation.jpeg)
 
-Activation function
+Activation functions
 :::
 
 
@@ -584,17 +635,18 @@ for j in range(epochs):
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
-    print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    console.log(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
-    print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    console.log(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
 
 ```{python}
-pltsize=1
-plt.figure(figsize=(10*pltsize, 10 * pltsize))
+# pltsize=1
+# plt.figure(figsize=(10*pltsize, 10 * pltsize))
+plt.figure()
 plt.plot(range(epochs), train_acc_all,label = 'Training Acc.' )
 plt.plot(range(epochs), val_acc_all, label = 'Validation Acc.' )
 plt.xlabel('Epoch #')
@@ -703,18 +755,17 @@ for j in range(epochs):
     #step the scheduler
     scheduler.step()
 
-    # Print the current learning rate
+    # console.log the current learning rate
     current_lr = optimizer.param_groups[0]['lr']
-    print(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
+    console.log(f"Epoch {j+1}/{epochs}, Learning Rate: {current_lr}")
 
     # checking on the training loss and accuracy once per epoch
     acc, loss = evaluate(train_dataloader, nonlinear_model, loss_fn)
     train_acc_all.append(acc)
-    print(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
+    console.log(f"Epoch {j}: training loss: {loss}, accuracy: {acc}")
 
     # checking on the validation loss and accuracy once per epoch
     val_acc, val_loss = evaluate(val_dataloader, nonlinear_model, loss_fn)
     val_acc_all.append(val_acc)
-    print(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
+    console.log(f"Epoch {j}: val. loss: {val_loss}, val. accuracy: {val_acc}")
 ```
-

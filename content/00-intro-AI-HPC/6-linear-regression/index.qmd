@@ -17,6 +17,8 @@ In this notebook, we will talk about:
 - How does large language model work?
 - A simple AI model: linear regression
 
+<details closed><summary><h2>ALCF Specific Setup</h2></summary>
+
 ## How to run this notebook on Polaris
 
 - Go to <https://jupyter.alcf.anl.gov>, and click "Login Polaris"
@@ -26,8 +28,8 @@ In this notebook, we will talk about:
 
 ::: {#fig-jupyter}
 
-![](../figures/jupyter1.png){width="90%"}
-![](../figures/jupyter2.png){width="90%"}
+![](../figures/jupyter1.png)
+![](../figures/jupyter2.png)
 
 :::
 
@@ -39,13 +41,14 @@ In this notebook, we will talk about:
 
   ![Google Colab](../figures/colab.png)
 
+</details>
+
 ## What is AI training?
 
 **Two ways of learning English**:
 
 - through learning rules;
 - through hearing a lot of speakings
-
 
 ::: {#fig-data-driven}
 
@@ -66,7 +69,7 @@ The fact is that, she seldomly breaks grammar rules. This way of learning by
 observing patterns is very powerful! This is the essence of AI or data driven
 science.
 
-## How does large language model work? 
+## How does large language model work?
 
 Large Language Models, like GPT, function by pre-training on extensive datasets
 to learn language patterns, utilizing transformer architecture for contextual
@@ -83,10 +86,18 @@ generate coherent and contextually relevant text based on provided inputs.
 
 **More complicated example**:
 
-<center>
-  <img src="../figures/chatgpt_poem.png" width="400" />
-  <img src="../figures/martin.png" width="450" />
-</center>
+
+::: {.flex-container}
+
+::: {.flex-item style="width:43%"}
+![Poem about Albert Einstein](../figures/chatgpt_poem.png)
+:::
+
+::: {.flex-item style="width:49.2%"}
+![Poem about Martin Luther](../figures/martin.png)
+:::
+
+:::
 
 You can do this on https://chat.openai.com
 
@@ -120,6 +131,9 @@ First we will load some tools that others wrote and we can use to help us work.
 
 
 ```{python}
+import os
+os.environ["FORCE_COLOR"] = "1"
+os.environ["TTY_INTERACTIVE"] = "1"
 import ambivalent
 
 import matplotlib.pyplot as plt
@@ -134,7 +148,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 import IPython.display as ipydis
 import time
-from rich import print
+
+from ezpz.log.config import STYLES
+from rich.console import Console
+from rich.theme import Theme
+
+console = Console(
+    color_system='truecolor',
+    force_jupyter=True,
+    force_interactive=True,
+    log_path=False,
+    log_time=True,
+    theme=Theme(STYLES)
+)
 ```
 
 ### Dataset
@@ -146,14 +172,14 @@ houses.
 We can use this data for our linear regression.
 
 We use Pandas to read the data file which is stored as Comma Separated Values
-(CSV) and print the column labels.
+(CSV) and console.log the column labels.
 
 CSV files are similar to excel sheets.
 
 ```{python}
 ! [ -e ./slimmed_realestate_data.csv ] || wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv
 data = pd.read_csv('slimmed_realestate_data.csv')
-print(data.columns)
+console.log(data.columns)
 ```
 
 Now pandas provides some helpful tools for us to inspect our data.
@@ -167,7 +193,7 @@ _y_ values and the `style` (`'.'` tells `matplotlib` to use a small dot to
 represent each data point).
 
 ```{python}
-data.plot(x='GrLivArea', y='SalePrice',style='.')
+data.plot(x='GrLivArea', y='SalePrice',style='o', alpha=0.8, markeredgecolor="#222")
 ```
 
 ### Theory of linear regression
@@ -229,7 +255,7 @@ Then we can calculate our fit values:
 ```{python}
 m = (n * sum_xy - sum_x * sum_y) / denominator
 b = (sum_y * sum_x2 - sum_x * sum_xy) / denominator
-print('y = %f * x + %f' % (m,b))
+console.log('y = %f * x + %f' % (m,b))
 
 # saving these for later comparison
 m_calc = m
@@ -244,7 +270,7 @@ want to reuse our code:
 ```{python}
 def plot_data(x,y,m,b,plt = plt):
    # plot our data points with 'bo' = blue circles
-   plt.plot(x,y,'bo')
+   plt.plot(x, y, 'o', alpha=0.8, markeredgecolor="#222")
    # create the line based on our linear fit
    # first we need to make x points
    # the 'arange' function generates points between two limits (min,max)
@@ -252,7 +278,7 @@ def plot_data(x,y,m,b,plt = plt):
    # now we use our fit parameters to calculate the y points based on our x points
    linear_y = linear_x * m + b
    # plot the linear points using 'r-' = red line
-   plt.plot(linear_x,linear_y,'r-',label='fit')
+   plt.plot(linear_x, linear_y, 'r-', label='fit')
 ```
 
 Now can use this function to plot our results:
@@ -447,21 +473,21 @@ We can now randomly select our initial slope and intercept:
 ```{python}
 m = 5.
 b = 1000.
-print('y_i = %.2f * x + %.2f' % (m,b))
+console.log('y_i = %.2f * x + %.2f' % (m,b))
 ```
 
 Then we can calculate our Loss function:
 
 ```{python}
 l = loss(x,y,m,b)
-print('first 10 loss values: ',l[:10])
+console.log('first 10 loss values: ',l[:10])
 ```
 
 ```{python}
 learning_rate = 1e-9
 m = updated_m(x,y,m,b,learning_rate)
 b = updated_b(x,y,m,b,learning_rate)
-print('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
+console.log('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
 plot_data(x,y,m,b)
 ```
 
@@ -481,49 +507,57 @@ data_y = data['SalePrice'].to_numpy()
 # we run our loop N times
 loop_N = 30
 for i in range(loop_N):
-   # update our slope and intercept based on the current values
-   m = updated_m(data_x,data_y,m,b,learning_rate_m)
-   b = updated_b(data_x,data_y,m,b,learning_rate_b)
+    # update our slope and intercept based on the current values
+    m = updated_m(data_x,data_y,m,b,learning_rate_m)
+    b = updated_b(data_x,data_y,m,b,learning_rate_b)
 
-   # calculate the loss value
-   loss_value = np.mean(loss(data_x,data_y,m,b))
+    # calculate the loss value
+    loss_value = np.mean(loss(data_x,data_y,m,b))
 
-   # keep a history of our loss values
-   loss_history.append(loss_value)
+    # keep a history of our loss values
+    loss_history.append(loss_value)
 
-   # print our progress
-   print('[%03d]  dy_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f    loss: %f' % (i,m,b,m_calc,b_calc,loss_value))
+    # console.log our progress
+    mstr = " ".join([
+        f"[{i:03d}]",
+        f"dy_i = {m:.2f} * x + {b:.2f}",
+        f"previously calculated: y_i = {m_calc:.2f} * x + {b_calc:.2f}",
+        f"loss: {loss_value:.2f}",
+    ])
+    console.log(mstr)
+    # console.log(
+    #         '[%03d]  dy_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f    loss: %f' % (i,m,b,m_calc,b_calc,loss_value))
 
-   # close/delete previous plots
-   plt.close('all')
+    # close/delete previous plots
+    plt.close('all')
 
-   # create a 1 by 2 plot grid
-   fig,ax = plt.subplots(1,2)
-   # lot our usual output
-   plot_data(data_x,data_y,m,b,ax[0])
+    dfigsize = plt.rcParams['figure.figsize']
+    # create a 1 by 2 plot grid
+    fig,ax = plt.subplots(1,2, figsize=(dfigsize[0]*2,dfigsize[1]))
+    # lot our usual output
+    plot_data(data_x,data_y,m,b,ax[0])
 
-   # here we also plot the calculated linear fit for comparison
-   line_x = np.arange(data_x.min(),data_x.max())
-   line_y = line_x * m_calc + b_calc
-   ax[0].plot(line_x,line_y,'b-',label='calculated')
-   # add a legend to the plot and x/y labels
-   ax[0].legend()
-   ax[0].set_xlabel('square footage')
-   ax[0].set_ylabel('sale price')
+    # here we also plot the calculated linear fit for comparison
+    line_x = np.arange(data_x.min(),data_x.max())
+    line_y = line_x * m_calc + b_calc
+    ax[0].plot(line_x,line_y, color="#000", linestyle=":" ,label='calculated')
+    # add a legend to the plot and x/y labels
+    ax[0].legend()
+    ax[0].set_xlabel('square footage')
+    ax[0].set_ylabel('sale price')
 
-   # plot the loss 
-   loss_x = np.arange(0,len(loss_history))
-   loss_y = np.asarray(loss_history)
-   ax[1].plot(loss_x,loss_y, 'o-')
-   ax[1].set_yscale('log')
-   ax[1].set_xlabel('loop step')
-   ax[1].set_ylabel('loss')
-   plt.show()
-   # gives us time to see the plot
-   time.sleep(2.5)
-   # clears the plot when the next plot is ready to show.
-   ipydis.clear_output(wait=True)
-
+    # plot the loss 
+    loss_x = np.arange(0,len(loss_history))
+    loss_y = np.asarray(loss_history)
+    ax[1].plot(loss_x,loss_y, 'o-')
+    ax[1].set_yscale('log')
+    ax[1].set_xlabel('loop step')
+    ax[1].set_ylabel('loss')
+    plt.show()
+    # gives us time to see the plot
+    time.sleep(2.5)
+    # clears the plot when the next plot is ready to show.
+    ipydis.clear_output(wait=True)
 ```
 
 ## Homework
@@ -620,12 +654,12 @@ def train(batch_size, epochs=30, learning_rate_m = 1e-7, learning_rate_b = 1e-1)
 ## Minibatch training
 
 ```{python}
-print('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
+console.log('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
 
 
 for bs in 64, 128, 256, 512:
     m, b, l = train(bs, epochs=30)
-    print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    console.log(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
 We see that eventually, we all get similar results with the minibatch training. Of course, here, we still keep the same learning rate. A gene
@@ -637,7 +671,7 @@ for i in 1, 2, 4, 8:
     bs, lrm, lrb = np.array([64, 1e-7, 1e-1])*i
     bs = int(bs)
     m, b, l = train(int(bs), epochs=30, learning_rate_m = lrm, learning_rate_b = lrb)
-    print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    console.log(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
 We can see that, if we increase the batch size and the learning rate proportionally, at certain point, it does not converge for example for the case batch size = 512. To increase the learning rate proportional to the batch size is a general practice. However, if the learning rate is too large, it will continue to move around without finding a local minimum. One trick, people can do is to start with a smaller learning rate in the first few steps / epochs, and once the optimization becomes stable, increase the learning rate proportional to the batch size. 

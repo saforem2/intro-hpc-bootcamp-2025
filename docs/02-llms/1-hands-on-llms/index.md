@@ -233,6 +233,7 @@ import ambivalent
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from rich import print
 
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
@@ -254,11 +255,11 @@ generator(input_text, max_length=20, num_return_sequences=5)
     Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.
     Both `max_new_tokens` (=256) and `max_length`(=20) seem to have been set. `max_new_tokens` will take precedence. Please refer to the documentation for more information. (https://huggingface.co/docs/transformers/main/en/main_classes/text_generation)
 
-    [{'generated_text': 'My dog really wanted to eat icecream because he was so upset about it and it was so hard to eat icecream when he had it all over his face. So he had to go to the vet and pick it up, but the vet gave it to him and he ate it, then he was taken to another vet and then the vet gave him some ice cream. He was taken to the vet and was given a bottle of ice cream and some ice cream. He was given an ice cream and he was given some ice cream. So he ate the ice cream twice and got it back. And then he went back to the vet and was given a bottle of ice cream. And he was taken to another vet and then the vet gave him some ice cream. And he was taken back to the vet and he ate the ice cream once again and got back to the vet and got back to the vet and got back to the vet and got back to the vet and got back to the vet and became the first person to ever have their dog taken to a vet. They gave him a box of ice cream and an ice cream box. And he was taken to another vet and was given a box of ice cream. And he was given an ice cream. And a box of ice cream and an ice cream box.'},
-     {'generated_text': 'My dog really wanted to eat icecream because it was her and he was so sweet. I was just so happy he was eating it. I love that ice cream!"\n\nPowell and her family had a dog named "Peebles" who was born to a Russian family in Florida. They have two brothers in St. Petersburg, and Powell\'s family moved to the US in the 1980s and she moved back to Australia at age 11 to raise her two grown children.\n\n"The first time we went to the vet we found that our dog was so sick that he was sick and I was really scared," Powell told WYFF.\n\nThe family is now back to work in the US while the couple keeps a home called the "Powell\'s" in their backyard.\n\nThe couple is planning a GoFundMe campaign to help with Powell\'s medical expenses.\n\n"We\'ve been doing a lot of research on this and it\'s been so hard to find a dog that can go to a vet in the US," Powell told WYFF.\n\n"For the first time ever, we\'re going to get a dog and then we\'re going to get a home and a dog that can go to a vet in the US."'},
-     {'generated_text': 'My dog really wanted to eat icecream because it had all the milk. He wanted to eat it because it had all the milk. He wanted to eat it because it had all the milk, and it was, like, good."\n\nHe later told the Star that he wasn\'t at the house "as much as he used to or as much as he used to be," and he was never in a car with his dog at the time. But after his death, his family has asked for the record of his story.\n\n"I had great interest in writing, because I knew he was a good person," said his wife, Linda. "I didn\'t know that he was a pretty person, but I was excited about it, because I felt like I had a story for him."\n\nThe Star contacted the family of the dog\'s lost dog, who has since been found. The mother and father have told the Star they are "deeply saddened" by the loss.\n\n"They\'re very, very sad," Linda said. "They\'re very sad about what happened because we\'re all very close to him, and they\'ve been very supportive of our family."\n\nThe Star contacted the Star\'s publicist, and her response has been sent to the family.\n\n"'},
-     {'generated_text': 'My dog really wanted to eat icecream because it was super simple. I\'m really happy that we\'ve finally got this thing that\'s been sitting on our shelf for so long."\n\nSylvester has been getting ready to move on for the past few years but said she\'s started to see the benefits of "just getting a little bit older."\n\n"I always want to be the same person I was before I was born," she said. "I\'m just starting to learn to make things work and it\'s really starting to help me out."'},
-     {'generated_text': "My dog really wanted to eat icecream because it's a big, fluffy, really fluffy treat, and I think she loved it.\n\nNow, I've seen you work with cats at the office.\n\nI've worked with the cats there, too.\n\nI've worked with cats at the office.\n\nI've seen you work with cats at the office.\n\nI've seen you work with cats at the office.\n\nI've seen you work with cats at the office.\n\nI've worked with cats at the office.\n\nI've seen you work with cats at the office.\n\nI've seen the dogs working at the office.\n\nI've seen the cats working at the office.\n\nI've seen the cats working at the office.\n\nI've seen the dogs working at the office.\n\nI've seen the cats working at the office.\n\nI've seen the dogs working at the office.\n\nI've seen the cats working at the office.\n\nI've seen the dogs working at the office.\n\nI've seen the cats working at the office.\n\nI've seen the dogs working at the office.\n\nI've seen the cats working at the office.\n\nI've seen"}]
+    [{'generated_text': 'My dog really wanted to eat icecream because I was going to be crying.\n\n"Then I was like \'Oh gosh, I want to go out with a friend.\' And then I saw my mom crying right away, so I got up and went to hug her. I was like \'I love you so much.\' And she went and hugged me back, and then she asked for my phone number, and I said \'I\'m sorry but I don\'t want to go out with you, I just want to hug you.\' And she had my number again so I went down to the parking lot and cried all day. So I\'ve never cried more because I\'ve been there. I can\'t even remember the last time I cried. I can\'t even remember I let my dog down. I\'m just so thankful."'},
+     {'generated_text': 'My dog really wanted to eat icecream because she thought it was a good idea. She said no. She said, "I don\'t want to eat icecream. I don\'t want to eat the ice cream, and I\'m not going to eat it." She said, "Okay. Let\'s go!" She went back to eating the icecream and then we went back to eating the ice cream. We went back to eating the ice cream and then she said, "You\'re going to eat that ice cream again?"\n\nIt was a very very long time.\n\nThis was in January of 1992. I was at the park with my family and my family was in the front yard with the kids. And she said, "This is the first time you\'ve eaten ice cream." And I was like, "You know, she\'s going to be here a long time."\n\nAnd then she said, "I\'ll be here a long time."\n\nWe were waiting for the car to stop, for the car to go to the curb, for the car to get out. She said, "Oh, you\'re going to eat that ice cream."\n\nI said, "Okay. Okay. Let\'s go." And she said, "OK."\n\nAnd I went back'},
+     {'generated_text': "My dog really wanted to eat icecream because he thought I was super cute and I'd get to eat icecream too. So when I saw that icecream was from my dog she was super excited to try it. I was so happy because she was so excited about it. It was totally a good thing.\n\nWhat's your favourite thing about the dog in this picture?\n\nI love how the dog looks like he's just a pet. He loves his little toy and playing with it. It's a great thing that the dog doesn't look like a dog but he loves his little toy and playing with it. It's a great thing I think. I think the dogs have a great sense of humor. I think they're great for the dog, they don't want to hurt us, or get in our way. They have a very positive attitude to things and they're always looking for new ways to get into the game of soccer.\n\nWhat's the most important thing you've learned from your dog?\n\nI learned a lot. I learned a lot that I learned from my dogs so I know how to be a good parent. My life has always been about my dogs, not my other dogs. I love them, I love them; I love them. I feel I'm"},
+     {'generated_text': 'My dog really wanted to eat icecream because she was so excited. And she was happy the icecream made her feel so good."\n\nThe first person to mention the possibility of having a dog eat icecream at the same time as her dog is the owner.\n\n"I was in the freezer for a little while before the dog bought me a dog and we started talking," she said.\n\n"I said to her, \'Do you want to go have a dog eating ice cream?\'\n\n"She said, \'Yes, I want to go have a dog eating ice cream.\'"\n\nBut now a dog has been eating icecream for a while and it\'s not happening.\n\n"It\'s not even happening," Ms Hickey said.\n\n"It\'s almost like your dog had a seizure and was not doing well."\n\nMs Hickey said her dog and her dog\'s relationship was just starting to improve.\n\nShe says the dog\'s parents were on the phone when she gave her the news.\n\n"They said, \'I would never do anything to hurt this dog,\' and they didn\'t. But I\'m still working on that now.\n\n"I\'m feeling really good about it."\n\nTopics: dog-eaters, family-'},
+     {'generated_text': "My dog really wanted to eat icecream because she wanted to be the one to do so. She was so loving. Every time she got on the train, she always kept her head down and smiled at me for doing so. She was so cute too. I loved it and I feel so sad about how she's going to die. I'm sorry she was so big at the time. We can't continue on this life and I wouldn't have wanted this to end if I didn't have her.\n\nI know I've said it a few times, but I think it's important to understand that this is not a random event. It's a human being who has been doing this for a long time. I'm one of the lucky ones, and I want to give it my all to make sure it doesn't come back to bite me again.\n\nMy son is a very special dog and I want to take him on as my dog. I want him to be a part of my life while she is alive. I want him to be my daughter. I want her to be my best friend. I want her to be my baby, but I also want her to be my sister.\n\nAs a mom, I want her to take on life and make sure she's happy. I"}]
 
 ## What’s going on under the hood?
 
@@ -368,23 +369,79 @@ sequence = "Counselor, please adjust your Zoom filter to appear as a human, rath
 tokenization_summary(tokenizer_1, sequence)
 ```
 
-    Subset of tokenizer.vocab:
-    ĠDonetsk: 31819
-    ĠHours: 19347
-    ĠTopics: 34440
-    Ġstew: 20798
-    ivating: 39438
-    ĠBuild: 10934
-    Ġthird: 2368
-    Registered: 47473
-    Roman: 32454
-    ĠHandbook: 30579
-    Vocab size of the tokenizer =  50257
-    ------------------------------------------
-    Tokens :  ['Coun', 'sel', 'or', ',', 'Ġplease', 'Ġadjust', 'Ġyour', 'ĠZoom', 'Ġfilter', 'Ġto', 'Ġappear', 'Ġas', 'Ġa', 'Ġhuman', ',', 'Ġrather', 'Ġthan', 'Ġas', 'Ġa', 'Ġcat']
-    ------------------------------------------
-    tokenized sequence :  [31053, 741, 273, 11, 3387, 4532, 534, 40305, 8106, 284, 1656, 355, 257, 1692, 11, 2138, 621, 355, 257, 3797]
-    Decode sequence :  Counselor, please adjust your Zoom filter to appear as a human, rather than as a cat
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Subset of tokenizer.vocab:
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">sect: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8831</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">icides: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16751</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġneighborhoods: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14287</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ineries: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">48858</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">uper: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">48568</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠFritz: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">45954</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Ġthin: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7888</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠBayer: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">48009</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">ĠFancy: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">49848</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Rog: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30417</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Vocab size of the tokenizer =  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50257</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">------------------------------------------
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Tokens : 
+<span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">'Coun'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'sel'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'or'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">','</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġplease'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġadjust'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġyour'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'ĠZoom'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġfilter'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġto'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġappear'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġas'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġa'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġhuman'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">','</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġrather'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġthan'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġas'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġa'</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'Ġcat'</span>
+<span style="font-weight: bold">]</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">------------------------------------------
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">tokenized sequence : 
+<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31053</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">741</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">273</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3387</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4532</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">534</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">40305</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8106</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">284</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1656</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">355</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">257</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1692</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2138</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">621</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">355</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">257</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3797</span><span style="font-weight: bold">]</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Decode sequence :  Counselor, please adjust your Zoom filter to appear as a human, rather than as a cat
+</pre>
 
 ### Token embedding:
 
@@ -418,33 +475,34 @@ model = GPT2LMHeadModel.from_pretrained('gpt2')
 print(model)
 ```
 
-    GPT2LMHeadModel(
-      (transformer): GPT2Model(
-        (wte): Embedding(50257, 768)
-        (wpe): Embedding(1024, 768)
-        (drop): Dropout(p=0.1, inplace=False)
-        (h): ModuleList(
-          (0-11): 12 x GPT2Block(
-            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
-            (attn): GPT2Attention(
-              (c_attn): Conv1D(nf=2304, nx=768)
-              (c_proj): Conv1D(nf=768, nx=768)
-              (attn_dropout): Dropout(p=0.1, inplace=False)
-              (resid_dropout): Dropout(p=0.1, inplace=False)
-            )
-            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
-            (mlp): GPT2MLP(
-              (c_fc): Conv1D(nf=3072, nx=768)
-              (c_proj): Conv1D(nf=768, nx=3072)
-              (act): NewGELUActivation()
-              (dropout): Dropout(p=0.1, inplace=False)
-            )
-          )
-        )
-        (ln_f): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
-      )
-      (lm_head): Linear(in_features=768, out_features=50257, bias=False)
-    )
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">GPT2LMHeadModel</span><span style="font-weight: bold">(</span>
+  <span style="font-weight: bold">(</span>transformer<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">GPT2Model</span><span style="font-weight: bold">(</span>
+    <span style="font-weight: bold">(</span>wte<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Embedding</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50257</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span><span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span>wpe<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Embedding</span><span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span><span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span>drop<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Dropout</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">p</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span>h<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModuleList</span><span style="font-weight: bold">(</span>
+      <span style="font-weight: bold">(</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span><span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span> x <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">GPT2Block</span><span style="font-weight: bold">(</span>
+        <span style="font-weight: bold">(</span>ln_1<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">LayerNorm</span><span style="font-weight: bold">((</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>,<span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">eps</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-05</span>, <span style="color: #808000; text-decoration-color: #808000">elementwise_affine</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+        <span style="font-weight: bold">(</span>attn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">GPT2Attention</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>c_attn<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv1D</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">nf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2304</span>, <span style="color: #808000; text-decoration-color: #808000">nx</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span>c_proj<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv1D</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">nf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>, <span style="color: #808000; text-decoration-color: #808000">nx</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span>attn_dropout<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Dropout</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">p</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span>resid_dropout<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Dropout</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">p</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
+        <span style="font-weight: bold">)</span>
+        <span style="font-weight: bold">(</span>ln_2<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">LayerNorm</span><span style="font-weight: bold">((</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>,<span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">eps</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-05</span>, <span style="color: #808000; text-decoration-color: #808000">elementwise_affine</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+        <span style="font-weight: bold">(</span>mlp<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">GPT2MLP</span><span style="font-weight: bold">(</span>
+          <span style="font-weight: bold">(</span>c_fc<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv1D</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">nf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3072</span>, <span style="color: #808000; text-decoration-color: #808000">nx</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span>c_proj<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Conv1D</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">nf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>, <span style="color: #808000; text-decoration-color: #808000">nx</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3072</span><span style="font-weight: bold">)</span>
+          <span style="font-weight: bold">(</span>act<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">NewGELUActivation</span><span style="font-weight: bold">()</span>
+          <span style="font-weight: bold">(</span>dropout<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Dropout</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">p</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>, <span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
+        <span style="font-weight: bold">)</span>
+      <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">)</span>
+    <span style="font-weight: bold">(</span>ln_f<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">LayerNorm</span><span style="font-weight: bold">((</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>,<span style="font-weight: bold">)</span>, <span style="color: #808000; text-decoration-color: #808000">eps</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1e-05</span>, <span style="color: #808000; text-decoration-color: #808000">elementwise_affine</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">)</span>
+  <span style="font-weight: bold">(</span>lm_head<span style="font-weight: bold">)</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Linear</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">in_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>, <span style="color: #808000; text-decoration-color: #808000">out_features</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50257</span>, <span style="color: #808000; text-decoration-color: #808000">bias</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
+<span style="font-weight: bold">)</span>
+</pre>
 
 GPT2 is an example of a Transformer Decoder which is used to generate
 novel text.
@@ -571,7 +629,7 @@ model_view(attention, tokens)  # Display model view
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
 
       
-        <div id="bertviz-2abfaba381d84a548185619deddcfbe9" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;">
+        <div id="bertviz-19ddbbf4f9e243179ad53ee7ef75dc17" style="font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;">
             <span style="user-select:none">
                 &#10;            </span>
             <div id='vis'></div>
@@ -648,38 +706,39 @@ config = AutoConfig.from_pretrained(model_name)
 print(config)
 ```
 
-    DistilBertConfig {
-      "activation": "gelu",
-      "architectures": [
-        "DistilBertForSequenceClassification"
-      ],
-      "attention_dropout": 0.1,
-      "dim": 768,
-      "dropout": 0.1,
-      "finetuning_task": "sst-2",
-      "hidden_dim": 3072,
-      "id2label": {
-        "0": "NEGATIVE",
-        "1": "POSITIVE"
-      },
-      "initializer_range": 0.02,
-      "label2id": {
-        "NEGATIVE": 0,
-        "POSITIVE": 1
-      },
-      "max_position_embeddings": 512,
-      "model_type": "distilbert",
-      "n_heads": 12,
-      "n_layers": 6,
-      "output_past": true,
-      "pad_token_id": 0,
-      "qa_dropout": 0.1,
-      "seq_classif_dropout": 0.2,
-      "sinusoidal_pos_embds": false,
-      "tie_weights_": true,
-      "transformers_version": "4.53.3",
-      "vocab_size": 30522
-    }
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">DistilBertConfig <span style="font-weight: bold">{</span>
+  <span style="color: #008000; text-decoration-color: #008000">"activation"</span>: <span style="color: #008000; text-decoration-color: #008000">"gelu"</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"architectures"</span>: <span style="font-weight: bold">[</span>
+    <span style="color: #008000; text-decoration-color: #008000">"DistilBertForSequenceClassification"</span>
+  <span style="font-weight: bold">]</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"attention_dropout"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"dim"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"dropout"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"finetuning_task"</span>: <span style="color: #008000; text-decoration-color: #008000">"sst-2"</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"hidden_dim"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3072</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"id2label"</span>: <span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">"0"</span>: <span style="color: #008000; text-decoration-color: #008000">"NEGATIVE"</span>,
+    <span style="color: #008000; text-decoration-color: #008000">"1"</span>: <span style="color: #008000; text-decoration-color: #008000">"POSITIVE"</span>
+  <span style="font-weight: bold">}</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"initializer_range"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.02</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"label2id"</span>: <span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">"NEGATIVE"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">"POSITIVE"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
+  <span style="font-weight: bold">}</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"max_position_embeddings"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"model_type"</span>: <span style="color: #008000; text-decoration-color: #008000">"distilbert"</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"n_heads"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"n_layers"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"output_past"</span>: true,
+  <span style="color: #008000; text-decoration-color: #008000">"pad_token_id"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"qa_dropout"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"seq_classif_dropout"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.2</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"sinusoidal_pos_embds"</span>: false,
+  <span style="color: #008000; text-decoration-color: #008000">"tie_weights_"</span>: true,
+  <span style="color: #008000; text-decoration-color: #008000">"transformers_version"</span>: <span style="color: #008000; text-decoration-color: #008000">"4.53.3"</span>,
+  <span style="color: #008000; text-decoration-color: #008000">"vocab_size"</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30522</span>
+<span style="font-weight: bold">}</span>
+&#10;</pre>
 
 ### 3. Loading in the tokenizer and tokenizing input text
 
@@ -692,8 +751,9 @@ input_ids = tokenizer(input_text, return_tensors="pt")["input_ids"]
 print(input_ids)
 ```
 
-    tensor([[  101,  1996,  6090,  6525,  7712,  3193,  1997,  1996,  4153,  2001,
-              3052, 17904,  1012,   102]])
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([[</span>  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">101</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1996</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6090</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6525</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7712</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3193</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1997</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1996</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4153</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2001</span>,
+          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3052</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17904</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1012</span>,   <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">102</span><span style="font-weight: bold">]])</span>
+</pre>
 
 ### 4. Performing inference and interpreting
 
@@ -719,9 +779,14 @@ out_string = "[{'label': '" + str(labels[predicted_class]) + "', 'score': " + st
 print(out_string)
 ```
 
-    tensor([[-4.2767,  4.5486]], grad_fn=<AddmmBackward0>)
-    tensor([[1.4695e-04, 9.9985e-01]], grad_fn=<SoftmaxBackward0>)
-    [{'label': 'POSITIVE', 'score': 0.9998530149459839}]
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-4.2767</span>,  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4.5486</span><span style="font-weight: bold">]]</span>, <span style="color: #808000; text-decoration-color: #808000">grad_fn</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">AddmmBackward0</span><span style="font-weight: bold">&gt;)</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.4695e-04</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9.9985e-01</span><span style="font-weight: bold">]]</span>, <span style="color: #808000; text-decoration-color: #808000">grad_fn</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">SoftmaxBackward0</span><span style="font-weight: bold">&gt;)</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[{</span><span style="color: #008000; text-decoration-color: #008000">'label'</span>: <span style="color: #008000; text-decoration-color: #008000">'POSITIVE'</span>, <span style="color: #008000; text-decoration-color: #008000">'score'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.9998530149459839</span><span style="font-weight: bold">}]</span>
+</pre>
 
 ### Saving and loading models
 
@@ -743,15 +808,15 @@ model.save_pretrained(directory)
 loaded_model = AutoModel.from_pretrained(directory)
 ```
 
-    [2025-07-23 11:37:28,321] [INFO] [real_accelerator.py:254:get_accelerator] Setting ds_accelerator to mps (auto detect)
+    [2025-07-23 17:57:28,212] [INFO] [real_accelerator.py:254:get_accelerator] Setting ds_accelerator to mps (auto detect)
 
     huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
     To disable this warning, you can either:
         - Avoid using `tokenizers` before the fork if possible
         - Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
-    W0723 11:37:28.558000 78375 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+    W0723 17:57:28.426000 65069 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
 
-    [2025-07-23 11:37:29,134] [INFO] [logging.py:107:log_dist] [Rank -1] [TorchCheckpointEngine] Initialized with serialization = False
+    [2025-07-23 17:57:28,970] [INFO] [logging.py:107:log_dist] [Rank -1] [TorchCheckpointEngine] Initialized with serialization = False
 
 ## Model Hub
 

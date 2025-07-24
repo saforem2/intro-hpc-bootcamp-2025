@@ -80,8 +80,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-a2a703216f7c591c435c65ebef040c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-625d52d0780d2d11077eab6bb479a02e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-5d0a5b76d735a0f723d3a8417e9c422a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-e80be0cd221d178dac9a4b7ffd197381.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -643,33 +643,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="this-notebook-is-not-officially-part-of-the-course.">This notebook is not officially part of the course.</h2>
 <p>But you are welcome to look through it anyways, you can send questions on slack, and we are happy to talk about it.</p>
 <p>The previous notebook trained a classifier network which did ok. But what if we didn’t have a lot of data? In this notebook, we’ll apply that model in a new way with <em>representation learning</em>.</p>
-<div id="2aedd8d4" class="cell">
+<div id="b0104cfb" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="cf">if</span> sys.platform <span class="op">==</span> <span class="st">"darwin"</span>:</span>
 <span id="cb1-4"><a href="#cb1-4"></a>    os.environ[<span class="st">"TORCH_DEVICE"</span>] <span class="op">=</span> <span class="st">"cpu"</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a>    os.environ[<span class="st">'PYTORCH_ENABLE_MPS_FALLBACK'</span>] <span class="op">=</span> <span class="st">"1"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f6d9a882" class="cell">
+<div id="580d8226" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> numpy</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> random</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> torch</span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="im">import</span> torchvision</span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="im">from</span> torchvision.transforms <span class="im">import</span> v2</span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="im">import</span> torch.distributed <span class="im">as</span> dist</span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="im">import</span> torch.multiprocessing <span class="im">as</span> mp</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="im">from</span> ezpz.log.config <span class="im">import</span> STYLES</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="im">from</span> rich.console <span class="im">import</span> Console</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="im">from</span> rich.theme <span class="im">import</span> Theme</span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a>console <span class="op">=</span> Console(theme<span class="op">=</span>Theme(STYLES))</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a></span>
 <span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
-<span id="cb2-15"><a href="#cb2-15"></a></span>
-<span id="cb2-16"><a href="#cb2-16"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="im">import</span> torch.distributed <span class="im">as</span> dist</span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="im">import</span> torch.multiprocessing <span class="im">as</span> mp</span>
+<span id="cb2-18"><a href="#cb2-18"></a></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
+<span id="cb2-20"><a href="#cb2-20"></a></span>
+<span id="cb2-21"><a href="#cb2-21"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s the Convolutional Neural Network Again:</p>
-<div id="56464836" class="cell">
+<div id="990f345c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="kw">class</span> Downsampler(nn.Module):</span>
@@ -771,7 +776,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-99"><a href="#cb3-99"></a>        x <span class="op">=</span> <span class="va">self</span>.head(x)</span>
 <span id="cb3-100"><a href="#cb3-100"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="94ec4716" class="cell">
+<div id="3f308137" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> create_representation_model(n_features, rank, size):</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    model <span class="op">=</span> Classifier(<span class="dv">32</span>, <span class="dv">2</span>, <span class="dv">2</span>, n_features)</span>
 <span id="cb4-3"><a href="#cb4-3"></a>    model.to(torch.get_default_device())</span>
@@ -785,13 +790,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-11"><a href="#cb4-11"></a>head.to(torch.get_default_device())</span>
 <span id="cb4-12"><a href="#cb4-12"></a></span>
 <span id="cb4-13"><a href="#cb4-13"></a><span class="im">from</span> torchinfo <span class="im">import</span> summary</span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="bu">print</span>(summary(model, input_size<span class="op">=</span>(batch_size, <span class="dv">3</span>, <span class="dv">32</span>, <span class="dv">32</span>)))</span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="bu">print</span>(summary(head, input_size<span class="op">=</span>(batch_size, <span class="dv">256</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-14"><a href="#cb4-14"></a>console.log(summary(model, input_size<span class="op">=</span>(batch_size, <span class="dv">3</span>, <span class="dv">32</span>, <span class="dv">32</span>)))</span>
+<span id="cb4-15"><a href="#cb4-15"></a>console.log(summary(head, input_size<span class="op">=</span>(batch_size, <span class="dv">256</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This will download the data if needed:</p>
 <p>We’re going to train this on Polaris nodes which have 4 A100s (But only using one node at a time). So, the following helper functions will automatically distribute the code and model to use all 4 GPUs at once:</p>
 <p>(They are all from the <a href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">DDP Tutorial</a> )</p>
-<div id="4035b3e2" class="cell">
+<div id="d01ff61b" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> setup(rank, world_size):</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    os.environ[<span class="st">'MASTER_ADDR'</span>] <span class="op">=</span> <span class="st">'localhost'</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>    os.environ[<span class="st">'MASTER_PORT'</span>] <span class="op">=</span> <span class="st">'12355'</span></span>
@@ -802,7 +807,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-8"><a href="#cb5-8"></a><span class="kw">def</span> cleanup():</span>
 <span id="cb5-9"><a href="#cb5-9"></a>    dist.destroy_process_group()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="bd34e097" class="cell">
+<div id="0ca20dd7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> ezpz</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="kw">def</span> create_data_loaders(transforms, batch_size, rank, seed):</span>
@@ -858,9 +863,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-53"><a href="#cb6-53"></a></span>
 <span id="cb6-54"><a href="#cb6-54"></a>    <span class="cf">return</span> train_dataloader, val_dataloader</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3c3733d0" class="cell">
+<div id="0db205c5" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># def demo_basic(rank, world_size, n_epochs):</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#     print(f"Running basic DDP example on rank {rank}.")</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#     console.log(f"Running basic DDP example on rank {rank}.")</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co">#     setup(rank, world_size)</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a></span>
 <span id="cb7-5"><a href="#cb7-5"></a></span>
@@ -886,7 +891,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-25"><a href="#cb7-25"></a><span class="co">#              nprocs=world_size,</span></span>
 <span id="cb7-26"><a href="#cb7-26"></a><span class="co">#              join=True)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2afca89c" class="cell">
+<div id="10f6d371" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># import sys, os</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="co"># from multiprocessing import Pool</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co"># from multiprocessing.reduction import ForkingPickler</span></span>
@@ -908,7 +913,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-19"><a href="#cb8-19"></a><span class="co"># # the command line).</span></span>
 <span id="cb8-20"><a href="#cb8-20"></a><span class="co"># ForkingPickler.reducer_override = staticmethod(reducer_override)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="68ef3988" class="cell">
+<div id="95de46ec" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># This method is from the pytorch implementation of SimCLR:</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a><span class="co"># https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
@@ -925,32 +930,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-14"><a href="#cb9-14"></a>                                        ])</span>
 <span id="cb9-15"><a href="#cb9-15"></a>    <span class="cf">return</span> data_transforms</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f8843170" class="cell">
+<div id="43f1445b" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>transforms1 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
 <span id="cb10-2"><a href="#cb10-2"></a>transforms2 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9c88db50" class="cell">
+<div id="cc563346" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>train, val <span class="op">=</span> create_data_loaders(v2.ToTensor(), batch_size, <span class="dv">0</span>, seed <span class="op">=</span> <span class="dv">1234</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8b60d35e" class="cell">
+<div id="9a02c472" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>batch, (X, Y) <span class="op">=</span> <span class="bu">next</span>(<span class="bu">enumerate</span>(train))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c8da072e" class="cell">
+<div id="149ff0f4" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>X1 <span class="op">=</span> transforms1(X)<span class="op">;</span> X2 <span class="op">=</span> transforms2(X)</span>
 <span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="bu">print</span>(<span class="bu">type</span>(X1))</span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="bu">print</span>(<span class="bu">type</span>(X2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-3"><a href="#cb13-3"></a>console.log(<span class="bu">type</span>(X1))</span>
+<span id="cb13-4"><a href="#cb13-4"></a>console.log(<span class="bu">type</span>(X2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="02e36d06" class="cell">
+<div id="4c162b5e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="op">%</span>matplotlib inline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="af23e903" class="cell">
+<div id="fa37ebd9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>plt.imshow(X[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb15-2"><a href="#cb15-2"></a>plt.imshow(X1[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
 <span id="cb15-3"><a href="#cb15-3"></a>plt.imshow(X2[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="066a45dd" class="cell">
+<div id="b40a9b4a" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">def</span> contrastive_loss(first_images, second_images, rank, world_size <span class="op">=</span> <span class="dv">1</span>, temperature<span class="op">=</span><span class="fl">0.1</span>):</span>
 <span id="cb16-2"><a href="#cb16-2"></a>        <span class="co"># Each image is represented with k parameters,</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>        <span class="co"># Assume the batch size is N, so the</span></span>
@@ -1028,7 +1033,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-75"><a href="#cb16-75"></a></span>
 <span id="cb16-76"><a href="#cb16-76"></a>        access_index_y <span class="op">+=</span>  rank <span class="op">*</span> <span class="dv">2</span><span class="op">*</span>N</span>
 <span id="cb16-77"><a href="#cb16-77"></a></span>
-<span id="cb16-78"><a href="#cb16-78"></a>        <span class="co"># print("access_index_y: ", access_index_y, flush=True)</span></span>
+<span id="cb16-78"><a href="#cb16-78"></a>        <span class="co"># console.log("access_index_y: ", access_index_y, flush=True)</span></span>
 <span id="cb16-79"><a href="#cb16-79"></a></span>
 <span id="cb16-80"><a href="#cb16-80"></a>        positive[access_index_x, access_index_y] <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb16-81"><a href="#cb16-81"></a></span>
@@ -1075,8 +1080,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-122"><a href="#cb16-122"></a>        <span class="co"># Compute the exp, which we'll eventually sum and log:</span></span>
 <span id="cb16-123"><a href="#cb16-123"></a>        exp <span class="op">=</span> torch.<span class="bu">sum</span>(torch.exp(negative_examples), dim<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb16-124"><a href="#cb16-124"></a></span>
-<span id="cb16-125"><a href="#cb16-125"></a>        <span class="co"># print("Alignment: ", alignment, flush=True)</span></span>
-<span id="cb16-126"><a href="#cb16-126"></a>        <span class="co"># print("exp: ",       exp, flush=True)</span></span>
+<span id="cb16-125"><a href="#cb16-125"></a>        <span class="co"># console.log("Alignment: ", alignment, flush=True)</span></span>
+<span id="cb16-126"><a href="#cb16-126"></a>        <span class="co"># console.log("exp: ",       exp, flush=True)</span></span>
 <span id="cb16-127"><a href="#cb16-127"></a></span>
 <span id="cb16-128"><a href="#cb16-128"></a></span>
 <span id="cb16-129"><a href="#cb16-129"></a>        <span class="co"># And compute the logsumexp of the negative examples:</span></span>
@@ -1097,7 +1102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-144"><a href="#cb16-144"></a>        loss <span class="op">=</span> torch.mean( <span class="op">-</span> alignment <span class="op">+</span> log_sum_exp)</span>
 <span id="cb16-145"><a href="#cb16-145"></a>        <span class="cf">return</span> loss, loss_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="06b1d276" class="cell">
+<div id="0d302d87" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">def</span> train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):</span>
 <span id="cb17-2"><a href="#cb17-2"></a>    model.train()</span>
 <span id="cb17-3"><a href="#cb17-3"></a>    head.train()</span>
@@ -1108,7 +1113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-8"><a href="#cb17-8"></a>        pred2 <span class="op">=</span> head(model(X2))</span>
 <span id="cb17-9"><a href="#cb17-9"></a>        loss, metrics <span class="op">=</span> loss_fn(pred1, pred2, rank, size)</span>
 <span id="cb17-10"><a href="#cb17-10"></a></span>
-<span id="cb17-11"><a href="#cb17-11"></a>        <span class="co"># print(metrics)</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a>        <span class="co"># console.log(metrics)</span></span>
 <span id="cb17-12"><a href="#cb17-12"></a>        </span>
 <span id="cb17-13"><a href="#cb17-13"></a>        <span class="co"># backward pass calculates gradients</span></span>
 <span id="cb17-14"><a href="#cb17-14"></a>        loss.backward()</span>
@@ -1127,7 +1132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-27"><a href="#cb17-27"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb17-28"><a href="#cb17-28"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2c977187" class="cell">
+<div id="9bd21b65" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">def</span> validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):</span>
 <span id="cb18-2"><a href="#cb18-2"></a>    model.train()</span>
 <span id="cb18-3"><a href="#cb18-3"></a>    head.train()</span>
@@ -1140,7 +1145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-10"><a href="#cb18-10"></a>        pred2 <span class="op">=</span> head(model(X2))</span>
 <span id="cb18-11"><a href="#cb18-11"></a>        loss, metrics <span class="op">=</span> loss_fn(pred1, pred2, rank, size)</span>
 <span id="cb18-12"><a href="#cb18-12"></a></span>
-<span id="cb18-13"><a href="#cb18-13"></a>        <span class="co"># print(metrics)</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a>        <span class="co"># console.log(metrics)</span></span>
 <span id="cb18-14"><a href="#cb18-14"></a>        </span>
 <span id="cb18-15"><a href="#cb18-15"></a>        <span class="co"># backward pass calculates gradients</span></span>
 <span id="cb18-16"><a href="#cb18-16"></a>        loss.backward()</span>
@@ -1167,10 +1172,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-37"><a href="#cb18-37"></a>        sum_metrics[key] <span class="op">=</span> sum_metrics[key] <span class="op">/</span> n</span>
 <span id="cb18-38"><a href="#cb18-38"></a>    <span class="cf">return</span> sum_metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7ae67c95" class="cell">
+<div id="5b71a6d6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>optimizer <span class="op">=</span> torch.optim.AdamW(<span class="bu">list</span>(model.parameters()) <span class="op">+</span> <span class="bu">list</span>(head.parameters()), lr<span class="op">=</span><span class="fl">0.001</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="01e92e06" class="cell">
+<div id="1cc7da40" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
 <span id="cb20-2"><a href="#cb20-2"></a></span>
 <span id="cb20-3"><a href="#cb20-3"></a></span>
@@ -1181,16 +1186,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-8"><a href="#cb20-8"></a><span class="co">#</span></span>
 <span id="cb20-9"><a href="#cb20-9"></a><span class="co">#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:</span></span>
 <span id="cb20-10"><a href="#cb20-10"></a><span class="co">#         metrics = validate_one_epoch(val, transforms1, transforms2, model, head, contrastive_loss, 0, 1, val_bar)</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a><span class="co">#         print_metrics = {</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a><span class="co">#         console.log_metrics = {</span></span>
 <span id="cb20-12"><a href="#cb20-12"></a><span class="co">#             key : f"{key}={metrics[key]:.2f}" for key in metrics.keys()</span></span>
 <span id="cb20-13"><a href="#cb20-13"></a><span class="co">#         }</span></span>
-<span id="cb20-14"><a href="#cb20-14"></a><span class="co">#         print_metrics = "; ".join(print_metrics.values())</span></span>
-<span id="cb20-15"><a href="#cb20-15"></a><span class="co">#         print(f"Validate epoch {j}: ", print_metrics)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-14"><a href="#cb20-14"></a><span class="co">#         console.log_metrics = "; ".join(console.log_metrics.values())</span></span>
+<span id="cb20-15"><a href="#cb20-15"></a><span class="co">#         console.log(f"Validate epoch {j}: ", console.log_metrics)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7a798ce7" class="cell">
+<div id="95e44b69" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Now, we retrain the classification head without touching the representation. This is called fine tuning.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="851c7336" class="cell">
+<div id="57e80749" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> evaluate(dataloader, model, head, loss_fn, val_bar):</span>
 <span id="cb22-2"><a href="#cb22-2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -1216,7 +1221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-23"><a href="#cb22-23"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
 <span id="cb22-24"><a href="#cb22-24"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="59fa39d5" class="cell">
+<div id="a462f4bd" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">def</span> fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):</span>
 <span id="cb23-2"><a href="#cb23-2"></a>    head.train()</span>
 <span id="cb23-3"><a href="#cb23-3"></a>    model.<span class="bu">eval</span>()</span>
@@ -1248,20 +1253,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-29"><a href="#cb23-29"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
 <span id="cb23-30"><a href="#cb23-30"></a>        <span class="co"># break</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="6ed026dd" class="cell">
+<div id="30ff8a34" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>classification_head <span class="op">=</span> nn.Linear(<span class="dv">256</span>, <span class="dv">10</span>)  <span class="co"># .cuda()</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a>classification_loss <span class="op">=</span> loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb24-3"><a href="#cb24-3"></a>fine_tune_optimizer <span class="op">=</span> torch.optim.AdamW(classification_head.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="bu">print</span>(fine_tune_optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-4"><a href="#cb24-4"></a>console.log(fine_tune_optimizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d274a7b9" class="cell">
+<div id="cdb7f9d1" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># for j in range(5):</span></span>
 <span id="cb25-2"><a href="#cb25-2"></a><span class="co">#     with tqdm(total=len(train), position=0, leave=True, desc=f"Fine Tune Epoch {j}") as train_bar1:</span></span>
 <span id="cb25-3"><a href="#cb25-3"></a><span class="co">#</span></span>
 <span id="cb25-4"><a href="#cb25-4"></a><span class="co">#         fine_tune(train, model, classification_head, classification_loss, fine_tune_optimizer, train_bar1)</span></span>
 <span id="cb25-5"><a href="#cb25-5"></a><span class="co">#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:</span></span>
 <span id="cb25-6"><a href="#cb25-6"></a><span class="co">#         acc, loss = evaluate(val, model, classification_head, classification_loss, val_bar)</span></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="co">#         print(f"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="co">#         console.log(f"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -1826,653 +1831,658 @@ Networks.”</span> July 22, 2025. <a href="https://saforem2.github.io/hpc-bootc
 <span id="cb26-37"><a href="#cb26-37"></a><span class="im">import</span> torch</span>
 <span id="cb26-38"><a href="#cb26-38"></a><span class="im">import</span> torchvision</span>
 <span id="cb26-39"><a href="#cb26-39"></a><span class="im">from</span> torchvision.transforms <span class="im">import</span> v2</span>
-<span id="cb26-40"><a href="#cb26-40"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb26-41"><a href="#cb26-41"></a></span>
-<span id="cb26-42"><a href="#cb26-42"></a></span>
-<span id="cb26-43"><a href="#cb26-43"></a><span class="im">import</span> torch.distributed <span class="im">as</span> dist</span>
-<span id="cb26-44"><a href="#cb26-44"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
-<span id="cb26-45"><a href="#cb26-45"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
-<span id="cb26-46"><a href="#cb26-46"></a><span class="im">import</span> torch.multiprocessing <span class="im">as</span> mp</span>
+<span id="cb26-40"><a href="#cb26-40"></a><span class="im">from</span> ezpz.log.config <span class="im">import</span> STYLES</span>
+<span id="cb26-41"><a href="#cb26-41"></a><span class="im">from</span> rich.console <span class="im">import</span> Console</span>
+<span id="cb26-42"><a href="#cb26-42"></a><span class="im">from</span> rich.theme <span class="im">import</span> Theme</span>
+<span id="cb26-43"><a href="#cb26-43"></a></span>
+<span id="cb26-44"><a href="#cb26-44"></a>console <span class="op">=</span> Console(theme<span class="op">=</span>Theme(STYLES))</span>
+<span id="cb26-45"><a href="#cb26-45"></a></span>
+<span id="cb26-46"><a href="#cb26-46"></a></span>
 <span id="cb26-47"><a href="#cb26-47"></a></span>
-<span id="cb26-48"><a href="#cb26-48"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
-<span id="cb26-49"><a href="#cb26-49"></a></span>
-<span id="cb26-50"><a href="#cb26-50"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
-<span id="cb26-51"><a href="#cb26-51"></a></span>
-<span id="cb26-52"><a href="#cb26-52"></a><span class="in">```</span></span>
-<span id="cb26-53"><a href="#cb26-53"></a></span>
-<span id="cb26-54"><a href="#cb26-54"></a>Here's the Convolutional Neural Network Again:</span>
-<span id="cb26-55"><a href="#cb26-55"></a></span>
-<span id="cb26-58"><a href="#cb26-58"></a><span class="in">```{python}</span></span>
-<span id="cb26-59"><a href="#cb26-59"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb26-48"><a href="#cb26-48"></a><span class="im">import</span> torch.distributed <span class="im">as</span> dist</span>
+<span id="cb26-49"><a href="#cb26-49"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb26-50"><a href="#cb26-50"></a><span class="im">import</span> torch.optim <span class="im">as</span> optim</span>
+<span id="cb26-51"><a href="#cb26-51"></a><span class="im">import</span> torch.multiprocessing <span class="im">as</span> mp</span>
+<span id="cb26-52"><a href="#cb26-52"></a></span>
+<span id="cb26-53"><a href="#cb26-53"></a><span class="im">from</span> torch.nn.parallel <span class="im">import</span> DistributedDataParallel <span class="im">as</span> DDP</span>
+<span id="cb26-54"><a href="#cb26-54"></a></span>
+<span id="cb26-55"><a href="#cb26-55"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
+<span id="cb26-56"><a href="#cb26-56"></a></span>
+<span id="cb26-57"><a href="#cb26-57"></a><span class="in">```</span></span>
+<span id="cb26-58"><a href="#cb26-58"></a></span>
+<span id="cb26-59"><a href="#cb26-59"></a>Here's the Convolutional Neural Network Again:</span>
 <span id="cb26-60"><a href="#cb26-60"></a></span>
-<span id="cb26-61"><a href="#cb26-61"></a><span class="kw">class</span> Downsampler(nn.Module):</span>
-<span id="cb26-62"><a href="#cb26-62"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_channels, out_channels, stride<span class="op">=</span><span class="dv">2</span>):</span>
-<span id="cb26-63"><a href="#cb26-63"></a>        <span class="bu">super</span>(Downsampler, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb26-64"><a href="#cb26-64"></a>        <span class="va">self</span>.norm <span class="op">=</span> nn.InstanceNorm2d(in_channels)</span>
-<span id="cb26-65"><a href="#cb26-65"></a>        <span class="va">self</span>.downsample <span class="op">=</span> nn.Conv2d(</span>
-<span id="cb26-66"><a href="#cb26-66"></a>            in_channels<span class="op">=</span>in_channels, </span>
-<span id="cb26-67"><a href="#cb26-67"></a>            out_channels<span class="op">=</span>out_channels,</span>
-<span id="cb26-68"><a href="#cb26-68"></a>            kernel_size <span class="op">=</span> stride,</span>
-<span id="cb26-69"><a href="#cb26-69"></a>            stride <span class="op">=</span> stride,</span>
-<span id="cb26-70"><a href="#cb26-70"></a>        )</span>
-<span id="cb26-71"><a href="#cb26-71"></a></span>
-<span id="cb26-72"><a href="#cb26-72"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
-<span id="cb26-73"><a href="#cb26-73"></a>        <span class="cf">return</span> <span class="va">self</span>.downsample(<span class="va">self</span>.norm(inputs))</span>
-<span id="cb26-74"><a href="#cb26-74"></a></span>
-<span id="cb26-75"><a href="#cb26-75"></a></span>
-<span id="cb26-76"><a href="#cb26-76"></a><span class="kw">class</span> ConvNextBlock(nn.Module):</span>
-<span id="cb26-77"><a href="#cb26-77"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_channels):</span>
-<span id="cb26-78"><a href="#cb26-78"></a>        <span class="bu">super</span>(ConvNextBlock, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb26-79"><a href="#cb26-79"></a>        <span class="co"># Depthwise, seperable convolution with a large number of output filters:</span></span>
-<span id="cb26-80"><a href="#cb26-80"></a>        <span class="va">self</span>.conv1 <span class="op">=</span> nn.Conv2d(</span>
-<span id="cb26-81"><a href="#cb26-81"></a>            in_channels<span class="op">=</span>in_channels,</span>
-<span id="cb26-82"><a href="#cb26-82"></a>            out_channels<span class="op">=</span>in_channels,</span>
-<span id="cb26-83"><a href="#cb26-83"></a>            groups<span class="op">=</span>in_channels,</span>
-<span id="cb26-84"><a href="#cb26-84"></a>            kernel_size<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>),</span>
-<span id="cb26-85"><a href="#cb26-85"></a>            padding<span class="op">=</span><span class="st">'same'</span></span>
-<span id="cb26-86"><a href="#cb26-86"></a>        )</span>
-<span id="cb26-87"><a href="#cb26-87"></a>        <span class="va">self</span>.norm <span class="op">=</span> nn.InstanceNorm2d(in_channels)</span>
-<span id="cb26-88"><a href="#cb26-88"></a>        <span class="va">self</span>.conv2 <span class="op">=</span> nn.Conv2d(</span>
-<span id="cb26-89"><a href="#cb26-89"></a>            in_channels<span class="op">=</span>in_channels,</span>
-<span id="cb26-90"><a href="#cb26-90"></a>            out_channels<span class="op">=</span><span class="dv">4</span><span class="op">*</span>in_channels,</span>
-<span id="cb26-91"><a href="#cb26-91"></a>            kernel_size<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb26-92"><a href="#cb26-92"></a>        )</span>
-<span id="cb26-93"><a href="#cb26-93"></a>        <span class="va">self</span>.conv3 <span class="op">=</span> nn.Conv2d(</span>
-<span id="cb26-94"><a href="#cb26-94"></a>            in_channels<span class="op">=</span><span class="dv">4</span><span class="op">*</span>in_channels,</span>
-<span id="cb26-95"><a href="#cb26-95"></a>            out_channels<span class="op">=</span>in_channels,</span>
+<span id="cb26-63"><a href="#cb26-63"></a><span class="in">```{python}</span></span>
+<span id="cb26-64"><a href="#cb26-64"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb26-65"><a href="#cb26-65"></a></span>
+<span id="cb26-66"><a href="#cb26-66"></a><span class="kw">class</span> Downsampler(nn.Module):</span>
+<span id="cb26-67"><a href="#cb26-67"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_channels, out_channels, stride<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb26-68"><a href="#cb26-68"></a>        <span class="bu">super</span>(Downsampler, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb26-69"><a href="#cb26-69"></a>        <span class="va">self</span>.norm <span class="op">=</span> nn.InstanceNorm2d(in_channels)</span>
+<span id="cb26-70"><a href="#cb26-70"></a>        <span class="va">self</span>.downsample <span class="op">=</span> nn.Conv2d(</span>
+<span id="cb26-71"><a href="#cb26-71"></a>            in_channels<span class="op">=</span>in_channels, </span>
+<span id="cb26-72"><a href="#cb26-72"></a>            out_channels<span class="op">=</span>out_channels,</span>
+<span id="cb26-73"><a href="#cb26-73"></a>            kernel_size <span class="op">=</span> stride,</span>
+<span id="cb26-74"><a href="#cb26-74"></a>            stride <span class="op">=</span> stride,</span>
+<span id="cb26-75"><a href="#cb26-75"></a>        )</span>
+<span id="cb26-76"><a href="#cb26-76"></a></span>
+<span id="cb26-77"><a href="#cb26-77"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
+<span id="cb26-78"><a href="#cb26-78"></a>        <span class="cf">return</span> <span class="va">self</span>.downsample(<span class="va">self</span>.norm(inputs))</span>
+<span id="cb26-79"><a href="#cb26-79"></a></span>
+<span id="cb26-80"><a href="#cb26-80"></a></span>
+<span id="cb26-81"><a href="#cb26-81"></a><span class="kw">class</span> ConvNextBlock(nn.Module):</span>
+<span id="cb26-82"><a href="#cb26-82"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, in_channels):</span>
+<span id="cb26-83"><a href="#cb26-83"></a>        <span class="bu">super</span>(ConvNextBlock, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb26-84"><a href="#cb26-84"></a>        <span class="co"># Depthwise, seperable convolution with a large number of output filters:</span></span>
+<span id="cb26-85"><a href="#cb26-85"></a>        <span class="va">self</span>.conv1 <span class="op">=</span> nn.Conv2d(</span>
+<span id="cb26-86"><a href="#cb26-86"></a>            in_channels<span class="op">=</span>in_channels,</span>
+<span id="cb26-87"><a href="#cb26-87"></a>            out_channels<span class="op">=</span>in_channels,</span>
+<span id="cb26-88"><a href="#cb26-88"></a>            groups<span class="op">=</span>in_channels,</span>
+<span id="cb26-89"><a href="#cb26-89"></a>            kernel_size<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">7</span>),</span>
+<span id="cb26-90"><a href="#cb26-90"></a>            padding<span class="op">=</span><span class="st">'same'</span></span>
+<span id="cb26-91"><a href="#cb26-91"></a>        )</span>
+<span id="cb26-92"><a href="#cb26-92"></a>        <span class="va">self</span>.norm <span class="op">=</span> nn.InstanceNorm2d(in_channels)</span>
+<span id="cb26-93"><a href="#cb26-93"></a>        <span class="va">self</span>.conv2 <span class="op">=</span> nn.Conv2d(</span>
+<span id="cb26-94"><a href="#cb26-94"></a>            in_channels<span class="op">=</span>in_channels,</span>
+<span id="cb26-95"><a href="#cb26-95"></a>            out_channels<span class="op">=</span><span class="dv">4</span><span class="op">*</span>in_channels,</span>
 <span id="cb26-96"><a href="#cb26-96"></a>            kernel_size<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb26-97"><a href="#cb26-97"></a>        )</span>
-<span id="cb26-98"><a href="#cb26-98"></a></span>
-<span id="cb26-99"><a href="#cb26-99"></a></span>
-<span id="cb26-100"><a href="#cb26-100"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
-<span id="cb26-101"><a href="#cb26-101"></a>        <span class="co"># x = self.conv1(inputs)</span></span>
-<span id="cb26-102"><a href="#cb26-102"></a>        <span class="co"># The normalization layer:</span></span>
-<span id="cb26-103"><a href="#cb26-103"></a>        <span class="co"># x = self.norm(x)</span></span>
-<span id="cb26-104"><a href="#cb26-104"></a>        <span class="co"># x = self.conv2(x)</span></span>
-<span id="cb26-105"><a href="#cb26-105"></a>        <span class="co"># The non-linear activation layer:</span></span>
-<span id="cb26-106"><a href="#cb26-106"></a>        <span class="co"># x = torch.nn.functional.gelu(x)</span></span>
-<span id="cb26-107"><a href="#cb26-107"></a>        <span class="co"># x = self.conv3(x)</span></span>
-<span id="cb26-108"><a href="#cb26-108"></a>        <span class="co"># This makes it a residual network:</span></span>
-<span id="cb26-109"><a href="#cb26-109"></a>        <span class="cf">return</span> inputs <span class="op">+</span> <span class="va">self</span>.conv3(</span>
-<span id="cb26-110"><a href="#cb26-110"></a>            torch.nn.functional.gelu(</span>
-<span id="cb26-111"><a href="#cb26-111"></a>                <span class="va">self</span>.conv2(</span>
-<span id="cb26-112"><a href="#cb26-112"></a>                    <span class="va">self</span>.norm(</span>
-<span id="cb26-113"><a href="#cb26-113"></a>                        <span class="va">self</span>.conv1(inputs)</span>
-<span id="cb26-114"><a href="#cb26-114"></a>                    )</span>
-<span id="cb26-115"><a href="#cb26-115"></a>                )</span>
-<span id="cb26-116"><a href="#cb26-116"></a>            )</span>
-<span id="cb26-117"><a href="#cb26-117"></a>        )</span>
-<span id="cb26-118"><a href="#cb26-118"></a></span>
-<span id="cb26-119"><a href="#cb26-119"></a></span>
-<span id="cb26-120"><a href="#cb26-120"></a><span class="kw">class</span> Classifier(nn.Module):</span>
-<span id="cb26-121"><a href="#cb26-121"></a></span>
-<span id="cb26-122"><a href="#cb26-122"></a></span>
-<span id="cb26-123"><a href="#cb26-123"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_initial_filters, n_stages, blocks_per_stage, n_outputs):</span>
-<span id="cb26-124"><a href="#cb26-124"></a>        <span class="bu">super</span>(Classifier, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
-<span id="cb26-125"><a href="#cb26-125"></a>        <span class="co"># This is a downsampling convolution that will produce patches of output.</span></span>
-<span id="cb26-126"><a href="#cb26-126"></a>        <span class="co"># This is similar to what vision transformers do to tokenize the images.</span></span>
-<span id="cb26-127"><a href="#cb26-127"></a>        <span class="va">self</span>.stem <span class="op">=</span> nn.Conv2d(in_channels<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb26-128"><a href="#cb26-128"></a>                                    out_channels<span class="op">=</span>n_initial_filters,</span>
-<span id="cb26-129"><a href="#cb26-129"></a>                                    kernel_size<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb26-130"><a href="#cb26-130"></a>                                    stride<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb26-131"><a href="#cb26-131"></a>        <span class="va">self</span>.norm1 <span class="op">=</span> nn.InstanceNorm2d(n_initial_filters)</span>
-<span id="cb26-132"><a href="#cb26-132"></a></span>
-<span id="cb26-133"><a href="#cb26-133"></a>        current_n_filters <span class="op">=</span> n_initial_filters</span>
-<span id="cb26-134"><a href="#cb26-134"></a>        <span class="va">self</span>.layers <span class="op">=</span> nn.Sequential()</span>
-<span id="cb26-135"><a href="#cb26-135"></a>        <span class="cf">for</span> n_blocks <span class="kw">in</span> <span class="bu">range</span>(n_stages):</span>
-<span id="cb26-136"><a href="#cb26-136"></a>            <span class="co"># Add a convnext block series:</span></span>
-<span id="cb26-137"><a href="#cb26-137"></a>            <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(blocks_per_stage):</span>
-<span id="cb26-138"><a href="#cb26-138"></a>                <span class="va">self</span>.layers.append(ConvNextBlock(in_channels<span class="op">=</span>current_n_filters))</span>
-<span id="cb26-139"><a href="#cb26-139"></a>            <span class="co"># Add a downsampling layer:</span></span>
-<span id="cb26-140"><a href="#cb26-140"></a>            <span class="va">self</span>.layers.append(Downsampler(in_channels<span class="op">=</span>current_n_filters, out_channels<span class="op">=</span><span class="dv">2</span><span class="op">*</span>current_n_filters))</span>
-<span id="cb26-141"><a href="#cb26-141"></a>            <span class="co"># Double the number of filters:</span></span>
-<span id="cb26-142"><a href="#cb26-142"></a>            current_n_filters <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>current_n_filters</span>
-<span id="cb26-143"><a href="#cb26-143"></a>        <span class="va">self</span>.head <span class="op">=</span> nn.Sequential(</span>
-<span id="cb26-144"><a href="#cb26-144"></a>            nn.Flatten(),</span>
-<span id="cb26-145"><a href="#cb26-145"></a>            nn.LayerNorm(current_n_filters),</span>
-<span id="cb26-146"><a href="#cb26-146"></a>            nn.Linear(current_n_filters, n_outputs)</span>
-<span id="cb26-147"><a href="#cb26-147"></a>        )</span>
-<span id="cb26-148"><a href="#cb26-148"></a></span>
-<span id="cb26-149"><a href="#cb26-149"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
-<span id="cb26-150"><a href="#cb26-150"></a>        x <span class="op">=</span> <span class="va">self</span>.stem(inputs)</span>
-<span id="cb26-151"><a href="#cb26-151"></a>        <span class="co"># Apply a normalization after the initial patching:</span></span>
-<span id="cb26-152"><a href="#cb26-152"></a>        x <span class="op">=</span> <span class="va">self</span>.norm1(x)</span>
-<span id="cb26-153"><a href="#cb26-153"></a>        <span class="co"># Apply the main chunk of the network:</span></span>
-<span id="cb26-154"><a href="#cb26-154"></a>        x <span class="op">=</span> <span class="va">self</span>.layers(x)</span>
-<span id="cb26-155"><a href="#cb26-155"></a>        <span class="co"># Normalize and readout:</span></span>
-<span id="cb26-156"><a href="#cb26-156"></a>        x <span class="op">=</span> nn.functional.avg_pool2d(x, x.shape[<span class="dv">2</span>:])</span>
-<span id="cb26-157"><a href="#cb26-157"></a>        x <span class="op">=</span> <span class="va">self</span>.head(x)</span>
-<span id="cb26-158"><a href="#cb26-158"></a>        <span class="cf">return</span> x</span>
-<span id="cb26-159"><a href="#cb26-159"></a></span>
-<span id="cb26-160"><a href="#cb26-160"></a><span class="in">```</span></span>
-<span id="cb26-161"><a href="#cb26-161"></a></span>
-<span id="cb26-164"><a href="#cb26-164"></a><span class="in">```{python}</span></span>
-<span id="cb26-165"><a href="#cb26-165"></a><span class="kw">def</span> create_representation_model(n_features, rank, size):</span>
-<span id="cb26-166"><a href="#cb26-166"></a>    model <span class="op">=</span> Classifier(<span class="dv">32</span>, <span class="dv">2</span>, <span class="dv">2</span>, n_features)</span>
-<span id="cb26-167"><a href="#cb26-167"></a>    model.to(torch.get_default_device())</span>
-<span id="cb26-168"><a href="#cb26-168"></a>    <span class="cf">return</span> model</span>
-<span id="cb26-169"><a href="#cb26-169"></a></span>
-<span id="cb26-170"><a href="#cb26-170"></a>model <span class="op">=</span> create_representation_model(<span class="dv">256</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb26-171"><a href="#cb26-171"></a>head <span class="op">=</span> torch.nn.Sequential(</span>
-<span id="cb26-172"><a href="#cb26-172"></a>    nn.Linear(<span class="dv">256</span>,<span class="dv">128</span>),</span>
-<span id="cb26-173"><a href="#cb26-173"></a>)</span>
+<span id="cb26-98"><a href="#cb26-98"></a>        <span class="va">self</span>.conv3 <span class="op">=</span> nn.Conv2d(</span>
+<span id="cb26-99"><a href="#cb26-99"></a>            in_channels<span class="op">=</span><span class="dv">4</span><span class="op">*</span>in_channels,</span>
+<span id="cb26-100"><a href="#cb26-100"></a>            out_channels<span class="op">=</span>in_channels,</span>
+<span id="cb26-101"><a href="#cb26-101"></a>            kernel_size<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb26-102"><a href="#cb26-102"></a>        )</span>
+<span id="cb26-103"><a href="#cb26-103"></a></span>
+<span id="cb26-104"><a href="#cb26-104"></a></span>
+<span id="cb26-105"><a href="#cb26-105"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
+<span id="cb26-106"><a href="#cb26-106"></a>        <span class="co"># x = self.conv1(inputs)</span></span>
+<span id="cb26-107"><a href="#cb26-107"></a>        <span class="co"># The normalization layer:</span></span>
+<span id="cb26-108"><a href="#cb26-108"></a>        <span class="co"># x = self.norm(x)</span></span>
+<span id="cb26-109"><a href="#cb26-109"></a>        <span class="co"># x = self.conv2(x)</span></span>
+<span id="cb26-110"><a href="#cb26-110"></a>        <span class="co"># The non-linear activation layer:</span></span>
+<span id="cb26-111"><a href="#cb26-111"></a>        <span class="co"># x = torch.nn.functional.gelu(x)</span></span>
+<span id="cb26-112"><a href="#cb26-112"></a>        <span class="co"># x = self.conv3(x)</span></span>
+<span id="cb26-113"><a href="#cb26-113"></a>        <span class="co"># This makes it a residual network:</span></span>
+<span id="cb26-114"><a href="#cb26-114"></a>        <span class="cf">return</span> inputs <span class="op">+</span> <span class="va">self</span>.conv3(</span>
+<span id="cb26-115"><a href="#cb26-115"></a>            torch.nn.functional.gelu(</span>
+<span id="cb26-116"><a href="#cb26-116"></a>                <span class="va">self</span>.conv2(</span>
+<span id="cb26-117"><a href="#cb26-117"></a>                    <span class="va">self</span>.norm(</span>
+<span id="cb26-118"><a href="#cb26-118"></a>                        <span class="va">self</span>.conv1(inputs)</span>
+<span id="cb26-119"><a href="#cb26-119"></a>                    )</span>
+<span id="cb26-120"><a href="#cb26-120"></a>                )</span>
+<span id="cb26-121"><a href="#cb26-121"></a>            )</span>
+<span id="cb26-122"><a href="#cb26-122"></a>        )</span>
+<span id="cb26-123"><a href="#cb26-123"></a></span>
+<span id="cb26-124"><a href="#cb26-124"></a></span>
+<span id="cb26-125"><a href="#cb26-125"></a><span class="kw">class</span> Classifier(nn.Module):</span>
+<span id="cb26-126"><a href="#cb26-126"></a></span>
+<span id="cb26-127"><a href="#cb26-127"></a></span>
+<span id="cb26-128"><a href="#cb26-128"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_initial_filters, n_stages, blocks_per_stage, n_outputs):</span>
+<span id="cb26-129"><a href="#cb26-129"></a>        <span class="bu">super</span>(Classifier, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb26-130"><a href="#cb26-130"></a>        <span class="co"># This is a downsampling convolution that will produce patches of output.</span></span>
+<span id="cb26-131"><a href="#cb26-131"></a>        <span class="co"># This is similar to what vision transformers do to tokenize the images.</span></span>
+<span id="cb26-132"><a href="#cb26-132"></a>        <span class="va">self</span>.stem <span class="op">=</span> nn.Conv2d(in_channels<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb26-133"><a href="#cb26-133"></a>                                    out_channels<span class="op">=</span>n_initial_filters,</span>
+<span id="cb26-134"><a href="#cb26-134"></a>                                    kernel_size<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb26-135"><a href="#cb26-135"></a>                                    stride<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb26-136"><a href="#cb26-136"></a>        <span class="va">self</span>.norm1 <span class="op">=</span> nn.InstanceNorm2d(n_initial_filters)</span>
+<span id="cb26-137"><a href="#cb26-137"></a></span>
+<span id="cb26-138"><a href="#cb26-138"></a>        current_n_filters <span class="op">=</span> n_initial_filters</span>
+<span id="cb26-139"><a href="#cb26-139"></a>        <span class="va">self</span>.layers <span class="op">=</span> nn.Sequential()</span>
+<span id="cb26-140"><a href="#cb26-140"></a>        <span class="cf">for</span> n_blocks <span class="kw">in</span> <span class="bu">range</span>(n_stages):</span>
+<span id="cb26-141"><a href="#cb26-141"></a>            <span class="co"># Add a convnext block series:</span></span>
+<span id="cb26-142"><a href="#cb26-142"></a>            <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(blocks_per_stage):</span>
+<span id="cb26-143"><a href="#cb26-143"></a>                <span class="va">self</span>.layers.append(ConvNextBlock(in_channels<span class="op">=</span>current_n_filters))</span>
+<span id="cb26-144"><a href="#cb26-144"></a>            <span class="co"># Add a downsampling layer:</span></span>
+<span id="cb26-145"><a href="#cb26-145"></a>            <span class="va">self</span>.layers.append(Downsampler(in_channels<span class="op">=</span>current_n_filters, out_channels<span class="op">=</span><span class="dv">2</span><span class="op">*</span>current_n_filters))</span>
+<span id="cb26-146"><a href="#cb26-146"></a>            <span class="co"># Double the number of filters:</span></span>
+<span id="cb26-147"><a href="#cb26-147"></a>            current_n_filters <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>current_n_filters</span>
+<span id="cb26-148"><a href="#cb26-148"></a>        <span class="va">self</span>.head <span class="op">=</span> nn.Sequential(</span>
+<span id="cb26-149"><a href="#cb26-149"></a>            nn.Flatten(),</span>
+<span id="cb26-150"><a href="#cb26-150"></a>            nn.LayerNorm(current_n_filters),</span>
+<span id="cb26-151"><a href="#cb26-151"></a>            nn.Linear(current_n_filters, n_outputs)</span>
+<span id="cb26-152"><a href="#cb26-152"></a>        )</span>
+<span id="cb26-153"><a href="#cb26-153"></a></span>
+<span id="cb26-154"><a href="#cb26-154"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
+<span id="cb26-155"><a href="#cb26-155"></a>        x <span class="op">=</span> <span class="va">self</span>.stem(inputs)</span>
+<span id="cb26-156"><a href="#cb26-156"></a>        <span class="co"># Apply a normalization after the initial patching:</span></span>
+<span id="cb26-157"><a href="#cb26-157"></a>        x <span class="op">=</span> <span class="va">self</span>.norm1(x)</span>
+<span id="cb26-158"><a href="#cb26-158"></a>        <span class="co"># Apply the main chunk of the network:</span></span>
+<span id="cb26-159"><a href="#cb26-159"></a>        x <span class="op">=</span> <span class="va">self</span>.layers(x)</span>
+<span id="cb26-160"><a href="#cb26-160"></a>        <span class="co"># Normalize and readout:</span></span>
+<span id="cb26-161"><a href="#cb26-161"></a>        x <span class="op">=</span> nn.functional.avg_pool2d(x, x.shape[<span class="dv">2</span>:])</span>
+<span id="cb26-162"><a href="#cb26-162"></a>        x <span class="op">=</span> <span class="va">self</span>.head(x)</span>
+<span id="cb26-163"><a href="#cb26-163"></a>        <span class="cf">return</span> x</span>
+<span id="cb26-164"><a href="#cb26-164"></a></span>
+<span id="cb26-165"><a href="#cb26-165"></a><span class="in">```</span></span>
+<span id="cb26-166"><a href="#cb26-166"></a></span>
+<span id="cb26-169"><a href="#cb26-169"></a><span class="in">```{python}</span></span>
+<span id="cb26-170"><a href="#cb26-170"></a><span class="kw">def</span> create_representation_model(n_features, rank, size):</span>
+<span id="cb26-171"><a href="#cb26-171"></a>    model <span class="op">=</span> Classifier(<span class="dv">32</span>, <span class="dv">2</span>, <span class="dv">2</span>, n_features)</span>
+<span id="cb26-172"><a href="#cb26-172"></a>    model.to(torch.get_default_device())</span>
+<span id="cb26-173"><a href="#cb26-173"></a>    <span class="cf">return</span> model</span>
 <span id="cb26-174"><a href="#cb26-174"></a></span>
-<span id="cb26-175"><a href="#cb26-175"></a>head.to(torch.get_default_device())</span>
-<span id="cb26-176"><a href="#cb26-176"></a></span>
-<span id="cb26-177"><a href="#cb26-177"></a><span class="im">from</span> torchinfo <span class="im">import</span> summary</span>
-<span id="cb26-178"><a href="#cb26-178"></a><span class="bu">print</span>(summary(model, input_size<span class="op">=</span>(batch_size, <span class="dv">3</span>, <span class="dv">32</span>, <span class="dv">32</span>)))</span>
-<span id="cb26-179"><a href="#cb26-179"></a><span class="bu">print</span>(summary(head, input_size<span class="op">=</span>(batch_size, <span class="dv">256</span>)))</span>
-<span id="cb26-180"><a href="#cb26-180"></a><span class="in">```</span></span>
+<span id="cb26-175"><a href="#cb26-175"></a>model <span class="op">=</span> create_representation_model(<span class="dv">256</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb26-176"><a href="#cb26-176"></a>head <span class="op">=</span> torch.nn.Sequential(</span>
+<span id="cb26-177"><a href="#cb26-177"></a>    nn.Linear(<span class="dv">256</span>,<span class="dv">128</span>),</span>
+<span id="cb26-178"><a href="#cb26-178"></a>)</span>
+<span id="cb26-179"><a href="#cb26-179"></a></span>
+<span id="cb26-180"><a href="#cb26-180"></a>head.to(torch.get_default_device())</span>
 <span id="cb26-181"><a href="#cb26-181"></a></span>
-<span id="cb26-182"><a href="#cb26-182"></a>This will download the data if needed:</span>
-<span id="cb26-183"><a href="#cb26-183"></a></span>
-<span id="cb26-184"><a href="#cb26-184"></a></span>
-<span id="cb26-185"><a href="#cb26-185"></a></span>
-<span id="cb26-186"><a href="#cb26-186"></a>We're going to train this on Polaris nodes which have 4 A100s (But only using one node at a time).  So, the following helper functions will automatically distribute the code and model to use all 4 GPUs at once:</span>
-<span id="cb26-187"><a href="#cb26-187"></a></span>
-<span id="cb26-188"><a href="#cb26-188"></a>(They are all from the <span class="co">[</span><span class="ot">DDP Tutorial</span><span class="co">](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)</span> )</span>
+<span id="cb26-182"><a href="#cb26-182"></a><span class="im">from</span> torchinfo <span class="im">import</span> summary</span>
+<span id="cb26-183"><a href="#cb26-183"></a>console.log(summary(model, input_size<span class="op">=</span>(batch_size, <span class="dv">3</span>, <span class="dv">32</span>, <span class="dv">32</span>)))</span>
+<span id="cb26-184"><a href="#cb26-184"></a>console.log(summary(head, input_size<span class="op">=</span>(batch_size, <span class="dv">256</span>)))</span>
+<span id="cb26-185"><a href="#cb26-185"></a><span class="in">```</span></span>
+<span id="cb26-186"><a href="#cb26-186"></a></span>
+<span id="cb26-187"><a href="#cb26-187"></a>This will download the data if needed:</span>
+<span id="cb26-188"><a href="#cb26-188"></a></span>
 <span id="cb26-189"><a href="#cb26-189"></a></span>
-<span id="cb26-192"><a href="#cb26-192"></a><span class="in">```{python}</span></span>
-<span id="cb26-193"><a href="#cb26-193"></a><span class="kw">def</span> setup(rank, world_size):</span>
-<span id="cb26-194"><a href="#cb26-194"></a>    os.environ[<span class="st">'MASTER_ADDR'</span>] <span class="op">=</span> <span class="st">'localhost'</span></span>
-<span id="cb26-195"><a href="#cb26-195"></a>    os.environ[<span class="st">'MASTER_PORT'</span>] <span class="op">=</span> <span class="st">'12355'</span></span>
-<span id="cb26-196"><a href="#cb26-196"></a></span>
-<span id="cb26-197"><a href="#cb26-197"></a>    <span class="co"># initialize the process group</span></span>
-<span id="cb26-198"><a href="#cb26-198"></a>    dist.init_process_group(<span class="st">"gloo"</span>, rank<span class="op">=</span>rank, world_size<span class="op">=</span>world_size)</span>
-<span id="cb26-199"><a href="#cb26-199"></a></span>
-<span id="cb26-200"><a href="#cb26-200"></a><span class="kw">def</span> cleanup():</span>
-<span id="cb26-201"><a href="#cb26-201"></a>    dist.destroy_process_group()</span>
-<span id="cb26-202"><a href="#cb26-202"></a><span class="in">```</span></span>
-<span id="cb26-203"><a href="#cb26-203"></a></span>
-<span id="cb26-206"><a href="#cb26-206"></a><span class="in">```{python}</span></span>
-<span id="cb26-207"><a href="#cb26-207"></a><span class="im">import</span> ezpz</span>
+<span id="cb26-190"><a href="#cb26-190"></a></span>
+<span id="cb26-191"><a href="#cb26-191"></a>We're going to train this on Polaris nodes which have 4 A100s (But only using one node at a time).  So, the following helper functions will automatically distribute the code and model to use all 4 GPUs at once:</span>
+<span id="cb26-192"><a href="#cb26-192"></a></span>
+<span id="cb26-193"><a href="#cb26-193"></a>(They are all from the <span class="co">[</span><span class="ot">DDP Tutorial</span><span class="co">](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)</span> )</span>
+<span id="cb26-194"><a href="#cb26-194"></a></span>
+<span id="cb26-197"><a href="#cb26-197"></a><span class="in">```{python}</span></span>
+<span id="cb26-198"><a href="#cb26-198"></a><span class="kw">def</span> setup(rank, world_size):</span>
+<span id="cb26-199"><a href="#cb26-199"></a>    os.environ[<span class="st">'MASTER_ADDR'</span>] <span class="op">=</span> <span class="st">'localhost'</span></span>
+<span id="cb26-200"><a href="#cb26-200"></a>    os.environ[<span class="st">'MASTER_PORT'</span>] <span class="op">=</span> <span class="st">'12355'</span></span>
+<span id="cb26-201"><a href="#cb26-201"></a></span>
+<span id="cb26-202"><a href="#cb26-202"></a>    <span class="co"># initialize the process group</span></span>
+<span id="cb26-203"><a href="#cb26-203"></a>    dist.init_process_group(<span class="st">"gloo"</span>, rank<span class="op">=</span>rank, world_size<span class="op">=</span>world_size)</span>
+<span id="cb26-204"><a href="#cb26-204"></a></span>
+<span id="cb26-205"><a href="#cb26-205"></a><span class="kw">def</span> cleanup():</span>
+<span id="cb26-206"><a href="#cb26-206"></a>    dist.destroy_process_group()</span>
+<span id="cb26-207"><a href="#cb26-207"></a><span class="in">```</span></span>
 <span id="cb26-208"><a href="#cb26-208"></a></span>
-<span id="cb26-209"><a href="#cb26-209"></a><span class="kw">def</span> create_data_loaders(transforms, batch_size, rank, seed):</span>
-<span id="cb26-210"><a href="#cb26-210"></a>    <span class="co"># Start up the data loader:</span></span>
-<span id="cb26-211"><a href="#cb26-211"></a>    <span class="co"># dev = torch.device(</span></span>
-<span id="cb26-212"><a href="#cb26-212"></a>    <span class="co">#     f"cuda:{rank}") if torch.cuda.is_available() else torch.device("cpu")</span></span>
-<span id="cb26-213"><a href="#cb26-213"></a>    dev <span class="op">=</span> ezpz.get_torch_device_type()</span>
-<span id="cb26-214"><a href="#cb26-214"></a></span>
-<span id="cb26-215"><a href="#cb26-215"></a>    training_data <span class="op">=</span> torchvision.datasets.CIFAR10(</span>
-<span id="cb26-216"><a href="#cb26-216"></a>        root<span class="op">=</span><span class="st">"data"</span>,</span>
-<span id="cb26-217"><a href="#cb26-217"></a>        train<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb26-218"><a href="#cb26-218"></a>        download<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb26-219"><a href="#cb26-219"></a>        transform<span class="op">=</span>transforms</span>
-<span id="cb26-220"><a href="#cb26-220"></a>    )</span>
-<span id="cb26-221"><a href="#cb26-221"></a></span>
-<span id="cb26-222"><a href="#cb26-222"></a>    training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
-<span id="cb26-223"><a href="#cb26-223"></a>        training_data,</span>
-<span id="cb26-224"><a href="#cb26-224"></a>        [<span class="fl">0.8</span>, <span class="fl">0.2</span>],</span>
-<span id="cb26-225"><a href="#cb26-225"></a>        generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>))</span>
+<span id="cb26-211"><a href="#cb26-211"></a><span class="in">```{python}</span></span>
+<span id="cb26-212"><a href="#cb26-212"></a><span class="im">import</span> ezpz</span>
+<span id="cb26-213"><a href="#cb26-213"></a></span>
+<span id="cb26-214"><a href="#cb26-214"></a><span class="kw">def</span> create_data_loaders(transforms, batch_size, rank, seed):</span>
+<span id="cb26-215"><a href="#cb26-215"></a>    <span class="co"># Start up the data loader:</span></span>
+<span id="cb26-216"><a href="#cb26-216"></a>    <span class="co"># dev = torch.device(</span></span>
+<span id="cb26-217"><a href="#cb26-217"></a>    <span class="co">#     f"cuda:{rank}") if torch.cuda.is_available() else torch.device("cpu")</span></span>
+<span id="cb26-218"><a href="#cb26-218"></a>    dev <span class="op">=</span> ezpz.get_torch_device_type()</span>
+<span id="cb26-219"><a href="#cb26-219"></a></span>
+<span id="cb26-220"><a href="#cb26-220"></a>    training_data <span class="op">=</span> torchvision.datasets.CIFAR10(</span>
+<span id="cb26-221"><a href="#cb26-221"></a>        root<span class="op">=</span><span class="st">"data"</span>,</span>
+<span id="cb26-222"><a href="#cb26-222"></a>        train<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb26-223"><a href="#cb26-223"></a>        download<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb26-224"><a href="#cb26-224"></a>        transform<span class="op">=</span>transforms</span>
+<span id="cb26-225"><a href="#cb26-225"></a>    )</span>
 <span id="cb26-226"><a href="#cb26-226"></a></span>
-<span id="cb26-227"><a href="#cb26-227"></a>    <span class="co"># The dataloader makes our dataset iterable </span></span>
-<span id="cb26-228"><a href="#cb26-228"></a>    train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data,</span>
-<span id="cb26-229"><a href="#cb26-229"></a>                                                   batch_size<span class="op">=</span>batch_size,</span>
-<span id="cb26-230"><a href="#cb26-230"></a>                                                   shuffle<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb26-231"><a href="#cb26-231"></a>                                                   num_workers<span class="op">=</span><span class="dv">8</span>)</span>
-<span id="cb26-232"><a href="#cb26-232"></a></span>
-<span id="cb26-233"><a href="#cb26-233"></a>    val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data,</span>
-<span id="cb26-234"><a href="#cb26-234"></a>                                                 batch_size<span class="op">=</span>batch_size,</span>
-<span id="cb26-235"><a href="#cb26-235"></a>                                                 shuffle<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb26-236"><a href="#cb26-236"></a>                                                 num_workers<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb26-227"><a href="#cb26-227"></a>    training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
+<span id="cb26-228"><a href="#cb26-228"></a>        training_data,</span>
+<span id="cb26-229"><a href="#cb26-229"></a>        [<span class="fl">0.8</span>, <span class="fl">0.2</span>],</span>
+<span id="cb26-230"><a href="#cb26-230"></a>        generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>))</span>
+<span id="cb26-231"><a href="#cb26-231"></a></span>
+<span id="cb26-232"><a href="#cb26-232"></a>    <span class="co"># The dataloader makes our dataset iterable </span></span>
+<span id="cb26-233"><a href="#cb26-233"></a>    train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data,</span>
+<span id="cb26-234"><a href="#cb26-234"></a>                                                   batch_size<span class="op">=</span>batch_size,</span>
+<span id="cb26-235"><a href="#cb26-235"></a>                                                   shuffle<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb26-236"><a href="#cb26-236"></a>                                                   num_workers<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb26-237"><a href="#cb26-237"></a></span>
-<span id="cb26-238"><a href="#cb26-238"></a></span>
-<span id="cb26-239"><a href="#cb26-239"></a>    <span class="kw">def</span> preprocess(x, y):</span>
-<span id="cb26-240"><a href="#cb26-240"></a>        <span class="co"># CIFAR-10 is *color* images so 3 layers!</span></span>
-<span id="cb26-241"><a href="#cb26-241"></a>        <span class="cf">return</span> x.view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">32</span>, <span class="dv">32</span>).to(dev), y.to(dev)</span>
+<span id="cb26-238"><a href="#cb26-238"></a>    val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data,</span>
+<span id="cb26-239"><a href="#cb26-239"></a>                                                 batch_size<span class="op">=</span>batch_size,</span>
+<span id="cb26-240"><a href="#cb26-240"></a>                                                 shuffle<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb26-241"><a href="#cb26-241"></a>                                                 num_workers<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb26-242"><a href="#cb26-242"></a></span>
 <span id="cb26-243"><a href="#cb26-243"></a></span>
-<span id="cb26-244"><a href="#cb26-244"></a>    <span class="kw">class</span> WrappedDataLoader:</span>
-<span id="cb26-245"><a href="#cb26-245"></a>        <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dl, func):</span>
-<span id="cb26-246"><a href="#cb26-246"></a>            <span class="va">self</span>.dl <span class="op">=</span> dl</span>
-<span id="cb26-247"><a href="#cb26-247"></a>            <span class="va">self</span>.func <span class="op">=</span> func</span>
+<span id="cb26-244"><a href="#cb26-244"></a>    <span class="kw">def</span> preprocess(x, y):</span>
+<span id="cb26-245"><a href="#cb26-245"></a>        <span class="co"># CIFAR-10 is *color* images so 3 layers!</span></span>
+<span id="cb26-246"><a href="#cb26-246"></a>        <span class="cf">return</span> x.view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">32</span>, <span class="dv">32</span>).to(dev), y.to(dev)</span>
+<span id="cb26-247"><a href="#cb26-247"></a></span>
 <span id="cb26-248"><a href="#cb26-248"></a></span>
-<span id="cb26-249"><a href="#cb26-249"></a>        <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
-<span id="cb26-250"><a href="#cb26-250"></a>            <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.dl)</span>
-<span id="cb26-251"><a href="#cb26-251"></a></span>
-<span id="cb26-252"><a href="#cb26-252"></a>        <span class="kw">def</span> <span class="fu">__iter__</span>(<span class="va">self</span>):</span>
-<span id="cb26-253"><a href="#cb26-253"></a>            <span class="cf">for</span> b <span class="kw">in</span> <span class="va">self</span>.dl:</span>
-<span id="cb26-254"><a href="#cb26-254"></a>                <span class="cf">yield</span> (<span class="va">self</span>.func(<span class="op">*</span>b))</span>
-<span id="cb26-255"><a href="#cb26-255"></a></span>
+<span id="cb26-249"><a href="#cb26-249"></a>    <span class="kw">class</span> WrappedDataLoader:</span>
+<span id="cb26-250"><a href="#cb26-250"></a>        <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dl, func):</span>
+<span id="cb26-251"><a href="#cb26-251"></a>            <span class="va">self</span>.dl <span class="op">=</span> dl</span>
+<span id="cb26-252"><a href="#cb26-252"></a>            <span class="va">self</span>.func <span class="op">=</span> func</span>
+<span id="cb26-253"><a href="#cb26-253"></a></span>
+<span id="cb26-254"><a href="#cb26-254"></a>        <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb26-255"><a href="#cb26-255"></a>            <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.dl)</span>
 <span id="cb26-256"><a href="#cb26-256"></a></span>
-<span id="cb26-257"><a href="#cb26-257"></a>    train_dataloader <span class="op">=</span> WrappedDataLoader(train_dataloader, preprocess)</span>
-<span id="cb26-258"><a href="#cb26-258"></a>    val_dataloader <span class="op">=</span> WrappedDataLoader(val_dataloader, preprocess)</span>
-<span id="cb26-259"><a href="#cb26-259"></a></span>
-<span id="cb26-260"><a href="#cb26-260"></a>    <span class="cf">return</span> train_dataloader, val_dataloader</span>
-<span id="cb26-261"><a href="#cb26-261"></a><span class="in">```</span></span>
-<span id="cb26-262"><a href="#cb26-262"></a></span>
-<span id="cb26-265"><a href="#cb26-265"></a><span class="in">```{python}</span></span>
-<span id="cb26-266"><a href="#cb26-266"></a><span class="co"># def demo_basic(rank, world_size, n_epochs):</span></span>
-<span id="cb26-267"><a href="#cb26-267"></a><span class="co">#     print(f"Running basic DDP example on rank {rank}.")</span></span>
-<span id="cb26-268"><a href="#cb26-268"></a><span class="co">#     setup(rank, world_size)</span></span>
-<span id="cb26-269"><a href="#cb26-269"></a></span>
-<span id="cb26-270"><a href="#cb26-270"></a></span>
-<span id="cb26-271"><a href="#cb26-271"></a><span class="co">#     # create model and move it to GPU with id rank</span></span>
-<span id="cb26-272"><a href="#cb26-272"></a><span class="co">#     model = ToyModel().to(rank)</span></span>
-<span id="cb26-273"><a href="#cb26-273"></a><span class="co">#     ddp_model = DDP(model, device_ids=[rank])</span></span>
+<span id="cb26-257"><a href="#cb26-257"></a>        <span class="kw">def</span> <span class="fu">__iter__</span>(<span class="va">self</span>):</span>
+<span id="cb26-258"><a href="#cb26-258"></a>            <span class="cf">for</span> b <span class="kw">in</span> <span class="va">self</span>.dl:</span>
+<span id="cb26-259"><a href="#cb26-259"></a>                <span class="cf">yield</span> (<span class="va">self</span>.func(<span class="op">*</span>b))</span>
+<span id="cb26-260"><a href="#cb26-260"></a></span>
+<span id="cb26-261"><a href="#cb26-261"></a></span>
+<span id="cb26-262"><a href="#cb26-262"></a>    train_dataloader <span class="op">=</span> WrappedDataLoader(train_dataloader, preprocess)</span>
+<span id="cb26-263"><a href="#cb26-263"></a>    val_dataloader <span class="op">=</span> WrappedDataLoader(val_dataloader, preprocess)</span>
+<span id="cb26-264"><a href="#cb26-264"></a></span>
+<span id="cb26-265"><a href="#cb26-265"></a>    <span class="cf">return</span> train_dataloader, val_dataloader</span>
+<span id="cb26-266"><a href="#cb26-266"></a><span class="in">```</span></span>
+<span id="cb26-267"><a href="#cb26-267"></a></span>
+<span id="cb26-270"><a href="#cb26-270"></a><span class="in">```{python}</span></span>
+<span id="cb26-271"><a href="#cb26-271"></a><span class="co"># def demo_basic(rank, world_size, n_epochs):</span></span>
+<span id="cb26-272"><a href="#cb26-272"></a><span class="co">#     console.log(f"Running basic DDP example on rank {rank}.")</span></span>
+<span id="cb26-273"><a href="#cb26-273"></a><span class="co">#     setup(rank, world_size)</span></span>
 <span id="cb26-274"><a href="#cb26-274"></a></span>
-<span id="cb26-275"><a href="#cb26-275"></a><span class="co">#     loss_fn = nn.MSELoss()</span></span>
-<span id="cb26-276"><a href="#cb26-276"></a><span class="co">#     optimizer = optim.SGD(ddp_model.parameters(), lr=0.001)</span></span>
-<span id="cb26-277"><a href="#cb26-277"></a></span>
-<span id="cb26-278"><a href="#cb26-278"></a><span class="co">#     optimizer.zero_grad()</span></span>
-<span id="cb26-279"><a href="#cb26-279"></a><span class="co">#     outputs = ddp_model(torch.randn(20, 10))</span></span>
-<span id="cb26-280"><a href="#cb26-280"></a><span class="co">#     labels = torch.randn(20, 5).to(rank)</span></span>
-<span id="cb26-281"><a href="#cb26-281"></a><span class="co">#     loss_fn(outputs, labels).backward()</span></span>
-<span id="cb26-282"><a href="#cb26-282"></a><span class="co">#     optimizer.step()</span></span>
-<span id="cb26-283"><a href="#cb26-283"></a></span>
-<span id="cb26-284"><a href="#cb26-284"></a><span class="co">#     cleanup()</span></span>
-<span id="cb26-285"><a href="#cb26-285"></a></span>
-<span id="cb26-286"><a href="#cb26-286"></a></span>
-<span id="cb26-287"><a href="#cb26-287"></a><span class="co"># def run_demo(demo_fn, world_size):</span></span>
-<span id="cb26-288"><a href="#cb26-288"></a><span class="co">#     mp.spawn(demo_fn,</span></span>
-<span id="cb26-289"><a href="#cb26-289"></a><span class="co">#              args=(world_size,5),</span></span>
-<span id="cb26-290"><a href="#cb26-290"></a><span class="co">#              nprocs=world_size,</span></span>
-<span id="cb26-291"><a href="#cb26-291"></a><span class="co">#              join=True)</span></span>
-<span id="cb26-292"><a href="#cb26-292"></a><span class="in">```</span></span>
-<span id="cb26-293"><a href="#cb26-293"></a></span>
-<span id="cb26-294"><a href="#cb26-294"></a></span>
-<span id="cb26-297"><a href="#cb26-297"></a><span class="in">```{python}</span></span>
-<span id="cb26-298"><a href="#cb26-298"></a><span class="co"># import sys, os</span></span>
-<span id="cb26-299"><a href="#cb26-299"></a><span class="co"># from multiprocessing import Pool</span></span>
-<span id="cb26-300"><a href="#cb26-300"></a><span class="co"># from multiprocessing.reduction import ForkingPickler</span></span>
-<span id="cb26-301"><a href="#cb26-301"></a><span class="co"># from types import FunctionType</span></span>
-<span id="cb26-302"><a href="#cb26-302"></a><span class="co"># import cloudpickle</span></span>
-<span id="cb26-303"><a href="#cb26-303"></a></span>
-<span id="cb26-304"><a href="#cb26-304"></a><span class="co"># assert sys.version_info &gt;= (3, 8), 'python3.8 or greater required to use reducer_override'</span></span>
-<span id="cb26-305"><a href="#cb26-305"></a></span>
-<span id="cb26-306"><a href="#cb26-306"></a><span class="co"># def reducer_override(obj):</span></span>
-<span id="cb26-307"><a href="#cb26-307"></a><span class="co">#     if type(obj) is FunctionType:</span></span>
-<span id="cb26-308"><a href="#cb26-308"></a><span class="co">#         return (cloudpickle.loads, (cloudpickle.dumps(obj),))</span></span>
-<span id="cb26-309"><a href="#cb26-309"></a><span class="co">#     else:</span></span>
-<span id="cb26-310"><a href="#cb26-310"></a><span class="co">#         return NotImplemented</span></span>
-<span id="cb26-311"><a href="#cb26-311"></a></span>
-<span id="cb26-312"><a href="#cb26-312"></a><span class="co"># # Monkeypatch our function reducer into the pickler for multiprocessing.</span></span>
-<span id="cb26-313"><a href="#cb26-313"></a><span class="co"># # Without this line, the main block will not work on windows or macOS.</span></span>
-<span id="cb26-314"><a href="#cb26-314"></a><span class="co"># # Alterntively, moving the defintionn of foo outside of the if statement</span></span>
-<span id="cb26-315"><a href="#cb26-315"></a><span class="co"># # would make the main block work on windows or macOS (when run from</span></span>
-<span id="cb26-316"><a href="#cb26-316"></a><span class="co"># # the command line).</span></span>
-<span id="cb26-317"><a href="#cb26-317"></a><span class="co"># ForkingPickler.reducer_override = staticmethod(reducer_override)</span></span>
-<span id="cb26-318"><a href="#cb26-318"></a><span class="in">```</span></span>
-<span id="cb26-319"><a href="#cb26-319"></a></span>
-<span id="cb26-320"><a href="#cb26-320"></a></span>
-<span id="cb26-321"><a href="#cb26-321"></a></span>
-<span id="cb26-324"><a href="#cb26-324"></a><span class="in">```{python}</span></span>
-<span id="cb26-325"><a href="#cb26-325"></a><span class="co"># This method is from the pytorch implementation of SimCLR:</span></span>
-<span id="cb26-326"><a href="#cb26-326"></a><span class="co"># https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py</span></span>
-<span id="cb26-327"><a href="#cb26-327"></a></span>
-<span id="cb26-328"><a href="#cb26-328"></a><span class="kw">def</span> get_simclr_pipeline_transform(size, s<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb26-329"><a href="#cb26-329"></a>    <span class="co">"""Return a set of data augmentation transformations as described in the SimCLR paper."""</span></span>
-<span id="cb26-330"><a href="#cb26-330"></a>    color_jitter <span class="op">=</span> v2.ColorJitter(<span class="fl">0.8</span> <span class="op">*</span> s, <span class="fl">0.8</span> <span class="op">*</span> s, <span class="fl">0.8</span> <span class="op">*</span> s, <span class="fl">0.2</span> <span class="op">*</span> s)</span>
-<span id="cb26-331"><a href="#cb26-331"></a>    data_transforms <span class="op">=</span> v2.Compose([v2.RandomResizedCrop(size<span class="op">=</span>size, scale<span class="op">=</span>[<span class="fl">0.85</span>,<span class="fl">1.0</span>]),</span>
-<span id="cb26-332"><a href="#cb26-332"></a>                                          v2.RandomHorizontalFlip(),</span>
-<span id="cb26-333"><a href="#cb26-333"></a>                                          v2.RandomApply([color_jitter], p<span class="op">=</span><span class="fl">0.8</span>),</span>
-<span id="cb26-334"><a href="#cb26-334"></a>                                          v2.RandomGrayscale(p<span class="op">=</span><span class="fl">0.2</span>),</span>
-<span id="cb26-335"><a href="#cb26-335"></a>                                          v2.ToDtype(torch.float32, scale<span class="op">=</span><span class="va">True</span>),  <span class="co"># Normalize expects float input</span></span>
-<span id="cb26-336"><a href="#cb26-336"></a>                                          <span class="co"># v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),</span></span>
-<span id="cb26-337"><a href="#cb26-337"></a>                                          <span class="co"># v2.ToTensor()</span></span>
-<span id="cb26-338"><a href="#cb26-338"></a>                                        ])</span>
-<span id="cb26-339"><a href="#cb26-339"></a>    <span class="cf">return</span> data_transforms</span>
-<span id="cb26-340"><a href="#cb26-340"></a><span class="in">```</span></span>
-<span id="cb26-341"><a href="#cb26-341"></a></span>
-<span id="cb26-344"><a href="#cb26-344"></a><span class="in">```{python}</span></span>
-<span id="cb26-345"><a href="#cb26-345"></a>transforms1 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
-<span id="cb26-346"><a href="#cb26-346"></a>transforms2 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
-<span id="cb26-347"><a href="#cb26-347"></a><span class="in">```</span></span>
-<span id="cb26-348"><a href="#cb26-348"></a></span>
-<span id="cb26-351"><a href="#cb26-351"></a><span class="in">```{python}</span></span>
-<span id="cb26-352"><a href="#cb26-352"></a>train, val <span class="op">=</span> create_data_loaders(v2.ToTensor(), batch_size, <span class="dv">0</span>, seed <span class="op">=</span> <span class="dv">1234</span>)</span>
+<span id="cb26-275"><a href="#cb26-275"></a></span>
+<span id="cb26-276"><a href="#cb26-276"></a><span class="co">#     # create model and move it to GPU with id rank</span></span>
+<span id="cb26-277"><a href="#cb26-277"></a><span class="co">#     model = ToyModel().to(rank)</span></span>
+<span id="cb26-278"><a href="#cb26-278"></a><span class="co">#     ddp_model = DDP(model, device_ids=[rank])</span></span>
+<span id="cb26-279"><a href="#cb26-279"></a></span>
+<span id="cb26-280"><a href="#cb26-280"></a><span class="co">#     loss_fn = nn.MSELoss()</span></span>
+<span id="cb26-281"><a href="#cb26-281"></a><span class="co">#     optimizer = optim.SGD(ddp_model.parameters(), lr=0.001)</span></span>
+<span id="cb26-282"><a href="#cb26-282"></a></span>
+<span id="cb26-283"><a href="#cb26-283"></a><span class="co">#     optimizer.zero_grad()</span></span>
+<span id="cb26-284"><a href="#cb26-284"></a><span class="co">#     outputs = ddp_model(torch.randn(20, 10))</span></span>
+<span id="cb26-285"><a href="#cb26-285"></a><span class="co">#     labels = torch.randn(20, 5).to(rank)</span></span>
+<span id="cb26-286"><a href="#cb26-286"></a><span class="co">#     loss_fn(outputs, labels).backward()</span></span>
+<span id="cb26-287"><a href="#cb26-287"></a><span class="co">#     optimizer.step()</span></span>
+<span id="cb26-288"><a href="#cb26-288"></a></span>
+<span id="cb26-289"><a href="#cb26-289"></a><span class="co">#     cleanup()</span></span>
+<span id="cb26-290"><a href="#cb26-290"></a></span>
+<span id="cb26-291"><a href="#cb26-291"></a></span>
+<span id="cb26-292"><a href="#cb26-292"></a><span class="co"># def run_demo(demo_fn, world_size):</span></span>
+<span id="cb26-293"><a href="#cb26-293"></a><span class="co">#     mp.spawn(demo_fn,</span></span>
+<span id="cb26-294"><a href="#cb26-294"></a><span class="co">#              args=(world_size,5),</span></span>
+<span id="cb26-295"><a href="#cb26-295"></a><span class="co">#              nprocs=world_size,</span></span>
+<span id="cb26-296"><a href="#cb26-296"></a><span class="co">#              join=True)</span></span>
+<span id="cb26-297"><a href="#cb26-297"></a><span class="in">```</span></span>
+<span id="cb26-298"><a href="#cb26-298"></a></span>
+<span id="cb26-299"><a href="#cb26-299"></a></span>
+<span id="cb26-302"><a href="#cb26-302"></a><span class="in">```{python}</span></span>
+<span id="cb26-303"><a href="#cb26-303"></a><span class="co"># import sys, os</span></span>
+<span id="cb26-304"><a href="#cb26-304"></a><span class="co"># from multiprocessing import Pool</span></span>
+<span id="cb26-305"><a href="#cb26-305"></a><span class="co"># from multiprocessing.reduction import ForkingPickler</span></span>
+<span id="cb26-306"><a href="#cb26-306"></a><span class="co"># from types import FunctionType</span></span>
+<span id="cb26-307"><a href="#cb26-307"></a><span class="co"># import cloudpickle</span></span>
+<span id="cb26-308"><a href="#cb26-308"></a></span>
+<span id="cb26-309"><a href="#cb26-309"></a><span class="co"># assert sys.version_info &gt;= (3, 8), 'python3.8 or greater required to use reducer_override'</span></span>
+<span id="cb26-310"><a href="#cb26-310"></a></span>
+<span id="cb26-311"><a href="#cb26-311"></a><span class="co"># def reducer_override(obj):</span></span>
+<span id="cb26-312"><a href="#cb26-312"></a><span class="co">#     if type(obj) is FunctionType:</span></span>
+<span id="cb26-313"><a href="#cb26-313"></a><span class="co">#         return (cloudpickle.loads, (cloudpickle.dumps(obj),))</span></span>
+<span id="cb26-314"><a href="#cb26-314"></a><span class="co">#     else:</span></span>
+<span id="cb26-315"><a href="#cb26-315"></a><span class="co">#         return NotImplemented</span></span>
+<span id="cb26-316"><a href="#cb26-316"></a></span>
+<span id="cb26-317"><a href="#cb26-317"></a><span class="co"># # Monkeypatch our function reducer into the pickler for multiprocessing.</span></span>
+<span id="cb26-318"><a href="#cb26-318"></a><span class="co"># # Without this line, the main block will not work on windows or macOS.</span></span>
+<span id="cb26-319"><a href="#cb26-319"></a><span class="co"># # Alterntively, moving the defintionn of foo outside of the if statement</span></span>
+<span id="cb26-320"><a href="#cb26-320"></a><span class="co"># # would make the main block work on windows or macOS (when run from</span></span>
+<span id="cb26-321"><a href="#cb26-321"></a><span class="co"># # the command line).</span></span>
+<span id="cb26-322"><a href="#cb26-322"></a><span class="co"># ForkingPickler.reducer_override = staticmethod(reducer_override)</span></span>
+<span id="cb26-323"><a href="#cb26-323"></a><span class="in">```</span></span>
+<span id="cb26-324"><a href="#cb26-324"></a></span>
+<span id="cb26-325"><a href="#cb26-325"></a></span>
+<span id="cb26-326"><a href="#cb26-326"></a></span>
+<span id="cb26-329"><a href="#cb26-329"></a><span class="in">```{python}</span></span>
+<span id="cb26-330"><a href="#cb26-330"></a><span class="co"># This method is from the pytorch implementation of SimCLR:</span></span>
+<span id="cb26-331"><a href="#cb26-331"></a><span class="co"># https://github.com/sthalles/SimCLR/blob/master/data_aug/contrastive_learning_dataset.py</span></span>
+<span id="cb26-332"><a href="#cb26-332"></a></span>
+<span id="cb26-333"><a href="#cb26-333"></a><span class="kw">def</span> get_simclr_pipeline_transform(size, s<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb26-334"><a href="#cb26-334"></a>    <span class="co">"""Return a set of data augmentation transformations as described in the SimCLR paper."""</span></span>
+<span id="cb26-335"><a href="#cb26-335"></a>    color_jitter <span class="op">=</span> v2.ColorJitter(<span class="fl">0.8</span> <span class="op">*</span> s, <span class="fl">0.8</span> <span class="op">*</span> s, <span class="fl">0.8</span> <span class="op">*</span> s, <span class="fl">0.2</span> <span class="op">*</span> s)</span>
+<span id="cb26-336"><a href="#cb26-336"></a>    data_transforms <span class="op">=</span> v2.Compose([v2.RandomResizedCrop(size<span class="op">=</span>size, scale<span class="op">=</span>[<span class="fl">0.85</span>,<span class="fl">1.0</span>]),</span>
+<span id="cb26-337"><a href="#cb26-337"></a>                                          v2.RandomHorizontalFlip(),</span>
+<span id="cb26-338"><a href="#cb26-338"></a>                                          v2.RandomApply([color_jitter], p<span class="op">=</span><span class="fl">0.8</span>),</span>
+<span id="cb26-339"><a href="#cb26-339"></a>                                          v2.RandomGrayscale(p<span class="op">=</span><span class="fl">0.2</span>),</span>
+<span id="cb26-340"><a href="#cb26-340"></a>                                          v2.ToDtype(torch.float32, scale<span class="op">=</span><span class="va">True</span>),  <span class="co"># Normalize expects float input</span></span>
+<span id="cb26-341"><a href="#cb26-341"></a>                                          <span class="co"># v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),</span></span>
+<span id="cb26-342"><a href="#cb26-342"></a>                                          <span class="co"># v2.ToTensor()</span></span>
+<span id="cb26-343"><a href="#cb26-343"></a>                                        ])</span>
+<span id="cb26-344"><a href="#cb26-344"></a>    <span class="cf">return</span> data_transforms</span>
+<span id="cb26-345"><a href="#cb26-345"></a><span class="in">```</span></span>
+<span id="cb26-346"><a href="#cb26-346"></a></span>
+<span id="cb26-349"><a href="#cb26-349"></a><span class="in">```{python}</span></span>
+<span id="cb26-350"><a href="#cb26-350"></a>transforms1 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
+<span id="cb26-351"><a href="#cb26-351"></a>transforms2 <span class="op">=</span> get_simclr_pipeline_transform((<span class="dv">32</span>,<span class="dv">32</span>))</span>
+<span id="cb26-352"><a href="#cb26-352"></a><span class="in">```</span></span>
 <span id="cb26-353"><a href="#cb26-353"></a></span>
-<span id="cb26-354"><a href="#cb26-354"></a><span class="in">```</span></span>
-<span id="cb26-355"><a href="#cb26-355"></a></span>
-<span id="cb26-358"><a href="#cb26-358"></a><span class="in">```{python}</span></span>
-<span id="cb26-359"><a href="#cb26-359"></a>batch, (X, Y) <span class="op">=</span> <span class="bu">next</span>(<span class="bu">enumerate</span>(train))</span>
-<span id="cb26-360"><a href="#cb26-360"></a><span class="in">```</span></span>
-<span id="cb26-361"><a href="#cb26-361"></a></span>
-<span id="cb26-364"><a href="#cb26-364"></a><span class="in">```{python}</span></span>
-<span id="cb26-365"><a href="#cb26-365"></a>X1 <span class="op">=</span> transforms1(X)<span class="op">;</span> X2 <span class="op">=</span> transforms2(X)</span>
+<span id="cb26-356"><a href="#cb26-356"></a><span class="in">```{python}</span></span>
+<span id="cb26-357"><a href="#cb26-357"></a>train, val <span class="op">=</span> create_data_loaders(v2.ToTensor(), batch_size, <span class="dv">0</span>, seed <span class="op">=</span> <span class="dv">1234</span>)</span>
+<span id="cb26-358"><a href="#cb26-358"></a></span>
+<span id="cb26-359"><a href="#cb26-359"></a><span class="in">```</span></span>
+<span id="cb26-360"><a href="#cb26-360"></a></span>
+<span id="cb26-363"><a href="#cb26-363"></a><span class="in">```{python}</span></span>
+<span id="cb26-364"><a href="#cb26-364"></a>batch, (X, Y) <span class="op">=</span> <span class="bu">next</span>(<span class="bu">enumerate</span>(train))</span>
+<span id="cb26-365"><a href="#cb26-365"></a><span class="in">```</span></span>
 <span id="cb26-366"><a href="#cb26-366"></a></span>
-<span id="cb26-367"><a href="#cb26-367"></a><span class="bu">print</span>(<span class="bu">type</span>(X1))</span>
-<span id="cb26-368"><a href="#cb26-368"></a><span class="bu">print</span>(<span class="bu">type</span>(X2))</span>
-<span id="cb26-369"><a href="#cb26-369"></a><span class="in">```</span></span>
-<span id="cb26-370"><a href="#cb26-370"></a></span>
-<span id="cb26-373"><a href="#cb26-373"></a><span class="in">```{python}</span></span>
-<span id="cb26-374"><a href="#cb26-374"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb26-375"><a href="#cb26-375"></a><span class="op">%</span>matplotlib inline</span>
-<span id="cb26-376"><a href="#cb26-376"></a><span class="in">```</span></span>
-<span id="cb26-377"><a href="#cb26-377"></a></span>
-<span id="cb26-380"><a href="#cb26-380"></a><span class="in">```{python}</span></span>
-<span id="cb26-381"><a href="#cb26-381"></a>plt.imshow(X[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
-<span id="cb26-382"><a href="#cb26-382"></a>plt.imshow(X1[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
-<span id="cb26-383"><a href="#cb26-383"></a>plt.imshow(X2[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
-<span id="cb26-384"><a href="#cb26-384"></a><span class="in">```</span></span>
-<span id="cb26-385"><a href="#cb26-385"></a></span>
-<span id="cb26-386"><a href="#cb26-386"></a></span>
-<span id="cb26-389"><a href="#cb26-389"></a><span class="in">```{python}</span></span>
-<span id="cb26-390"><a href="#cb26-390"></a><span class="kw">def</span> contrastive_loss(first_images, second_images, rank, world_size <span class="op">=</span> <span class="dv">1</span>, temperature<span class="op">=</span><span class="fl">0.1</span>):</span>
-<span id="cb26-391"><a href="#cb26-391"></a>        <span class="co"># Each image is represented with k parameters,</span></span>
-<span id="cb26-392"><a href="#cb26-392"></a>        <span class="co"># Assume the batch size is N, so the</span></span>
-<span id="cb26-393"><a href="#cb26-393"></a>        <span class="co"># inputs have shape (N, k)</span></span>
-<span id="cb26-394"><a href="#cb26-394"></a></span>
-<span id="cb26-395"><a href="#cb26-395"></a>        <span class="co"># These are pre-distributed shapes:</span></span>
-<span id="cb26-396"><a href="#cb26-396"></a>        N <span class="op">=</span> first_images.shape[<span class="dv">0</span>]</span>
-<span id="cb26-397"><a href="#cb26-397"></a>        k <span class="op">=</span> first_images.shape[<span class="dv">1</span>]</span>
-<span id="cb26-398"><a href="#cb26-398"></a></span>
+<span id="cb26-369"><a href="#cb26-369"></a><span class="in">```{python}</span></span>
+<span id="cb26-370"><a href="#cb26-370"></a>X1 <span class="op">=</span> transforms1(X)<span class="op">;</span> X2 <span class="op">=</span> transforms2(X)</span>
+<span id="cb26-371"><a href="#cb26-371"></a></span>
+<span id="cb26-372"><a href="#cb26-372"></a>console.log(<span class="bu">type</span>(X1))</span>
+<span id="cb26-373"><a href="#cb26-373"></a>console.log(<span class="bu">type</span>(X2))</span>
+<span id="cb26-374"><a href="#cb26-374"></a><span class="in">```</span></span>
+<span id="cb26-375"><a href="#cb26-375"></a></span>
+<span id="cb26-378"><a href="#cb26-378"></a><span class="in">```{python}</span></span>
+<span id="cb26-379"><a href="#cb26-379"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb26-380"><a href="#cb26-380"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb26-381"><a href="#cb26-381"></a><span class="in">```</span></span>
+<span id="cb26-382"><a href="#cb26-382"></a></span>
+<span id="cb26-385"><a href="#cb26-385"></a><span class="in">```{python}</span></span>
+<span id="cb26-386"><a href="#cb26-386"></a>plt.imshow(X[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
+<span id="cb26-387"><a href="#cb26-387"></a>plt.imshow(X1[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
+<span id="cb26-388"><a href="#cb26-388"></a>plt.imshow(X2[<span class="dv">0</span>].cpu().permute((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>)))<span class="op">;</span> plt.show()</span>
+<span id="cb26-389"><a href="#cb26-389"></a><span class="in">```</span></span>
+<span id="cb26-390"><a href="#cb26-390"></a></span>
+<span id="cb26-391"><a href="#cb26-391"></a></span>
+<span id="cb26-394"><a href="#cb26-394"></a><span class="in">```{python}</span></span>
+<span id="cb26-395"><a href="#cb26-395"></a><span class="kw">def</span> contrastive_loss(first_images, second_images, rank, world_size <span class="op">=</span> <span class="dv">1</span>, temperature<span class="op">=</span><span class="fl">0.1</span>):</span>
+<span id="cb26-396"><a href="#cb26-396"></a>        <span class="co"># Each image is represented with k parameters,</span></span>
+<span id="cb26-397"><a href="#cb26-397"></a>        <span class="co"># Assume the batch size is N, so the</span></span>
+<span id="cb26-398"><a href="#cb26-398"></a>        <span class="co"># inputs have shape (N, k)</span></span>
 <span id="cb26-399"><a href="#cb26-399"></a></span>
-<span id="cb26-400"><a href="#cb26-400"></a>        first_images <span class="op">=</span> first_images <span class="op">/</span> torch.norm(first_images,dim<span class="op">=</span><span class="dv">1</span>).reshape((<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb26-401"><a href="#cb26-401"></a>        second_images <span class="op">=</span> second_images <span class="op">/</span> torch.norm(second_images,dim<span class="op">=</span><span class="dv">1</span>).reshape((<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb26-402"><a href="#cb26-402"></a></span>
-<span id="cb26-403"><a href="#cb26-403"></a>        <span class="co"># Take the two tuples, and concatenate them.</span></span>
-<span id="cb26-404"><a href="#cb26-404"></a>        <span class="co"># Then, reshape into Y = (1, 2N, k) and Z = (2N, 1, k)</span></span>
-<span id="cb26-405"><a href="#cb26-405"></a></span>
-<span id="cb26-406"><a href="#cb26-406"></a>        c <span class="op">=</span> torch.concat([first_images, second_images], dim<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb26-400"><a href="#cb26-400"></a>        <span class="co"># These are pre-distributed shapes:</span></span>
+<span id="cb26-401"><a href="#cb26-401"></a>        N <span class="op">=</span> first_images.shape[<span class="dv">0</span>]</span>
+<span id="cb26-402"><a href="#cb26-402"></a>        k <span class="op">=</span> first_images.shape[<span class="dv">1</span>]</span>
+<span id="cb26-403"><a href="#cb26-403"></a></span>
+<span id="cb26-404"><a href="#cb26-404"></a></span>
+<span id="cb26-405"><a href="#cb26-405"></a>        first_images <span class="op">=</span> first_images <span class="op">/</span> torch.norm(first_images,dim<span class="op">=</span><span class="dv">1</span>).reshape((<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb26-406"><a href="#cb26-406"></a>        second_images <span class="op">=</span> second_images <span class="op">/</span> torch.norm(second_images,dim<span class="op">=</span><span class="dv">1</span>).reshape((<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb26-407"><a href="#cb26-407"></a></span>
-<span id="cb26-408"><a href="#cb26-408"></a>        <span class="co"># Gather all the c up if the world size &gt; 1:</span></span>
-<span id="cb26-409"><a href="#cb26-409"></a>        <span class="cf">if</span> world_size <span class="op">&gt;</span> <span class="dv">1</span>:</span>
-<span id="cb26-410"><a href="#cb26-410"></a>            gathered_c <span class="op">=</span> torch.distributed.all_gather(tensor<span class="op">=</span>c)</span>
-<span id="cb26-411"><a href="#cb26-411"></a>            gathered_c <span class="op">=</span> gathered_c.reshape((<span class="op">-</span><span class="dv">1</span>, first_images.shape[<span class="op">-</span><span class="dv">1</span>]))</span>
-<span id="cb26-412"><a href="#cb26-412"></a>        <span class="cf">else</span>:</span>
-<span id="cb26-413"><a href="#cb26-413"></a>            gathered_c <span class="op">=</span> c</span>
-<span id="cb26-414"><a href="#cb26-414"></a></span>
-<span id="cb26-415"><a href="#cb26-415"></a>        <span class="co"># Each rank computes only a slice of the global loss matrix, or</span></span>
-<span id="cb26-416"><a href="#cb26-416"></a>        <span class="co"># the memory usage gets out of control.</span></span>
-<span id="cb26-417"><a href="#cb26-417"></a></span>
-<span id="cb26-418"><a href="#cb26-418"></a>        <span class="co"># We calculate the dot product between the local and global tensors:</span></span>
-<span id="cb26-419"><a href="#cb26-419"></a>        local_reps <span class="op">=</span> c.reshape((c.shape[<span class="dv">0</span>], <span class="dv">1</span>, c.shape[<span class="dv">1</span>]))</span>
-<span id="cb26-420"><a href="#cb26-420"></a>        all_reps   <span class="op">=</span> gathered_c.reshape((<span class="dv">1</span>, gathered_c.shape[<span class="dv">0</span>], gathered_c.shape[<span class="dv">1</span>]))</span>
-<span id="cb26-421"><a href="#cb26-421"></a></span>
+<span id="cb26-408"><a href="#cb26-408"></a>        <span class="co"># Take the two tuples, and concatenate them.</span></span>
+<span id="cb26-409"><a href="#cb26-409"></a>        <span class="co"># Then, reshape into Y = (1, 2N, k) and Z = (2N, 1, k)</span></span>
+<span id="cb26-410"><a href="#cb26-410"></a></span>
+<span id="cb26-411"><a href="#cb26-411"></a>        c <span class="op">=</span> torch.concat([first_images, second_images], dim<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb26-412"><a href="#cb26-412"></a></span>
+<span id="cb26-413"><a href="#cb26-413"></a>        <span class="co"># Gather all the c up if the world size &gt; 1:</span></span>
+<span id="cb26-414"><a href="#cb26-414"></a>        <span class="cf">if</span> world_size <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb26-415"><a href="#cb26-415"></a>            gathered_c <span class="op">=</span> torch.distributed.all_gather(tensor<span class="op">=</span>c)</span>
+<span id="cb26-416"><a href="#cb26-416"></a>            gathered_c <span class="op">=</span> gathered_c.reshape((<span class="op">-</span><span class="dv">1</span>, first_images.shape[<span class="op">-</span><span class="dv">1</span>]))</span>
+<span id="cb26-417"><a href="#cb26-417"></a>        <span class="cf">else</span>:</span>
+<span id="cb26-418"><a href="#cb26-418"></a>            gathered_c <span class="op">=</span> c</span>
+<span id="cb26-419"><a href="#cb26-419"></a></span>
+<span id="cb26-420"><a href="#cb26-420"></a>        <span class="co"># Each rank computes only a slice of the global loss matrix, or</span></span>
+<span id="cb26-421"><a href="#cb26-421"></a>        <span class="co"># the memory usage gets out of control.</span></span>
 <span id="cb26-422"><a href="#cb26-422"></a></span>
-<span id="cb26-423"><a href="#cb26-423"></a>        <span class="co"># Assume we have n images per rank, for N global images with N = n * world_size</span></span>
-<span id="cb26-424"><a href="#cb26-424"></a>        <span class="co"># Compute the product of these tensors, which gives shape</span></span>
-<span id="cb26-425"><a href="#cb26-425"></a>        <span class="co"># (2n, 2N, k)</span></span>
-<span id="cb26-426"><a href="#cb26-426"></a>        mat <span class="op">=</span>  local_reps<span class="op">*</span>all_reps</span>
+<span id="cb26-423"><a href="#cb26-423"></a>        <span class="co"># We calculate the dot product between the local and global tensors:</span></span>
+<span id="cb26-424"><a href="#cb26-424"></a>        local_reps <span class="op">=</span> c.reshape((c.shape[<span class="dv">0</span>], <span class="dv">1</span>, c.shape[<span class="dv">1</span>]))</span>
+<span id="cb26-425"><a href="#cb26-425"></a>        all_reps   <span class="op">=</span> gathered_c.reshape((<span class="dv">1</span>, gathered_c.shape[<span class="dv">0</span>], gathered_c.shape[<span class="dv">1</span>]))</span>
+<span id="cb26-426"><a href="#cb26-426"></a></span>
 <span id="cb26-427"><a href="#cb26-427"></a></span>
-<span id="cb26-428"><a href="#cb26-428"></a>        <span class="co"># We need to compute the function (sim(x,y)) for each element in the 2N sequent.</span></span>
-<span id="cb26-429"><a href="#cb26-429"></a>        <span class="co"># Since the are normalized, we're computing x^T . Y / (||x||*||y||),</span></span>
-<span id="cb26-430"><a href="#cb26-430"></a>        <span class="co"># but the norms are equal to 1.</span></span>
-<span id="cb26-431"><a href="#cb26-431"></a>        <span class="co"># So, summing the matrix over the dim = 0 and dim = 1 computes this for each pair.</span></span>
+<span id="cb26-428"><a href="#cb26-428"></a>        <span class="co"># Assume we have n images per rank, for N global images with N = n * world_size</span></span>
+<span id="cb26-429"><a href="#cb26-429"></a>        <span class="co"># Compute the product of these tensors, which gives shape</span></span>
+<span id="cb26-430"><a href="#cb26-430"></a>        <span class="co"># (2n, 2N, k)</span></span>
+<span id="cb26-431"><a href="#cb26-431"></a>        mat <span class="op">=</span>  local_reps<span class="op">*</span>all_reps</span>
 <span id="cb26-432"><a href="#cb26-432"></a></span>
-<span id="cb26-433"><a href="#cb26-433"></a>        sim <span class="op">=</span> torch.<span class="bu">sum</span>(mat, dim<span class="op">=-</span><span class="dv">1</span>) <span class="op">/</span> temperature</span>
-<span id="cb26-434"><a href="#cb26-434"></a></span>
-<span id="cb26-435"><a href="#cb26-435"></a></span>
-<span id="cb26-436"><a href="#cb26-436"></a></span>
-<span id="cb26-437"><a href="#cb26-437"></a>        <span class="co"># Now, sim is of shape [2*n, 2*N]</span></span>
-<span id="cb26-438"><a href="#cb26-438"></a></span>
-<span id="cb26-439"><a href="#cb26-439"></a>        <span class="co"># This yields a symmetric matrix, diagonal entries equal 1.  Off diagonal are symmetrics and &lt; 1.</span></span>
+<span id="cb26-433"><a href="#cb26-433"></a>        <span class="co"># We need to compute the function (sim(x,y)) for each element in the 2N sequent.</span></span>
+<span id="cb26-434"><a href="#cb26-434"></a>        <span class="co"># Since the are normalized, we're computing x^T . Y / (||x||*||y||),</span></span>
+<span id="cb26-435"><a href="#cb26-435"></a>        <span class="co"># but the norms are equal to 1.</span></span>
+<span id="cb26-436"><a href="#cb26-436"></a>        <span class="co"># So, summing the matrix over the dim = 0 and dim = 1 computes this for each pair.</span></span>
+<span id="cb26-437"><a href="#cb26-437"></a></span>
+<span id="cb26-438"><a href="#cb26-438"></a>        sim <span class="op">=</span> torch.<span class="bu">sum</span>(mat, dim<span class="op">=-</span><span class="dv">1</span>) <span class="op">/</span> temperature</span>
+<span id="cb26-439"><a href="#cb26-439"></a></span>
 <span id="cb26-440"><a href="#cb26-440"></a></span>
-<span id="cb26-441"><a href="#cb26-441"></a>        <span class="co"># sim = torch.exp(sim / temperature)</span></span>
-<span id="cb26-442"><a href="#cb26-442"></a>        <span class="co"># Now, for every entry i in C (concat of both batches), the sum of sim[i] - sim[i][i] is the denominator</span></span>
+<span id="cb26-441"><a href="#cb26-441"></a></span>
+<span id="cb26-442"><a href="#cb26-442"></a>        <span class="co"># Now, sim is of shape [2*n, 2*N]</span></span>
 <span id="cb26-443"><a href="#cb26-443"></a></span>
-<span id="cb26-444"><a href="#cb26-444"></a>        device <span class="op">=</span> sim.device</span>
+<span id="cb26-444"><a href="#cb26-444"></a>        <span class="co"># This yields a symmetric matrix, diagonal entries equal 1.  Off diagonal are symmetrics and &lt; 1.</span></span>
 <span id="cb26-445"><a href="#cb26-445"></a></span>
-<span id="cb26-446"><a href="#cb26-446"></a>        <span class="co"># Since we have a non-symmetric matrix, need to build a non-symmetric index:</span></span>
-<span id="cb26-447"><a href="#cb26-447"></a>        positive <span class="op">=</span> torch.zeros(sim.shape, device<span class="op">=</span>device)</span>
+<span id="cb26-446"><a href="#cb26-446"></a>        <span class="co"># sim = torch.exp(sim / temperature)</span></span>
+<span id="cb26-447"><a href="#cb26-447"></a>        <span class="co"># Now, for every entry i in C (concat of both batches), the sum of sim[i] - sim[i][i] is the denominator</span></span>
 <span id="cb26-448"><a href="#cb26-448"></a></span>
-<span id="cb26-449"><a href="#cb26-449"></a>        <span class="co"># We concatenated all the local examples, and compute symmetric positive pairs</span></span>
-<span id="cb26-450"><a href="#cb26-450"></a>        <span class="co"># So for the first N entries, the index of the positive pair is i + N  (locally)</span></span>
-<span id="cb26-451"><a href="#cb26-451"></a>        <span class="co"># For the second N entries, the index of the positive pair is i - N (locally)</span></span>
-<span id="cb26-452"><a href="#cb26-452"></a>        <span class="co"># with a distributed run, we've squashed all the similarity scores together.</span></span>
-<span id="cb26-453"><a href="#cb26-453"></a>        <span class="co"># to a shape of [2*N, 2*N*Size]</span></span>
-<span id="cb26-454"><a href="#cb26-454"></a>        <span class="co"># Each 2*N by 2*N block is the local positive indexes, all others are negative.</span></span>
-<span id="cb26-455"><a href="#cb26-455"></a>        <span class="co"># That means that the index is shifted by global_rank*2*N</span></span>
-<span id="cb26-456"><a href="#cb26-456"></a></span>
-<span id="cb26-457"><a href="#cb26-457"></a>        access_index_x <span class="op">=</span> torch.arange(<span class="dv">2</span><span class="op">*</span>N)</span>
-<span id="cb26-458"><a href="#cb26-458"></a>        <span class="co"># For the first N, the y-index is equal to x + 2*N</span></span>
-<span id="cb26-459"><a href="#cb26-459"></a>        <span class="co"># For the second N</span></span>
-<span id="cb26-460"><a href="#cb26-460"></a>        access_index_y <span class="op">=</span> torch.arange(<span class="dv">2</span><span class="op">*</span>N)</span>
-<span id="cb26-461"><a href="#cb26-461"></a>        <span class="co"># Shift by +/- N:</span></span>
-<span id="cb26-462"><a href="#cb26-462"></a>        access_index_y[<span class="dv">0</span>:N] <span class="op">=</span> access_index_y[<span class="dv">0</span>:N] <span class="op">+</span> N</span>
-<span id="cb26-463"><a href="#cb26-463"></a>        access_index_y[N:]  <span class="op">=</span> access_index_y[N:] <span class="op">-</span> N</span>
-<span id="cb26-464"><a href="#cb26-464"></a></span>
-<span id="cb26-465"><a href="#cb26-465"></a>        access_index_y <span class="op">+=</span>  rank <span class="op">*</span> <span class="dv">2</span><span class="op">*</span>N</span>
-<span id="cb26-466"><a href="#cb26-466"></a></span>
-<span id="cb26-467"><a href="#cb26-467"></a>        <span class="co"># print("access_index_y: ", access_index_y, flush=True)</span></span>
-<span id="cb26-468"><a href="#cb26-468"></a></span>
-<span id="cb26-469"><a href="#cb26-469"></a>        positive[access_index_x, access_index_y] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb26-470"><a href="#cb26-470"></a></span>
-<span id="cb26-471"><a href="#cb26-471"></a>        <span class="co"># For the negative, we invert the positive and have to 0 out the self-index entries</span></span>
-<span id="cb26-472"><a href="#cb26-472"></a>        negative <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> positive</span>
+<span id="cb26-449"><a href="#cb26-449"></a>        device <span class="op">=</span> sim.device</span>
+<span id="cb26-450"><a href="#cb26-450"></a></span>
+<span id="cb26-451"><a href="#cb26-451"></a>        <span class="co"># Since we have a non-symmetric matrix, need to build a non-symmetric index:</span></span>
+<span id="cb26-452"><a href="#cb26-452"></a>        positive <span class="op">=</span> torch.zeros(sim.shape, device<span class="op">=</span>device)</span>
+<span id="cb26-453"><a href="#cb26-453"></a></span>
+<span id="cb26-454"><a href="#cb26-454"></a>        <span class="co"># We concatenated all the local examples, and compute symmetric positive pairs</span></span>
+<span id="cb26-455"><a href="#cb26-455"></a>        <span class="co"># So for the first N entries, the index of the positive pair is i + N  (locally)</span></span>
+<span id="cb26-456"><a href="#cb26-456"></a>        <span class="co"># For the second N entries, the index of the positive pair is i - N (locally)</span></span>
+<span id="cb26-457"><a href="#cb26-457"></a>        <span class="co"># with a distributed run, we've squashed all the similarity scores together.</span></span>
+<span id="cb26-458"><a href="#cb26-458"></a>        <span class="co"># to a shape of [2*N, 2*N*Size]</span></span>
+<span id="cb26-459"><a href="#cb26-459"></a>        <span class="co"># Each 2*N by 2*N block is the local positive indexes, all others are negative.</span></span>
+<span id="cb26-460"><a href="#cb26-460"></a>        <span class="co"># That means that the index is shifted by global_rank*2*N</span></span>
+<span id="cb26-461"><a href="#cb26-461"></a></span>
+<span id="cb26-462"><a href="#cb26-462"></a>        access_index_x <span class="op">=</span> torch.arange(<span class="dv">2</span><span class="op">*</span>N)</span>
+<span id="cb26-463"><a href="#cb26-463"></a>        <span class="co"># For the first N, the y-index is equal to x + 2*N</span></span>
+<span id="cb26-464"><a href="#cb26-464"></a>        <span class="co"># For the second N</span></span>
+<span id="cb26-465"><a href="#cb26-465"></a>        access_index_y <span class="op">=</span> torch.arange(<span class="dv">2</span><span class="op">*</span>N)</span>
+<span id="cb26-466"><a href="#cb26-466"></a>        <span class="co"># Shift by +/- N:</span></span>
+<span id="cb26-467"><a href="#cb26-467"></a>        access_index_y[<span class="dv">0</span>:N] <span class="op">=</span> access_index_y[<span class="dv">0</span>:N] <span class="op">+</span> N</span>
+<span id="cb26-468"><a href="#cb26-468"></a>        access_index_y[N:]  <span class="op">=</span> access_index_y[N:] <span class="op">-</span> N</span>
+<span id="cb26-469"><a href="#cb26-469"></a></span>
+<span id="cb26-470"><a href="#cb26-470"></a>        access_index_y <span class="op">+=</span>  rank <span class="op">*</span> <span class="dv">2</span><span class="op">*</span>N</span>
+<span id="cb26-471"><a href="#cb26-471"></a></span>
+<span id="cb26-472"><a href="#cb26-472"></a>        <span class="co"># console.log("access_index_y: ", access_index_y, flush=True)</span></span>
 <span id="cb26-473"><a href="#cb26-473"></a></span>
-<span id="cb26-474"><a href="#cb26-474"></a>        <span class="co"># THESE WORK IF IT'S NOT DISTRIBUTED</span></span>
-<span id="cb26-475"><a href="#cb26-475"></a>        <span class="co"># positive = torch.tile(torch.eye(N, device=device), (2,2))</span></span>
-<span id="cb26-476"><a href="#cb26-476"></a>        <span class="co"># # Unsure if this line is needed?</span></span>
-<span id="cb26-477"><a href="#cb26-477"></a>        <span class="co"># positive = positive - torch.eye(2*N, device=device)</span></span>
-<span id="cb26-478"><a href="#cb26-478"></a>        <span class="co">#</span></span>
-<span id="cb26-479"><a href="#cb26-479"></a>        <span class="co"># negative = - (torch.eye(2*N, device=device) - 1)</span></span>
-<span id="cb26-480"><a href="#cb26-480"></a></span>
-<span id="cb26-481"><a href="#cb26-481"></a>        <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb26-482"><a href="#cb26-482"></a>            <span class="co"># Here, we can compute the top-k metrics for this batch, since we have the global state:</span></span>
-<span id="cb26-483"><a href="#cb26-483"></a>            <span class="co"># We want the top 5 entries but the self-sim is obviously perfect.</span></span>
-<span id="cb26-484"><a href="#cb26-484"></a>            <span class="co"># So take the top 6 and reject the first.</span></span>
-<span id="cb26-485"><a href="#cb26-485"></a>            topk <span class="op">=</span> torch.topk(sim, k<span class="op">=</span><span class="dv">6</span>, dim<span class="op">=-</span><span class="dv">1</span>, <span class="bu">sorted</span><span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb26-486"><a href="#cb26-486"></a></span>
-<span id="cb26-487"><a href="#cb26-487"></a>            <span class="co"># Top 1 is just an equality check:</span></span>
-<span id="cb26-488"><a href="#cb26-488"></a>            top1_acc <span class="op">=</span> topk.indices[:,<span class="dv">1</span>] <span class="op">==</span> access_index_y.to(topk.indices.device)</span>
-<span id="cb26-489"><a href="#cb26-489"></a>            top1_acc <span class="op">=</span> torch.mean(top1_acc.to(torch.<span class="bu">float</span>))</span>
-<span id="cb26-490"><a href="#cb26-490"></a>          </span>
-<span id="cb26-491"><a href="#cb26-491"></a>            <span class="co"># Top 5 is a little more complicated:</span></span>
-<span id="cb26-492"><a href="#cb26-492"></a>            <span class="co"># Compute the index distance to the correct index, abs value:</span></span>
-<span id="cb26-493"><a href="#cb26-493"></a>            top5_acc_dist <span class="op">=</span> torch.<span class="bu">abs</span>(topk.indices[:,<span class="dv">1</span>:] <span class="op">-</span> access_index_y.to(topk.indices.device).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb26-494"><a href="#cb26-494"></a>            <span class="co"># Get the minumum value, and see if it is less than 5:</span></span>
-<span id="cb26-495"><a href="#cb26-495"></a>            min_values, _ <span class="op">=</span> torch.<span class="bu">min</span>(top5_acc_dist, dim<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb26-496"><a href="#cb26-496"></a>            top5_acc <span class="op">=</span>  min_values <span class="op">&lt;</span> <span class="fl">5.</span></span>
-<span id="cb26-497"><a href="#cb26-497"></a>            <span class="co"># Average over the batch dimension:</span></span>
-<span id="cb26-498"><a href="#cb26-498"></a>            top5_acc <span class="op">=</span> torch.mean(top5_acc.to(torch.<span class="bu">float</span>))</span>
-<span id="cb26-499"><a href="#cb26-499"></a></span>
-<span id="cb26-500"><a href="#cb26-500"></a></span>
-<span id="cb26-501"><a href="#cb26-501"></a>        negative_examples <span class="op">=</span> sim <span class="op">*</span> negative</span>
-<span id="cb26-502"><a href="#cb26-502"></a>        positive_examples <span class="op">=</span> sim <span class="op">*</span> positive</span>
-<span id="cb26-503"><a href="#cb26-503"></a></span>
-<span id="cb26-504"><a href="#cb26-504"></a>        <span class="co"># Now, positive/negative examples is the temperature normalized similarity.</span></span>
-<span id="cb26-505"><a href="#cb26-505"></a>        <span class="co"># we need to sum across the whole batch dimension to compute it per-example:</span></span>
-<span id="cb26-506"><a href="#cb26-506"></a></span>
-<span id="cb26-507"><a href="#cb26-507"></a></span>
-<span id="cb26-508"><a href="#cb26-508"></a>        <span class="co"># Compute the alignment, summed over the entire global batch:</span></span>
-<span id="cb26-509"><a href="#cb26-509"></a>        alignment <span class="op">=</span> torch.<span class="bu">sum</span>(positive_examples, dim<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb26-510"><a href="#cb26-510"></a></span>
-<span id="cb26-511"><a href="#cb26-511"></a>        <span class="co"># Compute the exp, which we'll eventually sum and log:</span></span>
-<span id="cb26-512"><a href="#cb26-512"></a>        exp <span class="op">=</span> torch.<span class="bu">sum</span>(torch.exp(negative_examples), dim<span class="op">=-</span><span class="dv">1</span>)</span>
-<span id="cb26-513"><a href="#cb26-513"></a></span>
-<span id="cb26-514"><a href="#cb26-514"></a>        <span class="co"># print("Alignment: ", alignment, flush=True)</span></span>
-<span id="cb26-515"><a href="#cb26-515"></a>        <span class="co"># print("exp: ",       exp, flush=True)</span></span>
-<span id="cb26-516"><a href="#cb26-516"></a></span>
-<span id="cb26-517"><a href="#cb26-517"></a></span>
-<span id="cb26-518"><a href="#cb26-518"></a>        <span class="co"># And compute the logsumexp of the negative examples:</span></span>
-<span id="cb26-519"><a href="#cb26-519"></a>        log_sum_exp <span class="op">=</span> torch.log(exp )</span>
-<span id="cb26-520"><a href="#cb26-520"></a></span>
+<span id="cb26-474"><a href="#cb26-474"></a>        positive[access_index_x, access_index_y] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb26-475"><a href="#cb26-475"></a></span>
+<span id="cb26-476"><a href="#cb26-476"></a>        <span class="co"># For the negative, we invert the positive and have to 0 out the self-index entries</span></span>
+<span id="cb26-477"><a href="#cb26-477"></a>        negative <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> positive</span>
+<span id="cb26-478"><a href="#cb26-478"></a></span>
+<span id="cb26-479"><a href="#cb26-479"></a>        <span class="co"># THESE WORK IF IT'S NOT DISTRIBUTED</span></span>
+<span id="cb26-480"><a href="#cb26-480"></a>        <span class="co"># positive = torch.tile(torch.eye(N, device=device), (2,2))</span></span>
+<span id="cb26-481"><a href="#cb26-481"></a>        <span class="co"># # Unsure if this line is needed?</span></span>
+<span id="cb26-482"><a href="#cb26-482"></a>        <span class="co"># positive = positive - torch.eye(2*N, device=device)</span></span>
+<span id="cb26-483"><a href="#cb26-483"></a>        <span class="co">#</span></span>
+<span id="cb26-484"><a href="#cb26-484"></a>        <span class="co"># negative = - (torch.eye(2*N, device=device) - 1)</span></span>
+<span id="cb26-485"><a href="#cb26-485"></a></span>
+<span id="cb26-486"><a href="#cb26-486"></a>        <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb26-487"><a href="#cb26-487"></a>            <span class="co"># Here, we can compute the top-k metrics for this batch, since we have the global state:</span></span>
+<span id="cb26-488"><a href="#cb26-488"></a>            <span class="co"># We want the top 5 entries but the self-sim is obviously perfect.</span></span>
+<span id="cb26-489"><a href="#cb26-489"></a>            <span class="co"># So take the top 6 and reject the first.</span></span>
+<span id="cb26-490"><a href="#cb26-490"></a>            topk <span class="op">=</span> torch.topk(sim, k<span class="op">=</span><span class="dv">6</span>, dim<span class="op">=-</span><span class="dv">1</span>, <span class="bu">sorted</span><span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-491"><a href="#cb26-491"></a></span>
+<span id="cb26-492"><a href="#cb26-492"></a>            <span class="co"># Top 1 is just an equality check:</span></span>
+<span id="cb26-493"><a href="#cb26-493"></a>            top1_acc <span class="op">=</span> topk.indices[:,<span class="dv">1</span>] <span class="op">==</span> access_index_y.to(topk.indices.device)</span>
+<span id="cb26-494"><a href="#cb26-494"></a>            top1_acc <span class="op">=</span> torch.mean(top1_acc.to(torch.<span class="bu">float</span>))</span>
+<span id="cb26-495"><a href="#cb26-495"></a>          </span>
+<span id="cb26-496"><a href="#cb26-496"></a>            <span class="co"># Top 5 is a little more complicated:</span></span>
+<span id="cb26-497"><a href="#cb26-497"></a>            <span class="co"># Compute the index distance to the correct index, abs value:</span></span>
+<span id="cb26-498"><a href="#cb26-498"></a>            top5_acc_dist <span class="op">=</span> torch.<span class="bu">abs</span>(topk.indices[:,<span class="dv">1</span>:] <span class="op">-</span> access_index_y.to(topk.indices.device).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb26-499"><a href="#cb26-499"></a>            <span class="co"># Get the minumum value, and see if it is less than 5:</span></span>
+<span id="cb26-500"><a href="#cb26-500"></a>            min_values, _ <span class="op">=</span> torch.<span class="bu">min</span>(top5_acc_dist, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb26-501"><a href="#cb26-501"></a>            top5_acc <span class="op">=</span>  min_values <span class="op">&lt;</span> <span class="fl">5.</span></span>
+<span id="cb26-502"><a href="#cb26-502"></a>            <span class="co"># Average over the batch dimension:</span></span>
+<span id="cb26-503"><a href="#cb26-503"></a>            top5_acc <span class="op">=</span> torch.mean(top5_acc.to(torch.<span class="bu">float</span>))</span>
+<span id="cb26-504"><a href="#cb26-504"></a></span>
+<span id="cb26-505"><a href="#cb26-505"></a></span>
+<span id="cb26-506"><a href="#cb26-506"></a>        negative_examples <span class="op">=</span> sim <span class="op">*</span> negative</span>
+<span id="cb26-507"><a href="#cb26-507"></a>        positive_examples <span class="op">=</span> sim <span class="op">*</span> positive</span>
+<span id="cb26-508"><a href="#cb26-508"></a></span>
+<span id="cb26-509"><a href="#cb26-509"></a>        <span class="co"># Now, positive/negative examples is the temperature normalized similarity.</span></span>
+<span id="cb26-510"><a href="#cb26-510"></a>        <span class="co"># we need to sum across the whole batch dimension to compute it per-example:</span></span>
+<span id="cb26-511"><a href="#cb26-511"></a></span>
+<span id="cb26-512"><a href="#cb26-512"></a></span>
+<span id="cb26-513"><a href="#cb26-513"></a>        <span class="co"># Compute the alignment, summed over the entire global batch:</span></span>
+<span id="cb26-514"><a href="#cb26-514"></a>        alignment <span class="op">=</span> torch.<span class="bu">sum</span>(positive_examples, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb26-515"><a href="#cb26-515"></a></span>
+<span id="cb26-516"><a href="#cb26-516"></a>        <span class="co"># Compute the exp, which we'll eventually sum and log:</span></span>
+<span id="cb26-517"><a href="#cb26-517"></a>        exp <span class="op">=</span> torch.<span class="bu">sum</span>(torch.exp(negative_examples), dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb26-518"><a href="#cb26-518"></a></span>
+<span id="cb26-519"><a href="#cb26-519"></a>        <span class="co"># console.log("Alignment: ", alignment, flush=True)</span></span>
+<span id="cb26-520"><a href="#cb26-520"></a>        <span class="co"># console.log("exp: ",       exp, flush=True)</span></span>
 <span id="cb26-521"><a href="#cb26-521"></a></span>
-<span id="cb26-522"><a href="#cb26-522"></a>        <span class="co"># Additionally, we can compute the "floor" of the loss at this batch size:</span></span>
-<span id="cb26-523"><a href="#cb26-523"></a>        <span class="co"># floor = torch.log(1.*N) - 1.</span></span>
-<span id="cb26-524"><a href="#cb26-524"></a></span>
-<span id="cb26-525"><a href="#cb26-525"></a>        loss_metrics <span class="op">=</span> {</span>
-<span id="cb26-526"><a href="#cb26-526"></a>            <span class="st">"alignment"</span>   : torch.mean(alignment),</span>
-<span id="cb26-527"><a href="#cb26-527"></a>            <span class="st">"log_sum_exp"</span> : torch.mean(log_sum_exp),</span>
-<span id="cb26-528"><a href="#cb26-528"></a>            <span class="st">"top1"</span>        : top1_acc,</span>
-<span id="cb26-529"><a href="#cb26-529"></a>            <span class="st">"top5"</span>        : top5_acc,</span>
-<span id="cb26-530"><a href="#cb26-530"></a>            <span class="co"># "floor"       : floor,</span></span>
-<span id="cb26-531"><a href="#cb26-531"></a>        }</span>
-<span id="cb26-532"><a href="#cb26-532"></a></span>
-<span id="cb26-533"><a href="#cb26-533"></a>        loss <span class="op">=</span> torch.mean( <span class="op">-</span> alignment <span class="op">+</span> log_sum_exp)</span>
-<span id="cb26-534"><a href="#cb26-534"></a>        <span class="cf">return</span> loss, loss_metrics</span>
-<span id="cb26-535"><a href="#cb26-535"></a><span class="in">```</span></span>
-<span id="cb26-536"><a href="#cb26-536"></a></span>
-<span id="cb26-539"><a href="#cb26-539"></a><span class="in">```{python}</span></span>
-<span id="cb26-540"><a href="#cb26-540"></a><span class="kw">def</span> train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):</span>
-<span id="cb26-541"><a href="#cb26-541"></a>    model.train()</span>
-<span id="cb26-542"><a href="#cb26-542"></a>    head.train()</span>
-<span id="cb26-543"><a href="#cb26-543"></a>    <span class="cf">for</span> (batch, (X, _)) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
-<span id="cb26-544"><a href="#cb26-544"></a>        <span class="co"># forward pass</span></span>
-<span id="cb26-545"><a href="#cb26-545"></a>        X1 <span class="op">=</span> t1(X)<span class="op">;</span> X2 <span class="op">=</span> t2(X)</span>
-<span id="cb26-546"><a href="#cb26-546"></a>        pred1 <span class="op">=</span> head(model(X1))</span>
-<span id="cb26-547"><a href="#cb26-547"></a>        pred2 <span class="op">=</span> head(model(X2))</span>
-<span id="cb26-548"><a href="#cb26-548"></a>        loss, metrics <span class="op">=</span> loss_fn(pred1, pred2, rank, size)</span>
-<span id="cb26-549"><a href="#cb26-549"></a></span>
-<span id="cb26-550"><a href="#cb26-550"></a>        <span class="co"># print(metrics)</span></span>
-<span id="cb26-551"><a href="#cb26-551"></a>        </span>
-<span id="cb26-552"><a href="#cb26-552"></a>        <span class="co"># backward pass calculates gradients</span></span>
-<span id="cb26-553"><a href="#cb26-553"></a>        loss.backward()</span>
-<span id="cb26-554"><a href="#cb26-554"></a>        </span>
-<span id="cb26-555"><a href="#cb26-555"></a>        <span class="co"># take one step with these gradients</span></span>
-<span id="cb26-556"><a href="#cb26-556"></a>        optimizer.step()</span>
-<span id="cb26-557"><a href="#cb26-557"></a>        </span>
-<span id="cb26-558"><a href="#cb26-558"></a>        <span class="co"># resets the gradients </span></span>
-<span id="cb26-559"><a href="#cb26-559"></a>        optimizer.zero_grad()</span>
-<span id="cb26-560"><a href="#cb26-560"></a></span>
-<span id="cb26-561"><a href="#cb26-561"></a>        <span class="co"># progress_bar.refresh()</span></span>
-<span id="cb26-562"><a href="#cb26-562"></a>        cpu_metrics <span class="op">=</span> { key : <span class="ss">f"</span><span class="sc">{</span>metrics[key]<span class="sc">.</span>detach()<span class="sc">.</span>cpu()<span class="sc">.</span>numpy()<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> key <span class="kw">in</span> metrics.keys()}</span>
-<span id="cb26-563"><a href="#cb26-563"></a>        cpu_metrics[<span class="st">"loss"</span>] <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>loss<span class="sc">.</span>detach()<span class="sc">.</span>cpu()<span class="sc">.</span>numpy()<span class="sc">:.2f}</span><span class="ss">"</span></span>
-<span id="cb26-564"><a href="#cb26-564"></a>        progress_bar.update()</span>
-<span id="cb26-565"><a href="#cb26-565"></a>        progress_bar.set_postfix(cpu_metrics)</span>
-<span id="cb26-566"><a href="#cb26-566"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
-<span id="cb26-567"><a href="#cb26-567"></a>        <span class="co"># break</span></span>
-<span id="cb26-568"><a href="#cb26-568"></a><span class="in">```</span></span>
-<span id="cb26-569"><a href="#cb26-569"></a></span>
-<span id="cb26-572"><a href="#cb26-572"></a><span class="in">```{python}</span></span>
-<span id="cb26-573"><a href="#cb26-573"></a><span class="kw">def</span> validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):</span>
-<span id="cb26-574"><a href="#cb26-574"></a>    model.train()</span>
-<span id="cb26-575"><a href="#cb26-575"></a>    head.train()</span>
-<span id="cb26-576"><a href="#cb26-576"></a>    n <span class="op">=</span> <span class="fl">0.</span></span>
-<span id="cb26-577"><a href="#cb26-577"></a>    sum_metrics <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb26-578"><a href="#cb26-578"></a>    <span class="cf">for</span> (batch, (X, _)) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
-<span id="cb26-579"><a href="#cb26-579"></a>        <span class="co"># forward pass</span></span>
-<span id="cb26-580"><a href="#cb26-580"></a>        X1 <span class="op">=</span> t1(X)<span class="op">;</span> X2 <span class="op">=</span> t2(X)</span>
-<span id="cb26-581"><a href="#cb26-581"></a>        pred1 <span class="op">=</span> head(model(X1))</span>
-<span id="cb26-582"><a href="#cb26-582"></a>        pred2 <span class="op">=</span> head(model(X2))</span>
-<span id="cb26-583"><a href="#cb26-583"></a>        loss, metrics <span class="op">=</span> loss_fn(pred1, pred2, rank, size)</span>
-<span id="cb26-584"><a href="#cb26-584"></a></span>
-<span id="cb26-585"><a href="#cb26-585"></a>        <span class="co"># print(metrics)</span></span>
-<span id="cb26-586"><a href="#cb26-586"></a>        </span>
-<span id="cb26-587"><a href="#cb26-587"></a>        <span class="co"># backward pass calculates gradients</span></span>
-<span id="cb26-588"><a href="#cb26-588"></a>        loss.backward()</span>
-<span id="cb26-589"><a href="#cb26-589"></a>        </span>
-<span id="cb26-590"><a href="#cb26-590"></a>        <span class="co"># take one step with these gradients</span></span>
-<span id="cb26-591"><a href="#cb26-591"></a>        optimizer.step()</span>
-<span id="cb26-592"><a href="#cb26-592"></a>        </span>
-<span id="cb26-593"><a href="#cb26-593"></a>        <span class="co"># resets the gradients </span></span>
-<span id="cb26-594"><a href="#cb26-594"></a>        optimizer.zero_grad()</span>
-<span id="cb26-595"><a href="#cb26-595"></a></span>
-<span id="cb26-596"><a href="#cb26-596"></a>        <span class="co"># progress_bar.refresh()</span></span>
-<span id="cb26-597"><a href="#cb26-597"></a>        cpu_metrics <span class="op">=</span> { key : metrics[key].detach().cpu().numpy() <span class="cf">for</span> key <span class="kw">in</span> metrics.keys()}</span>
-<span id="cb26-598"><a href="#cb26-598"></a>        <span class="cf">if</span> sum_metrics <span class="kw">is</span> <span class="va">None</span>: </span>
-<span id="cb26-599"><a href="#cb26-599"></a>            sum_metrics <span class="op">=</span> cpu_metrics</span>
-<span id="cb26-600"><a href="#cb26-600"></a>        <span class="cf">else</span>:</span>
-<span id="cb26-601"><a href="#cb26-601"></a>            <span class="cf">for</span> key <span class="kw">in</span> sum_metrics.keys():</span>
-<span id="cb26-602"><a href="#cb26-602"></a>                sum_metrics[key] <span class="op">+=</span> cpu_metrics[key]</span>
-<span id="cb26-603"><a href="#cb26-603"></a>        progress_bar.update()</span>
-<span id="cb26-604"><a href="#cb26-604"></a>        n <span class="op">+=</span> <span class="fl">1.</span></span>
-<span id="cb26-605"><a href="#cb26-605"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {sum_metrics['top5'].cpu():.2f}"</span></span>
-<span id="cb26-606"><a href="#cb26-606"></a>        <span class="co"># break</span></span>
-<span id="cb26-607"><a href="#cb26-607"></a>    </span>
-<span id="cb26-608"><a href="#cb26-608"></a>    <span class="cf">for</span> key <span class="kw">in</span> sum_metrics:</span>
-<span id="cb26-609"><a href="#cb26-609"></a>        sum_metrics[key] <span class="op">=</span> sum_metrics[key] <span class="op">/</span> n</span>
-<span id="cb26-610"><a href="#cb26-610"></a>    <span class="cf">return</span> sum_metrics</span>
-<span id="cb26-611"><a href="#cb26-611"></a><span class="in">```</span></span>
-<span id="cb26-612"><a href="#cb26-612"></a></span>
-<span id="cb26-615"><a href="#cb26-615"></a><span class="in">```{python}</span></span>
-<span id="cb26-616"><a href="#cb26-616"></a>optimizer <span class="op">=</span> torch.optim.AdamW(<span class="bu">list</span>(model.parameters()) <span class="op">+</span> <span class="bu">list</span>(head.parameters()), lr<span class="op">=</span><span class="fl">0.001</span>)</span>
-<span id="cb26-617"><a href="#cb26-617"></a><span class="in">```</span></span>
-<span id="cb26-618"><a href="#cb26-618"></a></span>
-<span id="cb26-619"><a href="#cb26-619"></a></span>
-<span id="cb26-622"><a href="#cb26-622"></a><span class="in">```{python}</span></span>
-<span id="cb26-623"><a href="#cb26-623"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
+<span id="cb26-522"><a href="#cb26-522"></a></span>
+<span id="cb26-523"><a href="#cb26-523"></a>        <span class="co"># And compute the logsumexp of the negative examples:</span></span>
+<span id="cb26-524"><a href="#cb26-524"></a>        log_sum_exp <span class="op">=</span> torch.log(exp )</span>
+<span id="cb26-525"><a href="#cb26-525"></a></span>
+<span id="cb26-526"><a href="#cb26-526"></a></span>
+<span id="cb26-527"><a href="#cb26-527"></a>        <span class="co"># Additionally, we can compute the "floor" of the loss at this batch size:</span></span>
+<span id="cb26-528"><a href="#cb26-528"></a>        <span class="co"># floor = torch.log(1.*N) - 1.</span></span>
+<span id="cb26-529"><a href="#cb26-529"></a></span>
+<span id="cb26-530"><a href="#cb26-530"></a>        loss_metrics <span class="op">=</span> {</span>
+<span id="cb26-531"><a href="#cb26-531"></a>            <span class="st">"alignment"</span>   : torch.mean(alignment),</span>
+<span id="cb26-532"><a href="#cb26-532"></a>            <span class="st">"log_sum_exp"</span> : torch.mean(log_sum_exp),</span>
+<span id="cb26-533"><a href="#cb26-533"></a>            <span class="st">"top1"</span>        : top1_acc,</span>
+<span id="cb26-534"><a href="#cb26-534"></a>            <span class="st">"top5"</span>        : top5_acc,</span>
+<span id="cb26-535"><a href="#cb26-535"></a>            <span class="co"># "floor"       : floor,</span></span>
+<span id="cb26-536"><a href="#cb26-536"></a>        }</span>
+<span id="cb26-537"><a href="#cb26-537"></a></span>
+<span id="cb26-538"><a href="#cb26-538"></a>        loss <span class="op">=</span> torch.mean( <span class="op">-</span> alignment <span class="op">+</span> log_sum_exp)</span>
+<span id="cb26-539"><a href="#cb26-539"></a>        <span class="cf">return</span> loss, loss_metrics</span>
+<span id="cb26-540"><a href="#cb26-540"></a><span class="in">```</span></span>
+<span id="cb26-541"><a href="#cb26-541"></a></span>
+<span id="cb26-544"><a href="#cb26-544"></a><span class="in">```{python}</span></span>
+<span id="cb26-545"><a href="#cb26-545"></a><span class="kw">def</span> train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, size, progress_bar):</span>
+<span id="cb26-546"><a href="#cb26-546"></a>    model.train()</span>
+<span id="cb26-547"><a href="#cb26-547"></a>    head.train()</span>
+<span id="cb26-548"><a href="#cb26-548"></a>    <span class="cf">for</span> (batch, (X, _)) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
+<span id="cb26-549"><a href="#cb26-549"></a>        <span class="co"># forward pass</span></span>
+<span id="cb26-550"><a href="#cb26-550"></a>        X1 <span class="op">=</span> t1(X)<span class="op">;</span> X2 <span class="op">=</span> t2(X)</span>
+<span id="cb26-551"><a href="#cb26-551"></a>        pred1 <span class="op">=</span> head(model(X1))</span>
+<span id="cb26-552"><a href="#cb26-552"></a>        pred2 <span class="op">=</span> head(model(X2))</span>
+<span id="cb26-553"><a href="#cb26-553"></a>        loss, metrics <span class="op">=</span> loss_fn(pred1, pred2, rank, size)</span>
+<span id="cb26-554"><a href="#cb26-554"></a></span>
+<span id="cb26-555"><a href="#cb26-555"></a>        <span class="co"># console.log(metrics)</span></span>
+<span id="cb26-556"><a href="#cb26-556"></a>        </span>
+<span id="cb26-557"><a href="#cb26-557"></a>        <span class="co"># backward pass calculates gradients</span></span>
+<span id="cb26-558"><a href="#cb26-558"></a>        loss.backward()</span>
+<span id="cb26-559"><a href="#cb26-559"></a>        </span>
+<span id="cb26-560"><a href="#cb26-560"></a>        <span class="co"># take one step with these gradients</span></span>
+<span id="cb26-561"><a href="#cb26-561"></a>        optimizer.step()</span>
+<span id="cb26-562"><a href="#cb26-562"></a>        </span>
+<span id="cb26-563"><a href="#cb26-563"></a>        <span class="co"># resets the gradients </span></span>
+<span id="cb26-564"><a href="#cb26-564"></a>        optimizer.zero_grad()</span>
+<span id="cb26-565"><a href="#cb26-565"></a></span>
+<span id="cb26-566"><a href="#cb26-566"></a>        <span class="co"># progress_bar.refresh()</span></span>
+<span id="cb26-567"><a href="#cb26-567"></a>        cpu_metrics <span class="op">=</span> { key : <span class="ss">f"</span><span class="sc">{</span>metrics[key]<span class="sc">.</span>detach()<span class="sc">.</span>cpu()<span class="sc">.</span>numpy()<span class="sc">:.2f}</span><span class="ss">"</span> <span class="cf">for</span> key <span class="kw">in</span> metrics.keys()}</span>
+<span id="cb26-568"><a href="#cb26-568"></a>        cpu_metrics[<span class="st">"loss"</span>] <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>loss<span class="sc">.</span>detach()<span class="sc">.</span>cpu()<span class="sc">.</span>numpy()<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb26-569"><a href="#cb26-569"></a>        progress_bar.update()</span>
+<span id="cb26-570"><a href="#cb26-570"></a>        progress_bar.set_postfix(cpu_metrics)</span>
+<span id="cb26-571"><a href="#cb26-571"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
+<span id="cb26-572"><a href="#cb26-572"></a>        <span class="co"># break</span></span>
+<span id="cb26-573"><a href="#cb26-573"></a><span class="in">```</span></span>
+<span id="cb26-574"><a href="#cb26-574"></a></span>
+<span id="cb26-577"><a href="#cb26-577"></a><span class="in">```{python}</span></span>
+<span id="cb26-578"><a href="#cb26-578"></a><span class="kw">def</span> validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, progress_bar):</span>
+<span id="cb26-579"><a href="#cb26-579"></a>    model.train()</span>
+<span id="cb26-580"><a href="#cb26-580"></a>    head.train()</span>
+<span id="cb26-581"><a href="#cb26-581"></a>    n <span class="op">=</span> <span class="fl">0.</span></span>
+<span id="cb26-582"><a href="#cb26-582"></a>    sum_metrics <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb26-583"><a href="#cb26-583"></a>    <span class="cf">for</span> (batch, (X, _)) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
+<span id="cb26-584"><a href="#cb26-584"></a>        <span class="co"># forward pass</span></span>
+<span id="cb26-585"><a href="#cb26-585"></a>        X1 <span class="op">=</span> t1(X)<span class="op">;</span> X2 <span class="op">=</span> t2(X)</span>
+<span id="cb26-586"><a href="#cb26-586"></a>        pred1 <span class="op">=</span> head(model(X1))</span>
+<span id="cb26-587"><a href="#cb26-587"></a>        pred2 <span class="op">=</span> head(model(X2))</span>
+<span id="cb26-588"><a href="#cb26-588"></a>        loss, metrics <span class="op">=</span> loss_fn(pred1, pred2, rank, size)</span>
+<span id="cb26-589"><a href="#cb26-589"></a></span>
+<span id="cb26-590"><a href="#cb26-590"></a>        <span class="co"># console.log(metrics)</span></span>
+<span id="cb26-591"><a href="#cb26-591"></a>        </span>
+<span id="cb26-592"><a href="#cb26-592"></a>        <span class="co"># backward pass calculates gradients</span></span>
+<span id="cb26-593"><a href="#cb26-593"></a>        loss.backward()</span>
+<span id="cb26-594"><a href="#cb26-594"></a>        </span>
+<span id="cb26-595"><a href="#cb26-595"></a>        <span class="co"># take one step with these gradients</span></span>
+<span id="cb26-596"><a href="#cb26-596"></a>        optimizer.step()</span>
+<span id="cb26-597"><a href="#cb26-597"></a>        </span>
+<span id="cb26-598"><a href="#cb26-598"></a>        <span class="co"># resets the gradients </span></span>
+<span id="cb26-599"><a href="#cb26-599"></a>        optimizer.zero_grad()</span>
+<span id="cb26-600"><a href="#cb26-600"></a></span>
+<span id="cb26-601"><a href="#cb26-601"></a>        <span class="co"># progress_bar.refresh()</span></span>
+<span id="cb26-602"><a href="#cb26-602"></a>        cpu_metrics <span class="op">=</span> { key : metrics[key].detach().cpu().numpy() <span class="cf">for</span> key <span class="kw">in</span> metrics.keys()}</span>
+<span id="cb26-603"><a href="#cb26-603"></a>        <span class="cf">if</span> sum_metrics <span class="kw">is</span> <span class="va">None</span>: </span>
+<span id="cb26-604"><a href="#cb26-604"></a>            sum_metrics <span class="op">=</span> cpu_metrics</span>
+<span id="cb26-605"><a href="#cb26-605"></a>        <span class="cf">else</span>:</span>
+<span id="cb26-606"><a href="#cb26-606"></a>            <span class="cf">for</span> key <span class="kw">in</span> sum_metrics.keys():</span>
+<span id="cb26-607"><a href="#cb26-607"></a>                sum_metrics[key] <span class="op">+=</span> cpu_metrics[key]</span>
+<span id="cb26-608"><a href="#cb26-608"></a>        progress_bar.update()</span>
+<span id="cb26-609"><a href="#cb26-609"></a>        n <span class="op">+=</span> <span class="fl">1.</span></span>
+<span id="cb26-610"><a href="#cb26-610"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {sum_metrics['top5'].cpu():.2f}"</span></span>
+<span id="cb26-611"><a href="#cb26-611"></a>        <span class="co"># break</span></span>
+<span id="cb26-612"><a href="#cb26-612"></a>    </span>
+<span id="cb26-613"><a href="#cb26-613"></a>    <span class="cf">for</span> key <span class="kw">in</span> sum_metrics:</span>
+<span id="cb26-614"><a href="#cb26-614"></a>        sum_metrics[key] <span class="op">=</span> sum_metrics[key] <span class="op">/</span> n</span>
+<span id="cb26-615"><a href="#cb26-615"></a>    <span class="cf">return</span> sum_metrics</span>
+<span id="cb26-616"><a href="#cb26-616"></a><span class="in">```</span></span>
+<span id="cb26-617"><a href="#cb26-617"></a></span>
+<span id="cb26-620"><a href="#cb26-620"></a><span class="in">```{python}</span></span>
+<span id="cb26-621"><a href="#cb26-621"></a>optimizer <span class="op">=</span> torch.optim.AdamW(<span class="bu">list</span>(model.parameters()) <span class="op">+</span> <span class="bu">list</span>(head.parameters()), lr<span class="op">=</span><span class="fl">0.001</span>)</span>
+<span id="cb26-622"><a href="#cb26-622"></a><span class="in">```</span></span>
+<span id="cb26-623"><a href="#cb26-623"></a></span>
 <span id="cb26-624"><a href="#cb26-624"></a></span>
-<span id="cb26-625"><a href="#cb26-625"></a></span>
-<span id="cb26-626"><a href="#cb26-626"></a><span class="co"># for j in range(1):</span></span>
-<span id="cb26-627"><a href="#cb26-627"></a><span class="co">#     # with tqdm(total=len(train), position=0, leave=True, desc=f"Train Epoch {j}") as train_bar1:</span></span>
-<span id="cb26-628"><a href="#cb26-628"></a><span class="co">#</span></span>
-<span id="cb26-629"><a href="#cb26-629"></a><span class="co">#     #     train_one_epoch(train, transforms1, transforms2, model, head, contrastive_loss, optimizer, 0, 1, train_bar1)</span></span>
-<span id="cb26-630"><a href="#cb26-630"></a><span class="co">#</span></span>
-<span id="cb26-631"><a href="#cb26-631"></a><span class="co">#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:</span></span>
-<span id="cb26-632"><a href="#cb26-632"></a><span class="co">#         metrics = validate_one_epoch(val, transforms1, transforms2, model, head, contrastive_loss, 0, 1, val_bar)</span></span>
-<span id="cb26-633"><a href="#cb26-633"></a><span class="co">#         print_metrics = {</span></span>
-<span id="cb26-634"><a href="#cb26-634"></a><span class="co">#             key : f"{key}={metrics[key]:.2f}" for key in metrics.keys()</span></span>
-<span id="cb26-635"><a href="#cb26-635"></a><span class="co">#         }</span></span>
-<span id="cb26-636"><a href="#cb26-636"></a><span class="co">#         print_metrics = "; ".join(print_metrics.values())</span></span>
-<span id="cb26-637"><a href="#cb26-637"></a><span class="co">#         print(f"Validate epoch {j}: ", print_metrics)</span></span>
-<span id="cb26-638"><a href="#cb26-638"></a><span class="in">```</span></span>
-<span id="cb26-639"><a href="#cb26-639"></a></span>
-<span id="cb26-642"><a href="#cb26-642"></a><span class="in">```{python}</span></span>
-<span id="cb26-643"><a href="#cb26-643"></a><span class="co"># Now, we retrain the classification head without touching the representation. This is called fine tuning.</span></span>
-<span id="cb26-644"><a href="#cb26-644"></a><span class="in">```</span></span>
-<span id="cb26-645"><a href="#cb26-645"></a></span>
-<span id="cb26-646"><a href="#cb26-646"></a></span>
-<span id="cb26-647"><a href="#cb26-647"></a></span>
-<span id="cb26-650"><a href="#cb26-650"></a><span class="in">```{python}</span></span>
-<span id="cb26-651"><a href="#cb26-651"></a><span class="kw">def</span> evaluate(dataloader, model, head, loss_fn, val_bar):</span>
-<span id="cb26-652"><a href="#cb26-652"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
-<span id="cb26-653"><a href="#cb26-653"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
-<span id="cb26-654"><a href="#cb26-654"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb26-655"><a href="#cb26-655"></a>    size <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
-<span id="cb26-656"><a href="#cb26-656"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
-<span id="cb26-657"><a href="#cb26-657"></a>    loss, correct <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
-<span id="cb26-658"><a href="#cb26-658"></a></span>
-<span id="cb26-659"><a href="#cb26-659"></a>    <span class="co"># We can save computation and memory by not calculating gradients here - we aren't optimizing </span></span>
-<span id="cb26-660"><a href="#cb26-660"></a>    <span class="cf">with</span> torch.no_grad():</span>
-<span id="cb26-661"><a href="#cb26-661"></a>        <span class="co"># loop over all of the batches</span></span>
-<span id="cb26-662"><a href="#cb26-662"></a>        <span class="cf">for</span> X, y <span class="kw">in</span> dataloader:</span>
+<span id="cb26-627"><a href="#cb26-627"></a><span class="in">```{python}</span></span>
+<span id="cb26-628"><a href="#cb26-628"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
+<span id="cb26-629"><a href="#cb26-629"></a></span>
+<span id="cb26-630"><a href="#cb26-630"></a></span>
+<span id="cb26-631"><a href="#cb26-631"></a><span class="co"># for j in range(1):</span></span>
+<span id="cb26-632"><a href="#cb26-632"></a><span class="co">#     # with tqdm(total=len(train), position=0, leave=True, desc=f"Train Epoch {j}") as train_bar1:</span></span>
+<span id="cb26-633"><a href="#cb26-633"></a><span class="co">#</span></span>
+<span id="cb26-634"><a href="#cb26-634"></a><span class="co">#     #     train_one_epoch(train, transforms1, transforms2, model, head, contrastive_loss, optimizer, 0, 1, train_bar1)</span></span>
+<span id="cb26-635"><a href="#cb26-635"></a><span class="co">#</span></span>
+<span id="cb26-636"><a href="#cb26-636"></a><span class="co">#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:</span></span>
+<span id="cb26-637"><a href="#cb26-637"></a><span class="co">#         metrics = validate_one_epoch(val, transforms1, transforms2, model, head, contrastive_loss, 0, 1, val_bar)</span></span>
+<span id="cb26-638"><a href="#cb26-638"></a><span class="co">#         console.log_metrics = {</span></span>
+<span id="cb26-639"><a href="#cb26-639"></a><span class="co">#             key : f"{key}={metrics[key]:.2f}" for key in metrics.keys()</span></span>
+<span id="cb26-640"><a href="#cb26-640"></a><span class="co">#         }</span></span>
+<span id="cb26-641"><a href="#cb26-641"></a><span class="co">#         console.log_metrics = "; ".join(console.log_metrics.values())</span></span>
+<span id="cb26-642"><a href="#cb26-642"></a><span class="co">#         console.log(f"Validate epoch {j}: ", console.log_metrics)</span></span>
+<span id="cb26-643"><a href="#cb26-643"></a><span class="in">```</span></span>
+<span id="cb26-644"><a href="#cb26-644"></a></span>
+<span id="cb26-647"><a href="#cb26-647"></a><span class="in">```{python}</span></span>
+<span id="cb26-648"><a href="#cb26-648"></a><span class="co"># Now, we retrain the classification head without touching the representation. This is called fine tuning.</span></span>
+<span id="cb26-649"><a href="#cb26-649"></a><span class="in">```</span></span>
+<span id="cb26-650"><a href="#cb26-650"></a></span>
+<span id="cb26-651"><a href="#cb26-651"></a></span>
+<span id="cb26-652"><a href="#cb26-652"></a></span>
+<span id="cb26-655"><a href="#cb26-655"></a><span class="in">```{python}</span></span>
+<span id="cb26-656"><a href="#cb26-656"></a><span class="kw">def</span> evaluate(dataloader, model, head, loss_fn, val_bar):</span>
+<span id="cb26-657"><a href="#cb26-657"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
+<span id="cb26-658"><a href="#cb26-658"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
+<span id="cb26-659"><a href="#cb26-659"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb26-660"><a href="#cb26-660"></a>    size <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
+<span id="cb26-661"><a href="#cb26-661"></a>    num_batches <span class="op">=</span> <span class="bu">len</span>(dataloader)</span>
+<span id="cb26-662"><a href="#cb26-662"></a>    loss, correct <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
 <span id="cb26-663"><a href="#cb26-663"></a></span>
-<span id="cb26-664"><a href="#cb26-664"></a>            pred <span class="op">=</span> head(model(X))</span>
-<span id="cb26-665"><a href="#cb26-665"></a>            loss <span class="op">+=</span> loss_fn(pred, y).item()</span>
-<span id="cb26-666"><a href="#cb26-666"></a>            <span class="co"># how many are correct in this batch? Tracking for accuracy </span></span>
-<span id="cb26-667"><a href="#cb26-667"></a>            correct <span class="op">+=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> y).<span class="bu">type</span>(torch.<span class="bu">float</span>).<span class="bu">sum</span>().item()</span>
-<span id="cb26-668"><a href="#cb26-668"></a>            val_bar.update()</span>
-<span id="cb26-669"><a href="#cb26-669"></a>            </span>
-<span id="cb26-670"><a href="#cb26-670"></a>    loss <span class="op">/=</span> num_batches</span>
-<span id="cb26-671"><a href="#cb26-671"></a>    correct <span class="op">/=</span> (size<span class="op">*</span>batch_size)</span>
-<span id="cb26-672"><a href="#cb26-672"></a>    </span>
-<span id="cb26-673"><a href="#cb26-673"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
-<span id="cb26-674"><a href="#cb26-674"></a>    <span class="cf">return</span> accuracy, loss</span>
-<span id="cb26-675"><a href="#cb26-675"></a><span class="in">```</span></span>
-<span id="cb26-676"><a href="#cb26-676"></a></span>
-<span id="cb26-679"><a href="#cb26-679"></a><span class="in">```{python}</span></span>
-<span id="cb26-680"><a href="#cb26-680"></a><span class="kw">def</span> fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):</span>
-<span id="cb26-681"><a href="#cb26-681"></a>    head.train()</span>
-<span id="cb26-682"><a href="#cb26-682"></a>    model.<span class="bu">eval</span>()</span>
-<span id="cb26-683"><a href="#cb26-683"></a>    <span class="cf">for</span> batch1, (X, Y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
-<span id="cb26-684"><a href="#cb26-684"></a>        <span class="co"># forward pass</span></span>
-<span id="cb26-685"><a href="#cb26-685"></a>        <span class="co"># Calling detach blocks all gradients into the representation model!</span></span>
-<span id="cb26-686"><a href="#cb26-686"></a>        rep <span class="op">=</span> rep_model(X).detach()</span>
-<span id="cb26-687"><a href="#cb26-687"></a>        pred <span class="op">=</span> head(rep)</span>
-<span id="cb26-688"><a href="#cb26-688"></a>        loss <span class="op">=</span> loss_fn(pred, Y)</span>
-<span id="cb26-689"><a href="#cb26-689"></a>        </span>
-<span id="cb26-690"><a href="#cb26-690"></a>        </span>
-<span id="cb26-691"><a href="#cb26-691"></a>        <span class="co"># backward pass calculates gradients</span></span>
-<span id="cb26-692"><a href="#cb26-692"></a>        loss.backward()</span>
-<span id="cb26-693"><a href="#cb26-693"></a>        </span>
-<span id="cb26-694"><a href="#cb26-694"></a>        <span class="co"># take one step with these gradients</span></span>
-<span id="cb26-695"><a href="#cb26-695"></a>        optimizer.step()</span>
-<span id="cb26-696"><a href="#cb26-696"></a>        </span>
-<span id="cb26-697"><a href="#cb26-697"></a>        <span class="co"># resets the gradients </span></span>
-<span id="cb26-698"><a href="#cb26-698"></a>        optimizer.zero_grad()</span>
-<span id="cb26-699"><a href="#cb26-699"></a></span>
-<span id="cb26-700"><a href="#cb26-700"></a>        correct <span class="op">=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> Y).<span class="bu">type</span>(torch.<span class="bu">float</span>).mean().item()</span>
-<span id="cb26-701"><a href="#cb26-701"></a>                    </span>
-<span id="cb26-702"><a href="#cb26-702"></a>        <span class="co"># progress_bar.refresh()</span></span>
-<span id="cb26-703"><a href="#cb26-703"></a>        cpu_metrics <span class="op">=</span> {}</span>
-<span id="cb26-704"><a href="#cb26-704"></a>        cpu_metrics[<span class="st">"acc"</span>] <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>correct<span class="sc">:.2f}</span><span class="ss">"</span></span>
-<span id="cb26-705"><a href="#cb26-705"></a>        cpu_metrics[<span class="st">"loss"</span>] <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>loss<span class="sc">.</span>detach()<span class="sc">.</span>cpu()<span class="sc">.</span>numpy()<span class="sc">:.2f}</span><span class="ss">"</span></span>
-<span id="cb26-706"><a href="#cb26-706"></a>        progress_bar.update()</span>
-<span id="cb26-707"><a href="#cb26-707"></a>        progress_bar.set_postfix(cpu_metrics)</span>
-<span id="cb26-708"><a href="#cb26-708"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
-<span id="cb26-709"><a href="#cb26-709"></a>        <span class="co"># break</span></span>
-<span id="cb26-710"><a href="#cb26-710"></a><span class="in">```</span></span>
-<span id="cb26-711"><a href="#cb26-711"></a></span>
-<span id="cb26-714"><a href="#cb26-714"></a><span class="in">```{python}</span></span>
-<span id="cb26-715"><a href="#cb26-715"></a>classification_head <span class="op">=</span> nn.Linear(<span class="dv">256</span>, <span class="dv">10</span>)  <span class="co"># .cuda()</span></span>
-<span id="cb26-716"><a href="#cb26-716"></a>classification_loss <span class="op">=</span> loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
-<span id="cb26-717"><a href="#cb26-717"></a>fine_tune_optimizer <span class="op">=</span> torch.optim.AdamW(classification_head.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
-<span id="cb26-718"><a href="#cb26-718"></a><span class="bu">print</span>(fine_tune_optimizer)</span>
-<span id="cb26-719"><a href="#cb26-719"></a><span class="in">```</span></span>
-<span id="cb26-720"><a href="#cb26-720"></a></span>
-<span id="cb26-723"><a href="#cb26-723"></a><span class="in">```{python}</span></span>
-<span id="cb26-724"><a href="#cb26-724"></a><span class="co"># for j in range(5):</span></span>
-<span id="cb26-725"><a href="#cb26-725"></a><span class="co">#     with tqdm(total=len(train), position=0, leave=True, desc=f"Fine Tune Epoch {j}") as train_bar1:</span></span>
-<span id="cb26-726"><a href="#cb26-726"></a><span class="co">#</span></span>
-<span id="cb26-727"><a href="#cb26-727"></a><span class="co">#         fine_tune(train, model, classification_head, classification_loss, fine_tune_optimizer, train_bar1)</span></span>
-<span id="cb26-728"><a href="#cb26-728"></a><span class="co">#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:</span></span>
-<span id="cb26-729"><a href="#cb26-729"></a><span class="co">#         acc, loss = evaluate(val, model, classification_head, classification_loss, val_bar)</span></span>
-<span id="cb26-730"><a href="#cb26-730"></a><span class="co">#         print(f"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}")</span></span>
-<span id="cb26-731"><a href="#cb26-731"></a><span class="in">```</span></span>
-<span id="cb26-732"><a href="#cb26-732"></a></span>
+<span id="cb26-664"><a href="#cb26-664"></a>    <span class="co"># We can save computation and memory by not calculating gradients here - we aren't optimizing </span></span>
+<span id="cb26-665"><a href="#cb26-665"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb26-666"><a href="#cb26-666"></a>        <span class="co"># loop over all of the batches</span></span>
+<span id="cb26-667"><a href="#cb26-667"></a>        <span class="cf">for</span> X, y <span class="kw">in</span> dataloader:</span>
+<span id="cb26-668"><a href="#cb26-668"></a></span>
+<span id="cb26-669"><a href="#cb26-669"></a>            pred <span class="op">=</span> head(model(X))</span>
+<span id="cb26-670"><a href="#cb26-670"></a>            loss <span class="op">+=</span> loss_fn(pred, y).item()</span>
+<span id="cb26-671"><a href="#cb26-671"></a>            <span class="co"># how many are correct in this batch? Tracking for accuracy </span></span>
+<span id="cb26-672"><a href="#cb26-672"></a>            correct <span class="op">+=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> y).<span class="bu">type</span>(torch.<span class="bu">float</span>).<span class="bu">sum</span>().item()</span>
+<span id="cb26-673"><a href="#cb26-673"></a>            val_bar.update()</span>
+<span id="cb26-674"><a href="#cb26-674"></a>            </span>
+<span id="cb26-675"><a href="#cb26-675"></a>    loss <span class="op">/=</span> num_batches</span>
+<span id="cb26-676"><a href="#cb26-676"></a>    correct <span class="op">/=</span> (size<span class="op">*</span>batch_size)</span>
+<span id="cb26-677"><a href="#cb26-677"></a>    </span>
+<span id="cb26-678"><a href="#cb26-678"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
+<span id="cb26-679"><a href="#cb26-679"></a>    <span class="cf">return</span> accuracy, loss</span>
+<span id="cb26-680"><a href="#cb26-680"></a><span class="in">```</span></span>
+<span id="cb26-681"><a href="#cb26-681"></a></span>
+<span id="cb26-684"><a href="#cb26-684"></a><span class="in">```{python}</span></span>
+<span id="cb26-685"><a href="#cb26-685"></a><span class="kw">def</span> fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):</span>
+<span id="cb26-686"><a href="#cb26-686"></a>    head.train()</span>
+<span id="cb26-687"><a href="#cb26-687"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb26-688"><a href="#cb26-688"></a>    <span class="cf">for</span> batch1, (X, Y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
+<span id="cb26-689"><a href="#cb26-689"></a>        <span class="co"># forward pass</span></span>
+<span id="cb26-690"><a href="#cb26-690"></a>        <span class="co"># Calling detach blocks all gradients into the representation model!</span></span>
+<span id="cb26-691"><a href="#cb26-691"></a>        rep <span class="op">=</span> rep_model(X).detach()</span>
+<span id="cb26-692"><a href="#cb26-692"></a>        pred <span class="op">=</span> head(rep)</span>
+<span id="cb26-693"><a href="#cb26-693"></a>        loss <span class="op">=</span> loss_fn(pred, Y)</span>
+<span id="cb26-694"><a href="#cb26-694"></a>        </span>
+<span id="cb26-695"><a href="#cb26-695"></a>        </span>
+<span id="cb26-696"><a href="#cb26-696"></a>        <span class="co"># backward pass calculates gradients</span></span>
+<span id="cb26-697"><a href="#cb26-697"></a>        loss.backward()</span>
+<span id="cb26-698"><a href="#cb26-698"></a>        </span>
+<span id="cb26-699"><a href="#cb26-699"></a>        <span class="co"># take one step with these gradients</span></span>
+<span id="cb26-700"><a href="#cb26-700"></a>        optimizer.step()</span>
+<span id="cb26-701"><a href="#cb26-701"></a>        </span>
+<span id="cb26-702"><a href="#cb26-702"></a>        <span class="co"># resets the gradients </span></span>
+<span id="cb26-703"><a href="#cb26-703"></a>        optimizer.zero_grad()</span>
+<span id="cb26-704"><a href="#cb26-704"></a></span>
+<span id="cb26-705"><a href="#cb26-705"></a>        correct <span class="op">=</span> (pred.argmax(<span class="dv">1</span>) <span class="op">==</span> Y).<span class="bu">type</span>(torch.<span class="bu">float</span>).mean().item()</span>
+<span id="cb26-706"><a href="#cb26-706"></a>                    </span>
+<span id="cb26-707"><a href="#cb26-707"></a>        <span class="co"># progress_bar.refresh()</span></span>
+<span id="cb26-708"><a href="#cb26-708"></a>        cpu_metrics <span class="op">=</span> {}</span>
+<span id="cb26-709"><a href="#cb26-709"></a>        cpu_metrics[<span class="st">"acc"</span>] <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>correct<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb26-710"><a href="#cb26-710"></a>        cpu_metrics[<span class="st">"loss"</span>] <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>loss<span class="sc">.</span>detach()<span class="sc">.</span>cpu()<span class="sc">.</span>numpy()<span class="sc">:.2f}</span><span class="ss">"</span></span>
+<span id="cb26-711"><a href="#cb26-711"></a>        progress_bar.update()</span>
+<span id="cb26-712"><a href="#cb26-712"></a>        progress_bar.set_postfix(cpu_metrics)</span>
+<span id="cb26-713"><a href="#cb26-713"></a>        <span class="co"># progress_bar.description = f"Train loss: {loss.cpu():.2f} top5: {metrics['top5'].cpu():.2f}"</span></span>
+<span id="cb26-714"><a href="#cb26-714"></a>        <span class="co"># break</span></span>
+<span id="cb26-715"><a href="#cb26-715"></a><span class="in">```</span></span>
+<span id="cb26-716"><a href="#cb26-716"></a></span>
+<span id="cb26-719"><a href="#cb26-719"></a><span class="in">```{python}</span></span>
+<span id="cb26-720"><a href="#cb26-720"></a>classification_head <span class="op">=</span> nn.Linear(<span class="dv">256</span>, <span class="dv">10</span>)  <span class="co"># .cuda()</span></span>
+<span id="cb26-721"><a href="#cb26-721"></a>classification_loss <span class="op">=</span> loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb26-722"><a href="#cb26-722"></a>fine_tune_optimizer <span class="op">=</span> torch.optim.AdamW(classification_head.parameters(), lr<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb26-723"><a href="#cb26-723"></a>console.log(fine_tune_optimizer)</span>
+<span id="cb26-724"><a href="#cb26-724"></a><span class="in">```</span></span>
+<span id="cb26-725"><a href="#cb26-725"></a></span>
+<span id="cb26-728"><a href="#cb26-728"></a><span class="in">```{python}</span></span>
+<span id="cb26-729"><a href="#cb26-729"></a><span class="co"># for j in range(5):</span></span>
+<span id="cb26-730"><a href="#cb26-730"></a><span class="co">#     with tqdm(total=len(train), position=0, leave=True, desc=f"Fine Tune Epoch {j}") as train_bar1:</span></span>
+<span id="cb26-731"><a href="#cb26-731"></a><span class="co">#</span></span>
+<span id="cb26-732"><a href="#cb26-732"></a><span class="co">#         fine_tune(train, model, classification_head, classification_loss, fine_tune_optimizer, train_bar1)</span></span>
+<span id="cb26-733"><a href="#cb26-733"></a><span class="co">#     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:</span></span>
+<span id="cb26-734"><a href="#cb26-734"></a><span class="co">#         acc, loss = evaluate(val, model, classification_head, classification_loss, val_bar)</span></span>
+<span id="cb26-735"><a href="#cb26-735"></a><span class="co">#         console.log(f"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}")</span></span>
+<span id="cb26-736"><a href="#cb26-736"></a><span class="in">```</span></span>
+<span id="cb26-737"><a href="#cb26-737"></a></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

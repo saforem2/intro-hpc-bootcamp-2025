@@ -55,7 +55,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 import time
-from rich import print
+
+# from rich import console.log
+# from ezpz.log import get_console
+from ezpz.log.config import STYLES
+from rich.console import Console
+from rich.theme import Theme
+
+console = Console(theme=Theme(STYLES))
 
 fig, ax = plt.subplots()
 #ax = fig.add_subplot(111)
@@ -81,14 +88,14 @@ for i in range(1, N+1):
 
 res = np.array(Nin, dtype='d')
 t1 = time.time()
-print(f"Pi = {res/float(N/4.0)}")
-print("Time: %s" %(t1 - t0))
+console.log(f"Pi = {res/float(N/4.0)}")
+console.log("Time: %s" %(t1 - t0))
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pi = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.968</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">[17:46:09] </span>Pi = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.104</span>                                                                              <a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/3386860200.py" target="_blank"><span style="color: #000080; text-decoration-color: #000080">3386860200.py</span></a><span style="color: #000080; text-decoration-color: #000080">:</span><a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/3386860200.py#48" target="_blank"><span style="color: #000080; text-decoration-color: #000080">48</span></a>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20.537490844726562</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20.888066053390503</span>                                                                <a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/3386860200.py" target="_blank"><span style="color: #000080; text-decoration-color: #000080">3386860200.py</span></a><span style="color: #000080; text-decoration-color: #000080">:</span><a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/3386860200.py#49" target="_blank"><span style="color: #000080; text-decoration-color: #000080">49</span></a>
 </pre>
 
 ![](index_files/figure-commonmark/cell-2-output-3.png)
@@ -115,14 +122,14 @@ res_tot = np.array(Nin, dtype='d')
 comm.Allreduce(res, res_tot, op=MPI.SUM)
 t1 = time.time()
 if comm.rank==0:
-    print(res_tot/float(N/4.0))
-    print("Time: %s" %(t1 - t0))
+    console.log(res_tot/float(N/4.0))
+    console.log("Time: %s" %(t1 - t0))
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1419504</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">[17:46:12] </span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1414568</span>                                                                               <a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/1786089992.py" target="_blank"><span style="color: #000080; text-decoration-color: #000080">1786089992.py</span></a><span style="color: #000080; text-decoration-color: #000080">:</span><a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/1786089992.py#20" target="_blank"><span style="color: #000080; text-decoration-color: #000080">20</span></a>
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1454689502716064</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.0237538814544678</span>                                                                <a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/1786089992.py" target="_blank"><span style="color: #000080; text-decoration-color: #000080">1786089992.py</span></a><span style="color: #000080; text-decoration-color: #000080">:</span><a href="file:///var/folders/53/5t2nv83136j76rld14vgfh2h0000gq/T/ipykernel_37431/1786089992.py#21" target="_blank"><span style="color: #000080; text-decoration-color: #000080">21</span></a>
 </pre>
 
 ### Running $\pi$ example on Google Colab
@@ -142,24 +149,24 @@ if comm.rank==0:
 ```
 
     Number of processes: 1
-    Pi = 3.1411384
-    Time: 3.124503
+    Pi = 3.1421368
+    Time: 3.009896
 
 ``` python
 ! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 2
-    Pi = 3.1408824
-    Time: 1.450132
+    Pi = 3.1396712
+    Time: 1.523196
 
 ``` python
 ! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
     Number of processes: 4
-    Pi = 3.1412264
-    Time: 0.825560
+    Pi = 3.1426704
+    Time: 1.087513
 
 ### Running $\pi$ on Polaris
 

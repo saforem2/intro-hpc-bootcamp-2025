@@ -46,7 +46,11 @@ import seaborn as sns
 plt.style.use(ambivalent.STYLES['ambivalent'])
 sns.set_context("notebook")
 
-from rich import print
+from ezpz.log.config import STYLES
+from rich.console import Console
+from rich.theme import Theme
+
+console = Console(theme=Theme(STYLES))
 
 # Data
 years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]
@@ -130,10 +134,10 @@ conv_random = torch.rand((3,3,15,15))
 
 alcf_rand = torch.nn.functional.conv2d(alcf_tensor, conv_random)
 alcf_rand = (1./alcf_rand.max()) * alcf_rand
-print(alcf_rand.shape)
+console.log(alcf_rand.shape)
 alcf_rand = alcf_rand.reshape(alcf_rand.shape[1:])
 
-print(alcf_tensor.shape)
+console.log(alcf_tensor.shape)
 
 rand_image = alcf_rand.permute((1,2,0)).cpu()
 
@@ -164,7 +168,7 @@ alcf_tensor = alcf_tensor.reshape((1,) + alcf_tensor.shape)
 alcf_rand = torch.nn.functional.normalize(alcf_tensor)
 alcf_rand = alcf_rand.reshape(alcf_rand.shape[1:])
 
-print(alcf_tensor.shape)
+console.log(alcf_tensor.shape)
 
 rand_image = alcf_rand.permute((1,2,0)).cpu()
 
@@ -194,7 +198,7 @@ alcf_tensor = alcf_tensor.reshape((1,) + alcf_tensor.shape)
 alcf_rand = torch.nn.functional.max_pool2d(alcf_tensor, 2)
 alcf_rand = alcf_rand.reshape(alcf_rand.shape[1:])
 
-print(alcf_tensor.shape)
+console.log(alcf_tensor.shape)
 
 rand_image = alcf_rand.permute((1,2,0)).cpu()
 
@@ -465,7 +469,7 @@ model = Classifier(32, 4, 2).to(device=dev)
 
 from torchinfo import summary
 
-print(summary(model, input_size=(batch_size, 3, 32, 32)))
+console.log(summary(model, input_size=(batch_size, 3, 32, 32)))
 ```
 
 ```{python}
@@ -582,11 +586,11 @@ for i in range(5):
 #     if j % 5 == 0:
 #         with tqdm(total=len(train_dataloader), position=0, leave=True, desc=f"Validate (train) Epoch {j}") as train_eval:
 #             acc, loss = evaluate(train_dataloader, model, loss_fn, train_eval)
-#             print(f"Epoch {j}: training loss: {loss:.3f}, accuracy: {acc:.3f}")
+#             console.log(f"Epoch {j}: training loss: {loss:.3f}, accuracy: {acc:.3f}")
 #
 #     with tqdm(total=len(val_dataloader), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:
 #         acc_val, loss_val = evaluate(val_dataloader, model, loss_fn, val_bar)
-#         print(f"Epoch {j}: validation loss: {loss_val:.3f}, accuracy: {acc_val:.3f}")
+#         console.log(f"Epoch {j}: validation loss: {loss_val:.3f}, accuracy: {acc_val:.3f}")
 ```
 
 ## Homework 1:

@@ -51,10 +51,10 @@ $dark-bg: #1c1c1c;
 
 $grey-ambivalent: #838383;
 
-$base-font-size: 17px !default;
+$base-font-size: 16px !default;
 
 $font-size-root: 1rem;
-$font-size-base: 17px; // Assumes the browser default, typically `16px`
+$font-size-base: 16px; // Assumes the browser default, typically `16px`
 $font-size-sm: $font-size-base * 0.875;
 $font-size-lg: $font-size-base * 1.25;
 $quarto-border-width: 1px !default;
@@ -2148,6 +2148,7 @@ main {
   }
 }
 
+
 .reveal .slide-menu-button .fas::before {
   display: inline-block;
   height: 1.5rem;
@@ -2813,18 +2814,26 @@ ul.task-list {
 
 details {
   margin-block: 0.5lh;
+   h1, h2, h3, h4, h5, h6 {
+    display: contents;
+    color: $body-color;
+    &:hover {
+      color: $link-color-hover;
+    }
+  }
 }
 
 details > summary {
   text-align: left;
   border-radius: $link-border-radius;
-  color: $link-color;
+  color: $body-color;
   border: 1px solid rgba(0, 0, 0, 0);
-  background: oklch(from $link-color calc(l * 1.15) c h / 0.1);
+  background: oklch(from $body-color calc(l * 1.15) c h / 0.1);
   // min-width: max-content;
   // max-width: min-content;
   // width: fit-content;
   padding-inline: 5pt;
+  margin-block: 0.5lh;
 }
 
 details > summary:hover {

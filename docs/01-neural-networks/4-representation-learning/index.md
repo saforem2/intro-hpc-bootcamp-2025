@@ -32,7 +32,12 @@ import random
 import torch
 import torchvision
 from torchvision.transforms import v2
-from rich import print
+from ezpz.log.config import STYLES
+from rich.console import Console
+from rich.theme import Theme
+
+console = Console(theme=Theme(STYLES))
+
 
 
 import torch.distributed as dist
@@ -164,8 +169,8 @@ head = torch.nn.Sequential(
 head.to(torch.get_default_device())
 
 from torchinfo import summary
-print(summary(model, input_size=(batch_size, 3, 32, 32)))
-print(summary(head, input_size=(batch_size, 256)))
+console.log(summary(model, input_size=(batch_size, 3, 32, 32)))
+console.log(summary(head, input_size=(batch_size, 256)))
 ```
 
 This will download the data if needed:
@@ -249,7 +254,7 @@ def create_data_loaders(transforms, batch_size, rank, seed):
 
 ``` python
 # def demo_basic(rank, world_size, n_epochs):
-#     print(f"Running basic DDP example on rank {rank}.")
+#     console.log(f"Running basic DDP example on rank {rank}.")
 #     setup(rank, world_size)
 
 
@@ -333,8 +338,8 @@ batch, (X, Y) = next(enumerate(train))
 ``` python
 X1 = transforms1(X); X2 = transforms2(X)
 
-print(type(X1))
-print(type(X2))
+console.log(type(X1))
+console.log(type(X2))
 ```
 
 ``` python
@@ -426,7 +431,7 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
 
         access_index_y +=  rank * 2*N
 
-        # print("access_index_y: ", access_index_y, flush=True)
+        # console.log("access_index_y: ", access_index_y, flush=True)
 
         positive[access_index_x, access_index_y] = 1
 
@@ -473,8 +478,8 @@ def contrastive_loss(first_images, second_images, rank, world_size = 1, temperat
         # Compute the exp, which we'll eventually sum and log:
         exp = torch.sum(torch.exp(negative_examples), dim=-1)
 
-        # print("Alignment: ", alignment, flush=True)
-        # print("exp: ",       exp, flush=True)
+        # console.log("Alignment: ", alignment, flush=True)
+        # console.log("exp: ",       exp, flush=True)
 
 
         # And compute the logsumexp of the negative examples:
@@ -507,7 +512,7 @@ def train_one_epoch(dataloader, t1, t2, model, head, loss_fn, optimizer, rank, s
         pred2 = head(model(X2))
         loss, metrics = loss_fn(pred1, pred2, rank, size)
 
-        # print(metrics)
+        # console.log(metrics)
         
         # backward pass calculates gradients
         loss.backward()
@@ -540,7 +545,7 @@ def validate_one_epoch(dataloader, t1, t2, model, head, loss_fn, rank, size, pro
         pred2 = head(model(X2))
         loss, metrics = loss_fn(pred1, pred2, rank, size)
 
-        # print(metrics)
+        # console.log(metrics)
         
         # backward pass calculates gradients
         loss.backward()
@@ -583,11 +588,11 @@ from tqdm.notebook import tqdm
 #
 #     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:
 #         metrics = validate_one_epoch(val, transforms1, transforms2, model, head, contrastive_loss, 0, 1, val_bar)
-#         print_metrics = {
+#         console.log_metrics = {
 #             key : f"{key}={metrics[key]:.2f}" for key in metrics.keys()
 #         }
-#         print_metrics = "; ".join(print_metrics.values())
-#         print(f"Validate epoch {j}: ", print_metrics)
+#         console.log_metrics = "; ".join(console.log_metrics.values())
+#         console.log(f"Validate epoch {j}: ", console.log_metrics)
 ```
 
 ``` python
@@ -658,7 +663,7 @@ def fine_tune(dataloader, rep_model, head, loss_fn, optimizer, progress_bar):
 classification_head = nn.Linear(256, 10)  # .cuda()
 classification_loss = loss_fn = nn.CrossEntropyLoss()
 fine_tune_optimizer = torch.optim.AdamW(classification_head.parameters(), lr=0.01)
-print(fine_tune_optimizer)
+console.log(fine_tune_optimizer)
 ```
 
 ``` python
@@ -668,5 +673,5 @@ print(fine_tune_optimizer)
 #         fine_tune(train, model, classification_head, classification_loss, fine_tune_optimizer, train_bar1)
 #     with tqdm(total=len(val), position=0, leave=True, desc=f"Validate Epoch {j}") as val_bar:
 #         acc, loss = evaluate(val, model, classification_head, classification_loss, val_bar)
-#         print(f"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}")
+#         console.log(f"Epoch {j}: validation loss: {loss:.3f}, accuracy: {acc:.3f}")
 ```

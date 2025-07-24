@@ -30,6 +30,17 @@ In this notebook, we will talk about:
 - How does large language model work?
 - A simple AI model: linear regression
 
+<details closed>
+
+<summary>
+
+<h2>
+
+ALCF Specific Setup
+</h2>
+
+</summary>
+
 ## How to run this notebook on Polaris
 
 - Go to <https://jupyter.alcf.anl.gov>, and click “Login Polaris”
@@ -40,7 +51,7 @@ In this notebook, we will talk about:
 
 <div id="fig-jupyter">
 
-<img src="../figures/jupyter1.png" style="width:90.0%" />
+![](../figures/jupyter1.png)
 
 Figure 1
 
@@ -56,6 +67,8 @@ Figure 1
   from the list
 
   ![Google Colab](../figures/colab.png)
+
+</details>
 
 ## What is AI training?
 
@@ -100,11 +113,21 @@ Figure 3
 
 **More complicated example**:
 
-<center>
+<div class="flex-container">
 
-<img src="../figures/chatgpt_poem.png" width="400" />
-<img src="../figures/martin.png" width="450" />
-</center>
+<div class="flex-item" style="width:43%">
+
+![Poem about Albert Einstein](../figures/chatgpt_poem.png)
+
+</div>
+
+<div class="flex-item" style="width:49.2%">
+
+![Poem about Martin Luther](../figures/martin.png)
+
+</div>
+
+</div>
 
 You can do this on https://chat.openai.com
 
@@ -139,6 +162,9 @@ us work.
   plotting data
 
 ``` python
+import os
+os.environ["FORCE_COLOR"] = "1"
+os.environ["TTY_INTERACTIVE"] = "1"
 import ambivalent
 
 import matplotlib.pyplot as plt
@@ -153,8 +179,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 import IPython.display as ipydis
 import time
-from rich import print
+
+from ezpz.log.config import STYLES
+from rich.console import Console
+from rich.theme import Theme
+
+console = Console(
+    color_system='truecolor',
+    force_jupyter=True,
+    force_interactive=True,
+    log_path=False,
+    log_time=True,
+    theme=Theme(STYLES)
+)
 ```
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 18:31:35,096842</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">265</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'INFO'</span> on <span style="color: #008000; text-decoration-color: #008000">'RANK == 0'</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-07-23 18:31:35,099260</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">266</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'CRITICAL'</span> on all others <span style="color: #008000; text-decoration-color: #008000">'RANK != 0'</span>
+</pre>
 
 ### Dataset
 
@@ -165,17 +209,17 @@ This dataset contains the *sale price* and *above ground square feet* of
 many houses. We can use this data for our linear regression.
 
 We use Pandas to read the data file which is stored as Comma Separated
-Values (CSV) and print the column labels.
+Values (CSV) and console.log the column labels.
 
 CSV files are similar to excel sheets.
 
 ``` python
 ! [ -e ./slimmed_realestate_data.csv ] || wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv
 data = pd.read_csv('slimmed_realestate_data.csv')
-print(data.columns)
+console.log(data.columns)
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Index</span><span style="font-weight: bold">([</span><span style="color: #008000; text-decoration-color: #008000">'Unnamed: 0'</span>, <span style="color: #008000; text-decoration-color: #008000">'SalePrice'</span>, <span style="color: #008000; text-decoration-color: #008000">'GrLivArea'</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #008000; text-decoration-color: #008000">'object'</span><span style="font-weight: bold">)</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">[18:31:35] </span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Index</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">([</span><span style="color: #008000; text-decoration-color: #008000">'Unnamed: 0'</span>, <span style="color: #008000; text-decoration-color: #008000">'SalePrice'</span>, <span style="color: #008000; text-decoration-color: #008000">'GrLivArea'</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">]</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">dtype</span>=<span style="color: #008000; text-decoration-color: #008000">'object'</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">)</span>                                         
 </pre>
 
 Now pandas provides some helpful tools for us to inspect our data.
@@ -189,7 +233,7 @@ In this case, we simply tell it the names of the columns we want as our
 small dot to represent each data point).
 
 ``` python
-data.plot(x='GrLivArea', y='SalePrice',style='.')
+data.plot(x='GrLivArea', y='SalePrice',style='o', alpha=0.8, markeredgecolor="#222")
 ```
 
 ![](index_files/figure-commonmark/cell-4-output-1.png)
@@ -255,14 +299,14 @@ Then we can calculate our fit values:
 ``` python
 m = (n * sum_xy - sum_x * sum_y) / denominator
 b = (sum_y * sum_x2 - sum_x * sum_xy) / denominator
-print('y = %f * x + %f' % (m,b))
+console.log('y = %f * x + %f' % (m,b))
 
 # saving these for later comparison
 m_calc = m
 b_calc = b
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.688145</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.077892</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>y = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.688145</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.077892</span>                                                                        
 </pre>
 
 Now we can plot the fit results with our data to see how we did.
@@ -273,7 +317,7 @@ and we want to reuse our code:
 ``` python
 def plot_data(x,y,m,b,plt = plt):
    # plot our data points with 'bo' = blue circles
-   plt.plot(x,y,'bo')
+   plt.plot(x, y, 'o', alpha=0.8, markeredgecolor="#222")
    # create the line based on our linear fit
    # first we need to make x points
    # the 'arange' function generates points between two limits (min,max)
@@ -281,7 +325,7 @@ def plot_data(x,y,m,b,plt = plt):
    # now we use our fit parameters to calculate the y points based on our x points
    linear_y = linear_x * m + b
    # plot the linear points using 'r-' = red line
-   plt.plot(linear_x,linear_y,'r-',label='fit')
+   plt.plot(linear_x, linear_y, 'r-', label='fit')
 ```
 
 Now can use this function to plot our results:
@@ -478,33 +522,33 @@ We can now randomly select our initial slope and intercept:
 ``` python
 m = 5.
 b = 1000.
-print('y_i = %.2f * x + %.2f' % (m,b))
+console.log('y_i = %.2f * x + %.2f' % (m,b))
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.00</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.00</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>                                                                                
 </pre>
 
 Then we can calculate our Loss function:
 
 ``` python
 l = loss(x,y,m,b)
-print('first 10 loss values: ',l[:10])
+console.log('first 10 loss values: ',l[:10])
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">first <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> loss values:  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.03421561e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.55511025e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.24579082e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.91656336e+10</span>
- <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.60604929e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.04432804e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.72410030e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.76517796e+10</span>
- <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.52769600e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.18152900e+10</span><span style="font-weight: bold">]</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>first <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> loss values:  <span style="color: #ff00ff; text-decoration-color: #ff00ff">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.03421561e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.55511025e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.24579082e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.91656336e+10</span>                     
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.60604929e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.04432804e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.72410030e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.76517796e+10</span>                                            
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.52769600e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.18152900e+10</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">]</span>                                                                         
 </pre>
 
 ``` python
 learning_rate = 1e-9
 m = updated_m(x,y,m,b,learning_rate)
 b = updated_b(x,y,m,b,learning_rate)
-print('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
+console.log('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
 plot_data(x,y,m,b)
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.47</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>     previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.47</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>     previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>                          
 </pre>
 
 ![](index_files/figure-commonmark/cell-17-output-2.png)
@@ -525,51 +569,60 @@ data_y = data['SalePrice'].to_numpy()
 # we run our loop N times
 loop_N = 30
 for i in range(loop_N):
-   # update our slope and intercept based on the current values
-   m = updated_m(data_x,data_y,m,b,learning_rate_m)
-   b = updated_b(data_x,data_y,m,b,learning_rate_b)
+    # update our slope and intercept based on the current values
+    m = updated_m(data_x,data_y,m,b,learning_rate_m)
+    b = updated_b(data_x,data_y,m,b,learning_rate_b)
 
-   # calculate the loss value
-   loss_value = np.mean(loss(data_x,data_y,m,b))
+    # calculate the loss value
+    loss_value = np.mean(loss(data_x,data_y,m,b))
 
-   # keep a history of our loss values
-   loss_history.append(loss_value)
+    # keep a history of our loss values
+    loss_history.append(loss_value)
 
-   # print our progress
-   print('[%03d]  dy_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f    loss: %f' % (i,m,b,m_calc,b_calc,loss_value))
+    # console.log our progress
+    mstr = " ".join([
+        f"[{i:03d}]",
+        f"dy_i = {m:.2f} * x + {b:.2f}",
+        f"previously calculated: y_i = {m_calc:.2f} * x + {b_calc:.2f}",
+        f"loss: {loss_value:.2f}",
+    ])
+    console.log(mstr)
+    # console.log(
+    #         '[%03d]  dy_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f    loss: %f' % (i,m,b,m_calc,b_calc,loss_value))
 
-   # close/delete previous plots
-   plt.close('all')
+    # close/delete previous plots
+    plt.close('all')
 
-   # create a 1 by 2 plot grid
-   fig,ax = plt.subplots(1,2)
-   # lot our usual output
-   plot_data(data_x,data_y,m,b,ax[0])
+    dfigsize = plt.rcParams['figure.figsize']
+    # create a 1 by 2 plot grid
+    fig,ax = plt.subplots(1,2, figsize=(dfigsize[0]*2,dfigsize[1]))
+    # lot our usual output
+    plot_data(data_x,data_y,m,b,ax[0])
 
-   # here we also plot the calculated linear fit for comparison
-   line_x = np.arange(data_x.min(),data_x.max())
-   line_y = line_x * m_calc + b_calc
-   ax[0].plot(line_x,line_y,'b-',label='calculated')
-   # add a legend to the plot and x/y labels
-   ax[0].legend()
-   ax[0].set_xlabel('square footage')
-   ax[0].set_ylabel('sale price')
+    # here we also plot the calculated linear fit for comparison
+    line_x = np.arange(data_x.min(),data_x.max())
+    line_y = line_x * m_calc + b_calc
+    ax[0].plot(line_x,line_y, color="#000", linestyle=":" ,label='calculated')
+    # add a legend to the plot and x/y labels
+    ax[0].legend()
+    ax[0].set_xlabel('square footage')
+    ax[0].set_ylabel('sale price')
 
-   # plot the loss 
-   loss_x = np.arange(0,len(loss_history))
-   loss_y = np.asarray(loss_history)
-   ax[1].plot(loss_x,loss_y, 'o-')
-   ax[1].set_yscale('log')
-   ax[1].set_xlabel('loop step')
-   ax[1].set_ylabel('loss')
-   plt.show()
-   # gives us time to see the plot
-   time.sleep(2.5)
-   # clears the plot when the next plot is ready to show.
-   ipydis.clear_output(wait=True)
+    # plot the loss 
+    loss_x = np.arange(0,len(loss_history))
+    loss_y = np.asarray(loss_history)
+    ax[1].plot(loss_x,loss_y, 'o-')
+    ax[1].set_yscale('log')
+    ax[1].set_xlabel('loop step')
+    ax[1].set_ylabel('loss')
+    plt.show()
+    # gives us time to see the plot
+    time.sleep(2.5)
+    # clears the plot when the next plot is ready to show.
+    ipydis.clear_output(wait=True)
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">029</span><span style="font-weight: bold">]</span>  dy_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.89</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32912.24</span>     previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>    loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.641291</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">[18:32:51] </span><span style="color: #ff00ff; text-decoration-color: #ff00ff">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">029</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">]</span> dy_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.89</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32912.24</span> previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span> loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.64</span> 
 </pre>
 
 ![](index_files/figure-commonmark/cell-18-output-2.png)
@@ -677,28 +730,28 @@ def train(batch_size, epochs=30, learning_rate_m = 1e-7, learning_rate_b = 1e-1)
 ## Minibatch training
 
 ``` python
-print('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
+console.log('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
 
 
 for bs in 64, 128, 256, 512:
     m, b, l = train(bs, epochs=30)
-    print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    console.log(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>    loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.641291</span>
-=======================================
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">[18:32:54] </span>previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>    loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.641291</span>                            
+<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>=======================================                                                                 
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86.0409</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36331.2636</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479077606.2690</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.3016</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34060.6146</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479354637.5568</span>                                           
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85.8511</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34554.1349</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1486472532.8690</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.1352</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32399.2921</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1480615839.7174</span>                                          
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.9199</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34227.4857</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1485991630.1070</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86.7702</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34659.5065</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1479937058.9478</span>                                          
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">89.0474</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32784.0381</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478292294.9538</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.8972</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33091.5465</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478184764.8268</span>                                          
 </pre>
 
 We see that eventually, we all get similar results with the minibatch
@@ -711,19 +764,19 @@ for i in 1, 2, 4, 8:
     bs, lrm, lrb = np.array([64, 1e-7, 1e-1])*i
     bs = int(bs)
     m, b, l = train(int(bs), epochs=30, learning_rate_m = lrm, learning_rate_b = lrb)
-    print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    console.log(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.9681</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35146.2689</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478421653.8283</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86.2199</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38507.6621</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1481217341.6515</span>                                           
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.6876</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33741.8555</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478212126.0586</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">86.9141</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34315.2818</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1480282796.3551</span>                                          
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">85.9542</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36589.7903</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478974332.5402</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">80.3200</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">41955.5281</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1502758698.7195</span>                                          
 </pre>
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">170947.7728</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-146058450.6103</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16943349706710192.0000</span>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #7f7f7f; text-decoration-color: #7f7f7f">           </span>batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">126433.2640</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-75961230.3833</span>, <span style="color: #0000ff; text-decoration-color: #0000ff">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14767034665014784.0000</span>                           
 </pre>
 
 We can see that, if we increase the batch size and the learning rate

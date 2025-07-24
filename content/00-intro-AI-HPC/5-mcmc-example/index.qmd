@@ -55,7 +55,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 import time
-from rich import print
+
+# from rich import console.log
+# from ezpz.log import get_console
+from ezpz.log.config import STYLES
+from rich.console import Console
+from rich.theme import Theme
+
+console = Console(theme=Theme(STYLES))
 
 fig, ax = plt.subplots()
 #ax = fig.add_subplot(111)
@@ -81,8 +88,8 @@ for i in range(1, N+1):
 
 res = np.array(Nin, dtype='d')
 t1 = time.time()
-print(f"Pi = {res/float(N/4.0)}")
-print("Time: %s" %(t1 - t0))
+console.log(f"Pi = {res/float(N/4.0)}")
+console.log("Time: %s" %(t1 - t0))
 ```
 
 ### MPI example
@@ -107,8 +114,8 @@ res_tot = np.array(Nin, dtype='d')
 comm.Allreduce(res, res_tot, op=MPI.SUM)
 t1 = time.time()
 if comm.rank==0:
-    print(res_tot/float(N/4.0))
-    print("Time: %s" %(t1 - t0))
+    console.log(res_tot/float(N/4.0))
+    console.log("Time: %s" %(t1 - t0))
 ```
 
 ### Running $\pi$ example on Google Colab
