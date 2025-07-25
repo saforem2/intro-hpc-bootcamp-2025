@@ -81,8 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-69292e5588ac587893cebc1d6da14931.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-7cac6fd6ea597f5322884acbcef095a3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-d6cd2b0bcdba06477a9e56335e6137b2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-e6e01935ce344d4aee19ad0f4162ea04.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -755,7 +755,7 @@ window.Quarto = {
 <p>The ratio between the area of the circle and the square is</p>
 <p><span class="math display">\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}</span></p>
 <p>Therefore, we can calculate <span class="math inline">\pi</span> using <span class="math inline">\pi = \frac{4N_\text{in}}{N_\text{total}}</span></p>
-<div id="0c7022c3" class="cell" data-execution_count="1">
+<div id="42dcd7d6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> ambivalent</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -803,9 +803,9 @@ window.Quarto = {
 <span id="cb1-45"><a href="#cb1-45"></a>logger.info(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2025-07-24 14:50:02,194228][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_70061</span>/<span class="ansi-blue-fg">500593173</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">44</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Pi = <span class="ansi-cyan-fg ansi-bold">3.048</span>
+<pre>[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:41,796862</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">500593173</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">44</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Pi = <span class="ansi-cyan-fg">2.992</span>
 
-[2025-07-24 14:50:02,195395][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_70061</span>/<span class="ansi-blue-fg">500593173</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">45</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Time: <span class="ansi-cyan-fg ansi-bold">28.93397307395935</span>
+[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:41,798104</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">500593173</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">45</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Time: <span class="ansi-cyan-fg">26.968480110168457</span>
 </pre>
 </div>
 </div>
@@ -843,7 +843,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="9afb6ade" class="cell" data-execution_count="2">
+<div id="c766a03e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> random</span>
@@ -867,9 +867,9 @@ window.Quarto = {
 <span id="cb2-21"><a href="#cb2-21"></a>    logger.info(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
-<pre>[2025-07-24 14:50:05,242625][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_70061</span>/<span class="ansi-blue-fg">94852726</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">20</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span><span class="ansi-cyan-fg ansi-bold">3.141004</span>
+<pre>[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:44,852095</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">94852726</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">20</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span><span class="ansi-cyan-fg">3.1406424</span>
 
-[2025-07-24 14:50:05,243611][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_70061</span>/<span class="ansi-blue-fg">94852726</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Time: <span class="ansi-cyan-fg ansi-bold">2.9425549507141113</span>
+[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:44,852863</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">94852726</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Time: <span class="ansi-cyan-fg">2.9512970447540283</span>
 </pre>
 </div>
 </div>
@@ -882,32 +882,32 @@ window.Quarto = {
 <li>“File”-&gt; “open notebook”</li>
 <li>Choose <code>01_intro_AI_on_Supercomputer/00_mpi.ipynb</code> from the list <img src="../figures/colab.png" class="img-fluid" alt="Google Colab"></li>
 </ul>
-<div id="91925202" class="cell" data-execution_count="3">
+<div id="66c57e91" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="op">!</span> pip install mpi4py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="91511a9d" class="cell" data-execution_count="4">
+<div id="a4481597" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Number of processes: 1
-Pi = 3.142548
-Time: 3.019105</code></pre>
+<pre><code>
+
+</code></pre>
 </div>
 </div>
-<div id="e998b985" class="cell" data-execution_count="5">
+<div id="450ca399" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Number of processes: 2
-Pi = 3.1418776
-Time: 1.472228</code></pre>
+<pre><code>
+
+</code></pre>
 </div>
 </div>
-<div id="6e60a87c" class="cell" data-execution_count="6">
+<div id="0a6f5767" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Number of processes: 4
-Pi = 3.1421568
-Time: 0.743455</code></pre>
+<pre><code>
+
+</code></pre>
 </div>
 </div>
 </section>

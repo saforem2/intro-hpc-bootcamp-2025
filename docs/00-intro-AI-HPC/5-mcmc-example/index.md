@@ -88,8 +88,8 @@ logger.info(f"Pi = {res/float(N/4.0)}")
 logger.info("Time: %s" %(t1 - t0))
 ```
 
-    [2025-07-24 14:50:49,042088][I][ipykernel_72474/500593173:44:mcmc] Pi = 3.152
-    [2025-07-24 14:50:49,043426][I][ipykernel_72474/500593173:45:mcmc] Time: 25.26443600654602
+    [2025-07-25 11:14:18,071391][I][ipykernel_47428/500593173:44:mcmc] Pi = 3.168
+    [2025-07-25 11:14:18,073357][I][ipykernel_47428/500593173:45:mcmc] Time: 20.542076110839844
 
 ![](index_files/figure-commonmark/cell-2-output-2.png)
 
@@ -124,8 +124,8 @@ if comm.rank==0:
     logger.info("Time: %s" %(t1 - t0))
 ```
 
-    [2025-07-24 14:50:52,023501][I][ipykernel_72474/94852726:20:mcmc] 3.1412264
-    [2025-07-24 14:50:52,024778][I][ipykernel_72474/94852726:21:mcmc] Time: 2.89811110496521
+    [2025-07-25 11:14:21,174739][I][ipykernel_47428/94852726:20:mcmc] 3.1431768
+    [2025-07-25 11:14:21,175828][I][ipykernel_47428/94852726:21:mcmc] Time: 3.021682024002075
 
 ### Running $\pi$ example on Google Colab
 
@@ -143,25 +143,13 @@ if comm.rank==0:
 ! mpirun -np 1 --allow-run-as-root python mpi_pi.py
 ```
 
-    Number of processes: 1
-    Pi = 3.1415416
-    Time: 3.271066
-
 ``` python
 ! mpirun -np 2 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
 
-    Number of processes: 2
-    Pi = 3.1411776
-    Time: 1.785508
-
 ``` python
 ! mpirun -np 4 --allow-run-as-root --oversubscribe python mpi_pi.py
 ```
-
-    Number of processes: 4
-    Pi = 3.1421328
-    Time: 1.037697
 
 ### Running $\pi$ on Polaris
 

@@ -203,7 +203,7 @@ data = pd.read_csv('slimmed_realestate_data.csv')
 logger.info(data.columns)
 ```
 
-    [2025-07-24 14:55:53,394658][I][ipykernel_83178/1606159476:3:linear-regression] Index(['Unnamed: 0', 'SalePrice', 'GrLivArea'], dtype='object')
+    [2025-07-25 06:56:29,825708][I][ipykernel_3408/1606159476:3:linear-regression] Index(['Unnamed: 0', 'SalePrice', 'GrLivArea'], dtype='object')
 
 Now pandas provides some helpful tools for us to inspect our data.
 
@@ -220,6 +220,21 @@ data.plot(x='GrLivArea', y='SalePrice',style='o', alpha=0.8, markeredgecolor="#2
 ```
 
 ![](index_files/figure-commonmark/cell-4-output-1.png)
+
+or, even better yet, use [`seaborn`](https://seaborn.pydata.org/) to
+plot the data:
+
+``` python
+sns.jointplot(
+    x="GrLivArea",
+    y="SalePrice",
+    data=data,
+    kind='reg',
+    color=(0.043, 0.043, 0.043, 0.33),
+)
+```
+
+![](index_files/figure-commonmark/cell-5-output-1.png)
 
 ### Theory of linear regression
 
@@ -289,7 +304,7 @@ m_calc = m
 b_calc = b
 ```
 
-    [2025-07-24 14:55:53,488131][I][ipykernel_83178/1833436152:3:linear-regression] y = 87.688145 * x + 34754.077892
+    [2025-07-25 06:56:30,126103][I][ipykernel_3408/1833436152:3:linear-regression] y = 87.688145 * x + 34754.077892
 
 Now we can plot the fit results with our data to see how we did.
 
@@ -316,7 +331,7 @@ Now can use this function to plot our results:
 plot_data(x,y,m,b)
 ```
 
-![](index_files/figure-commonmark/cell-11-output-1.png)
+![](index_files/figure-commonmark/cell-12-output-1.png)
 
 ### Training through Stochastic Gradient Descent (SGD)
 
@@ -508,7 +523,7 @@ logger.info(f"y_i = {m:.2f} * x + {b:.2f}")
 # logger.info('y_i = %.2f * x + %.2f' % (m,b))
 ```
 
-    [2025-07-24 14:55:53,564582][I][ipykernel_83178/1397955390:3:linear-regression] y_i = 5.00 * x + 1000.00
+    [2025-07-25 06:56:30,198277][I][ipykernel_3408/1397955390:3:linear-regression] y_i = 5.00 * x + 1000.00
 
 Then we can calculate our Loss function:
 
@@ -517,7 +532,7 @@ l = loss(x,y,m,b)
 logger.info(f'first 10 loss values: {l[:10]}')
 ```
 
-    [2025-07-24 14:55:53,569518][I][ipykernel_83178/3769949415:2:linear-regression] first 10 loss values: [3.03421561e+10 3.55511025e+10 1.24579082e+10 1.91656336e+10
+    [2025-07-25 06:56:30,204412][I][ipykernel_3408/3769949415:2:linear-regression] first 10 loss values: [3.03421561e+10 3.55511025e+10 1.24579082e+10 1.91656336e+10
      1.60604929e+10 2.04432804e+10 1.72410030e+10 1.76517796e+10
      1.52769600e+10 2.18152900e+10]
 
@@ -529,9 +544,9 @@ logger.info('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %
 plot_data(x,y,m,b)
 ```
 
-    [2025-07-24 14:55:53,574636][I][ipykernel_83178/963106386:4:linear-regression] y_i = 5.47 * x + 1000.00     previously calculated: y_i = 87.69 * x + 34754.08
+    [2025-07-25 06:56:30,208832][I][ipykernel_3408/963106386:4:linear-regression] y_i = 5.47 * x + 1000.00     previously calculated: y_i = 87.69 * x + 34754.08
 
-![](index_files/figure-commonmark/cell-17-output-2.png)
+![](index_files/figure-commonmark/cell-18-output-2.png)
 
 ``` python
 # set our initial slope and intercept
@@ -602,9 +617,9 @@ for i in range(loop_N):
     ipydis.clear_output(wait=True)
 ```
 
-    [2025-07-24 14:57:10,965646][I][ipykernel_83178/3358379817:33:linear-regression] [029] dy_i = 88.89 * x + 32912.24 previously calculated: y_i = 87.69 * x + 34754.08 loss: 1478200827.64
+    [2025-07-25 06:57:46,287130][I][ipykernel_3408/3358379817:33:linear-regression] [029] dy_i = 88.89 * x + 32912.24 previously calculated: y_i = 87.69 * x + 34754.08 loss: 1478200827.64
 
-![](index_files/figure-commonmark/cell-18-output-2.png)
+![](index_files/figure-commonmark/cell-19-output-2.png)
 
 ## Homework
 
@@ -717,12 +732,12 @@ for bs in 64, 128, 256, 512:
     logger.info(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    [2025-07-24 14:57:13,630096][I][ipykernel_83178/713484243:1:linear-regression] previously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291
+    [2025-07-25 06:57:48,952563][I][ipykernel_3408/713484243:1:linear-regression] previously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291
     =======================================
-    [2025-07-24 14:57:13,655948][I][ipykernel_83178/713484243:6:linear-regression] batch size: 64, m=89.7758, b=29888.2061, loss=1482690098.9845
-    [2025-07-24 14:57:13,665504][I][ipykernel_83178/713484243:6:linear-regression] batch size: 128, m=89.1885, b=33535.9569, loss=1479199747.6665
-    [2025-07-24 14:57:13,670648][I][ipykernel_83178/713484243:6:linear-regression] batch size: 256, m=87.4290, b=35185.6610, loss=1477804566.5016
-    [2025-07-24 14:57:13,675109][I][ipykernel_83178/713484243:6:linear-regression] batch size: 512, m=88.8369, b=32873.5132, loss=1478213377.8360
+    [2025-07-25 06:57:48,980863][I][ipykernel_3408/713484243:6:linear-regression] batch size: 64, m=86.6933, b=39767.6013, loss=1491105743.0044
+    [2025-07-25 06:57:48,993122][I][ipykernel_3408/713484243:6:linear-regression] batch size: 128, m=86.3369, b=37861.2945, loss=1479734377.2194
+    [2025-07-25 06:57:48,999083][I][ipykernel_3408/713484243:6:linear-regression] batch size: 256, m=88.8445, b=34385.0101, loss=1479734069.2153
+    [2025-07-25 06:57:49,003911][I][ipykernel_3408/713484243:6:linear-regression] batch size: 512, m=88.6190, b=33317.3050, loss=1478035579.1159
 
 We see that eventually, we all get similar results with the minibatch
 training. Of course, here, we still keep the same learning rate. A gene
@@ -737,10 +752,10 @@ for i in 1, 2, 4, 8:
     logger.info(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    [2025-07-24 14:57:13,697875][I][ipykernel_83178/2109497066:5:linear-regression] batch size: 64, m=87.2226, b=34409.7585, loss=1478840685.2582
-    [2025-07-24 14:57:13,707542][I][ipykernel_83178/2109497066:5:linear-regression] batch size: 128, m=91.3089, b=32644.3133, loss=1490311185.4709
-    [2025-07-24 14:57:13,712616][I][ipykernel_83178/2109497066:5:linear-regression] batch size: 256, m=93.0280, b=29275.3847, loss=1489773417.8022
-    [2025-07-24 14:57:13,716345][I][ipykernel_83178/2109497066:5:linear-regression] batch size: 512, m=73059.8573, b=10022041.2464, loss=14170585206727550.0000
+    [2025-07-25 06:57:49,025637][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 64, m=82.7636, b=41158.8752, loss=1484722072.5032
+    [2025-07-25 06:57:49,034589][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 128, m=90.3469, b=33278.1437, loss=1484864554.4411
+    [2025-07-25 06:57:49,039838][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 256, m=83.5859, b=39068.6931, loss=1484538718.9052
+    [2025-07-25 06:57:49,044053][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 512, m=78160.4620, b=12419733.5223, loss=16633672705012016.0000
 
 We can see that, if we increase the batch size and the learning rate
 proportionally, at certain point, it does not converge for example for

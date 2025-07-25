@@ -35,6 +35,7 @@ sidebar: sidebar
   - 📄 [4-nersc](./00-intro-AI-hpc/4-nersc/index.html)
   - 📗 [5-mcmc-example](./00-intro-AI-hpc/5-mcmc-example/index.html)
   - 📗 [6-linear-regression](./00-intro-AI-hpc/6-linear-regression/index.html)
+  <!-- - 📗 [7-statistical-learning](./00-intro-AI-hpc/7-statistical-learning/index.html) -->
 
 - 📂 [01-neural-networks/](./01-neural-networks/index.html)
   - 📄 [0-intro](./01-neural-networks/0-intro/index.html)

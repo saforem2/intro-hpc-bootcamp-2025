@@ -286,32 +286,43 @@ $primary: $code-fg !default;
 /*-- scss:rules --*/
 
 @font-face {
-    font-family: 'Iosevka Web';
-    font-display: swap;
-    font-weight: 100;
-    font-stretch: normal;
-    font-style: normal;
-    src: url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-thin.ttf') format('truetype'), url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-thin.woff2') format('woff2');
+  font-family: "Iosevka Web";
+  font-display: swap;
+  font-weight: 100;
+  font-stretch: normal;
+  font-style: normal;
+  src:
+    url("https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-thin.ttf")
+      format("truetype"),
+    url("https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-thin.woff2")
+      format("woff2");
 }
 @font-face {
-    font-family: 'Iosevka Web';
-    font-display: swap;
-    font-weight: 100;
-    font-stretch: expanded;
-    font-style: normal;
-    src: url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-extendedthin.ttf') format('truetype'), url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-extendedthin.woff2') format('woff2');
-    // src: url('ttf/iosevka-extendedthin.ttf') format('truetype'), url('woff2/iosevka-extendedthin.woff2') format('woff2');
+  font-family: "Iosevka Web";
+  font-display: swap;
+  font-weight: 100;
+  font-stretch: expanded;
+  font-style: normal;
+  src:
+    url("https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-extendedthin.ttf")
+      format("truetype"),
+    url("https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-extendedthin.woff2")
+      format("woff2");
+  // src: url('ttf/iosevka-extendedthin.ttf') format('truetype'), url('woff2/iosevka-extendedthin.woff2') format('woff2');
 }
 @font-face {
-    font-family: 'Iosevka Web';
-    font-display: swap;
-    font-weight: 100;
-    font-stretch: normal;
-    font-style: oblique;
-    src: url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-thinoblique.ttf') format('truetype'), url('https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-thinoblique.woff2') format('woff2');
-    // src: url('ttf/iosevka-thinoblique.ttf') format('truetype'), url('woff2/iosevka-thinoblique.woff2') format('woff2');
+  font-family: "Iosevka Web";
+  font-display: swap;
+  font-weight: 100;
+  font-stretch: normal;
+  font-style: oblique;
+  src:
+    url("https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/ttf/iosevka-thinoblique.ttf")
+      format("truetype"),
+    url("https://github.com/iosevka-webfonts/iosevka/raw/refs/heads/main/woff2/iosevka-thinoblique.woff2")
+      format("woff2");
+  // src: url('ttf/iosevka-thinoblique.ttf') format('truetype'), url('woff2/iosevka-thinoblique.woff2') format('woff2');
 }
-
 
 html {
   color-scheme: light dark;
@@ -677,7 +688,7 @@ samp {
 }
 
 .cell-output.cell-output-display pre {
-  line-height: 1lh;
+  line-height: 1;
   margin: 0;
   padding: 0;
 }
@@ -686,17 +697,31 @@ pre {
   font-family: $font-family-monospace !important;
   color: $body-color;
   // background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1);
-  overflow: auto;
+  // overflow: auto;
   // line-height: 1rem;
   // font-size: inherit;
 }
 
 pre code {
-  font-size: inherit;
-  color: inherit;
+  font-size: 100%;
+  // color: inherit;
   word-break: normal;
   font-family: $font-family-monospace;
-  line-height: 1lh;
+  // line-height: 1lh;
+  display: block;
+  /* margin-top: 0; */
+  // margin-bottom: 1rem;
+  overflow: auto;
+  font-size: 1em;
+  // background-color: oklab(from #444444 calc(l * 1.15) c h/0.1);
+  line-height: 1;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 0;
+  padding-block: 0.5lh;
+  line-height: 1;
+  padding-inline-start: 1ch;
+  margin-block: 0.25lh;
 }
 
 code {
@@ -879,21 +904,22 @@ img a:hover {
 }
 
 .sidebar-header-stacked .sidebar-title {
-	display: inline-flex;
+  display: inline-flex;
 }
 
 .sidebar #quarto-search svg.aa-SubmitIcon {
-	width: 18px;
-	height: 18px;
-	margin-inline-start: 4pt;
+  width: 18px;
+  height: 18px;
+  margin-inline-start: 4pt;
 }
 
-div.sidebar.sidebar-navigation.rollup.quarto-sidebar-toggle-contents, nav.sidebar.sidebar-navigation:not(.rollup) {
-	background-color: $body-bg;
+div.sidebar.sidebar-navigation.rollup.quarto-sidebar-toggle-contents,
+nav.sidebar.sidebar-navigation:not(.rollup) {
+  background-color: $body-bg;
 }
 
 .sidebar.sidebar-navigation > * {
-  padding-top: unset!important;
+  padding-top: unset !important;
 }
 
 div.sidebar-item-container:hover,
@@ -923,7 +949,6 @@ div.sidebar-item-container .sidebar-link > code {
   // padding: 1pt;
   // border-left: 3pt solid $link-color;
   // padding-block: 5pt;
-  // border-radius: $link-border-radius;
   &:hover {
     color: $link-color-hover;
     background: none;
@@ -934,14 +959,12 @@ div.sidebar-item-container .sidebar-link > code {
     // padding: 1pt;
     // border-left: 3pt solid $link-color-hover;
     // padding-block: 5pt;
-    // border-radius: $link-border-radius;
   }
 }
 
 .sidebar-navigation li a {
   // color: $link-color;
   background: none;
-  // border-radius: $link-border-radius;
   border: 1pt dashed rgba(0, 0, 0, 0);
   // border-left: 3pt solid rgba(0,0,0,0.0);
   // padding-inline-start: 5pt;
@@ -952,7 +975,6 @@ div.sidebar-item-container .sidebar-link > code {
     color: $link-color-hover;
     background: none;
     border: 1pt dashed $link-color-hover;
-    // border-radius: $link-border-radius;
     // border-left: 3pt solid rgba(0,0,0,0.0);
     // padding-inline-start: 5pt;
     // padding-block: 1pt;
@@ -1176,7 +1198,6 @@ nav td code:not(.sourceCode) {
 .callout {
   width: 100% !important;
   margin-block: 0.25lh;
-  border-radius: 0.05rem;
   // margin-block-end: 0.5rem;
 }
 
@@ -1660,7 +1681,7 @@ div.callout-important.callout-style-default .callout-title {
 }
 
 .card {
-  border-radius: 0.25em;
+  border-radius: $link-border-radius;
   // padding: 3pt 8pt;
   margin: auto;
 
@@ -1971,9 +1992,16 @@ div.callout-important.callout-style-default .callout-title {
   color: $mypink;
 }
 
-pre > code.sourceCode > span {
-  line-height: 1.1rem;
-  font-size: inherit;
+// pre > code.sourceCode > span {
+//   line-height: 1.1rem;
+//   font-size: inherit;
+// }
+
+pre code,
+kbd,
+samp {
+  font-family: $monofont;
+  line-height: 1;
 }
 
 .reveal h1,
@@ -2161,7 +2189,6 @@ main {
   }
 }
 
-
 .reveal .slide-menu-button .fas::before {
   display: inline-block;
   height: 1.5rem;
@@ -2225,8 +2252,8 @@ dd {
 }
 
 .blockquote > :last-child {
-	margin-bottom: 0;
-	margin: auto;
+  margin-bottom: 0;
+  margin: auto;
 }
 
 blockquote,
@@ -2281,7 +2308,7 @@ caption {
 }
 
 boxed {
-  border-radius: 6px !important;
+  // border-radius: 6px !important;
   display: block;
   position: relative;
   width: fit-content !important;
@@ -2292,15 +2319,19 @@ boxed {
   padding: 0em 0.1em 0em 0.3em;
 }
 
-// .cell-output pre {
-//
-// }
-//
-.cell-output pre > code {
-  line-height: 1lh;
-  padding: 0;
+.cell-output pre {
+  line-height: 0.75;
   margin: 0;
+  padding: 0;
+  padding-block: 5pt;
 }
+
+//
+// .cell-output pre > code {
+//   line-height: 1lh;
+//   padding: 0;
+//   margin: 0;
+// }
 
 .cell-output {
   white-space: pre;
@@ -2321,7 +2352,6 @@ boxed {
   font-family: $font-family-monospace !important;
   white-space-collapse: collapse;
   display: block;
-  // border-radius: 2px;
   border: 1px solid rgba(0, 0, 0, 0);
   overflow: auto;
   // box-shadow: inset 1px 1px 2px;
@@ -2333,12 +2363,14 @@ boxed {
   // margin-block: 1lh;
   line-height: initial;
   border-left: unset;
-  border-left: 1px solid rgba(0,0,0,0.0) !important;
+  border-left: 1px solid rgba(0, 0, 0, 0) !important;
   padding: 0;
   margin: 0;
   &:hover {
-    background: oklch(from $code-block-bg-color calc(l * 1.15) c h / 0.1)!important;
-    border-left: 1px solid $link-color-hover!important;
+    background: oklch(
+      from $code-block-bg-color calc(l * 1.15) c h / 0.1
+    ) !important;
+    border-left: 1px solid $link-color-hover !important;
   }
 
   // margin-bottom: 0;
@@ -2488,8 +2520,6 @@ body {
 
 .card {
   background: $code-bg;
-
-  // border-radius: 6px;
 
   cursor: pointer;
 }
@@ -2833,7 +2863,12 @@ ul.task-list {
 
 details {
   margin-block: 0.5lh;
-   h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     display: contents;
     color: $body-color;
     &:hover {
@@ -3003,8 +3038,6 @@ nav.quarto-secondary-nav {
 }
 
 .navbar:hover {
-  // border-radius: $link-border-radius;
-
   // box-shadow: $shadow-color 0px 2px 4px !important;
   width: 100%;
   // padding-left: 0.5rem;
@@ -3016,9 +3049,7 @@ nav.quarto-secondary-nav {
 
 .navbar .dropdown-item {
   color: $link-color;
-
   font-family: $font-family-headings;
-
   border-radius: $link-border-radius;
 }
 
@@ -3074,9 +3105,7 @@ nav.quarto-secondary-nav {
 
 .code-with-filename-file {
   border: none !important;
-
   border-radius: $link-border-radius;
-
   font-style: italic;
 }
 
@@ -3101,7 +3130,7 @@ figure > figcaption.quarto-float-caption-bottom {
   padding-top: 2px;
   padding-left: 0.7em;
   /* border: var(--quarto-border-width) solid var(--quarto-border-color); */
-  border-radius: var(--quarto-border-radius);
+  // border-radius: var(--quarto-border-radius);
   /* border-bottom: 0; */
   border-bottom-left-radius: 0%;
   border-bottom-right-radius: 0%;
@@ -3595,7 +3624,6 @@ body.hypothesis-enabled #quarto-header {
   color: $link-color-hover;
   background: oklch(from $link-color-hover calc(l * 1.15) c h/0.1);
   border-bottom: 1px solid $link-color-hover;
-  border-radius: 0pt;
 }
 
 div.code {
@@ -3750,8 +3778,8 @@ img {
 }
 
 div.ansi-escaped-output {
-  font-family:monospace;
-  display:block
+  font-family: monospace;
+  display: block;
 }
 /*!
 *
@@ -3766,122 +3794,121 @@ div.ansi-escaped-output {
   color: $ansi-black-fg;
 }
 .ansi-black-bg {
-  background-color:$ansi-black-bg;
+  background-color: $ansi-black-bg;
 }
 .ansi-black-intense-black,
 .ansi-bright-black-fg {
-     color: $ansi-bright-black-fg;
+  color: $ansi-bright-black-fg;
 }
 .ansi-black-intense-black,
 .ansi-bright-black-bg {
-   background-color: $ansi-bright-black-bg;
+  background-color: $ansi-bright-black-bg;
 }
 
 .ansi-red-fg {
-   color: $ansi-red-fg;
+  color: $ansi-red-fg;
 }
 .ansi-red-bg {
-   background-color:$ansi-red-bg;
+  background-color: $ansi-red-bg;
 }
 .ansi-red-intense-red,
 .ansi-bright-red-fg {
-     color: $ansi-bright-red-fg;
+  color: $ansi-bright-red-fg;
 }
 .ansi-red-intense-red,
 .ansi-bright-red-bg {
-   background-color:$ansi-bright-red-bg;
+  background-color: $ansi-bright-red-bg;
 }
 
 .ansi-green-fg {
-   color: $ansi-green-fg;
+  color: $ansi-green-fg;
 }
 .ansi-green-bg {
-   background-color:$ansi-green-bg;
+  background-color: $ansi-green-bg;
 }
 .ansi-green-intense-green,
 .ansi-bright-green-fg {
-    color: $ansi-bright-green-fg;
+  color: $ansi-bright-green-fg;
 }
 .ansi-green-intense-green,
 .ansi-bright-green-bg {
-   background-color:$ansi-bright-green-bg;
+  background-color: $ansi-bright-green-bg;
 }
 
 .ansi-yellow-fg {
-   color:$ansi-yellow-fg;
+  color: $ansi-yellow-fg;
 }
 .ansi-yellow-bg {
-   background-color:$ansi-yellow-bg;
+  background-color: $ansi-yellow-bg;
 }
 .ansi-yellow-intense-yellow,
 .ansi-bright-yellow-fg {
-   color:$ansi-bright-yellow-fg;
+  color: $ansi-bright-yellow-fg;
 }
 .ansi-yellow-intense-yellow,
 .ansi-bright-yellow-bg {
-   background-color:$ansi-bright-yellow-bg;
+  background-color: $ansi-bright-yellow-bg;
 }
 
 .ansi-blue-fg {
-    color:$ansi-blue-fg;
+  color: $ansi-blue-fg;
 }
 .ansi-blue-bg {
-   background-color:$ansi-blue-bg;
+  background-color: $ansi-blue-bg;
 }
 .ansi-blue-intense-blue,
 .ansi-bright-blue-fg {
-   color:$ansi-bright-blue-fg;
+  color: $ansi-bright-blue-fg;
 }
 .ansi-blue-intense-blue,
 .ansi-bright-blue-bg {
-   background-color:$ansi-bright-blue-bg;
+  background-color: $ansi-bright-blue-bg;
 }
 
 .ansi-magenta-fg {
-   color:$ansi-magenta-fg;
+  color: $ansi-magenta-fg;
 }
 .ansi-magenta-bg {
-   background-color:$ansi-magenta-bg;
+  background-color: $ansi-magenta-bg;
 }
 .ansi-magenta-intense-magenta,
 .ansi-bright-magenta-fg {
-   color:$ansi-bright-magenta-fg;
+  color: $ansi-bright-magenta-fg;
 }
 .ansi-magenta-intense-magenta,
 .ansi-bright-magenta-bg {
-   background-color:$ansi-bright-magenta-bg;
+  background-color: $ansi-bright-magenta-bg;
 }
 
 .ansi-cyan-fg {
-   color:$ansi-cyan-fg;
+  color: $ansi-cyan-fg;
 }
 .ansi-cyan-bg {
-    background-color:$ansi-cyan-bg;
+  background-color: $ansi-cyan-bg;
 }
 .ansi-cyan-intense-cyan,
 .ansi-bright-cyan-fg {
-   color:$ansi-bright-cyan-fg;
+  color: $ansi-bright-cyan-fg;
 }
 .ansi-cyan-intense-cyan,
 .ansi-bright-cyan-bg {
-   background-color:$ansi-bright-cyan-bg;
+  background-color: $ansi-bright-cyan-bg;
 }
 
 .ansi-white-fg {
-   color:$ansi-white-fg;
+  color: $ansi-white-fg;
 }
 .ansi-white-bg {
-   background-color:$ansi-white-bg;
+  background-color: $ansi-white-bg;
 }
 .ansi-white-intense-white,
 .ansi-bright-white-fg {
-   color:$ansi-bright-white-fg;
+  color: $ansi-bright-white-fg;
 }
 .ansi-white-intense-white,
 .ansi-bright-white-bg {
-   background-color:$ansi-bright-white-bg;
+  background-color: $ansi-bright-white-bg;
 }
-
 
 // .ansi-green-fg {
 //   color:#00a250

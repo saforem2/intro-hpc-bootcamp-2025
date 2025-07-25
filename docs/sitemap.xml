@@ -21,12 +21,12 @@
     <lastmod>2025-07-23T13:11:13.249Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/index.html</loc>
-    <lastmod>2025-07-23T22:50:45.780Z</lastmod>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/3-conv-nets/index.html</loc>
+    <lastmod>2025-07-25T16:31:51.606Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/3-conv-nets/index.html</loc>
-    <lastmod>2025-07-24T16:46:14.404Z</lastmod>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/4-representation-learning/index.html</loc>
+    <lastmod>2025-07-23T22:52:29.759Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist/index.html</loc>
@@ -37,36 +37,40 @@
     <lastmod>2025-07-23T18:03:40.313Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/5-mcmc-example/index.html</loc>
-    <lastmod>2025-07-24T18:36:50.843Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/3-homework/index.html</loc>
-    <lastmod>2025-07-23T00:00:44.278Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/1-shared-resources/index.html</loc>
-    <lastmod>2025-07-23T00:00:44.395Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/index.html</loc>
-    <lastmod>2025-07-23T19:30:00.540Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/0-compute-systems/index.html</loc>
-    <lastmod>2025-07-23T15:00:20.799Z</lastmod>
-  </url>
-  <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/index.html</loc>
-    <lastmod>2025-07-23T12:28:14.958Z</lastmod>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/index.html</loc>
+    <lastmod>2025-07-25T13:13:20.935Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/4-nersc/index.html</loc>
     <lastmod>2025-07-23T00:00:44.394Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/index.html</loc>
-    <lastmod>2025-07-24T19:53:57.313Z</lastmod>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/index.html</loc>
+    <lastmod>2025-07-23T12:28:14.958Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/0-compute-systems/index.html</loc>
+    <lastmod>2025-07-23T15:00:20.799Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/index.html</loc>
+    <lastmod>2025-07-25T13:07:34.600Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/1-shared-resources/index.html</loc>
+    <lastmod>2025-07-23T00:00:44.395Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/3-homework/index.html</loc>
+    <lastmod>2025-07-23T00:00:44.278Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/5-mcmc-example/index.html</loc>
+    <lastmod>2025-07-24T19:49:10.913Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/7-statistical-learning/index.html</loc>
+    <lastmod>2025-07-25T13:07:57.680Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/0-intro/index.html</loc>
@@ -77,8 +81,8 @@
     <lastmod>2025-07-23T00:00:44.915Z</lastmod>
   </url>
   <url>
-    <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/4-representation-learning/index.html</loc>
-    <lastmod>2025-07-23T22:52:29.759Z</lastmod>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/index.html</loc>
+    <lastmod>2025-07-23T22:50:45.780Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/hpc-bootcamp-2025/02-llms/index.html</loc>
