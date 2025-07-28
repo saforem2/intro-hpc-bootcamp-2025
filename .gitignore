@@ -4,6 +4,8 @@
 *.quarto_ipynb
 *.jupyternb
 *.ipynb_checkpoints
+*.jupyter_cache
+**wordplay**
 /.quarto/
 /._freeze/
 old/

@@ -1,0 +1,8 @@
+---
+title: "Statistical Learning"
+description: "Statistical learning is a framework for understanding and modeling complex data patterns, combining statistical methods with machine learning algorithms to build predictive models."
+date: 2025-07-25
+date-modified: last-modified
+---
+
+#

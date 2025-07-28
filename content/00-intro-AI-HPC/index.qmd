@@ -9,6 +9,10 @@ jupyter: python3
 toc: true
 date: 2025-07-15
 date-modified: last-modified
+format:
+  html: default
+  ipynb: default
+  gfm: default
 # citation:
 #    author: Sam Foreman
 #    type: webpage
