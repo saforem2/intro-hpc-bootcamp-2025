@@ -715,6 +715,10 @@ pre {
   padding-block: 2pt;
 }
 
+.ansi-escaped-output > pre {
+	line-height: calc(2/3);
+}
+
 pre code {
   font-size: 100%;
   // color: inherit;
