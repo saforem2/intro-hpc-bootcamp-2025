@@ -6,6 +6,7 @@
 *.ipynb_checkpoints
 *.jupyter_cache
 **wordplay**
+/outputs/
 /.quarto/
 /._freeze/
 old/

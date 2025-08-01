@@ -5,14 +5,10 @@ categories:
   - ai4science
   - hpc
   - llm
-jupyter: python3
+# jupyter: python3
 toc: true
 date: 2025-07-15
 date-modified: last-modified
-format:
-  html: default
-  ipynb: default
-  gfm: default
 # citation:
 #    author: Sam Foreman
 #    type: webpage
@@ -43,6 +39,7 @@ format:
   - 📗 [2-jupyter-notebooks](./2-jupyter-notebooks/index.qmd)
   - 📄 [3-homework](./3-homework/index.qmd)
   - 📄 [4-nersc](./4-nersc/index.qmd)
+
 
 <!--
 Recording for this lecture will be here: https://www.alcf.anl.gov/events/intro-ai-series-intro-artificial-intelligence-supercomputers
