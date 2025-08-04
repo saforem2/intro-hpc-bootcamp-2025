@@ -29,9 +29,9 @@ If you look inside your Desktop or Laptop you’ll find these parts:
 
 <div id="fig-computer-parts">
 
-![parts](../img/computer-parts-diagram.svg)
+![](../img/computer-parts-diagram.svg)
 
-Figure 1
+Figure 1: Typical computer parts
 
 </div>
 
@@ -41,9 +41,9 @@ removed from large closet-sized racks with many others:
 
 <div id="fig-computer-blade">
 
-![blade](../img/computer_blade.jpg)
+![](../img/computer_blade.jpg)
 
-Figure 2
+Figure 2: Blade
 
 </div>
 
@@ -56,11 +56,13 @@ communicate with other nodes and to a large shared filesystem.
 
 ## Cluster/HPC Computing Hardware Setup
 
-<img src="../img/network-diagram/light.svg" class="light-content"
-alt="Network diagram of a typical superocmputer" />
+<div id="fig-supercomputer-network">
 
-<img src="../img/network-diagram/dark.svg" class="dark-content"
-alt="Network diagram of a typical superocmputer" />
+![](../img/network-diagram/light.svg)
+
+Figure 3: Network diagram of a typical supercomputer
+
+</div>
 
 Large computer systems typically have *worker* nodes and *login* nodes.
 *login* nodes are the nodes on which every user arrives when they login
@@ -78,7 +80,7 @@ is our staff (and interns! from summer 2023) in front of Aurora.
 
 ![](../../assets/ALCF-Staff.jpg)
 
-Figure 3: ALCF Staff
+Figure 4: ALCF Staff
 
 </div>
 
@@ -103,7 +105,7 @@ Blue water cooling conduits visible.
 
 ![](../img/aurora1.jpg)
 
-Figure 4: Aurora
+Figure 5: Aurora
 
 </div>
 
@@ -114,7 +116,7 @@ side-by-side:
 
 ![](../img/aurora2.jpg)
 
-Figure 5: Aurora
+Figure 6: Aurora
 
 </div>
 

@@ -1,6 +1,10 @@
 ---
 title: "What is a Supercomputer?"
 description: "An introduction to supercomputers, their architecture, and how they differ from regular computers."
+format:
+  html: default
+  gfm:
+    toc: true
 ---
 
 ## Overview
@@ -17,7 +21,9 @@ as a larger computer.
 If you look inside your Desktop or Laptop you'll find these parts:
 
 ::: {#fig-computer-parts}
-![parts](../img/computer-parts-diagram.svg)
+![](../img/computer-parts-diagram.svg)
+
+Typical computer parts
 :::
 
 A computing node of a supercomputer is very similar, each has simliar parts,
@@ -25,7 +31,9 @@ but it is designed as a single unit that can be inserted and removed from large
 closet-sized racks with many others:
 
 ::: {#fig-computer-blade}
-![blade](../img/computer_blade.jpg)
+![](../img/computer_blade.jpg)
+
+Blade
 :::
 
 In large supercomputers multiple computer processors (CPUs) and/or graphics
@@ -38,26 +46,12 @@ with other nodes and to a large shared filesystem.
 
 ## Cluster/HPC Computing Hardware Setup
 
-![Network diagram of a typical superocmputer](../img/network-diagram/light.svg){.light-content}
-
-![Network diagram of a typical superocmputer](../img/network-diagram/dark.svg){.dark-content}
-
-<!--
-::: {#fig-hardware}
-
-::: {.light-content}
+::: {#fig-supercomputer-network}
 
 ![](../img/network-diagram/light.svg)
-:::
 
-::: {.dark-content}
-
-![](../img/network-diagram/dark.svg)
+Network diagram of a typical supercomputer
 :::
-
-Network Diagram of a typical Supercomputer
-:::
--->
 
 
 Large computer systems typically have _worker_ nodes and _login_ nodes.

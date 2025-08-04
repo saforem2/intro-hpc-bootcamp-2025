@@ -5,4 +5,8 @@ categories:
     - hpc
 date: 2025-07-15
 date-modified: last-modified
+format:
+  html: default
+  gfm:
+    toc: true
 ---
