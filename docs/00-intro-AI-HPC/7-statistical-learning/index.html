@@ -67,6 +67,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../01-neural-networks/index.html" rel="next">
+<link href="../../00-intro-AI-HPC/6-linear-regression/index.html" rel="prev">
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -259,7 +261,7 @@ window.Quarto = {
 <meta name="citation_reference" content="citation_title=GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics;,citation_abstract=We seek to transform how new and emergent variants of pandemiccausing viruses, specifically SARS-CoV-2, are identified and classified. By adapting large language models (LLMs) for genomic data, we build genome-scale language models (GenSLMs) which can learn the evolutionary landscape of SARS-CoV-2 genomes. By pretraining on over 110 million prokaryotic gene sequences and finetuning a SARS-CoV-2-specific model on 1.5 million genomes, we show that GenSLMs can accurately and rapidly identify variants of concern. Thus, to our knowledge, GenSLMs represents one of the first whole genome scale foundation models which can generalize to other prediction tasks. We demonstrate scaling of GenSLMs on GPU-based supercomputers and AI-hardware accelerators utilizing 1.63 Zettaflops in training runs with a sustained performance of 121 PFLOPS in mixed precision and peak of 850 PFLOPS. We present initial scientific insights from examining GenSLMs in tracking evolutionary dynamics of SARS-CoV-2, paving the path to realizing this on large biological data.Competing Interest StatementThe authors have declared no competing interest.;,citation_author=Maxim Zvyagin;,citation_author=Alexander Brace;,citation_author=Kyle Hippe;,citation_author=Yuntian Deng;,citation_author=Bin Zhang;,citation_author=Cindy Orozco Bohorquez;,citation_author=Austin Clyde;,citation_author=Bharat Kale;,citation_author=Danilo Perez-Rivera;,citation_author=Heng Ma;,citation_author=Carla M. Mann;,citation_author=Michael Irvin;,citation_author=J. Gregory Pauloski;,citation_author=Logan Ward;,citation_author=Valerie Hayot-Sasson;,citation_author=Murali Emani;,citation_author=Sam Foreman;,citation_author=Zhen Xie;,citation_author=Diangen Lin;,citation_author=Maulik Shukla;,citation_author=Weili Nie;,citation_author=Josh Romero;,citation_author=Christian Dallago;,citation_author=Arash Vahdat;,citation_author=Chaowei Xiao;,citation_author=Thomas Gibbs;,citation_author=Ian Foster;,citation_author=James J. Davis;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Rick Stevens;,citation_author=Anima Anandkumar;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://www.biorxiv.org/content/early/2022/11/23/2022.10.10.511571;,citation_doi=10.1101/2022.10.10.511571;,citation_journal_title=bioRxiv;,citation_publisher=Cold Spring Harbor Laboratory;">
 </head>
 
-<body class="quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -431,9 +433,193 @@ window.Quarto = {
   </script>
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/7-statistical-learning/index.html">[7] Statistical Learning</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Intro to HPC Bootcamp 2025</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="../../index.html" title="Home" class="quarto-navigation-tool px-1" aria-label="Home"><i class="bi bi-home"></i></a>
+    <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025" title="GitHub" class="quarto-navigation-tool px-1" aria-label="GitHub"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../00-intro-AI-HPC/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[00] Intro to AI and HPC</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/0-compute-systems/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[0] Compute Systems</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/1-shared-resources/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[1] Shared Resources</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[2] Jupyter Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/3-homework/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[3] Homework</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/4-nersc/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[4] NERSC</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/5-mcmc-example/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[5] MCMC Example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/6-linear-regression/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[6] Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">[7] Statistical Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../01-neural-networks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[01] Neural Networks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-neural-networks/0-intro/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[0] Intro to NNs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-neural-networks/1-mnist/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[1] MNIST Example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-neural-networks/2-advanced/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[2] Advanced</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-neural-networks/3-conv-nets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[3] Conv. Nets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../01-neural-networks/4-representation-learning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[4] Representation Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../02-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[02] Large Language Models</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[0] Intro to LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[1] Hands-on LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../.././02-llms/02-prompt-engineering/index.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[4] Evaluating LLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[6] Parallel Training</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">[03] AI for Science</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -476,7 +662,7 @@ window.Quarto = {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/7-statistical-learning/index.html">[7] Statistical Learning</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Statistical Learning</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
@@ -527,7 +713,7 @@ window.Quarto = {
 </header>
 
 
-<div id="b2672d94" class="cell" data-execution_count="1">
+<div id="b2672d94" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
@@ -545,7 +731,7 @@ window.Quarto = {
 <section id="toy-dataset-2d-blobs" class="level3">
 <h3 class="anchored" data-anchor-id="toy-dataset-2d-blobs">Toy Dataset (2D Blobs)</h3>
 <p>Define 3 blobs on a 2D plane:</p>
-<div id="7b35d4b9" class="cell" data-execution_count="2">
+<div id="7b35d4b9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> time</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> sklearn</span>
@@ -578,7 +764,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="431d63bf" class="cell" data-execution_count="3">
+<div id="431d63bf" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>n_samples <span class="op">=</span> <span class="dv">1000</span> <span class="co"># 300 2D data points</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>n_clusters <span class="op">=</span> <span class="dv">4</span>  <span class="co"># 3 unique blobs</span></span>
@@ -613,12 +799,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="3c697a3d" class="cell" data-execution_count="4">
+<div id="3c697a3d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Normalize features</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="e93d2aac" class="cell" data-execution_count="5">
+<div id="e93d2aac" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    figsize<span class="op">=</span>(<span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.8</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
 <span id="cb5-3"><a href="#cb5-3"></a>    ncols<span class="op">=</span><span class="dv">2</span>,</span>
@@ -703,7 +889,7 @@ Figure&nbsp;2
 </figcaption>
 </figure>
 </div>
-<div id="e8987f51" class="cell" data-execution_count="6">
+<div id="e8987f51" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> initialize_centroids(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>        x: np.ndarray,</span>
 <span id="cb6-3"><a href="#cb6-3"></a>        n_clusters: <span class="bu">int</span>,</span>
@@ -748,7 +934,7 @@ Figure&nbsp;3
 </figcaption>
 </figure>
 </div>
-<div id="f7d47bbd" class="cell" data-execution_count="7">
+<div id="f7d47bbd" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">def</span> compute_distance(</span>
 <span id="cb7-2"><a href="#cb7-2"></a>        x: np.ndarray,</span>
 <span id="cb7-3"><a href="#cb7-3"></a>        centroids: np.ndarray,</span>
@@ -784,7 +970,7 @@ Figure&nbsp;3
 </section>
 <section id="step-2b-find-nearest-cluster-for-each-point" class="level3">
 <h3 class="anchored" data-anchor-id="step-2b-find-nearest-cluster-for-each-point">Step 2b: Find nearest cluster for each point</h3>
-<div id="1d5a9dfa" class="cell" data-execution_count="8">
+<div id="1d5a9dfa" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">def</span> find_closest_centroid(</span>
 <span id="cb8-2"><a href="#cb8-2"></a>        distance: np.ndarray</span>
 <span id="cb8-3"><a href="#cb8-3"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
@@ -820,7 +1006,7 @@ Figure&nbsp;4
 </figcaption>
 </figure>
 </div>
-<div id="0973275a" class="cell" data-execution_count="9">
+<div id="0973275a" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> compute_centroids(</span>
 <span id="cb9-2"><a href="#cb9-2"></a>        x: np.ndarray,</span>
 <span id="cb9-3"><a href="#cb9-3"></a>        nearest_centroid_indices: np.ndarray,</span>
@@ -866,7 +1052,7 @@ Figure&nbsp;5
 </figcaption>
 </figure>
 </div>
-<div id="6aa85e0c" class="cell" data-execution_count="10">
+<div id="6aa85e0c" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> __future__ <span class="im">import</span> absolute_import, annotations, division, print_function</span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
@@ -927,7 +1113,7 @@ Figure&nbsp;5
 </section>
 <section id="run-example" class="level2">
 <h2 class="anchored" data-anchor-id="run-example">Run Example</h2>
-<div id="92997c9b" class="cell" data-execution_count="11">
+<div id="92997c9b" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> COLORS</span>
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a>cmap <span class="op">=</span> ListedColormap(<span class="bu">list</span>(COLORS.values()))</span>
@@ -975,7 +1161,7 @@ Figure&nbsp;5
 <h2 class="anchored" data-anchor-id="k-means-on-a-breast-cancer-dataset">K-Means on a Breast Cancer Dataset</h2>
 <p>Now we use more realistic data that cannot be easily plotted on a 2D grid. This dataset has 30 features (columns) for 569 patients (rows). In addition, there is a <em>target</em> feature that indicates if the cancer was <em>malignant</em> (0) or <em>benign</em> (1). In the ideal case, our 30 features would provide easy deliniation between these two classes.</p>
 <p>Let’s extract our data into <span class="math inline">x</span> and our truth labels into <span class="math inline">y</span></p>
-<div id="487269b7" class="cell" data-execution_count="12">
+<div id="487269b7" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb14-2"><a href="#cb14-2"></a></span>
 <span id="cb14-3"><a href="#cb14-3"></a></span>
@@ -997,11 +1183,11 @@ Figure&nbsp;5
 <span id="cb14-19"><a href="#cb14-19"></a>    y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
 <span id="cb14-20"><a href="#cb14-20"></a>    <span class="cf">return</span> x, y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5a9d9aa4" class="cell" data-execution_count="13">
+<div id="5a9d9aa4" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>data <span class="op">=</span> load_cancer_data()</span>
 <span id="cb15-2"><a href="#cb15-2"></a>x, y <span class="op">=</span> sort_cancer_data(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="3e9395d8" class="cell" data-execution_count="14">
+<div id="3e9395d8" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="bu">print</span>(data.keys())</span>
 <span id="cb16-2"><a href="#cb16-2"></a><span class="bu">print</span>(<span class="st">"data size:"</span>, <span class="bu">len</span>(data[<span class="st">"data"</span>]))</span>
 <span id="cb16-3"><a href="#cb16-3"></a><span class="bu">print</span>(<span class="st">"number of features:"</span>, <span class="bu">len</span>(data[<span class="st">"feature_names"</span>]))</span>
@@ -1021,7 +1207,7 @@ number of features: 30
  'worst concave points' 'worst symmetry' 'worst fractal dimension']</code></pre>
 </div>
 </div>
-<div id="0b78d4df" class="cell" data-execution_count="15">
+<div id="0b78d4df" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># wrap data in pandas DataFrame</span></span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="co"># y = data['target'] # value: 0 = 'Malignant' 1 = 'Benign'</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a>x <span class="op">=</span> data[<span class="st">"data"</span>]</span>
@@ -1035,7 +1221,7 @@ x.shape: (569, 30)
 y.shape: (569,)</code></pre>
 </div>
 </div>
-<div id="7167aac0" class="cell" data-execution_count="16">
+<div id="7167aac0" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># normalize</span></span>
 <span id="cb20-2"><a href="#cb20-2"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1052,7 +1238,7 @@ y.shape: (569,)</code></pre>
 </div>
 </div>
 </div>
-<div id="76c55a5b" class="cell" data-execution_count="17">
+<div id="76c55a5b" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_hists</span>
 <span id="cb21-2"><a href="#cb21-2"></a></span>
 <span id="cb21-3"><a href="#cb21-3"></a><span class="co"># for seed in range(10):</span></span>
@@ -1082,7 +1268,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </div>
 <p>This plot shows the normalized inertia as we vary the number <code>n_clusters</code> used in our k-means fit to the breast cancer data. This value essentially indicates the mean distance of a point to the cluster centroids. Obviously more clusters result in data points being nearer to a centroid.</p>
 <p>If our dataset easily split into 2 clusters, we would see a step function behavior going from 1 to 2, then only very minor improvements above 2. What we see here tells us our data does not easily cluster.</p>
-<div id="aef5c485" class="cell" data-execution_count="18">
+<div id="aef5c485" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_kmeans_obj</span>
 <span id="cb23-2"><a href="#cb23-2"></a></span>
 <span id="cb23-3"><a href="#cb23-3"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.6</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]]</span>
@@ -1096,7 +1282,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </div>
 </div>
 <p>For example, if we return to our blob data with 2 clusters, it become clear.</p>
-<div id="cce4830c" class="cell" data-execution_count="19">
+<div id="cce4830c" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>n_samples <span class="op">=</span> <span class="dv">300</span>  <span class="co"># 300 2D data points</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
 <span id="cb24-3"><a href="#cb24-3"></a>n_clusters <span class="op">=</span> <span class="dv">2</span>  <span class="co"># unique blobs</span></span>
@@ -1122,7 +1308,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <section id="self-organizing-maps" class="level2">
 <h2 class="anchored" data-anchor-id="self-organizing-maps"><a href="https://en.wikipedia.org/wiki/Self-organizing_map">Self-organizing maps</a></h2>
 <p>Self Organizing Maps (SOM) were proposed and became widespread in the 1980s, by a Finnish professor named Teuvo Kohonen and are also called ‘Kohonen maps’.</p>
-<div id="f40742ee" class="cell" data-execution_count="20">
+<div id="f40742ee" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># finding best matching unit</span></span>
 <span id="cb26-2"><a href="#cb26-2"></a><span class="kw">def</span> find_bmu(t, net, n):</span>
 <span id="cb26-3"><a href="#cb26-3"></a>    <span class="co">"""</span></span>
@@ -1187,7 +1373,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <p>The idea behind a SOM is that you’re mapping high-dimensional vectors onto a smaller dimensional (typically 2D) space. Vectors that are close in the high-dimensional space also end up being mapped to nodes that are close in 2D space thus preserving the “topology” of the original data.</p>
 <section id="generating-color-data-and-normalizing" class="level3">
 <h3 class="anchored" data-anchor-id="generating-color-data-and-normalizing">Generating “Color” data and normalizing</h3>
-<div id="b42abb38" class="cell" data-execution_count="21">
+<div id="b42abb38" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>raw_data <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">255</span>, (<span class="dv">10000</span>, <span class="dv">3</span>))  <span class="co"># JPEG like data</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a><span class="co"># raw_data = np.random.uniform(size=(500, 3))</span></span>
 <span id="cb27-3"><a href="#cb27-3"></a>data <span class="op">=</span> StandardScaler().fit_transform(raw_data)  <span class="co"># Normalized</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1196,31 +1382,31 @@ Number of samples in each cluster: [188 381]</code></pre>
 <section id="defining-som" class="level3">
 <h3 class="anchored" data-anchor-id="defining-som">Defining SOM</h3>
 <p>Defining network size, number of iterations and learning rate</p>
-<div id="ebae82cd" class="cell" data-execution_count="22">
+<div id="ebae82cd" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">50</span>, <span class="dv">50</span>])</span>
 <span id="cb28-2"><a href="#cb28-2"></a>n_iterations <span class="op">=</span> <span class="dv">2500</span></span>
 <span id="cb28-3"><a href="#cb28-3"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.075</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Establish size variables based on data</p>
-<div id="d9680b3d" class="cell" data-execution_count="23">
+<div id="d9680b3d" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>m <span class="op">=</span> data.shape[<span class="dv">0</span>]</span>
 <span id="cb29-2"><a href="#cb29-2"></a>n <span class="op">=</span> data.shape[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Weight matrix (i.e.&nbsp;the SOM) needs to be one n-dimensional vector for each neuron in the SOM</p>
-<div id="5ca36961" class="cell" data-execution_count="24">
+<div id="5ca36961" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>net <span class="op">=</span> np.random.random(</span>
 <span id="cb30-2"><a href="#cb30-2"></a>    (network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>], n)</span>
 <span id="cb30-3"><a href="#cb30-3"></a>)  <span class="co"># 25 neurons each with a 3D vector</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Initial neighbourhood radius and decay parameter</p>
-<div id="0e58e6d1" class="cell" data-execution_count="25">
+<div id="0e58e6d1" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>init_radius <span class="op">=</span> <span class="bu">max</span>(network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>]) <span class="op">/</span> <span class="fl">2.0</span></span>
 <span id="cb31-2"><a href="#cb31-2"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="initial-state-of-som-color-network" class="level3">
 <h3 class="anchored" data-anchor-id="initial-state-of-som-color-network">Initial state of SOM color network</h3>
-<div id="d9204d20" class="cell" data-execution_count="26">
+<div id="d9204d20" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>plt.rcParams[<span class="st">"image.cmap"</span>] <span class="op">=</span> <span class="st">"rainbow"</span></span>
 <span id="cb32-2"><a href="#cb32-2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
 <span id="cb32-3"><a href="#cb32-3"></a>image <span class="op">=</span> ax.matshow(net)</span>
@@ -1237,7 +1423,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="training-som" class="level3">
 <h3 class="anchored" data-anchor-id="training-som">Training SOM</h3>
-<div id="37ee094c" class="cell" data-execution_count="27">
+<div id="37ee094c" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">def</span> normalize(x: np.ndarray) <span class="op">-&gt;</span> np.ndarray:</span>
 <span id="cb33-2"><a href="#cb33-2"></a>    <span class="cf">return</span> (x <span class="op">-</span> np.<span class="bu">min</span>(x)) <span class="op">/</span> (np.<span class="bu">max</span>(x) <span class="op">-</span> np.<span class="bu">min</span>(x))</span>
 <span id="cb33-3"><a href="#cb33-3"></a></span>
@@ -1282,13 +1468,13 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="visualization-of-trained-colormap-som" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-of-trained-colormap-som">Visualization of trained colormap SOM</h3>
-<div id="3b993c50" class="cell" data-execution_count="28">
+<div id="3b993c50" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a><span class="bu">len</span>(images)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>25</code></pre>
 </div>
 </div>
-<div id="68574780" class="cell" data-execution_count="29">
+<div id="68574780" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>fig, axes <span class="op">=</span> plt.subplots(</span>
 <span id="cb36-2"><a href="#cb36-2"></a>    figsize<span class="op">=</span>(<span class="fl">2.0</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
 <span id="cb36-3"><a href="#cb36-3"></a>    nrows<span class="op">=</span><span class="dv">5</span>,</span>
@@ -1314,7 +1500,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </div>
 </div>
 </div>
-<div id="3dcbbc66" class="cell" data-execution_count="30">
+<div id="3dcbbc66" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> cm</span>
 <span id="cb37-2"><a href="#cb37-2"></a></span>
 <span id="cb37-3"><a href="#cb37-3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
@@ -1332,7 +1518,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="som-on-cancer-data" class="level3">
 <h3 class="anchored" data-anchor-id="som-on-cancer-data">SOM on Cancer data</h3>
-<div id="5a5ae5e3" class="cell" data-execution_count="31">
+<div id="5a5ae5e3" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># Load data</span></span>
 <span id="cb38-2"><a href="#cb38-2"></a>data <span class="op">=</span> datasets.load_breast_cancer()</span>
 <span id="cb38-3"><a href="#cb38-3"></a><span class="co"># Get features and target</span></span>
@@ -1343,7 +1529,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <pre><code>(569, 30) (569,)</code></pre>
 </div>
 </div>
-<div id="ffad758d" class="cell" data-execution_count="32">
+<div id="ffad758d" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">10</span>])</span>
 <span id="cb40-2"><a href="#cb40-2"></a>n_iterations <span class="op">=</span> <span class="dv">2000</span></span>
 <span id="cb40-3"><a href="#cb40-3"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.01</span></span>
@@ -1359,7 +1545,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 <span id="cb40-13"><a href="#cb40-13"></a><span class="co"># radius decay parameter</span></span>
 <span id="cb40-14"><a href="#cb40-14"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="5f59aa9b" class="cell" data-execution_count="33">
+<div id="5f59aa9b" class="cell" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># convert the network to something we can visualize</span></span>
 <span id="cb41-2"><a href="#cb41-2"></a>net_vis <span class="op">=</span> np.zeros(</span>
 <span id="cb41-3"><a href="#cb41-3"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>),</span>
@@ -1389,7 +1575,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="training-som-on-cancer-data" class="level3">
 <h3 class="anchored" data-anchor-id="training-som-on-cancer-data">Training SOM on Cancer data</h3>
-<div id="9d63e034" class="cell" data-execution_count="34">
+<div id="9d63e034" class="cell" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a><span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iterations):</span>
 <span id="cb42-2"><a href="#cb42-2"></a>    <span class="co"># select a training example at random - shape of 1x3</span></span>
 <span id="cb42-3"><a href="#cb42-3"></a>    t <span class="op">=</span> X[np.random.randint(<span class="dv">0</span>, n_points), :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
@@ -1428,7 +1614,7 @@ Number of samples in each cluster: [188 381]</code></pre>
 </section>
 <section id="visualization-of-trained-som" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-of-trained-som">Visualization of trained SOM</h3>
-<div id="53ed2340" class="cell" data-execution_count="35">
+<div id="53ed2340" class="cell" data-execution_count="36">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a>net_vis <span class="op">=</span> np.zeros(</span>
 <span id="cb43-2"><a href="#cb43-2"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>), dtype<span class="op">=</span><span class="st">"double"</span></span>
 <span id="cb43-3"><a href="#cb43-3"></a>)  <span class="co"># Array for SOM color map visualization</span></span>
@@ -1973,7 +2159,19 @@ Foreman, Sam. 2025. <span>“Statistical Learning.”</span> July 25, 2025.
     document.getElementById("quarto-content").appendChild(script);
   }
   loadGiscus();
-</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../00-intro-AI-HPC/6-linear-regression/index.html" class="pagination-link" aria-label="[6] Linear Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">[6] Linear Regression</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../01-neural-networks/index.html" class="pagination-link" aria-label="[01] Neural Networks">
+        <span class="nav-page-text">[01] Neural Networks</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb44-1"><a href="#cb44-1"></a><span class="co">---</span></span>
 <span id="cb44-2"><a href="#cb44-2"></a><span class="an">title:</span><span class="co"> "Statistical Learning"</span></span>
 <span id="cb44-3"><a href="#cb44-3"></a><span class="an">description:</span><span class="co"> "Statistical learning is a framework for understanding and modeling complex data patterns, combining statistical methods with machine learning algorithms to build predictive models."</span></span>
@@ -2831,7 +3029,7 @@ Foreman, Sam. 2025. <span>“Statistical Learning.”</span> July 25, 2025.
     </a>
   </li>  
     <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/saforem2/intro-hpc-bootcamp-2025">
+    <a class="nav-link active" href="https://github.com/saforem2/intro-hpc-bootcamp-2025" aria-current="page">
       <i class="bi bi-github" role="img" aria-label="Sam Foreman GitHub">
 </i> 
     </a>
