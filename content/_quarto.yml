@@ -249,7 +249,6 @@ project:
     - "./00-intro-AI-HPC/6-linear-regression/index.ipynb"
     - "./00-intro-AI-HPC/7-statistical-learning/index.qmd"
     - "./00-intro-AI-HPC/8-clustering/index.ipynb"
-
     - "./01-neural-networks/**/**/*.qmd"
     - "./01-neural-networks/3-conv-nets/index.ipynb"
     - "!./01-neural-networks/3-conv-nets/index.qmd"
