@@ -85,8 +85,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5e104179fe3dce6b05d21119ff59e0df.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-1b231e4b16eaabaae88268452c11a30e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-5d7d4fc9ebc1442c5a1dd2093c9456c5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-9381f7f7f5bc293fcc7c1b50672135f7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -773,7 +773,7 @@ Figure&nbsp;1: MNIST sample
 </figcaption>
 </figure>
 </div>
-<div id="212a5a98" class="cell" data-execution_count="1">
+<div id="212a5a98" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> ambivalent</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -795,7 +795,7 @@ Figure&nbsp;1: MNIST sample
 </pre>
 </div>
 </div>
-<div id="a739df99" class="cell" data-execution_count="2">
+<div id="a739df99" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># %matplotlib inline</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> torch</span>
@@ -826,7 +826,7 @@ Figure&nbsp;1: MNIST sample
 <li>inputs: 1 x 28 x 28 pixels</li>
 <li>outputs (labels): one integer per example</li>
 </ul>
-<div id="03d6c67f" class="cell" data-execution_count="3">
+<div id="03d6c67f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>training_data <span class="op">=</span> torchvision.datasets.MNIST(</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    root<span class="op">=</span><span class="st">"data"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3"></a>    train<span class="op">=</span><span class="va">True</span>,</span>
@@ -847,7 +847,7 @@ Figure&nbsp;1: MNIST sample
   0%|          | 0.00/4.54k [00:00&lt;?, ?B/s]100%|██████████| 4.54k/4.54k [00:00&lt;00:00, 3.54MB/s]</code></pre>
 </div>
 </div>
-<div id="f27584a2" class="cell" data-execution_count="4">
+<div id="f27584a2" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>train_size <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.8</span> <span class="op">*</span> <span class="bu">len</span>(training_data))  <span class="co"># 80% for training</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>val_size <span class="op">=</span> <span class="bu">len</span>(training_data) <span class="op">-</span> train_size  <span class="co"># Remaining 20% for validation</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>training_data, validation_data <span class="op">=</span> torch.utils.data.random_split(</span>
@@ -856,7 +856,7 @@ Figure&nbsp;1: MNIST sample
 <span id="cb5-6"><a href="#cb5-6"></a>    generator<span class="op">=</span>torch.Generator().manual_seed(<span class="dv">55</span>)</span>
 <span id="cb5-7"><a href="#cb5-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8111f1a7" class="cell" data-execution_count="5">
+<div id="8111f1a7" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>logger.info(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    <span class="st">" "</span>.join([</span>
 <span id="cb6-3"><a href="#cb6-3"></a>        <span class="ss">f"MNIST data loaded:"</span>,</span>
@@ -873,7 +873,7 @@ Figure&nbsp;1: MNIST sample
 </div>
 </div>
 <p>Let’s take a closer look. Here are the first 10 training digits:</p>
-<div id="c6c8f20b" class="cell" data-execution_count="6">
+<div id="c6c8f20b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>pltsize<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="co"># plt.figure(figsize=(10*pltsize, pltsize))</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
@@ -937,7 +937,7 @@ Figure&nbsp;2: Fully connected linear net
 <li>An optimization method or optimizer such as the stochastic gradient descent (sgd) method, the Adam optimizer, RMSprop, Adagrad etc. Let’s start with stochastic gradient descent (sgd), like last week. For far more information about more advanced optimizers than basic SGD, with some cool animations, see <a href="https://ruder.io/optimizing-gradient-descent/" class="uri">https://ruder.io/optimizing-gradient-descent/</a> or <a href="https://distill.pub/2017/momentum/" class="uri">https://distill.pub/2017/momentum/</a>.</li>
 <li>A learning rate. As we learned last week, the learning rate controls how far we move during each step.</li>
 </ul>
-<div id="a16556b6" class="cell" data-execution_count="7">
+<div id="a16556b6" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">class</span> LinearClassifier(nn.Module):</span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
@@ -954,7 +954,7 @@ Figure&nbsp;2: Fully connected linear net
 <span id="cb8-14"><a href="#cb8-14"></a>        x <span class="op">=</span> <span class="va">self</span>.layer_1(x)</span>
 <span id="cb8-15"><a href="#cb8-15"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="0be7e610" class="cell" data-execution_count="8">
+<div id="0be7e610" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>linear_model <span class="op">=</span> LinearClassifier()</span>
 <span id="cb9-2"><a href="#cb9-2"></a>logger.info(linear_model)</span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
@@ -989,14 +989,14 @@ Figure&nbsp;2: Fully connected linear net
 <li>An epoch means one pass through the whole training data (looping over the batches). Using few epochs can lead to underfitting and using too many can lead to overfitting.</li>
 <li>The choice of batch size and learning rate are important for performance, generalization and accuracy in deep learning.</li>
 </ul>
-<div id="82b8780d" class="cell" data-execution_count="9">
+<div id="82b8780d" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>batch_size <span class="op">=</span> <span class="dv">128</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a></span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="co"># The dataloader makes our dataset iterable </span></span>
 <span id="cb10-4"><a href="#cb10-4"></a>train_dataloader <span class="op">=</span> torch.utils.data.DataLoader(training_data, batch_size<span class="op">=</span>batch_size)</span>
 <span id="cb10-5"><a href="#cb10-5"></a>val_dataloader <span class="op">=</span> torch.utils.data.DataLoader(validation_data, batch_size<span class="op">=</span>batch_size)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="330fc7d7" class="cell" data-execution_count="10">
+<div id="330fc7d7" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">def</span> train_one_epoch(dataloader, model, loss_fn, optimizer):</span>
 <span id="cb11-2"><a href="#cb11-2"></a>    model.train()</span>
 <span id="cb11-3"><a href="#cb11-3"></a>    <span class="cf">for</span> batch, (X, y) <span class="kw">in</span> <span class="bu">enumerate</span>(dataloader):</span>
@@ -1010,7 +1010,7 @@ Figure&nbsp;2: Fully connected linear net
 <span id="cb11-11"><a href="#cb11-11"></a>        <span class="co"># resets the gradients </span></span>
 <span id="cb11-12"><a href="#cb11-12"></a>        optimizer.zero_grad()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ed128b83" class="cell" data-execution_count="11">
+<div id="ed128b83" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">def</span> evaluate(dataloader, model, loss_fn):</span>
 <span id="cb12-2"><a href="#cb12-2"></a>    <span class="co"># Set the model to evaluation mode - some NN pieces behave differently during training</span></span>
 <span id="cb12-3"><a href="#cb12-3"></a>    <span class="co"># Unnecessary in this situation but added for best practices</span></span>
@@ -1034,7 +1034,7 @@ Figure&nbsp;2: Fully connected linear net
 <span id="cb12-21"><a href="#cb12-21"></a>    accuracy <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>correct</span>
 <span id="cb12-22"><a href="#cb12-22"></a>    <span class="cf">return</span> accuracy, loss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1d48df50" class="cell" data-execution_count="12">
+<div id="1d48df50" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%%</span>time</span>
 <span id="cb13-2"><a href="#cb13-2"></a></span>
 <span id="cb13-3"><a href="#cb13-3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
@@ -1097,7 +1097,7 @@ Figure&nbsp;2: Fully connected linear net
 Wall time: 13.9 s</code></pre>
 </div>
 </div>
-<div id="34416c74" class="cell" data-execution_count="13">
+<div id="34416c74" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>plt.figure()</span>
 <span id="cb15-2"><a href="#cb15-2"></a>plt.plot(<span class="bu">range</span>(epochs), train_acc_all, label<span class="op">=</span><span class="st">'Training Acc.'</span> )</span>
 <span id="cb15-3"><a href="#cb15-3"></a>plt.plot(<span class="bu">range</span>(epochs), val_acc_all, label<span class="op">=</span><span class="st">'Validation Acc.'</span> )</span>
@@ -1112,7 +1112,7 @@ Wall time: 13.9 s</code></pre>
 </div>
 </div>
 </div>
-<div id="af66b96b" class="cell" data-execution_count="14">
+<div id="af66b96b" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Visualize how the model is doing on the first 10 examples</span></span>
 <span id="cb16-2"><a href="#cb16-2"></a>pltsize<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span><span class="op">*</span>pltsize, pltsize))</span>
@@ -1138,7 +1138,7 @@ Wall time: 13.9 s</code></pre>
 <section id="prediction" class="level2">
 <h2 class="anchored" data-anchor-id="prediction">Prediction</h2>
 <p>Let’s see how our model generalizes to the unseen test data.</p>
-<div id="cdc02bd2" class="cell" data-execution_count="15">
+<div id="cdc02bd2" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">#For HW: cell to change batch size</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a><span class="co">#create dataloader for test data</span></span>
 <span id="cb17-3"><a href="#cb17-3"></a><span class="co"># The dataloader makes our dataset iterable</span></span>
@@ -1146,7 +1146,7 @@ Wall time: 13.9 s</code></pre>
 <span id="cb17-5"><a href="#cb17-5"></a>batch_size_test <span class="op">=</span> <span class="dv">256</span> </span>
 <span id="cb17-6"><a href="#cb17-6"></a>test_dataloader <span class="op">=</span> torch.utils.data.DataLoader(test_data, batch_size<span class="op">=</span>batch_size_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d409fc3e" class="cell" data-execution_count="16">
+<div id="d409fc3e" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>acc_test, loss_test <span class="op">=</span> evaluate(test_dataloader, linear_model, loss_fn)</span>
 <span id="cb18-2"><a href="#cb18-2"></a>logger.info(<span class="ss">f"Test loss: </span><span class="sc">{</span>loss_test<span class="sc">}</span><span class="ss">, test accuracy: </span><span class="sc">{</span>acc_test<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb18-3"><a href="#cb18-3"></a><span class="co"># logger.info("Test loss: %.4f, test accuracy: %.2f%%" % (loss_test, acc_test))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1157,7 +1157,7 @@ Wall time: 13.9 s</code></pre>
 </div>
 <p>We can now take a closer look at the results.</p>
 <p>Let’s define a helper function to show the failure cases of our classifier.</p>
-<div id="eb8a6c2f" class="cell" data-execution_count="17">
+<div id="eb8a6c2f" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">def</span> show_failures(model, dataloader, maxtoshow<span class="op">=</span><span class="dv">10</span>):</span>
 <span id="cb19-2"><a href="#cb19-2"></a>    model.<span class="bu">eval</span>()</span>
 <span id="cb19-3"><a href="#cb19-3"></a>    batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(dataloader))</span>
@@ -1182,7 +1182,7 @@ Wall time: 13.9 s</code></pre>
 <span id="cb19-22"><a href="#cb19-22"></a>            ii <span class="op">=</span> ii <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here are the first 10 images from the test data that this small model classified to a wrong class:</p>
-<div id="d8b33039" class="cell" data-execution_count="18">
+<div id="d8b33039" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>show_failures(linear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 11:16:14,949180</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ipykernel_10485</span>/<span style="color: #000080; text-decoration-color: #000080">2368214845</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">8</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">mnist</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Showing max <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> first failures.
@@ -1288,7 +1288,7 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 </dl>
 <p>We can now implement a deep network in PyTorch.</p>
 <p><code>nn.Dropout()</code> performs the Dropout operation mentioned earlier:</p>
-<div id="15d8a198" class="cell" data-execution_count="19">
+<div id="15d8a198" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co">#For HW: cell to change activation</span></span>
 <span id="cb21-2"><a href="#cb21-2"></a><span class="kw">class</span> NonlinearClassifier(nn.Module):</span>
 <span id="cb21-3"><a href="#cb21-3"></a></span>
@@ -1314,13 +1314,13 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 <span id="cb21-23"><a href="#cb21-23"></a></span>
 <span id="cb21-24"><a href="#cb21-24"></a>        <span class="cf">return</span> x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d2666d2b" class="cell" data-execution_count="20">
+<div id="d2666d2b" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">#### For HW: cell to change learning rate</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
 <span id="cb22-3"><a href="#cb22-3"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb22-4"><a href="#cb22-4"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="977cceaa" class="cell" data-execution_count="21">
+<div id="977cceaa" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="op">%%</span>time</span>
 <span id="cb23-2"><a href="#cb23-2"></a></span>
 <span id="cb23-3"><a href="#cb23-3"></a>epochs <span class="op">=</span> <span class="dv">5</span></span>
@@ -1383,7 +1383,7 @@ Gradients grow exponentially usually due to “poor” weight initialization.
 Wall time: 14.3 s</code></pre>
 </div>
 </div>
-<div id="ed7954d4" class="cell" data-execution_count="22">
+<div id="ed7954d4" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># pltsize=1</span></span>
 <span id="cb25-2"><a href="#cb25-2"></a><span class="co"># plt.figure(figsize=(10*pltsize, 10 * pltsize))</span></span>
 <span id="cb25-3"><a href="#cb25-3"></a>plt.figure()</span>
@@ -1400,7 +1400,7 @@ Wall time: 14.3 s</code></pre>
 </div>
 </div>
 </div>
-<div id="4f5019bc" class="cell" data-execution_count="23">
+<div id="4f5019bc" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>show_failures(nonlinear_model, test_dataloader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 11:16:29,507324</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ipykernel_10485</span>/<span style="color: #000080; text-decoration-color: #000080">2368214845</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">8</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">mnist</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Showing max <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> first failures.
@@ -1448,7 +1448,7 @@ Wall time: 14.3 s</code></pre>
 <section id="homework-solution" class="level2">
 <h2 class="anchored" data-anchor-id="homework-solution">Homework solution</h2>
 <p>Make the following changes to the cells with the comment “#For HW”</p>
-<div id="59e401fb" class="cell" data-execution_count="24">
+<div id="59e401fb" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="co">#####################To modify the batch size##########################</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a>batch_size <span class="op">=</span> <span class="dv">32</span> <span class="co"># 64, 128, 256, 512</span></span>
 <span id="cb27-3"><a href="#cb27-3"></a></span>
@@ -1491,7 +1491,7 @@ Wall time: 14.3 s</code></pre>
 <span id="cb27-40"><a href="#cb27-40"></a><span class="co">##############################################################################</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Bonus question: A learning rate scheduler is an essential deep learning technique used to dynamically adjust the learning rate during training. This strategic can significantly impact the convergence speed and overall performance of a neural network. See below on how to incorporate it to your training.</p>
-<div id="35844b27" class="cell" data-execution_count="25">
+<div id="35844b27" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>nonlinear_model <span class="op">=</span> NonlinearClassifier()</span>
 <span id="cb28-2"><a href="#cb28-2"></a>loss_fn <span class="op">=</span> nn.CrossEntropyLoss()</span>
 <span id="cb28-3"><a href="#cb28-3"></a>optimizer <span class="op">=</span> torch.optim.SGD(nonlinear_model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
@@ -1499,7 +1499,7 @@ Wall time: 14.3 s</code></pre>
 <span id="cb28-5"><a href="#cb28-5"></a><span class="co"># Step learning rate scheduler: reduce by a factor of 0.1 every 2 epochs (only for illustrative purposes)</span></span>
 <span id="cb28-6"><a href="#cb28-6"></a>scheduler <span class="op">=</span> torch.optim.lr_scheduler.StepLR(optimizer, step_size<span class="op">=</span><span class="dv">2</span>, gamma<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="191b90b2" class="cell" data-execution_count="26">
+<div id="191b90b2" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="op">%%</span>time</span>
 <span id="cb29-2"><a href="#cb29-2"></a></span>
 <span id="cb29-3"><a href="#cb29-3"></a>epochs <span class="op">=</span> <span class="dv">6</span></span>

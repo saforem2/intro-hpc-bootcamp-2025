@@ -7,17 +7,6 @@ categories:
   - ai4science
 date: '2025-07-15'
 date-modified: last-modified
-jupyter:
-  jupytext:
-    text_representation:
-      extension: .qmd
-      format_name: quarto
-      format_version: '1.0'
-      jupytext_version: 1.17.2
-  kernelspec:
-    display_name: Python 3 (ipykernel)
-    language: python
-    name: python3
 ---
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/6-linear-regression/index.ipynb)

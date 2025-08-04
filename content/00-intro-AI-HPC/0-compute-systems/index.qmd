@@ -53,7 +53,6 @@ with other nodes and to a large shared filesystem.
 Network diagram of a typical supercomputer
 :::
 
-
 Large computer systems typically have _worker_ nodes and _login_ nodes.
 _login_ nodes are the nodes on which every user arrives when they login to the
 system.
