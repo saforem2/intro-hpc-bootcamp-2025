@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
@@ -81,8 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-d6cd2b0bcdba06477a9e56335e6137b2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-e6e01935ce344d4aee19ad0f4162ea04.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-994ab4aa2b2f9243117af45b86ce9579.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5f4cc3797ff12db5a4d36561e2182398.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -122,12 +122,11 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
 <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
-
-<!-- To automatically render math in text elements, include the auto-render extension: -->
 <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -185,13 +184,13 @@ window.Quarto = {
 
 <meta property="og:title" content="Computing \pi in Parallel with Markov Chain Monte Carlo (MCMC) and MPI – Intro to HPC Bootcamp 2025">
 <meta property="og:description" content="Simple example of parallel computing using MPI to estimate the value of \pi with the Monte Carlo method.">
-<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/5-mcmc-example/index_files/figure-html/cell-2-output-2.png">
+<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/5-mcmc-example/index_files/figure-html/cell-2-output-3.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
 <meta property="og:image:height" content="875">
 <meta property="og:image:width" content="834">
 <meta name="twitter:title" content="Computing \pi in Parallel with Markov Chain Monte Carlo (MCMC) and MPI – Intro to HPC Bootcamp 2025">
 <meta name="twitter:description" content="Simple example of parallel computing using MPI to estimate the value of \pi with the Monte Carlo method.">
-<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/5-mcmc-example/index_files/figure-html/cell-2-output-2.png">
+<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/5-mcmc-example/index_files/figure-html/cell-2-output-3.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:image-height" content="875">
 <meta name="twitter:image-width" content="834">
@@ -204,6 +203,7 @@ window.Quarto = {
 <meta name="citation_online_date" content="2025-07-15">
 <meta name="citation_fulltext_html_url" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/5-mcmc-example/">
 <meta name="citation_language" content="en">
+<meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
 <meta name="citation_reference" content="citation_title=MOFA: Discovering materials for carbon capture with a GenAI- and simulation-based workflow;,citation_author=Xiaoli Yan;,citation_author=Nathaniel Hudson;,citation_author=Hyun Park;,citation_author=Daniel Grzenda;,citation_author=J. Gregory Pauloski;,citation_author=Marcus Schwarting;,citation_author=Haochen Pan;,citation_author=Hassan Harb;,citation_author=Samuel Foreman;,citation_author=Chris Knight;,citation_author=Tom Gibbs;,citation_author=Kyle Chard;,citation_author=Santanu Chaudhuri;,citation_author=Emad Tajkhorshid;,citation_author=Ian Foster;,citation_author=Mohamad Moosavi;,citation_author=Logan Ward;,citation_author=E. A. Huerta;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2501.10651;">
 <meta name="citation_reference" content="citation_title=MProt-DPO: Breaking the ExaFLOPS barrier for multimodal protein design workflows with direct preference optimization;,citation_abstract=We present a scalable, end-to-end workflow for protein design. By augmenting protein sequences with natural language descriptions of their biochemical properties, we train generative models that can be preferentially aligned with protein fitness landscapes. Through complex experimental- and simulation-based observations, we integrate these measures as preferred parameters for generating new protein variants and demonstrate our workflow on five diverse supercomputers. We achieve &amp;amp;amp;gt;1 ExaFLOPS sustained performance in mixed precision on each supercomputer and a maximum sustained performance of 4.11 ExaFLOPS and peak performance of 5.57 ExaFLOPS. We establish the scientific performance of our model on two tasks: (1) across a predetermined benchmark dataset of deep mutational scanning experiments to optimize the fitness-determining mutations in the yeast protein HIS7, and (2) in optimizing the design of the enzyme malate dehydrogenase to achieve lower activation barriers (and therefore increased catalytic rates) using simulation data. Our implementation thus sets high watermarks for multimodal protein design workflows.;,citation_author=Gautham Dharuman;,citation_author=Kyle Hippe;,citation_author=Alexander Brace;,citation_author=Sam Foreman;,citation_author=Väinö Hatanpää;,citation_author=Varuni K. Sastry;,citation_author=Huihuo Zheng;,citation_author=Logan Ward;,citation_author=Servesh Muralidharan;,citation_author=Archit Vasan;,citation_author=Bharat Kale;,citation_author=Carla M. Mann;,citation_author=Heng Ma;,citation_author=Yun-Hsuan Cheng;,citation_author=Yuliana Zamora;,citation_author=Shengchao Liu;,citation_author=Chaowei Xiao;,citation_author=Murali Emani;,citation_author=Tom Gibbs;,citation_author=Mahidhar Tatineni;,citation_author=Deepak Canchi;,citation_author=Jerome Mitchell;,citation_author=Koichi Yamada;,citation_author=Maria Garzaran;,citation_author=Michael E. Papka;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Anima Anandkumar;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://doi.org/10.1109/SC41406.2024.00013;,citation_doi=10.1109/SC41406.2024.00013;,citation_isbn=9798350352917;,citation_conference_title=Proceedings of the international conference for high performance computing, networking, storage, and analysis;,citation_conference=IEEE Press;,citation_series_title=SC ’24;">
@@ -529,6 +529,12 @@ window.Quarto = {
  <span class="menu-text">[6] Linear Regression</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[7] Statistical Learning</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -583,64 +589,39 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/0-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[0] Intro to LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/1-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[1] Hands-on LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/4-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../.././02-llms/02-prompt-engineering/index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] Evaluating LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/5-advanced-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] Advanced LLMs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../02-llms/6-parallel-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[6] Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../02-llms/7-shakespeare-example/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[7] Shakespeare Example</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../02-llms/8-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[03] AI for Science</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] GenSLM</span></a>
-  </div>
-</li>
-      </ul>
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">[03] AI for Science</span></span>
   </li>
     </ul>
     </div>
@@ -660,7 +641,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#parallel-computing-in-ai" id="toc-parallel-computing-in-ai" class="nav-link" data-scroll-target="#parallel-computing-in-ai">Parallel computing in AI</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/5-mcmc-example/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -715,7 +696,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 24, 2025</p>
+      <p class="date-modified">August 4, 2025</p>
     </div>
   </div>
     
@@ -755,7 +736,7 @@ window.Quarto = {
 <p>The ratio between the area of the circle and the square is</p>
 <p><span class="math display">\frac{N_\text{in}}{N_\text{total}} = \frac{\pi r^2}{4r^2} = \frac{\pi}{4}</span></p>
 <p>Therefore, we can calculate <span class="math inline">\pi</span> using <span class="math inline">\pi = \frac{4N_\text{in}}{N_\text{total}}</span></p>
-<div id="42dcd7d6" class="cell" data-execution_count="1">
+<div id="d3c02a2b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> ambivalent</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -772,7 +753,7 @@ window.Quarto = {
 <span id="cb1-14"><a href="#cb1-14"></a><span class="im">import</span> time</span>
 <span id="cb1-15"><a href="#cb1-15"></a></span>
 <span id="cb1-16"><a href="#cb1-16"></a><span class="im">import</span> ezpz</span>
-<span id="cb1-17"><a href="#cb1-17"></a>logger <span class="op">=</span> ezpz.get_logger(<span class="st">'mcmc'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
 <span id="cb1-18"><a href="#cb1-18"></a></span>
 <span id="cb1-19"><a href="#cb1-19"></a></span>
 <span id="cb1-20"><a href="#cb1-20"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
@@ -799,20 +780,20 @@ window.Quarto = {
 <span id="cb1-41"><a href="#cb1-41"></a></span>
 <span id="cb1-42"><a href="#cb1-42"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
 <span id="cb1-43"><a href="#cb1-43"></a>t1 <span class="op">=</span> time.time()</span>
-<span id="cb1-44"><a href="#cb1-44"></a>logger.info(<span class="ss">f"Pi = </span><span class="sc">{</span>res<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-45"><a href="#cb1-45"></a>logger.info(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<div class="ansi-escaped-output">
-<pre>[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:41,796862</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">500593173</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">44</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Pi = <span class="ansi-cyan-fg">2.992</span>
-
-[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:41,798104</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">500593173</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">45</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Time: <span class="ansi-cyan-fg">26.968480110168457</span>
+<span id="cb1-44"><a href="#cb1-44"></a><span class="bu">print</span>(<span class="ss">f"Pi = </span><span class="sc">{</span>res<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-45"><a href="#cb1-45"></a><span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pi = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.096</span>
 </pre>
 </div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">25.785905122756958</span>
+</pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="index_files/figure-html/cell-2-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/cell-2-output-2.png" width="417" height="438" class="figure-img"></a></p>
+<p><a href="index_files/figure-html/cell-2-output-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="index_files/figure-html/cell-2-output-3.png" width="417" height="438" class="figure-img"></a></p>
 </figure>
 </div>
 </div>
@@ -843,7 +824,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="c766a03e" class="cell" data-execution_count="2">
+<div id="2221e003" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="im">import</span> random</span>
@@ -863,15 +844,15 @@ window.Quarto = {
 <span id="cb2-17"><a href="#cb2-17"></a>comm.Allreduce(res, res_tot, op<span class="op">=</span>MPI.SUM)</span>
 <span id="cb2-18"><a href="#cb2-18"></a>t1 <span class="op">=</span> time.time()</span>
 <span id="cb2-19"><a href="#cb2-19"></a><span class="cf">if</span> comm.rank<span class="op">==</span><span class="dv">0</span>:</span>
-<span id="cb2-20"><a href="#cb2-20"></a>    logger.info(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
-<span id="cb2-21"><a href="#cb2-21"></a>    logger.info(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<div class="ansi-escaped-output">
-<pre>[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:44,852095</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">94852726</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">20</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span><span class="ansi-cyan-fg">3.1406424</span>
-
-[2025-07-25 <span style="opacity:0.7;color:rgb(127,127,127)">11:13:44,852863</span>][<span class="ansi-green-fg">I</span>][<span style="font-style:italic" class="ansi-cyan-fg">ipykernel_47428</span>/<span class="ansi-blue-fg">94852726</span><span class="ansi-bright-blue-fg">:</span><span class="ansi-magenta-fg">21</span><span class="ansi-bright-blue-fg">:</span><span style="font-style:italic" class="ansi-bright-green-fg">mcmc</span>]<span class="ansi-white-fg"> </span>Time: <span class="ansi-cyan-fg">2.9512970447540283</span>
+<span id="cb2-20"><a href="#cb2-20"></a>    <span class="bu">print</span>(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
+<span id="cb2-21"><a href="#cb2-21"></a>    <span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1410256</span>
 </pre>
 </div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.8627912998199463</span>
+</pre>
 </div>
 </div>
 </section>
@@ -882,30 +863,36 @@ window.Quarto = {
 <li>“File”-&gt; “open notebook”</li>
 <li>Choose <code>01_intro_AI_on_Supercomputer/00_mpi.ipynb</code> from the list <img src="../figures/colab.png" class="img-fluid" alt="Google Colab"></li>
 </ul>
-<div id="66c57e91" class="cell" data-execution_count="3">
+<div id="0de5cf75" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">!</span> wget https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>argonne<span class="op">-</span>lcf<span class="op">/</span>ai<span class="op">-</span>science<span class="op">-</span>training<span class="op">-</span>series<span class="op">/</span>main<span class="op">/</span><span class="dv">0</span><span class="er">1_intro_AI_on_Supercomputer</span><span class="op">/</span>mpi_pi.py</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="op">!</span> pip install mpi4py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a4481597" class="cell" data-execution_count="4">
+<div id="1672b88e" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">1</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 
-</code></pre>
-</div>
-</div>
-<div id="450ca399" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
+
 
 </code></pre>
 </div>
 </div>
-<div id="0a6f5767" class="cell" data-execution_count="6">
+<div id="1eadeee4" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">2</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+
+
+</code></pre>
+</div>
+</div>
+<div id="8701fc2c" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">!</span> mpirun <span class="op">-</span>np <span class="dv">4</span> <span class="op">--</span>allow<span class="op">-</span>run<span class="op">-</span><span class="im">as</span><span class="op">-</span>root <span class="op">--</span>oversubscribe python mpi_pi.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
+
+
 
 </code></pre>
 </div>
@@ -1553,7 +1540,7 @@ Monte Carlo (MCMC) and MPI.”</span> July 15, 2025. <a href="https://saforem2.g
 <span id="cb11-59"><a href="#cb11-59"></a><span class="im">import</span> time</span>
 <span id="cb11-60"><a href="#cb11-60"></a></span>
 <span id="cb11-61"><a href="#cb11-61"></a><span class="im">import</span> ezpz</span>
-<span id="cb11-62"><a href="#cb11-62"></a>logger <span class="op">=</span> ezpz.get_logger(<span class="st">'mcmc'</span>)</span>
+<span id="cb11-62"><a href="#cb11-62"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
 <span id="cb11-63"><a href="#cb11-63"></a></span>
 <span id="cb11-64"><a href="#cb11-64"></a></span>
 <span id="cb11-65"><a href="#cb11-65"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
@@ -1580,8 +1567,8 @@ Monte Carlo (MCMC) and MPI.”</span> July 15, 2025. <a href="https://saforem2.g
 <span id="cb11-86"><a href="#cb11-86"></a></span>
 <span id="cb11-87"><a href="#cb11-87"></a>res <span class="op">=</span> np.array(Nin, dtype<span class="op">=</span><span class="st">'d'</span>)</span>
 <span id="cb11-88"><a href="#cb11-88"></a>t1 <span class="op">=</span> time.time()</span>
-<span id="cb11-89"><a href="#cb11-89"></a>logger.info(<span class="ss">f"Pi = </span><span class="sc">{</span>res<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb11-90"><a href="#cb11-90"></a>logger.info(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
+<span id="cb11-89"><a href="#cb11-89"></a><span class="bu">print</span>(<span class="ss">f"Pi = </span><span class="sc">{</span>res<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-90"><a href="#cb11-90"></a><span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
 <span id="cb11-91"><a href="#cb11-91"></a><span class="in">```</span></span>
 <span id="cb11-92"><a href="#cb11-92"></a></span>
 <span id="cb11-93"><a href="#cb11-93"></a><span class="fu">### MPI example</span></span>
@@ -1613,8 +1600,8 @@ Monte Carlo (MCMC) and MPI.”</span> July 15, 2025. <a href="https://saforem2.g
 <span id="cb11-121"><a href="#cb11-121"></a>comm.Allreduce(res, res_tot, op<span class="op">=</span>MPI.SUM)</span>
 <span id="cb11-122"><a href="#cb11-122"></a>t1 <span class="op">=</span> time.time()</span>
 <span id="cb11-123"><a href="#cb11-123"></a><span class="cf">if</span> comm.rank<span class="op">==</span><span class="dv">0</span>:</span>
-<span id="cb11-124"><a href="#cb11-124"></a>    logger.info(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
-<span id="cb11-125"><a href="#cb11-125"></a>    logger.info(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
+<span id="cb11-124"><a href="#cb11-124"></a>    <span class="bu">print</span>(res_tot<span class="op">/</span><span class="bu">float</span>(N<span class="op">/</span><span class="fl">4.0</span>))</span>
+<span id="cb11-125"><a href="#cb11-125"></a>    <span class="bu">print</span>(<span class="st">"Time: </span><span class="sc">%s</span><span class="st">"</span> <span class="op">%</span>(t1 <span class="op">-</span> t0))</span>
 <span id="cb11-126"><a href="#cb11-126"></a><span class="in">```</span></span>
 <span id="cb11-127"><a href="#cb11-127"></a></span>
 <span id="cb11-128"><a href="#cb11-128"></a><span class="fu">### Running $\pi$ example on Google Colab</span></span>

@@ -5,6 +5,10 @@ categories:
     - hpc
 date: 2025-07-15
 date-modified: last-modified
+format:
+  html: default
+  gfm:
+    toc: true
 ---
 
 You will submit weekly homeworks via this [Homework Form](https://forms.office.com/g/0DvK4rxQWe)

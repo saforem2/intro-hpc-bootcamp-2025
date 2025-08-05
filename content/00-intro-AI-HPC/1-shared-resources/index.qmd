@@ -5,6 +5,10 @@ categories:
     - hpc
 date: 2025-07-15
 date-modified: last-modified
+format:
+  html: default
+  gfm:
+    toc: true
 ---
 
 Supercomputers contain many computer _nodes_ and not every application will use

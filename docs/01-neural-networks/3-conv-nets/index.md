@@ -4,6 +4,7 @@ Sam Foreman, Huihuo Zheng, Corey Adams, Bethany Lusch
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
+- [Getting Started](#getting-started)
 - [Convolutional Networks: A brief historical
   context](#convolutional-networks-a-brief-historical-context)
 - [Convolutional Building Blocks](#convolutional-building-blocks)
@@ -12,8 +13,15 @@ Sam Foreman, Huihuo Zheng, Corey Adams, Bethany Lusch
   - [Downsampling (And upsampling)](#downsampling-and-upsampling)
   - [Residual Connections](#residual-connections)
 - [Building a ConvNet](#building-a-convnet)
-- [Training for Multiple Epochs](#training-for-multiple-epochs)
-- [Homework 1:](#homework-1)
+- [Run Training](#run-training)
+- [Run Validation](#run-validation)
+- [Plot Metrics](#plot-metrics)
+  - [Training Metrics](#training-metrics)
+  - [Validation Metrics](#validation-metrics)
+- [Homework 1](#homework-1)
+  - [Training for Multiple Epochs](#training-for-multiple-epochs)
+
+## Getting Started
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/3-conv-nets/index.ipynb)
 
@@ -37,60 +45,51 @@ Tip: this notebook is much faster on the GPU!
 
 ## Convolutional Networks: A brief historical context
 
-Performance on ImageNet over time[^1]
+Performance on ImageNet over time\[^image-net-historical\]
 
 ``` python
 %load_ext autoreload
 %autoreload 2
-%matplotlib inline
-# settings for jupyter book: svg for html version, high-resolution png for pdf
 import matplotlib_inline.backend_inline
 matplotlib_inline.backend_inline.set_matplotlib_formats('retina', 'svg', 'png')
+import os
+os.environ["TRUECOLOR"] = "1"
 import matplotlib as mpl
 # mpl.rcParams['figure.dpi'] = 400
 ```
 
 ``` python
+import logging
+
 import ambivalent
 import ezpz
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-logger = ezpz.get_logger(__name__)
-if logger.hasHandlers():
-    logger.handlers.clear()
-
-for child in logger.getChildren():
-    if child.hasHandlers():
-        child.handlers.clear()
-
-logger.propagate = True
+from rich import print
 
 sns.set_context("notebook")
-sns.set(rc={"figure.dpi": 400, "savefig.dpi": 400})
+# sns.set(rc={"figure.dpi": 400, "savefig.dpi": 400})
 plt.style.use(ambivalent.STYLES["ambivalent"])
 plt.rcParams["figure.figsize"] = [6.4, 4.8]
 plt.rcParams["figure.facecolor"] = "none"
 ```
 
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 12:29:17,617339</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">265</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'INFO'</span> on <span style="color: #008000; text-decoration-color: #008000">'RANK == 0'</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 12:29:17,619494</span>][<span style="color: #008000; text-decoration-color: #008000">I</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">ezpz</span>/<span style="color: #000080; text-decoration-color: #000080">__init__</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">266</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">ezpz</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Setting logging level to <span style="color: #008000; text-decoration-color: #008000">'CRITICAL'</span> on all others <span style="color: #008000; text-decoration-color: #008000">'RANK != 0'</span>
+</pre>
+
 ``` python
 # Data
 data = {2010: 28, 2011: 26, 2012: 16, 2013: 12, 2014: 7, 2015: 3, 2016: 2.3, 2017: 2.1}
 human_error_rate = 5
-
-# Create bar plot
 plt.bar(list(data.keys()), list(data.values()), color="blue")
-
-# Add human error rate line
 plt.axhline(y=human_error_rate, color="red", linestyle="--", label="Human error rate")
-
-# Labels and title
 plt.xlabel("Year")
 plt.ylabel("ImageNet Visual Recognition Error Rate (%)")
 plt.title("ImageNet Error Rates Over Time")
 plt.legend()
-
-# Display plot
 plt.show()
 ```
 
@@ -111,7 +110,7 @@ image for examples:
 from PIL import Image
 
 # wget line useful in Google Colab
-! wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/03_advanced_neural_networks/ALCF-Staff.jpg 2>&1 >/dev/null
+#! wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/03_advanced_neural_networks/ALCF-Staff.jpg
 alcf_image = Image.open("ALCF-Staff.jpg")
 ```
 
@@ -127,6 +126,12 @@ _ = plt.imshow(alcf_image)
 
 ### Convolutions
 
+$$
+\begin{equation}
+G\left[m, n\right] = \left(f \star h\right)\left[m, n\right] = \sum_{j} \sum_{k} h\left[j, k\right] f\left[m - j, n - k\right]
+\end{equation}
+$$
+
 Convolutions are a restriction of - and a specialization of - dense
 linear layers. A convolution of an image produces another image, and
 each output pixel is a function of only it’s local neighborhood of
@@ -134,10 +139,10 @@ points. This is called an *inductive bias* and is a big reason why
 convolutions work for image data: neighboring pixels are correlated and
 you can operate on just those pixels at a time.
 
+$G\left[m, n\right] = \left(f \star h\right)\left[m, n\right] = \sum_{j} \sum_{k} h\left[j, k\right] f\left[m - j, n - k\right]$
+
 See examples of convolutions
 [here](https://github.com/vdumoulin/conv_arithmetic)
-
-![image-2.png](./conv_eqn.png)
 
 ![image.png](./conv.png)
 
@@ -154,10 +159,10 @@ conv_random = torch.rand((3, 3, 15, 15))
 
 alcf_rand = torch.nn.functional.conv2d(alcf_tensor, conv_random)
 alcf_rand = (1.0 / alcf_rand.max()) * alcf_rand
-logger.info(alcf_rand.shape)
+print(alcf_rand.shape)
 alcf_rand = alcf_rand.reshape(alcf_rand.shape[1:])
 
-logger.info(alcf_tensor.shape)
+print(alcf_tensor.shape)
 
 rand_image = alcf_rand.permute((1, 2, 0)).cpu()
 fx, fy = plt.rcParamsDefault["figure.figsize"]
@@ -165,46 +170,54 @@ figure = plt.figure(figsize=(1.5 * fx, 1.5 * fy))
 _ = plt.imshow(rand_image)
 ```
 
-    [2025-07-25 10:47:35,840022][I][ipykernel_68449/3575795754:13:__main__] torch.Size([1, 3, 1111, 1986])
-    [2025-07-25 10:47:35,844010][I][ipykernel_68449/3575795754:16:__main__] torch.Size([1, 3, 1125, 2000])
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">torch.Size</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1111</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1986</span><span style="font-weight: bold">])</span>
+</pre>
 
-![](index_files/figure-commonmark/cell-8-output-2.svg)
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">torch.Size</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1125</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2000</span><span style="font-weight: bold">])</span>
+</pre>
+
+![](index_files/figure-commonmark/cell-8-output-3.svg)
 
 ### Normalization
-
-![Batch Norm](./batch_norm.png) Reference:
-[Normalizations](https://arxiv.org/pdf/1903.10520.pdf)
 
 Normalization is the act of transforming the mean and moment of your
 data to standard values (usually 0.0 and 1.0). It’s particularly useful
 in machine learning since it stabilizes training, and allows higher
 learning rates.
 
+<div id="fig-batch-norm-1">
+
+![Batch Norm](./batch_norm.png)
+
+Figure 1: Reference:
+[Normalizations](https://arxiv.org/pdf/1903.10520.pdf)
+
+</div>
+
+<div id="fig-batch-norm-2">
+
 ![Batch Normalization accelerates training](./batch_norm_effect.png)
 
-Reference: [Batch Norm](https://arxiv.org/pdf/1502.03167.pdf)
+Figure 2: Reference: [Batch Norm](https://arxiv.org/pdf/1502.03167.pdf)
+
+</div>
 
 ``` python
 # Let's apply a normalization to the ALCF Staff photo:
 alcf_tensor = torchvision.transforms.ToTensor()(alcf_image)
-
 # Reshape the tensor to have a batch size of 1:
 alcf_tensor = alcf_tensor.reshape((1,) + alcf_tensor.shape)
-
-
 alcf_rand = torch.nn.functional.normalize(alcf_tensor)
 alcf_rand = alcf_rand.reshape(alcf_rand.shape[1:])
-
-logger.info(alcf_tensor.shape)
-
+print(alcf_tensor.shape)
 rand_image = alcf_rand.permute((1, 2, 0)).cpu()
-
 fx, fy = plt.rcParamsDefault["figure.figsize"]
 figure = plt.figure(figsize=(1.5 * fx, 1.5 * fy))
 _ = plt.imshow(rand_image)
 ```
 
-    [2025-07-25 10:47:39,496234][I][ipykernel_68449/378276982:11:__main__] torch.Size([1, 3, 1125, 2000])
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">torch.Size</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1125</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2000</span><span style="font-weight: bold">])</span>
+</pre>
 
 ![](index_files/figure-commonmark/cell-9-output-2.svg)
 
@@ -217,31 +230,31 @@ Downsampling of layers can bring information from far away closer,
 effectively changing what it means to be “local” as the input to a
 convolution.
 
+<div id="fig-downsampling">
+
 ![Convolutional Pooling](./conv_pooling.png)
 
+Figure 3:
 [Reference](https://www.researchgate.net/publication/333593451_Application_of_Transfer_Learning_Using_Convolutional_Neural_Network_Method_for_Early_Detection_of_Terry's_Nail)
+
+</div>
 
 ``` python
 # Let's apply a normalization to the ALCF Staff photo:
 alcf_tensor = torchvision.transforms.ToTensor()(alcf_image)
-
 # Reshape the tensor to have a batch size of 1:
 alcf_tensor = alcf_tensor.reshape((1,) + alcf_tensor.shape)
-
-
 alcf_rand = torch.nn.functional.max_pool2d(alcf_tensor, 2)
 alcf_rand = alcf_rand.reshape(alcf_rand.shape[1:])
-
-logger.info(alcf_tensor.shape)
-
+print(alcf_tensor.shape)
 rand_image = alcf_rand.permute((1, 2, 0)).cpu()
-
 fx, fy = plt.rcParamsDefault["figure.figsize"]
 figure = plt.figure(figsize=(1.5 * fx, 1.5 * fy))
 _ = plt.imshow(rand_image)
 ```
 
-    [2025-07-25 10:47:45,570548][I][ipykernel_68449/2241832520:11:__main__] torch.Size([1, 3, 1125, 2000])
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">torch.Size</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1125</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2000</span><span style="font-weight: bold">])</span>
+</pre>
 
 ![](index_files/figure-commonmark/cell-10-output-2.svg)
 
@@ -257,13 +270,24 @@ layers.
 Reference: [Deep Residual Learning for Image
 Recognition](https://arxiv.org/pdf/1512.03385.pdf)
 
-![Residual Layer](./residual_layer.png)
+<div id="fig-residual-layer">
+
+![](./residual_layer.png)
+
+Figure 4: Residual Layer
+
+</div>
 
 Compare the performance of the models before and after the introduction
 of these layers:
 
-![Resnet Performance vs. Plain network
-performance](./resnet_comparison.png)
+<div id="fig-resnet-performance">
+
+![](./resnet_comparison.png)
+
+Figure 5
+
+</div>
 
 If you have time to read only one paper on computer vision, make it this
 one! Resnet was the first model to beat human accuracy on ImageNet and
@@ -283,21 +307,13 @@ The dataset here is CIFAR-10 - slightly harder than MNIST but still
 relatively easy and computationally tractable.
 
 ``` python
-batch_size = 256
-
-
+batch_size = 16
 from torchvision import transforms
 
 transform = transforms.Compose(
-    [
-        transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-    ],
+    [transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))],
 )
-
 training_data = torchvision.datasets.CIFAR10(
-    # Polaris: root="/lus/eagle/projects/datasets/CIFAR-10/",
-    # Polaris: download=False,
     root="data",
     download=True,
     train=True,
@@ -305,26 +321,15 @@ training_data = torchvision.datasets.CIFAR10(
 )
 
 test_data = torchvision.datasets.CIFAR10(
-    # Polaris: root="/lus/eagle/projects/datasets/CIFAR-10/",
-    # Polaris: download=False,
     root="data",
     download=True,
     train=False,
     transform=transform,
-    # transform=v2.Compose(
-    #     [
-    #         torchvision.transforms.ToTensor(),
-    #         v2.ConvertImageDtype(torch.bfloat16),
-    #     ]
-    # )
 )
 
 training_data, validation_data = torch.utils.data.random_split(
-    training_data,
-    [0.8, 0.2],
-    generator=torch.Generator().manual_seed(55)
+    training_data, [0.8, 0.2], generator=torch.Generator().manual_seed(55)
 )
-
 
 # The dataloader makes our dataset iterable
 train_dataloader = torch.utils.data.DataLoader(
@@ -342,16 +347,16 @@ val_dataloader = torch.utils.data.DataLoader(
     num_workers=0,
 )
 classes = (
-    'plane',
-    'car',
-    'bird',
-    'cat',
-    'deer',
-    'dog',
-    'frog',
-    'horse',
-    'ship',
-    'truck'
+    "plane",
+    "car",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck",
 )
 ```
 
@@ -361,15 +366,17 @@ plt.imshow(X[0].cpu().permute((1, 2, 0)))
 plt.show()
 ```
 
-    [2025-07-25 10:47:50,714398][W][matplotlib/image:661] Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.7882353..0.9137255].
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">[<span style="color: #7f7f7f; text-decoration-color: #7f7f7f">2025-08-04 12:29:50,397009</span>][<span style="color: #ffff00; text-decoration-color: #ffff00">W</span>][<span style="color: #008080; text-decoration-color: #008080; font-style: italic">matplotlib</span>/<span style="color: #000080; text-decoration-color: #000080">image</span><span style="color: #0000ff; text-decoration-color: #0000ff">:</span><span style="color: #800080; text-decoration-color: #800080">661</span>]<span style="color: #c0c0c0; text-decoration-color: #c0c0c0"> </span>Clipping input data to the valid range for imshow with RGB data <span style="color: #ff00ff; text-decoration-color: #ff00ff">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>..<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">]</span> for floats or <span style="color: #ff00ff; text-decoration-color: #ff00ff">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>..<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">255</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">]</span> for integers<span style="color: #ff00ff; text-decoration-color: #ff00ff">)</span>. Got range <span style="color: #ff00ff; text-decoration-color: #ff00ff">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-0.9764706</span>..<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.96862745</span><span style="color: #ff00ff; text-decoration-color: #ff00ff">]</span>.
+</pre>
 
 ![](index_files/figure-commonmark/cell-12-output-2.svg)
 
 ``` python
 import numpy as np
 
+
 def imshow(img):
-    img = img / 2 + 0.5     # unnormalize
+    img = img / 2 + 0.5  # unnormalize
     npimg = img.numpy()
     plt.imshow(np.transpose(npimg, (1, 2, 0)))
     plt.show()
@@ -378,18 +385,19 @@ def imshow(img):
 # get some random training images
 images, labels = next(iter(train_dataloader))
 
-fx, fy= plt.rcParamsDefault['figure.figsize']
+fx, fy = plt.rcParamsDefault["figure.figsize"]
 fig = plt.figure(figsize=(2 * fx, 4 * fy))
 # show images
 imshow(torchvision.utils.make_grid(images))
 # print labels
-logger.info("\n" + " ".join(f"{classes[labels[j]]:5s}" for j in range(batch_size)))
+print("\n" + " ".join(f"{classes[labels[j]]:5s}" for j in range(batch_size)))
 ```
 
 ![](index_files/figure-commonmark/cell-13-output-1.svg)
 
-    [2025-07-25 10:47:59,002453][I][ipykernel_68449/2917342340:18:__main__] 
-    truck car   truck bird  dog   deer  bird  car   plane truck cat   frog  ship  horse horse deer  car   bird  plane frog  cat   bird  cat   truck cat   bird  dog   bird  truck horse plane bird  horse car   frog  horse car   frog  plane plane truck dog   plane plane horse ship  truck frog  cat   deer  ship  truck horse ship  horse dog   bird  deer  horse dog   frog  cat   deer  deer  ship  bird  deer  horse ship  truck bird  frog  ship  horse dog   ship  frog  dog   plane bird  cat   frog  car   bird  frog  cat   cat   ship  truck cat   car   truck ship  car   ship  car   bird  deer  dog   frog  dog   ship  horse car   horse dog   deer  deer  truck dog   frog  horse truck horse ship  frog  dog   cat   dog   ship  plane truck plane cat   truck bird  ship  truck car   deer  plane ship  horse car   cat   plane dog   frog  cat   car   ship  cat   frog  car   cat   bird  frog  truck ship  horse dog   bird  ship  horse frog  bird  cat   frog  horse plane horse deer  bird  car   ship  cat   bird  horse deer  bird  truck deer  car   bird  bird  ship  cat   truck cat   ship  cat   ship  dog   frog  horse plane dog   deer  dog   deer  ship  truck ship  cat   cat   frog  truck car   ship  plane car   frog  plane bird  ship  bird  horse frog  car   cat   dog   dog   horse truck deer  car   cat   horse horse deer  car   horse cat   horse car   bird  truck dog   ship  deer  bird  plane car   dog   cat   plane frog  deer  truck cat   ship  horse horse frog  dog   dog   deer  dog   plane cat   ship  bird  car   deer  deer  cat  
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+dog   deer  cat   truck car   horse plane dog   car   bird  bird  frog  deer  bird  car   plane
+</pre>
 
 This code below is important as our models get bigger: this is wrapping
 the pytorch data loaders to put the data onto the GPU!
@@ -397,14 +405,12 @@ the pytorch data loaders to put the data onto the GPU!
 ``` python
 dev = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
+
 def preprocess(x, y):
     # CIFAR-10 is *color* images so 3 layers!
-    x = x.view(-1, 3, 32, 32)  # .to(dtype)
+    x = x.view(-1, 3, 32, 32)
     #  y = y.to(dtype)
-    return (
-        x.to(dev),
-        y.to(dev)
-    )
+    return (x.to(dev), y.to(dev))
 
 
 class WrappedDataLoader:
@@ -419,6 +425,7 @@ class WrappedDataLoader:
         for b in self.dl:
             yield (self.func(*b))
 
+
 train_dataloader = WrappedDataLoader(train_dataloader, preprocess)
 val_dataloader = WrappedDataLoader(val_dataloader, preprocess)
 ```
@@ -427,6 +434,7 @@ val_dataloader = WrappedDataLoader(val_dataloader, preprocess)
 from typing import Optional
 
 from torch import nn
+
 
 class Downsampler(nn.Module):
     def __init__(self, in_channels, out_channels, shape, stride=2):
@@ -447,7 +455,10 @@ class ConvNextBlock(nn.Module):
     """This block of operations is loosely based on this paper:"""
 
     def __init__(
-        self, in_channels, shape, kernel_size: Optional[None] = None,
+        self,
+        in_channels,
+        shape,
+        kernel_size: Optional[None] = None,
     ):
         super(ConvNextBlock, self).__init__()
         # Depthwise, seperable convolution with a large number of output filters:
@@ -492,10 +503,7 @@ class Classifier(nn.Module):
         # This is a downsampling convolution that will produce patches of output.
         # This is similar to what vision transformers do to tokenize the images.
         self.stem = nn.Conv2d(
-            in_channels=3,
-            out_channels=n_initial_filters,
-            kernel_size=1,
-            stride=1
+            in_channels=3, out_channels=n_initial_filters, kernel_size=1, stride=1
         )
         current_shape = [32, 32]
         self.norm1 = nn.LayerNorm([n_initial_filters, *current_shape])
@@ -555,92 +563,86 @@ class Classifier(nn.Module):
 ```
 
 ``` python
-!pip install torchinfo # if not on Polaris
-```
-
-``` python
-model = Classifier(32, 4, 2)
-#model = model.to(dtype)
-model.to(device=dev)
-# model.to(torch.bfloat16)
-
 from torchinfo import summary
 
-logger.info(f"\n{summary(model, input_size=(batch_size, 3, 32, 32))}")
+model = Classifier(32, 4, 2, kernel_size=(2, 2))
+model.to(device=dev)
+print(f"\n{summary(model, input_size=(batch_size, 3, 32, 32))}")
 ```
 
-    [2025-07-25 10:48:42,009962][I][ipykernel_68449/17438744:8:__main__] 
-    ==========================================================================================
-    Layer (type:depth-idx)                   Output Shape              Param #
-    ==========================================================================================
-    Classifier                               [256, 10]                 --
-    ├─Conv2d: 1-1                            [256, 32, 32, 32]         128
-    ├─LayerNorm: 1-2                         [256, 32, 32, 32]         65,536
-    ├─Sequential: 1-3                        [256, 256, 4, 4]          --
-    │    └─ConvNextBlock: 2-1                [256, 32, 32, 32]         --
-    │    │    └─Conv2d: 3-1                  [256, 32, 32, 32]         1,600
-    │    │    └─LayerNorm: 3-2               [256, 32, 32, 32]         65,536
-    │    │    └─Conv2d: 3-3                  [256, 128, 32, 32]        4,224
-    │    │    └─Conv2d: 3-4                  [256, 32, 32, 32]         4,128
-    │    └─ConvNextBlock: 2-2                [256, 32, 32, 32]         --
-    │    │    └─Conv2d: 3-5                  [256, 32, 32, 32]         1,600
-    │    │    └─LayerNorm: 3-6               [256, 32, 32, 32]         65,536
-    │    │    └─Conv2d: 3-7                  [256, 128, 32, 32]        4,224
-    │    │    └─Conv2d: 3-8                  [256, 32, 32, 32]         4,128
-    │    └─Downsampler: 2-3                  [256, 64, 16, 16]         --
-    │    │    └─LayerNorm: 3-9               [256, 32, 32, 32]         65,536
-    │    │    └─Conv2d: 3-10                 [256, 64, 16, 16]         8,256
-    │    └─ConvNextBlock: 2-4                [256, 64, 16, 16]         --
-    │    │    └─Conv2d: 3-11                 [256, 64, 16, 16]         3,200
-    │    │    └─LayerNorm: 3-12              [256, 64, 16, 16]         32,768
-    │    │    └─Conv2d: 3-13                 [256, 256, 16, 16]        16,640
-    │    │    └─Conv2d: 3-14                 [256, 64, 16, 16]         16,448
-    │    └─ConvNextBlock: 2-5                [256, 64, 16, 16]         --
-    │    │    └─Conv2d: 3-15                 [256, 64, 16, 16]         3,200
-    │    │    └─LayerNorm: 3-16              [256, 64, 16, 16]         32,768
-    │    │    └─Conv2d: 3-17                 [256, 256, 16, 16]        16,640
-    │    │    └─Conv2d: 3-18                 [256, 64, 16, 16]         16,448
-    │    └─Downsampler: 2-6                  [256, 128, 8, 8]          --
-    │    │    └─LayerNorm: 3-19              [256, 64, 16, 16]         32,768
-    │    │    └─Conv2d: 3-20                 [256, 128, 8, 8]          32,896
-    │    └─ConvNextBlock: 2-7                [256, 128, 8, 8]          --
-    │    │    └─Conv2d: 3-21                 [256, 128, 8, 8]          6,400
-    │    │    └─LayerNorm: 3-22              [256, 128, 8, 8]          16,384
-    │    │    └─Conv2d: 3-23                 [256, 512, 8, 8]          66,048
-    │    │    └─Conv2d: 3-24                 [256, 128, 8, 8]          65,664
-    │    └─ConvNextBlock: 2-8                [256, 128, 8, 8]          --
-    │    │    └─Conv2d: 3-25                 [256, 128, 8, 8]          6,400
-    │    │    └─LayerNorm: 3-26              [256, 128, 8, 8]          16,384
-    │    │    └─Conv2d: 3-27                 [256, 512, 8, 8]          66,048
-    │    │    └─Conv2d: 3-28                 [256, 128, 8, 8]          65,664
-    │    └─Downsampler: 2-9                  [256, 256, 4, 4]          --
-    │    │    └─LayerNorm: 3-29              [256, 128, 8, 8]          16,384
-    │    │    └─Conv2d: 3-30                 [256, 256, 4, 4]          131,328
-    │    └─ConvNextBlock: 2-10               [256, 256, 4, 4]          --
-    │    │    └─Conv2d: 3-31                 [256, 256, 4, 4]          12,800
-    │    │    └─LayerNorm: 3-32              [256, 256, 4, 4]          8,192
-    │    │    └─Conv2d: 3-33                 [256, 1024, 4, 4]         263,168
-    │    │    └─Conv2d: 3-34                 [256, 256, 4, 4]          262,400
-    │    └─ConvNextBlock: 2-11               [256, 256, 4, 4]          --
-    │    │    └─Conv2d: 3-35                 [256, 256, 4, 4]          12,800
-    │    │    └─LayerNorm: 3-36              [256, 256, 4, 4]          8,192
-    │    │    └─Conv2d: 3-37                 [256, 1024, 4, 4]         263,168
-    │    │    └─Conv2d: 3-38                 [256, 256, 4, 4]          262,400
-    ├─Sequential: 1-4                        [256, 10]                 --
-    │    └─Flatten: 2-12                     [256, 256]                --
-    │    └─LayerNorm: 2-13                   [256, 256]                512
-    │    └─Linear: 2-14                      [256, 10]                 2,570
-    ==========================================================================================
-    Total params: 2,047,114
-    Trainable params: 2,047,114
-    Non-trainable params: 0
-    Total mult-adds (Units.GIGABYTES): 20.67
-    ==========================================================================================
-    Input size (MB): 3.15
-    Forward/backward pass size (MB): 2072.53
-    Params size (MB): 8.19
-    Estimated Total Size (MB): 2083.87
-    ==========================================================================================
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">
+==========================================================================================
+Layer <span style="font-weight: bold">(</span>typ<span style="color: #00ff00; text-decoration-color: #00ff00; font-weight: bold">e:de</span>pth-idx<span style="font-weight: bold">)</span>                   Output Shape              Param #
+==========================================================================================
+Classifier                               <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span><span style="font-weight: bold">]</span>                  --
+├─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>                            <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>
+├─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>                         <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">536</span>
+├─Sequential: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>                        <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           --
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>                <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">160</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>               <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">536</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>         <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">224</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>                <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">160</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>               <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">536</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>         <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">224</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>
+│    └─Downsampler: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          --
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9</span>               <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">536</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>                <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">320</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>         <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">640</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">448</span>
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5</span>                <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">15</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">320</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">17</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>         <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">640</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">18</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">448</span>
+│    └─Downsampler: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           --
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">768</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">20</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">896</span>
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">7</span>                <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">21</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">640</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">22</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">384</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">23</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">048</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">24</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">664</span>
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>                <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">25</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">640</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">26</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">384</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">27</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">66</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">048</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">28</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">65</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">664</span>
+│    └─Downsampler: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">9</span>                  <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           --
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">29</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">384</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">30</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">131</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">328</span>
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span>               <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">31</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">280</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">192</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">33</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">263</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">168</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">400</span>
+│    └─ConvNextBlock: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">11</span>               <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           --
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">280</span>
+│    │    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36</span>              <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">192</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">37</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1024</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>          <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">263</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">168</span>
+│    │    └─Conv2d: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">38</span>                 <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span><span style="font-weight: bold">]</span>           <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">262</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">400</span>
+├─Sequential: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>                        <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span><span style="font-weight: bold">]</span>                  --
+│    └─Flatten: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">12</span>                     <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span><span style="font-weight: bold">]</span>                 --
+│    └─LayerNorm: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">13</span>                   <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span><span style="font-weight: bold">]</span>                 <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>
+│    └─Linear: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>-<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">14</span>                      <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span><span style="font-weight: bold">]</span>                  <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">570</span>
+==========================================================================================
+Total params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">003</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">914</span>
+Trainable params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">003</span>,<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">914</span>
+Non-trainable params: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
+Total mult-adds <span style="font-weight: bold">(</span>Units.GIGABYTES<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.20</span>
+==========================================================================================
+Input size <span style="font-weight: bold">(</span>MB<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.20</span>
+Forward/backward pass size <span style="font-weight: bold">(</span>MB<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">129.53</span>
+Params size <span style="font-weight: bold">(</span>MB<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">8.02</span>
+Estimated Total Size <span style="font-weight: bold">(</span>MB<span style="font-weight: bold">)</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">137.75</span>
+==========================================================================================
+</pre>
 
 ``` python
 def evaluate(dataloader, model, loss_fn, val_bar):
@@ -654,11 +656,14 @@ def evaluate(dataloader, model, loss_fn, val_bar):
     # We can save computation and memory by not calculating gradients here - we aren't optimizing
     with torch.no_grad():
         # loop over all of the batches
-        for X, y in dataloader:
-            pred = model(X.to(DTYPE))
+        for x, y in dataloader:
+            t0 = time.perf_counter()
+            pred = model(x.to(DTYPE))
+            t1 = time.perf_counter()
             loss += loss_fn(pred, y).item()
             # how many are correct in this batch? Tracking for accuracy
             correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+            t3 = time.perf_counter()
             val_bar.update()
 
     loss /= num_batches
@@ -666,6 +671,18 @@ def evaluate(dataloader, model, loss_fn, val_bar):
 
     accuracy = 100 * correct
     return accuracy, loss
+```
+
+``` python
+import time
+
+from torch import nn
+
+DTYPE = torch.bfloat16
+DEVICE = ezpz.get_torch_device_type()
+
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.AdamW(model.parameters(), lr=2.5e-4)
 ```
 
 ``` python
@@ -686,21 +703,6 @@ def eval_step(x, y):
 ```
 
 ``` python
-x, y = next(iter(val_dataloader))
-eval_step(x, y)
-```
-
-    {'loss': 1.8046875,
-     'acc': 0.33984375,
-     'dtf': 1.5844009169377387,
-     'dtm': 0.00018470804207026958}
-
-``` python
-import time
-
-DTYPE = torch.bfloat16
-DEVICE = ezpz.get_torch_device_type()
-
 def train_step(x, y):
     t0 = time.perf_counter()
     # Forward pass
@@ -727,8 +729,9 @@ def train_step(x, y):
         "dtu": t3 - t2,
         "dtz": t4 - t3,
     }
+```
 
-
+``` python
 def train_one_epoch(
     dataloader, model, loss_fn, optimizer, progress_bar, history: ezpz.History | None
 ):
@@ -741,7 +744,7 @@ def train_one_epoch(
         metrics = {"bidx": batch, "loss": loss, **metrics}
         batch_metrics[batch] = metrics
         if history is not None:
-            logger.info(history.update(metrics))
+            print(history.update(metrics))
     t1 = time.perf_counter()
     batch_metrics |= {"dt_batch": t1 - t0}
     # if history is not None:
@@ -793,335 +796,248 @@ def train_one_epoch1(
 ```
 
 ``` python
-from torch import nn
-loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.AdamW(model.parameters(), lr=2.5e-4)
+_ = model.to(DTYPE)
 ```
 
 ``` python
-mods = list(model.modules())
-m = mods[0]
-m.layers[0].conv1.weight.dtype
+_x, _y = next(iter(val_dataloader))
+print(f"{eval_step(_x.to(DTYPE), _y)}")
 ```
 
-    torch.float32
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span><span style="color: #008000; text-decoration-color: #008000">'loss'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.40625</span>, <span style="color: #008000; text-decoration-color: #008000">'acc'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.125</span>, <span style="color: #008000; text-decoration-color: #008000">'dtf'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.1633995003066957</span>, <span style="color: #008000; text-decoration-color: #008000">'dtm'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.0010725418105721474</span><span style="font-weight: bold">}</span>
+</pre>
 
 ``` python
-model = model.to(torch.bfloat16)
+print(f"{_x.shape=}, {_y.shape=}")
+_pred = model(_x.to(DTYPE))
+_loss = loss_fn(_pred, _y).item()
+_correct = (_pred.argmax(1) == _y).type(torch.float).sum().item()
+print(
+    {
+        # "pred": _pred,
+        "loss": _loss,
+        "pred.argmax(1)": _pred.argmax(1),
+        "pred.argmax(1) == y": (_pred.argmax(1) == _y),
+        "correct": _correct,
+        "acc": _correct / _y.shape[0],
+    }
+)
 ```
 
-``` python
-mods = list(model.modules())
-m = mods[0]
-m.layers[0].conv1.weight.dtype
-```
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">_x.<span style="color: #808000; text-decoration-color: #808000">shape</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">torch</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">.Size</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span><span style="font-weight: bold">])</span>, _y.<span style="color: #808000; text-decoration-color: #808000">shape</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">torch</span><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">.Size</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">16</span><span style="font-weight: bold">])</span>
+</pre>
 
-    torch.bfloat16
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">{</span>
+    <span style="color: #008000; text-decoration-color: #008000">'loss'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.40625</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'pred.argmax(1)'</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">])</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'pred.argmax(1) == y'</span>: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">tensor</span><span style="font-weight: bold">([</span><span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,  <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,  <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
+        <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>, <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">])</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'correct'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.0</span>,
+    <span style="color: #008000; text-decoration-color: #008000">'acc'</span>: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.125</span>
+<span style="font-weight: bold">}</span>
+</pre>
+
+## Run Training
 
 ``` python
+import time
+
 import ezpz
-from tqdm.notebook import tqdm
+from tqdm.auto import tqdm, trange
+
+PRINT_EVERY = 50
+TRAIN_ITERS = 500
 
 history = ezpz.History()
 model.train()
-for i in range(50):
+for i in trange(TRAIN_ITERS, desc="Training"):
     t0 = time.perf_counter()
-    # with torch.autocast(dtype=dtype, device_type=ezpz.get_torch_device_type()):
     x, y = next(iter(train_dataloader))
     t1 = time.perf_counter()
     loss, dt = train_step(x, y)
-    if i % 1 == 0:
-        logger.info(
-            history.update(
-                {
-                    "train/iter": i,
-                    "train/loss": loss,
-                    "train/dtd": t1 - t0,
-                    **{f"train/{k}": v for k, v in dt.items()},
-                },
-            ).replace("/", ".")
-        )
+    summary = history.update(
+        {
+            "train/iter": i,
+            "train/loss": loss,
+            "train/dtd": t1 - t0,
+            **{f"train/{k}": v for k, v in dt.items()},
+        },
+    ).replace("/", ".")
+    if i % PRINT_EVERY == 0:
+        print(summary)
 ```
 
-    [2025-07-25 10:50:21,628313][I][ipykernel_68449/3527010418:13:__main__] iter=0 loss=2.421875 dtd=0.021916 dtf=1.580341 dtb=10.576610 dtu=0.014125 dtz=0.000502
-    [2025-07-25 10:51:22,510258][I][ipykernel_68449/3527010418:13:__main__] iter=5 loss=2.187500 dtd=0.016378 dtf=1.411603 dtb=10.132870 dtu=0.009500 dtz=0.000703
-    2:21,007111][I][ipykernel_68449/3527010418:13:__main__] iter=10 loss=2.078125 dtd=0.016103 dtf=1.390593 dtb=10.057865 dtu=0.010181 dtz=0.000129
-    [2025-07-25 10:53:20,446971][I][ipykernel_68449/3527010418:13:__main__] iter=15 loss=1.992188 dtd=0.015710 dtf=1.609723 dtb=10.541161 dtu=0.012944 dtz=0.000289
-    4:23,601683][I][ipykernel_68449/3527010418:13:__main__] iter=20 loss=2.000000 dtd=0.016148 dtf=1.445901 dtb=10.827955 dtu=0.011244 dtz=0.000299
+    Training:   0%|          | 0/500 [00:00<?, ?it/s]
 
-    [2025-07-25 10:55:23,313828][I][ipykernel_68449/3527010418:13:__main__] iter=25 loss=1.843750 dtd=0.015878 dtf=1.457208 dtb=10.546727 dtu=0.011322 dtz=0.000575
-    6:27,418086][I][ipykernel_68449/3527010418:13:__main__] iter=30 loss=1.921875 dtd=0.016462 dtf=1.631031 dtb=10.736835 dtu=0.008251 dtz=0.000409
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.515625</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.010065</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.171240</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.713570</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.013012</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000208</span>
+</pre>
 
-    [2025-07-25 10:57:31,966431][I][ipykernel_68449/3527010418:13:__main__] iter=35 loss=1.882812 dtd=0.015924 dtf=1.969321 dtb=11.700845 dtu=0.015265 dtz=0.001005
-    8:39,620914][I][ipykernel_68449/3527010418:13:__main__] iter=40 loss=1.960938 dtd=0.018660 dtf=1.655817 dtb=10.908982 dtu=0.010158 dtz=0.000986
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.953125</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002513</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.146031</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.657839</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008844</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000213</span>
+</pre>
 
-    [2025-07-25 10:59:47,983432][I][ipykernel_68449/3527010418:13:__main__] iter=45 loss=1.789062 dtd=0.019028 dtf=1.661933 dtb=11.770528 dtu=0.011402 dtz=0.000997
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.031250</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002231</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.140829</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.657641</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008523</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000480</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">150</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.125000</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.001999</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.145267</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.679628</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008671</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000192</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.890625</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002067</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.141468</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.656727</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008663</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000650</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">250</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.984375</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002972</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.138405</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.662314</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008473</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000427</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.281250</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.001965</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.149045</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.649204</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008485</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000199</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">350</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.851562</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002693</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.149543</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.677236</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008860</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000135</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">400</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.812500</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002285</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.136938</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.683250</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008446</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000188</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">train.<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">450</span> train.<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.265625</span> train.<span style="color: #808000; text-decoration-color: #808000">dtd</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.002329</span> train.<span style="color: #808000; text-decoration-color: #808000">dtf</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.149435</span> train.<span style="color: #808000; text-decoration-color: #808000">dtb</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.653462</span> train.<span style="color: #808000; text-decoration-color: #808000">dtu</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.008714</span> 
+train.<span style="color: #808000; text-decoration-color: #808000">dtz</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.000223</span>
+</pre>
+
+## Run Validation
 
 ``` python
+eval_history = ezpz.History()
 model.eval()
+PRINT_EVERY = 50
+# EVAL_ITERS = 50
 
-with tqdm(
-    total=len(val_dataloader), position=0, leave=True, desc=f"Validate Epoch {i}"
-) as val_bar:
-    for bidx, (x, y) in enumerate(val_dataloader):
-        metrics = eval_step(x, y)
-        logger.info(history.update({f"val/{k}": v for k, v in metrics.items()}).replace("/", "."))
-    #acc_val, loss_val = evaluate(val_dataloader, model, loss_fn, val_bar)
-    #logger.info(
-    #    history.update(
-    #        {
-    #            "eval": {
-    #                "bidx": i,
-    #                "acc": acc_val,
-    #                "loss": loss_val
-    #            }
-    #        }
-    #    )
-    #)
-
-model.train()
+with torch.no_grad():
+    for bidx, (x, y) in enumerate(tqdm(val_dataloader)):
+        t0 = time.perf_counter()
+        pred = model(x.to(DTYPE))
+        loss = loss_fn(pred, y).item()
+        correct = (pred.argmax(1) == y).to(torch.float).sum().item()
+        acc = correct / y.shape[0]
+        metrics = {
+            "val/iter": bidx,
+            "val/loss": loss,
+            "val/acc": acc,
+        }
+        summary = eval_history.update(metrics)
+        if bidx % PRINT_EVERY == 0:
+            print(summary)
 ```
 
-    Validate Epoch 49:   0%|          | 0/40 [00:00<?, ?it/s]
+      0%|          | 0/625 [00:00<?, ?it/s]
 
-    [2025-07-25 11:30:24,255490][I][ipykernel_68449/811502054:8:__main__] val.loss=1.804688 val.acc=0.339844 val.dtf=1.610429 val.dtm=0.000202
-    [2025-07-25 11:30:25,798366][I][ipykernel_68449/811502054:8:__main__] val.loss=1.718750 val.acc=0.343750 val.dtf=1.523210 val.dtm=0.000146
-    7,545834][I][ipykernel_68449/811502054:8:__main__] val.loss=1.820312 val.acc=0.339844 val.dtf=1.719166 val.dtm=0.000147
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.734375</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.312500</span>
+</pre>
 
-    [2025-07-25 11:30:29,160015][I][ipykernel_68449/811502054:8:__main__] val.loss=1.875000 val.acc=0.343750 val.dtf=1.596140 val.dtm=0.000146
-    30,718020][I][ipykernel_68449/811502054:8:__main__] val.loss=1.781250 val.acc=0.343750 val.dtf=1.539155 val.dtm=0.000134
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">50</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.664062</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.437500</span>
+</pre>
 
-    [2025-07-25 11:30:32,206820][I][ipykernel_68449/811502054:8:__main__] val.loss=1.906250 val.acc=0.335938 val.dtf=1.471677 val.dtm=0.000124
-    3,600922][I][ipykernel_68449/811502054:8:__main__] val.loss=1.796875 val.acc=0.382812 val.dtf=1.376897 val.dtm=0.000130
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">100</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.882812</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.312500</span>
+</pre>
 
-    [2025-07-25 11:30:35,074969][I][ipykernel_68449/811502054:8:__main__] val.loss=1.773438 val.acc=0.382812 val.dtf=1.456687 val.dtm=0.000138
-    6,736265][I][ipykernel_68449/811502054:8:__main__] val.loss=1.867188 val.acc=0.296875 val.dtf=1.644234 val.dtm=0.000148
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">150</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.609375</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.562500</span>
+</pre>
 
-    [2025-07-25 11:30:38,192265][I][ipykernel_68449/811502054:8:__main__] val.loss=1.820312 val.acc=0.328125 val.dtf=1.437212 val.dtm=0.000143
-    9,840678][I][ipykernel_68449/811502054:8:__main__] val.loss=1.890625 val.acc=0.347656 val.dtf=1.629672 val.dtm=0.000138
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">200</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.921875</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.250000</span>
+</pre>
 
-    [2025-07-25 11:30:41,416175][I][ipykernel_68449/811502054:8:__main__] val.loss=1.882812 val.acc=0.300781 val.dtf=1.557706 val.dtm=0.000159
-    3,016495][I][ipykernel_68449/811502054:8:__main__] val.loss=1.781250 val.acc=0.335938 val.dtf=1.582202 val.dtm=0.000139
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">250</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.609375</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.437500</span>
+</pre>
 
-    [2025-07-25 11:30:44,534872][I][ipykernel_68449/811502054:8:__main__] val.loss=1.843750 val.acc=0.320312 val.dtf=1.500838 val.dtm=0.000150
-    6,012840][I][ipykernel_68449/811502054:8:__main__] val.loss=1.835938 val.acc=0.304688 val.dtf=1.459839 val.dtm=0.000132
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">300</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.484375</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.562500</span>
+</pre>
 
-    [2025-07-25 11:30:47,485086][I][ipykernel_68449/811502054:8:__main__] val.loss=1.750000 val.acc=0.355469 val.dtf=1.453627 val.dtm=0.000155
-    9,860086][I][ipykernel_68449/811502054:8:__main__] val.loss=1.843750 val.acc=0.316406 val.dtf=2.354781 val.dtm=0.000880
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">350</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.617188</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.437500</span>
+</pre>
 
-    [2025-07-25 11:30:51,721101][I][ipykernel_68449/811502054:8:__main__] val.loss=1.898438 val.acc=0.281250 val.dtf=1.830436 val.dtm=0.000152
-    3,309170][I][ipykernel_68449/811502054:8:__main__] val.loss=1.789062 val.acc=0.332031 val.dtf=1.570592 val.dtm=0.000141
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">400</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.218750</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.125000</span>
+</pre>
 
-    [2025-07-25 11:30:54,918029][I][ipykernel_68449/811502054:8:__main__] val.loss=1.828125 val.acc=0.347656 val.dtf=1.587720 val.dtm=0.000147
-    6,705117][I][ipykernel_68449/811502054:8:__main__] val.loss=1.867188 val.acc=0.351562 val.dtf=1.763741 val.dtm=0.000143
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">450</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.484375</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.437500</span>
+</pre>
 
-    [2025-07-25 11:30:58,543002][I][ipykernel_68449/811502054:8:__main__] val.loss=1.695312 val.acc=0.421875 val.dtf=1.817837 val.dtm=0.000141
-    1:00,366991][I][ipykernel_68449/811502054:8:__main__] val.loss=1.718750 val.acc=0.402344 val.dtf=1.805208 val.dtm=0.000201
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">500</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.781250</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.250000</span>
+</pre>
 
-    [2025-07-25 11:31:02,569105][I][ipykernel_68449/811502054:8:__main__] val.loss=1.804688 val.acc=0.343750 val.dtf=2.173251 val.dtm=0.000210
-    4,367726][I][ipykernel_68449/811502054:8:__main__] val.loss=1.789062 val.acc=0.371094 val.dtf=1.776008 val.dtm=0.000178
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">550</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.687500</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.375000</span>
+</pre>
 
-    [2025-07-25 11:31:06,630731][I][ipykernel_68449/811502054:8:__main__] val.loss=1.804688 val.acc=0.351562 val.dtf=2.239091 val.dtm=0.000165
-    8,384001][I][ipykernel_68449/811502054:8:__main__] val.loss=1.781250 val.acc=0.347656 val.dtf=1.735725 val.dtm=0.000132
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">val/<span style="color: #808000; text-decoration-color: #808000">iter</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">600</span> val/<span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.609375</span> val/<span style="color: #808000; text-decoration-color: #808000">acc</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0.437500</span>
+</pre>
 
-    [2025-07-25 11:31:10,324647][I][ipykernel_68449/811502054:8:__main__] val.loss=1.789062 val.acc=0.332031 val.dtf=1.922228 val.dtm=0.000196
-    2,331567][I][ipykernel_68449/811502054:8:__main__] val.loss=1.804688 val.acc=0.324219 val.dtf=1.982720 val.dtm=0.000147
+## Plot Metrics
 
-    [2025-07-25 11:31:14,186348][I][ipykernel_68449/811502054:8:__main__] val.loss=1.742188 val.acc=0.363281 val.dtf=1.836562 val.dtm=0.000148
-    5,966462][I][ipykernel_68449/811502054:8:__main__] val.loss=1.867188 val.acc=0.363281 val.dtf=1.761468 val.dtm=0.000140
-
-    [2025-07-25 11:31:18,196129][I][ipykernel_68449/811502054:8:__main__] val.loss=1.843750 val.acc=0.351562 val.dtf=2.205095 val.dtm=0.000195
-    20,086596][I][ipykernel_68449/811502054:8:__main__] val.loss=1.835938 val.acc=0.316406 val.dtf=1.863650 val.dtm=0.000152
-
-    [2025-07-25 11:31:22,086167][I][ipykernel_68449/811502054:8:__main__] val.loss=1.921875 val.acc=0.308594 val.dtf=1.980314 val.dtm=0.000307
-    3,814547][I][ipykernel_68449/811502054:8:__main__] val.loss=1.781250 val.acc=0.394531 val.dtf=1.709047 val.dtm=0.000132
-
-    [2025-07-25 11:31:25,757759][I][ipykernel_68449/811502054:8:__main__] val.loss=1.820312 val.acc=0.304688 val.dtf=1.926247 val.dtm=0.000147
-    7,401149][I][ipykernel_68449/811502054:8:__main__] val.loss=1.757812 val.acc=0.371094 val.dtf=1.625319 val.dtm=0.000158
-
-    [2025-07-25 11:31:28,976020][I][ipykernel_68449/811502054:8:__main__] val.loss=1.828125 val.acc=0.351562 val.dtf=1.551885 val.dtm=0.000121
-    30,465276][I][ipykernel_68449/811502054:8:__main__] val.loss=1.781250 val.acc=0.347656 val.dtf=1.473042 val.dtm=0.000124
-
-    [2025-07-25 11:31:30,657442][I][ipykernel_68449/811502054:8:__main__] val.loss=2.093750 val.acc=0.250000 val.dtf=0.188793 val.dtm=0.000129
-
-    Classifier(
-      (stem): Conv2d(3, 32, kernel_size=(1, 1), stride=(1, 1))
-      (norm1): LayerNorm((32, 32, 32), eps=1e-05, elementwise_affine=True)
-      (layers): Sequential(
-        (0): ConvNextBlock(
-          (conv1): Conv2d(32, 32, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=32)
-          (norm): LayerNorm((32, 32, 32), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(32, 128, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(128, 32, kernel_size=(1, 1), stride=(1, 1))
-        )
-        (1): ConvNextBlock(
-          (conv1): Conv2d(32, 32, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=32)
-          (norm): LayerNorm((32, 32, 32), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(32, 128, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(128, 32, kernel_size=(1, 1), stride=(1, 1))
-        )
-        (2): Downsampler(
-          (norm): LayerNorm((32, 32, 32), eps=1e-05, elementwise_affine=True)
-          (downsample): Conv2d(32, 64, kernel_size=(2, 2), stride=(2, 2))
-        )
-        (3): ConvNextBlock(
-          (conv1): Conv2d(64, 64, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=64)
-          (norm): LayerNorm((64, 16, 16), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1))
-        )
-        (4): ConvNextBlock(
-          (conv1): Conv2d(64, 64, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=64)
-          (norm): LayerNorm((64, 16, 16), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1))
-        )
-        (5): Downsampler(
-          (norm): LayerNorm((64, 16, 16), eps=1e-05, elementwise_affine=True)
-          (downsample): Conv2d(64, 128, kernel_size=(2, 2), stride=(2, 2))
-        )
-        (6): ConvNextBlock(
-          (conv1): Conv2d(128, 128, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=128)
-          (norm): LayerNorm((128, 8, 8), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1))
-        )
-        (7): ConvNextBlock(
-          (conv1): Conv2d(128, 128, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=128)
-          (norm): LayerNorm((128, 8, 8), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1))
-        )
-        (8): Downsampler(
-          (norm): LayerNorm((128, 8, 8), eps=1e-05, elementwise_affine=True)
-          (downsample): Conv2d(128, 256, kernel_size=(2, 2), stride=(2, 2))
-        )
-        (9): ConvNextBlock(
-          (conv1): Conv2d(256, 256, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=256)
-          (norm): LayerNorm((256, 4, 4), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1))
-        )
-        (10): ConvNextBlock(
-          (conv1): Conv2d(256, 256, kernel_size=(7, 7), stride=(1, 1), padding=same, groups=256)
-          (norm): LayerNorm((256, 4, 4), eps=1e-05, elementwise_affine=True)
-          (conv2): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1))
-          (conv3): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1))
-        )
-      )
-      (head): Sequential(
-        (0): Flatten(start_dim=1, end_dim=-1)
-        (1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
-        (2): Linear(in_features=256, out_features=10, bias=True)
-      )
-    )
+### Training Metrics
 
 ``` python
-logger.info(history.history['loss'])
+ezpz.plot.plot_dataset((tdset := history.get_dataset()), save_plots=False)
 ```
 
-    [2025-07-25 11:09:45,498960][I][ipykernel_68449/1607943937:1:__main__] [2.421875, 2.1875, 2.078125, 1.9921875, 2.0, 1.84375, 1.921875, 1.8828125, 1.9609375, 1.7890625]
+![](index_files/figure-commonmark/cell-28-output-1.svg)
+
+![](index_files/figure-commonmark/cell-28-output-2.svg)
+
+![](index_files/figure-commonmark/cell-28-output-3.svg)
+
+![](index_files/figure-commonmark/cell-28-output-4.svg)
+
+![](index_files/figure-commonmark/cell-28-output-5.svg)
+
+![](index_files/figure-commonmark/cell-28-output-6.svg)
+
+![](index_files/figure-commonmark/cell-28-output-7.svg)
+
+![](index_files/figure-commonmark/cell-28-output-8.svg)
+
+### Validation Metrics
 
 ``` python
+ezpz.plot.plot_dataset((edset := eval_history.get_dataset()), save_plots=False)
 ```
 
-    Validate Epoch 49:   0%|          | 0/40 [00:00<?, ?it/s]
+![](index_files/figure-commonmark/cell-29-output-1.svg)
 
-    TypeError: unsupported format string passed to dict.__format__
-    [91m---------------------------------------------------------------------------[39m
-    [91mTypeError[39m                                 Traceback (most recent call last)
-    [96mCell[39m[96m [39m[32mIn[32][39m[32m, line 8[39m
-    [92m      3[39m [38;5;81mwith[39m[38;5;15m [39m[38;5;15mtqdm[39m[38;5;15m([39m
-    [92m      4[39m [38;5;15m    [39m[38;5;15mtotal[39m[38;5;204m=[39m[38;5;15mlen[39m[38;5;15m([39m[38;5;15mval_dataloader[39m[38;5;15m)[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mposition[39m[38;5;204m=[39m[38;5;141m0[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mleave[39m[38;5;204m=[39m[38;5;81mTrue[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mdesc[39m[38;5;204m=[39m[38;5;186mf[39m[38;5;186m"[39m[38;5;186mValidate Epoch [39m[38;5;186m{[39m[38;5;15mi[39m[38;5;186m}[39m[38;5;186m"[39m
-    [92m      5[39m [38;5;15m)[39m[38;5;15m [39m[38;5;81mas[39m[38;5;15m [39m[38;5;15mval_bar[39m[38;5;15m:[39m
-    [92m      6[39m [38;5;15m    [39m[38;5;15macc_val[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mloss_val[39m[38;5;15m [39m[38;5;204m=[39m[38;5;15m [39m[38;5;15mevaluate[39m[38;5;15m([39m[38;5;15mval_dataloader[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mmodel[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mloss_fn[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mval_bar[39m[38;5;15m)[39m
-    [92m      7[39m [38;5;15m    [39m[38;5;15mlogger[39m[38;5;204m.[39m[38;5;15minfo[39m[38;5;15m([39m
-    [92m----> [39m[92m8[39m [38;5;15m        [39m[38;5;15;43mhistory[39;49m[38;5;204;43m.[39;49m[38;5;15;43mupdate[39;49m[38;5;15;43m([39;49m
-    [92m      9[39m [38;5;15;43m            [39;49m[38;5;15;43m{[39;49m
-    [92m     10[39m [38;5;15;43m                [39;49m[38;5;186;43m"[39;49m[38;5;186;43meval[39;49m[38;5;186;43m"[39;49m[38;5;15;43m:[39;49m[38;5;15;43m [39;49m[38;5;15;43m{[39;49m
-    [92m     11[39m [38;5;15;43m                    [39;49m[38;5;186;43m"[39;49m[38;5;186;43mbidx[39;49m[38;5;186;43m"[39;49m[38;5;15;43m:[39;49m[38;5;15;43m [39;49m[38;5;15;43mi[39;49m[38;5;15;43m,[39;49m
-    [92m     12[39m [38;5;15;43m                    [39;49m[38;5;186;43m"[39;49m[38;5;186;43macc[39;49m[38;5;186;43m"[39;49m[38;5;15;43m:[39;49m[38;5;15;43m [39;49m[38;5;15;43macc_val[39;49m[38;5;15;43m,[39;49m
-    [92m     13[39m [38;5;15;43m                    [39;49m[38;5;186;43m"[39;49m[38;5;186;43mloss[39;49m[38;5;186;43m"[39;49m[38;5;15;43m:[39;49m[38;5;15;43m [39;49m[38;5;15;43mloss_val[39;49m
-    [92m     14[39m [38;5;15;43m                [39;49m[38;5;15;43m}[39;49m
-    [92m     15[39m [38;5;15;43m            [39;49m[38;5;15;43m}[39;49m
-    [92m     16[39m [38;5;15;43m        [39;49m[38;5;15;43m)[39;49m
-    [92m     17[39m [38;5;15m    [39m[38;5;15m)[39m
-    [92m     19[39m [38;5;15mmodel[39m[38;5;204m.[39m[38;5;15mtrain[39m[38;5;15m([39m[38;5;15m)[39m
+![](index_files/figure-commonmark/cell-29-output-2.svg)
 
-    [96mFile [39m[32m~/projects/saforem2/ezpz/src/ezpz/dist.py:142[39m, in [36mtimeitlogit.<locals>.decorator.<locals>.wrapper[39m[94m(*args, **kwargs)[39m
-    [92m    140[39m [38;5;15m[39m[38;5;15mt0[39m[38;5;15m [39m[38;5;204m=[39m[38;5;15m [39m[38;5;15mtime[39m[38;5;204m.[39m[38;5;15mperf_counter[39m[38;5;15m([39m[38;5;15m)[39m
-    [92m    141[39m [38;5;15m[39m[38;5;81massert[39m[38;5;15m [39m[38;5;15misinstance[39m[38;5;15m([39m[38;5;15mrank[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mint[39m[38;5;15m)[39m
-    [92m--> [39m[92m142[39m [38;5;15m[39m[38;5;15mresult[39m[38;5;15m [39m[38;5;204m=[39m[38;5;15m [39m[38;5;15;43mfunc[39;49m[38;5;15;43m([39;49m[38;5;204;43m*[39;49m[38;5;15;43margs[39;49m[38;5;15;43m,[39;49m[38;5;15;43m [39;49m[38;5;204;43m*[39;49m[38;5;204;43m*[39;49m[38;5;15;43mkwargs[39;49m[38;5;15;43m)[39;49m
-    [92m    143[39m [38;5;15m[39m[38;5;15mdt[39m[38;5;15m [39m[38;5;204m=[39m[38;5;15m [39m[38;5;15mtime[39m[38;5;204m.[39m[38;5;15mperf_counter[39m[38;5;15m([39m[38;5;15m)[39m[38;5;15m [39m[38;5;204m-[39m[38;5;15m [39m[38;5;15mt0[39m
-    [92m    144[39m [38;5;15m[39m[38;5;15mfname[39m[38;5;15m [39m[38;5;204m=[39m[38;5;15m [39m[38;5;15mgetattr[39m[38;5;15m([39m
-    [92m    145[39m [38;5;15m    [39m[38;5;15mfunc[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186m__qualname__[39m[38;5;186m"[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mgetattr[39m[38;5;15m([39m[38;5;15mfunc[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186m__name__[39m[38;5;186m"[39m[38;5;15m,[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186munknown[39m[38;5;186m"[39m[38;5;15m)[39m
-    [92m    146[39m [38;5;15m[39m[38;5;15m)[39m
+![](index_files/figure-commonmark/cell-29-output-3.svg)
 
-    [96mFile [39m[32m~/projects/saforem2/ezpz/src/ezpz/history.py:202[39m, in [36mHistory.update[39m[94m(self, metrics, precision, use_wandb, commit, summarize)[39m
-    [92m    200[39m [38;5;15m    [39m[38;5;15mwandb[39m[38;5;204m.[39m[38;5;15mlog[39m[38;5;15m([39m[38;5;15mmetrics[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mcommit[39m[38;5;204m=[39m[38;5;15mcommit[39m[38;5;15m)[39m
-    [92m    201[39m [38;5;15m[39m[38;5;81mif[39m[38;5;15m [39m[38;5;15msummarize[39m[38;5;15m:[39m
-    [92m--> [39m[92m202[39m [38;5;15m    [39m[38;5;81mreturn[39m[38;5;15m [39m[38;5;15;43msummarize_dict[39;49m[38;5;15;43m([39;49m[38;5;15;43mmetrics[39;49m[38;5;15;43m,[39;49m[38;5;15;43m [39;49m[38;5;15;43mprecision[39;49m[38;5;204;43m=[39;49m[38;5;15;43mprecision[39;49m[38;5;15;43m)[39;49m
-    [92m    203[39m [38;5;15m[39m[38;5;81mreturn[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186m"[39m
+![](index_files/figure-commonmark/cell-29-output-4.svg)
 
-    [96mFile [39m[32m~/projects/saforem2/ezpz/src/ezpz/utils.py:103[39m, in [36msummarize_dict[39m[94m(d, precision)[39m
-    [92m     91[39m [38;5;81mdef[39m[38;5;15m [39m[38;5;148msummarize_dict[39m[38;5;15m([39m[38;5;15md[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15mdict[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mprecision[39m[38;5;15m:[39m[38;5;15m [39m[38;5;15mint[39m[38;5;15m [39m[38;5;204m=[39m[38;5;15m [39m[38;5;141m6[39m[38;5;15m)[39m[38;5;15m [39m[38;5;204m-[39m[38;5;204m>[39m[38;5;15m [39m[38;5;15mstr[39m[38;5;15m:[39m
-    [92m     92[39m [38;5;15m    [39m[38;5;186m"""[39m
-    [92m     93[39m [38;5;186m    Summarize a dictionary into a string with formatted key-value pairs.[39m
-    [92m     94[39m 
-    [92m   (...)[39m[92m    100[39m [38;5;186m        str: A string representation of the dictionary with formatted key-value pairs.[39m
-    [92m    101[39m [38;5;186m    """[39m
-    [92m    102[39m [38;5;15m    [39m[38;5;81mreturn[39m[38;5;15m [39m[38;5;186m"[39m[38;5;186m [39m[38;5;186m"[39m[38;5;204m.[39m[38;5;15mjoin[39m[38;5;15m([39m
-    [92m--> [39m[92m103[39m [38;5;15m        [39m[38;5;15m[[39m[38;5;15;43mformat_pair[39;49m[38;5;15;43m([39;49m[38;5;15;43mk[39;49m[38;5;15;43m,[39;49m[38;5;15;43m [39;49m[38;5;15;43mv[39;49m[38;5;15;43m,[39;49m[38;5;15;43m [39;49m[38;5;15;43mprecision[39;49m[38;5;204;43m=[39;49m[38;5;15;43mprecision[39;49m[38;5;15;43m)[39;49m[38;5;15m [39m[38;5;81mfor[39m[38;5;15m [39m[38;5;15mk[39m[38;5;15m,[39m[38;5;15m [39m[38;5;15mv[39m[38;5;15m [39m[38;5;204min[39m[38;5;15m [39m[38;5;15md[39m[38;5;204m.[39m[38;5;15mitems[39m[38;5;15m([39m[38;5;15m)[39m[38;5;15m][39m
-    [92m    104[39m [38;5;15m    [39m[38;5;15m)[39m
+------------------------------------------------------------------------
 
-    [96mFile [39m[32m~/projects/saforem2/ezpz/src/ezpz/utils.py:88[39m, in [36mformat_pair[39m[94m(k, v, precision)[39m
-    [92m     86[39m [38;5;15m    [39m[38;5;81mreturn[39m[38;5;15m [39m[38;5;186mf[39m[38;5;186m"[39m[38;5;186m{[39m[38;5;15mk[39m[38;5;186m}[39m[38;5;186m=[39m[38;5;186m{[39m[38;5;15mv[39m[38;5;186m}[39m[38;5;186m"[39m
-    [92m     87[39m [38;5;15m[39m[38;5;245m# return f'{k}={v:<3.4f}'[39m
-    [92m---> [39m[92m88[39m [38;5;15m[39m[38;5;81mreturn[39m[38;5;15m [39m[38;5;186mf[39m[38;5;186m"[39m[38;5;186m{[39m[38;5;15mk[39m[38;5;186m}[39m[38;5;186m=[39m[38;5;186;43m{[39;49m[38;5;15;43mv[39;49m[38;5;186;43m:[39;49m[38;5;186;43m<.[39;49m[38;5;186;43m{[39;49m[38;5;15;43mprecision[39;49m[38;5;186;43m}[39;49m[38;5;186;43mf[39;49m[38;5;186;43m}[39;49m[38;5;186m"[39m
+## Homework 1
 
-    [91mTypeError[39m: unsupported format string passed to dict.__format__
+In this notebook, we’ve learned about some basic convolutional networks
+and trained one on CIFAR-10 images. It did … OK. There is significant
+overfitting of this model. There are some ways to address that, but we
+didn’t have time to get into that in this session.
 
-``` python
-model.train()
+Meanwhile, your homework (part 1) for this week is to try to train the
+model again but with a different architecture. Change one or more of the
+following: - The number of convolutions between downsampling - The
+number of filters in each layer - The initial “patchify” layer - Another
+hyper-parameter of your choosing
 
-from tqdm.notebook import tqdm
+And compare your final validation accuracy to the accuracy shown here.
+Can you beat the validation accuracy shown?
 
-for epoch in range(1):
-    model.train()
-    t0 = time.perf_counter()
-    with tqdm(
-        total=len(train_dataloader),
-        position=0,
-        leave=True,
-        desc=f"Train Epoch {epoch}"
-    ) as train_bar:
-        # x, y = next(iter(train_dataloader))
-        for batch, (x, y) in enumerate(train_dataloader):
-            loss, metrics = train_step(x, y)
-            metrics = {
-                "train/bidx": batch,
-                "train/loss": loss,
-                **{f"train/{k}": v for k, v in metrics.items()},
-            }
-            logger.info(history.update(metrics).replace("train/", ""))
-            train_bar.update()
-    t1 = time.perf_counter()
-    model.eval()
-    with tqdm(
-        total=len(val_dataloader), position=0, leave=True, desc=f"Validate Epoch {j}"
-    ) as val_bar:
-        acc_val, loss_val = evaluate(val_dataloader, model, loss_fn, val_bar)
-        logger.info(history.update({"eval": {"bidx": bidx, "acc": acc_val, "loss": loss_val}}))
-        # logger.info(
-        #     f"Epoch {j}: validation loss: {loss_val:.3f}, accuracy: {acc_val:.3f}"
-        #)
-```
+For full credit on the homework, you need to show (via text, or make a
+plot) the training and validation data sets’ performance (loss and
+accuracy) for all the epochs you train. You also need to explain, in
+several sentences, what you changed in the network and why you think it
+makes a difference.
 
-``` python
-history.plot_all()
-```
-
-## Training for Multiple Epochs
+### Training for Multiple Epochs
 
 ``` python
 epochs = 1
@@ -1149,39 +1065,13 @@ for j in range(epochs):
             desc=f"Validate (train) Epoch {j}",
         ) as train_eval:
             acc, loss = evaluate(train_dataloader, model, loss_fn, train_eval)
-            logger.info(f"Epoch {j}: training loss: {loss:.3f}, accuracy: {acc:.3f}")
+            print(f"Epoch {j}: training loss: {loss:.3f}, accuracy: {acc:.3f}")
 
     with tqdm(
         total=len(val_dataloader), position=0, leave=True, desc=f"Validate Epoch {j}"
     ) as val_bar:
         acc_val, loss_val = evaluate(val_dataloader, model, loss_fn, val_bar)
-        logger.info(
+        print(
             f"Epoch {j}: validation loss: {loss_val:.3f}, accuracy: {acc_val:.3f}"
         )
 ```
-
-## Homework 1:
-
-In this notebook, we’ve learned about some basic convolutional networks
-and trained one on CIFAR-10 images. It did … OK. There is significant
-overfitting of this model. There are some ways to address that, but we
-didn’t have time to get into that in this session.
-
-Meanwhile, your homework (part 1) for this week is to try to train the
-model again but with a different architecture. Change one or more of the
-following: - The number of convolutions between downsampling - The
-number of filters in each layer - The initial “patchify” layer - Another
-hyper-parameter of your choosing
-
-And compare your final validation accuracy to the accuracy shown here.
-Can you beat the validation accuracy shown?
-
-For full credit on the homework, you need to show (via text, or make a
-plot) the training and validation data sets’ performance (loss and
-accuracy) for all the epochs you train. You also need to explain, in
-several sentences, what you changed in the network and why you think it
-makes a difference.
-
-[^1]: \| [A Roadmap for Foundational Research on Artificial Intelligence
-    in Medical Imaging From the 2018
-    NIHRSNAACR](https://www.researchgate.net/publication/332452649_A_Roadmap_for_Foundational_Research_on_Artificial_Intelligence_in_Medical_Imaging_From_the_2018_NIHRSNAACRThe_Academy_Workshop)

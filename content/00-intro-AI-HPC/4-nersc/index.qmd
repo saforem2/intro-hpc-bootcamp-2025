@@ -5,4 +5,42 @@ categories:
     - hpc
 date: 2025-07-15
 date-modified: last-modified
+format:
+  html: default
+  gfm:
+    toc: true
 ---
+
+## Project Setup
+
+- Login to Perlmutter:
+
+  ```bash
+  ssh <your_nersc_username>@perlmutter.nersc.gov
+  mkdir -p /global/cfs/cdirs/m4388/$USER/
+  cd /global/cfs/cdirs/m4388/$USER
+  ```
+
+
+## Using Jupyter on Perlmutter @ NERSC
+
+- [jupyter.nersc.gov](https://jupyter.nersc.gov/)
+
+```{=html}
+<iframe src="perlmutter.pdf" width="100%" height="800px">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+```
+
+
+<!--
+```{=html}
+<object data="perlmutter.pdf" type="application/pdf" width="100%" height="100%" style="min-height:100vh;">
+    <p>It appears you don't have a PDF plugin for this browser.
+    No biggie... you can <a href="slides123.pdf">click here to
+    download the PDF file.</a></p>
+</object>
+```
+-->
+
+

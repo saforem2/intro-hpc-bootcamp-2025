@@ -58,7 +58,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -67,7 +87,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../02-llms/0-intro-to-llms/index.html" rel="next">
+<link href="../02-llms/00-intro-to-llms/index.html" rel="next">
 <link href="../01-neural-networks/4-representation-learning/index.html" rel="prev">
 <link href="../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -81,8 +101,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-047ee2ca16eaebc148183a87b705dca3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d6cd2b0bcdba06477a9e56335e6137b2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-e6e01935ce344d4aee19ad0f4162ea04.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5d7d4fc9ebc1442c5a1dd2093c9456c5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-9381f7f7f5bc293fcc7c1b50672135f7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -120,11 +140,7 @@ gtag('js', new Date());
 gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </script>
 <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
 <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
-
-<!-- To automatically render math in text elements, include the auto-render extension: -->
 <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -154,6 +170,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <meta name="citation_online_date" content="2025-07-15">
 <meta name="citation_fulltext_html_url" content="https://saforem2.github.io/hpc-bootcamp-2025/02-llms/">
 <meta name="citation_language" content="en">
+<meta name="citation_reference" content="citation_title=The hugging face course, 2022;,citation_author=Hugging Face;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_publisher=https://huggingface.co/course;">
 <meta name="citation_reference" content="citation_title=HiPerRAG: High-performance retrieval augmented generation for scientific insights;,citation_author=Ozan Gokdemir;,citation_author=Carlo Siebenschuh;,citation_author=Alexander Brace;,citation_author=Azton Wells;,citation_author=Brian Hsu;,citation_author=Kyle Hippe;,citation_author=Priyanka V. Setty;,citation_author=Aswathy Ajith;,citation_author=J. Gregory Pauloski;,citation_author=Varuni Sastry;,citation_author=Sam Foreman;,citation_author=Huihuo Zheng;,citation_author=Heng Ma;,citation_author=Bharat Kale;,citation_author=Nicholas Chia;,citation_author=Thomas Gibbs;,citation_author=Michael E. Papka;,citation_author=Thomas Brettin;,citation_author=Francis J. Alexander;,citation_author=Anima Anandkumar;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2505.04846;">
 <meta name="citation_reference" content="citation_title=MOFA: Discovering materials for carbon capture with a GenAI- and simulation-based workflow;,citation_author=Xiaoli Yan;,citation_author=Nathaniel Hudson;,citation_author=Hyun Park;,citation_author=Daniel Grzenda;,citation_author=J. Gregory Pauloski;,citation_author=Marcus Schwarting;,citation_author=Haochen Pan;,citation_author=Hassan Harb;,citation_author=Samuel Foreman;,citation_author=Chris Knight;,citation_author=Tom Gibbs;,citation_author=Kyle Chard;,citation_author=Santanu Chaudhuri;,citation_author=Emad Tajkhorshid;,citation_author=Ian Foster;,citation_author=Mohamad Moosavi;,citation_author=Logan Ward;,citation_author=E. A. Huerta;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_fulltext_html_url=https://arxiv.org/abs/2501.10651;">
 <meta name="citation_reference" content="citation_title=MProt-DPO: Breaking the ExaFLOPS barrier for multimodal protein design workflows with direct preference optimization;,citation_abstract=We present a scalable, end-to-end workflow for protein design. By augmenting protein sequences with natural language descriptions of their biochemical properties, we train generative models that can be preferentially aligned with protein fitness landscapes. Through complex experimental- and simulation-based observations, we integrate these measures as preferred parameters for generating new protein variants and demonstrate our workflow on five diverse supercomputers. We achieve &amp;amp;amp;gt;1 ExaFLOPS sustained performance in mixed precision on each supercomputer and a maximum sustained performance of 4.11 ExaFLOPS and peak performance of 5.57 ExaFLOPS. We establish the scientific performance of our model on two tasks: (1) across a predetermined benchmark dataset of deep mutational scanning experiments to optimize the fitness-determining mutations in the yeast protein HIS7, and (2) in optimizing the design of the enzyme malate dehydrogenase to achieve lower activation barriers (and therefore increased catalytic rates) using simulation data. Our implementation thus sets high watermarks for multimodal protein design workflows.;,citation_author=Gautham Dharuman;,citation_author=Kyle Hippe;,citation_author=Alexander Brace;,citation_author=Sam Foreman;,citation_author=Väinö Hatanpää;,citation_author=Varuni K. Sastry;,citation_author=Huihuo Zheng;,citation_author=Logan Ward;,citation_author=Servesh Muralidharan;,citation_author=Archit Vasan;,citation_author=Bharat Kale;,citation_author=Carla M. Mann;,citation_author=Heng Ma;,citation_author=Yun-Hsuan Cheng;,citation_author=Yuliana Zamora;,citation_author=Shengchao Liu;,citation_author=Chaowei Xiao;,citation_author=Murali Emani;,citation_author=Tom Gibbs;,citation_author=Mahidhar Tatineni;,citation_author=Deepak Canchi;,citation_author=Jerome Mitchell;,citation_author=Koichi Yamada;,citation_author=Maria Garzaran;,citation_author=Michael E. Papka;,citation_author=Ian Foster;,citation_author=Rick Stevens;,citation_author=Anima Anandkumar;,citation_author=Venkatram Vishwanath;,citation_author=Arvind Ramanathan;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://doi.org/10.1109/SC41406.2024.00013;,citation_doi=10.1109/SC41406.2024.00013;,citation_isbn=9798350352917;,citation_conference_title=Proceedings of the international conference for high performance computing, networking, storage, and analysis;,citation_conference=IEEE Press;,citation_series_title=SC ’24;">
@@ -479,6 +496,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
  <span class="menu-text">[6] Linear Regression</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[7] Statistical Learning</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -533,64 +556,39 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../02-llms/0-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../02-llms/00-intro-to-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[0] Intro to LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../02-llms/1-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../02-llms/01-hands-on-llms/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[1] Hands-on LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../02-llms/4-evaluating-llms/index.html" class="sidebar-item-text sidebar-link">
+  <a href=".././02-llms/02-prompt-engineering/index.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[4] Evaluating LLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../02-llms/5-advanced-llms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[5] Advanced LLMs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../02-llms/6-parallel-training/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../02-llms/06-parallel-training/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[6] Parallel Training</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../02-llms/7-shakespeare-example/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[7] Shakespeare Example</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../02-llms/8-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../02-llms/08-shakespeare-example-colab/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[8] Shakespeare Example (Colab)</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../03-ai-for-science/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[03] AI for Science</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../03-ai-for-science/0-genslm/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[0] GenSLM</span></a>
-  </div>
-</li>
-      </ul>
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">[03] AI for Science</span></span>
   </li>
     </ul>
     </div>
@@ -598,8 +596,16 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#natural-language-processing-nlp" id="toc-natural-language-processing-nlp" class="nav-link" data-scroll-target="#natural-language-processing-nlp">Natural Language Processing (NLP)</a></li>
+  <li><a href="#large-language-models-llms" id="toc-large-language-models-llms" class="nav-link" data-scroll-target="#large-language-models-llms">Large Language Models (LLMs)</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/02-llms/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/02-llms/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -652,7 +658,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 22, 2025</p>
+      <p class="date-modified">August 1, 2025</p>
     </div>
   </div>
     
@@ -663,11 +669,69 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </header>
 
 
+<section id="contents" class="level2">
+<h2 class="anchored" data-anchor-id="contents">Contents</h2>
+<ul>
+<li>📂 <a href="../02-llms/index.html">02-llms/</a>
+<ul>
+<li><a href="../02-llms/00-intro-to-llms/index.html">00-intro-to-llms</a></li>
+<li><a href="../02-llms/01-hands-on-llms/index.html">01-hands-on-llms</a></li>
+<li><a href="02-prompt-engineering/index.qmd">02-prompt-engineering</a></li>
+<li><a href="05-advanced-llms/index.qmd">05-advanced-llms</a></li>
+<li><a href="../02-llms/06-parallel-training/index.html">06-parallel-training</a></li>
+<li><a href="07-shakespeare-example/index.qmd">07-shakespeare-example</a></li>
+<li><a href="../02-llms/08-shakespeare-example-colab/index.html">08-shakespeare-example-colab</a></li>
+<li><a href="09-rag-tutorial/index.qmd">09-rag-tutorial</a></li>
+<li><a href="10-evaluating-llms/index.qmd">10-evaluating-llms</a> </li>
+</ul></li>
+</ul>
+</section>
+<section id="natural-language-processing-nlp" class="level2">
+<h2 class="anchored" data-anchor-id="natural-language-processing-nlp">Natural Language Processing (NLP)</h2>
+<p>Large Language Models (LLMs) are a subset of Natural Language Processing (NLP) techniques that focus on understanding and generating human language. NLP is a field of linguistics / artificial intelligence that enables computers to interpret, understand, and respond to human language in a way that is both meaningful and useful.</p>
+<p>The following is a list of common NLP tasks, with some examples:</p>
+<ul>
+<li><strong>Classifying whole sentences</strong>: Getting the sentiment of a review, detecting if an email is spam, determining if a sentence is gramatically correct or whether two sentences are logically related or not.</li>
+<li><strong>Classifying each word in a sentence</strong>: Identifying the grammatical components of a sentence (noun, verb, adjectvie, …), or the named entities (person, location, organization, …).</li>
+<li><strong>Generating Text</strong>: Completing a prompt with auto-generated text, filling in the blanks in a text with masked words</li>
+<li><strong>Extracting an answer from a text</strong>: Given a question and a context, extracting the answer to the question based on the information provided in the context.</li>
+<li><strong>Generating a new sentence from an input text</strong>: Translating a text into another language, summarizing a text</li>
+</ul>
+</section>
+<section id="large-language-models-llms" class="level2">
+<h2 class="anchored" data-anchor-id="large-language-models-llms">Large Language Models (LLMs)</h2>
+<blockquote class="blockquote">
+<p>A large lanuage model (LLM) is an AI model trained on massive amounts of text data that can understand and generate human-like text, recognize patterns in language, and perform a wide variety of language tasks without task-specific training.<br>
+They represent a significant advancement in the field of natural language processing (NLP) <span class="citation" data-cites="huggingfacecourse">(<a href="#ref-huggingfacecourse" role="doc-biblioref">Face 2022</a>)</span>.</p>
+</blockquote>
+<div class="callout callout-style-simple callout-warning no-icon callout-titled" title="🚧 Warning">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>🚧 Warning
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>While LLMs are are able to generate (what appears to be) human-like text, they are not sentient, and do not have an understanding of the world in the way that humans do. They are trained to predict the next word in a sentence based on the context of the words that come before it, and can generate text that is coherent and relevant to the input they receive. However, they do not have a true understanding of the meaning of the words they generate, and can sometimes produce text that is nonsensical or irrelevant to the input.</p>
+</div>
+</div>
+</div>
+<p>Even with the advances in LLMs, many fundamental challenges remain. These include understanding ambiguity, cultural context, sarcasm and humor. LLMs address these challenges through massive training on diverse datasets, but still often fall short of human-level understanding in many complex scenarios.</p>
 
 
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-huggingfacecourse" class="csl-entry" role="listitem">
+Face, Hugging. 2022. <span>“The Hugging Face Course, 2022.”</span> <a href="https://huggingface.co/course" class="uri">https://huggingface.co/course</a>.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
   author = {Foreman, Sam},
   title = {Introduction to {Large} {Language} {Models} {(LLMs)}},
   date = {2025-07-15},
@@ -1185,7 +1249,7 @@ Foreman, Sam. 2025. <span>“Introduction to Large Language Models
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../02-llms/0-intro-to-llms/index.html" class="pagination-link" aria-label="[0] Intro to LLMs">
+      <a href="../02-llms/00-intro-to-llms/index.html" class="pagination-link" aria-label="[0] Intro to LLMs">
         <span class="nav-page-text">[0] Intro to LLMs</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1199,7 +1263,73 @@ Foreman, Sam. 2025. <span>“Introduction to Large Language Models
 <span id="cb1-7"><a href="#cb1-7"></a><span class="co">    - llm</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
 <span id="cb1-9"><a href="#cb1-9"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">---</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="fu">## Contents</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="ss">- </span>📂 <span class="co">[</span><span class="ot">02-llms/</span><span class="co">](index.qmd)</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">00-intro-to-llms</span><span class="co">](00-intro-to-llms/index.qmd)</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">01-hands-on-llms</span><span class="co">](01-hands-on-llms/index.ipynb)</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">02-prompt-engineering</span><span class="co">](02-prompt-engineering/index.qmd)</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">05-advanced-llms</span><span class="co">](05-advanced-llms/index.qmd)</span> </span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">06-parallel-training</span><span class="co">](06-parallel-training/index.qmd)</span> </span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">07-shakespeare-example</span><span class="co">](07-shakespeare-example/index.qmd)</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">08-shakespeare-example-colab</span><span class="co">](08-shakespeare-example-colab/index.ipynb)</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="ss">  - </span><span class="co">[</span><span class="ot">09-rag-tutorial</span><span class="co">](09-rag-tutorial/index.qmd)</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="ss">   - </span><span class="co">[</span><span class="ot">10-evaluating-llms</span><span class="co">](10-evaluating-llms/index.qmd)</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a>   <span class="co">&lt;!-- - [10-llm-applications](./10-llm-applications/index.qmd) --&gt;</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="fu">## Natural Language Processing (NLP)</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a></span>
+<span id="cb1-28"><a href="#cb1-28"></a>Large Language Models (LLMs) are a subset of Natural Language Processing (NLP)</span>
+<span id="cb1-29"><a href="#cb1-29"></a>techniques that focus on understanding and generating human language.</span>
+<span id="cb1-30"><a href="#cb1-30"></a>NLP is a field of linguistics / artificial intelligence that enables computers</span>
+<span id="cb1-31"><a href="#cb1-31"></a>to interpret, understand, and respond to human language in a way that is both</span>
+<span id="cb1-32"><a href="#cb1-32"></a>meaningful and useful.</span>
+<span id="cb1-33"><a href="#cb1-33"></a></span>
+<span id="cb1-34"><a href="#cb1-34"></a></span>
+<span id="cb1-35"><a href="#cb1-35"></a>The following is a list of common NLP tasks, with some examples:</span>
+<span id="cb1-36"><a href="#cb1-36"></a></span>
+<span id="cb1-37"><a href="#cb1-37"></a><span class="ss">- </span>**Classifying whole sentences**: Getting the sentiment of a review,</span>
+<span id="cb1-38"><a href="#cb1-38"></a>  detecting if an email is spam, determining if a sentence is gramatically</span>
+<span id="cb1-39"><a href="#cb1-39"></a>  correct or whether two sentences are logically related or not.</span>
+<span id="cb1-40"><a href="#cb1-40"></a><span class="ss">- </span>**Classifying each word in a sentence**: Identifying the grammatical</span>
+<span id="cb1-41"><a href="#cb1-41"></a>  components of a sentence (noun, verb, adjectvie, ...), or the named entities</span>
+<span id="cb1-42"><a href="#cb1-42"></a>  (person, location, organization, ...).</span>
+<span id="cb1-43"><a href="#cb1-43"></a><span class="ss">- </span>**Generating Text**: Completing a prompt with auto-generated text, filling in</span>
+<span id="cb1-44"><a href="#cb1-44"></a>  the blanks in a text with masked words</span>
+<span id="cb1-45"><a href="#cb1-45"></a><span class="ss">- </span>**Extracting an answer from a text**: Given a question and a context,</span>
+<span id="cb1-46"><a href="#cb1-46"></a>  extracting the answer to the question based on the information provided in the</span>
+<span id="cb1-47"><a href="#cb1-47"></a>  context.</span>
+<span id="cb1-48"><a href="#cb1-48"></a><span class="ss">- </span>**Generating a new sentence from an input text**: Translating a text into</span>
+<span id="cb1-49"><a href="#cb1-49"></a>  another language, summarizing a text</span>
+<span id="cb1-50"><a href="#cb1-50"></a></span>
+<span id="cb1-51"><a href="#cb1-51"></a><span class="fu">## Large Language Models (LLMs)</span></span>
+<span id="cb1-52"><a href="#cb1-52"></a></span>
+<span id="cb1-53"><a href="#cb1-53"></a><span class="at">&gt; A large lanuage model (LLM) is an AI model trained on massive amounts of text</span></span>
+<span id="cb1-54"><a href="#cb1-54"></a><span class="at">&gt; data that can understand and generate human-like text, recognize patterns in</span></span>
+<span id="cb1-55"><a href="#cb1-55"></a><span class="at">&gt; language, and perform a wide variety of language tasks without task-specific</span></span>
+<span id="cb1-56"><a href="#cb1-56"></a><span class="at">&gt; training.</span>  </span>
+<span id="cb1-57"><a href="#cb1-57"></a><span class="at">&gt; They represent a significant advancement in the field of natural language</span></span>
+<span id="cb1-58"><a href="#cb1-58"></a><span class="at">&gt; processing (NLP) </span><span class="co">[</span><span class="ot">@huggingfacecourse</span><span class="co">]</span><span class="at">.</span></span>
+<span id="cb1-59"><a href="#cb1-59"></a></span>
+<span id="cb1-60"><a href="#cb1-60"></a></span>
+<span id="cb1-61"><a href="#cb1-61"></a>::: {.callout-warning icon="false" title="🚧 Warning" collapse="false"}</span>
+<span id="cb1-62"><a href="#cb1-62"></a>While LLMs are are able to generate (what appears to be) human-like text, they</span>
+<span id="cb1-63"><a href="#cb1-63"></a>are not sentient, and do not have an understanding of the world in the way that</span>
+<span id="cb1-64"><a href="#cb1-64"></a>humans do.</span>
+<span id="cb1-65"><a href="#cb1-65"></a>They are trained to predict the next word in a sentence based on the context of</span>
+<span id="cb1-66"><a href="#cb1-66"></a>the words that come before it, and can generate text that is coherent and</span>
+<span id="cb1-67"><a href="#cb1-67"></a>relevant to the input they receive.</span>
+<span id="cb1-68"><a href="#cb1-68"></a>However, they do not have a true understanding of the meaning of the words they</span>
+<span id="cb1-69"><a href="#cb1-69"></a>generate, and can sometimes produce text that is nonsensical or irrelevant to</span>
+<span id="cb1-70"><a href="#cb1-70"></a>the input.</span>
+<span id="cb1-71"><a href="#cb1-71"></a>:::</span>
+<span id="cb1-72"><a href="#cb1-72"></a></span>
+<span id="cb1-73"><a href="#cb1-73"></a>Even with the advances in LLMs, many fundamental challenges remain.</span>
+<span id="cb1-74"><a href="#cb1-74"></a>These include understanding ambiguity, cultural context, sarcasm and humor.</span>
+<span id="cb1-75"><a href="#cb1-75"></a>LLMs address these challenges through massive training on diverse datasets, but</span>
+<span id="cb1-76"><a href="#cb1-76"></a>still often fall short of human-level understanding in many complex scenarios.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1215,7 +1345,7 @@ Foreman, Sam. 2025. <span>“Introduction to Large Language Models
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/02-llms/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/02-llms/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/02-llms/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/02-llms/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

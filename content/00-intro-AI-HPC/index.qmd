@@ -5,31 +5,15 @@ categories:
   - ai4science
   - hpc
   - llm
-jupyter: python3
+# jupyter: python3
 toc: true
 date: 2025-07-15
 date-modified: last-modified
-# citation:
-#    author: Sam Foreman
-#    type: webpage
-#    title: "Intro to AI on Supercomputers"
-#    url: https://samforeman.me/projects/hpc-bootcamp-2025/00-intro-AI-hpc
-# open-graph:
-#   title: "Intro to AI on Supercomputers"
-#   description: "Introduction to Supercomputers and High Performance Computing (HPC) for AI and Science"
-#   # image: "./assets/thumbnail.png"
-# twitter-card:
-#   title: "Intro to AI on Supercomputers"
-#   description: "Introduction to Supercomputers and High Performance Computing (HPC) for AI and Science"
-#   site: "saforem2"
-#   creator: "saforem2"
-#   # image: "./assets/thumbnail.png"
+format:
+  html: default
+  gfm:
+    toc: true
 ---
-
-<!--
-- [Sam Foreman](https://samforeman.me), ALCF, [<foremans@anl.gov>](mailto:foremans@anl.gov)
-- [Huihuo Zheng](https://www.alcf.anl.gov/about/people/huihuo-zheng), ALCF, [<huihuo.zheng@anl.gov>](mailto:huihuo-zheng@anl.gov)
--->
 
 ## Contents
 
@@ -40,6 +24,12 @@ date-modified: last-modified
   - 📄 [3-homework](./3-homework/index.qmd)
   - 📄 [4-nersc](./4-nersc/index.qmd)
 
+
+
+<!--
+- [Sam Foreman](https://samforeman.me), ALCF, [<foremans@anl.gov>](mailto:foremans@anl.gov)
+- [Huihuo Zheng](https://www.alcf.anl.gov/about/people/huihuo-zheng), ALCF, [<huihuo.zheng@anl.gov>](mailto:huihuo-zheng@anl.gov)
+-->
 <!--
 Recording for this lecture will be here: https://www.alcf.anl.gov/events/intro-ai-series-intro-artificial-intelligence-supercomputers
 

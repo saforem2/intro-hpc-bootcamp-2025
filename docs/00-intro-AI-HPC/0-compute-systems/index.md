@@ -1,9 +1,10 @@
 # What is a Supercomputer?
 Sam Foreman
-2025-07-15
+2025-07-22
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
+- [Overview](#overview)
 - [A Compute Node](#a-compute-node)
 - [Cluster/HPC Computing Hardware
   Setup](#clusterhpc-computing-hardware-setup)
@@ -12,6 +13,8 @@ Sam Foreman
   - [Aurora](#aurora)
   - [Sophia](#sophia)
   - [Polaris](#polaris)
+
+## Overview
 
 Argonne hosts DOE supercomputers for use by research scientists in need
 of large computational resources. Supercomputers are composed of many
@@ -24,13 +27,25 @@ computer.
 
 If you look inside your Desktop or Laptop you’ll find these parts:
 
-![parts](../img/computer-parts-diagram.png)
+<div id="fig-computer-parts">
+
+![](../img/computer-parts-diagram.svg)
+
+Figure 1: Typical computer parts
+
+</div>
 
 A computing node of a supercomputer is very similar, each has simliar
 parts, but it is designed as a single unit that can be inserted and
 removed from large closet-sized racks with many others:
 
-![blade](../img/computer_blade.jpg)
+<div id="fig-computer-blade">
+
+![](../img/computer_blade.jpg)
+
+Figure 2: Blade
+
+</div>
 
 In large supercomputers multiple computer processors (CPUs) and/or
 graphics processors (GPUs) are combined into a single node. It has a CPU
@@ -41,7 +56,13 @@ communicate with other nodes and to a large shared filesystem.
 
 ## Cluster/HPC Computing Hardware Setup
 
-![Hardware](../img/supercomputer_diagram.png)
+<div id="fig-supercomputer-network">
+
+![](../img/network-diagram/light.svg)
+
+Figure 3: Network diagram of a typical supercomputer
+
+</div>
 
 Large computer systems typically have *worker* nodes and *login* nodes.
 *login* nodes are the nodes on which every user arrives when they login
@@ -53,28 +74,29 @@ nodes of the supercomputer.
 ## Supercomputers are Big!
 
 These supercomputers occupy a lot of space in the ACLF data center. Here
-is our staff at the time (2019) in front of
-[Mira](https://en.wikipedia.org/wiki/Mira_(supercomputer)), an IBM
-supercomputer, that debuted as the third fastest supercomputer in the
-world in 2012:
+is our staff (and interns! from summer 2023) in front of Aurora.
 
 <div id="fig-alcf-staff">
 
 ![](../../assets/ALCF-Staff.jpg)
 
-Figure 1: ALCF Staff
+Figure 4: ALCF Staff
 
 </div>
 
 ## ALCF Computing System Overview
 
-### [Aurora](https://www.alcf.anl.gov/aurora)
+### Aurora
 
-At this time (October 2024), Aurora is being put through its paces with
-Argonne and Intel working together to prepare the system for scientific
-researchers. It is amongst the most power supercomputers in thew world,
-[currently sitting at \#2 on the
-Top500](https://www.top500.org/lists/top500/list/2024/06/).
+> Aurora is a supercomputer at Argonne National Laboratory, housed in
+> the Argonne Leadership Computing Facility (ALCF). It is the first
+> exascale supercomputer in the United States and is designed to deliver
+> unprecedented performance for scientific research and simulations.  
+> See [Aurora](https://www.alcf.anl.gov/aurora) for more information.
+
+At this time (August 2025), Aurora is *open for business*! It is amongst
+the most power supercomputers in thew world, [currently sitting at \#2
+on the Top500](https://www.top500.org/lists/top500/list/2024/06/).
 
 Here you can see one of the many rows of Aurora *nodes* with their Red &
 Blue water cooling conduits visible.
@@ -83,7 +105,7 @@ Blue water cooling conduits visible.
 
 ![](../img/aurora1.jpg)
 
-Figure 2: Aurora
+Figure 5: Aurora
 
 </div>
 
@@ -94,7 +116,7 @@ side-by-side:
 
 ![](../img/aurora2.jpg)
 
-Figure 3: Aurora
+Figure 6: Aurora
 
 </div>
 
@@ -133,5 +155,10 @@ The inside of Polaris again shows the *nodes* stacked up in a closet.
 
 Polaris is an NVIDIA A100-based system.
 
-Polaris Machine Specs \* Speed: 44 petaflops \* Each Node has: \* 4
-NVIDIA (A100) GPUs \* 1 AMD EPYC (Milan) CPUs \* ~560 Total Nodes
+Polaris Machine Specs
+
+- Speed: 44 petaflops
+- Each Node has:
+  - 4 NVIDIA (A100) GPUs
+  - 1 AMD EPYC (Milan) CPUs
+- ~560 Total Nodes

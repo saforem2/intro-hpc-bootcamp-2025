@@ -181,7 +181,7 @@ import IPython.display as ipydis
 import time
 
 import ezpz
-logger = ezpz.get_logger('linear-regression')
+from rich import print
 ```
 
 ### Dataset
@@ -193,17 +193,18 @@ This dataset contains the *sale price* and *above ground square feet* of
 many houses. We can use this data for our linear regression.
 
 We use Pandas to read the data file which is stored as Comma Separated
-Values (CSV) and logger.info the column labels.
+Values (CSV) and print the column labels.
 
 CSV files are similar to excel sheets.
 
 ``` python
 ! [ -e ./slimmed_realestate_data.csv ] || wget https://raw.githubusercontent.com/argonne-lcf/ai-science-training-series/main/01_intro_AI_on_Supercomputer/slimmed_realestate_data.csv
 data = pd.read_csv('slimmed_realestate_data.csv')
-logger.info(data.columns)
+print(data.columns)
 ```
 
-    [2025-07-25 06:56:29,825708][I][ipykernel_3408/1606159476:3:linear-regression] Index(['Unnamed: 0', 'SalePrice', 'GrLivArea'], dtype='object')
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Index</span><span style="font-weight: bold">([</span><span style="color: #008000; text-decoration-color: #008000">'Unnamed: 0'</span>, <span style="color: #008000; text-decoration-color: #008000">'SalePrice'</span>, <span style="color: #008000; text-decoration-color: #008000">'GrLivArea'</span><span style="font-weight: bold">]</span>, <span style="color: #808000; text-decoration-color: #808000">dtype</span>=<span style="color: #008000; text-decoration-color: #008000">'object'</span><span style="font-weight: bold">)</span>
+</pre>
 
 Now pandas provides some helpful tools for us to inspect our data.
 
@@ -230,7 +231,7 @@ sns.jointplot(
     y="SalePrice",
     data=data,
     kind='reg',
-    color=(0.043, 0.043, 0.043, 0.33),
+    color=(216 / 255.0, 100 / 255.0, 50 / 255.0, 0.33),
 )
 ```
 
@@ -297,14 +298,15 @@ Then we can calculate our fit values:
 ``` python
 m = (n * sum_xy - sum_x * sum_y) / denominator
 b = (sum_y * sum_x2 - sum_x * sum_xy) / denominator
-logger.info('y = %f * x + %f' % (m,b))
+print('y = %f * x + %f' % (m,b))
 
 # saving these for later comparison
 m_calc = m
 b_calc = b
 ```
 
-    [2025-07-25 06:56:30,126103][I][ipykernel_3408/1833436152:3:linear-regression] y = 87.688145 * x + 34754.077892
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.688145</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.077892</span>
+</pre>
 
 Now we can plot the fit results with our data to see how we did.
 
@@ -519,32 +521,35 @@ We can now randomly select our initial slope and intercept:
 ``` python
 m = 5.
 b = 1000.
-logger.info(f"y_i = {m:.2f} * x + {b:.2f}")
-# logger.info('y_i = %.2f * x + %.2f' % (m,b))
+print(f"y_i = {m:.2f} * x + {b:.2f}")
+# print('y_i = %.2f * x + %.2f' % (m,b))
 ```
 
-    [2025-07-25 06:56:30,198277][I][ipykernel_3408/1397955390:3:linear-regression] y_i = 5.00 * x + 1000.00
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.00</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>
+</pre>
 
 Then we can calculate our Loss function:
 
 ``` python
 l = loss(x,y,m,b)
-logger.info(f'first 10 loss values: {l[:10]}')
+print(f'first 10 loss values: {l[:10]}')
 ```
 
-    [2025-07-25 06:56:30,204412][I][ipykernel_3408/3769949415:2:linear-regression] first 10 loss values: [3.03421561e+10 3.55511025e+10 1.24579082e+10 1.91656336e+10
-     1.60604929e+10 2.04432804e+10 1.72410030e+10 1.76517796e+10
-     1.52769600e+10 2.18152900e+10]
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">first <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10</span> loss values: <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.03421561e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.55511025e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.24579082e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.91656336e+10</span>
+ <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.60604929e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.04432804e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.72410030e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.76517796e+10</span>
+ <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1.52769600e+10</span> <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.18152900e+10</span><span style="font-weight: bold">]</span>
+</pre>
 
 ``` python
 learning_rate = 1e-9
 m = updated_m(x,y,m,b,learning_rate)
 b = updated_b(x,y,m,b,learning_rate)
-logger.info('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
+print('y_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f' % (m,b,m_calc,b_calc))
 plot_data(x,y,m,b)
 ```
 
-    [2025-07-25 06:56:30,208832][I][ipykernel_3408/963106386:4:linear-regression] y_i = 5.47 * x + 1000.00     previously calculated: y_i = 87.69 * x + 34754.08
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">5.47</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000.00</span>     previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>
+</pre>
 
 ![](index_files/figure-commonmark/cell-18-output-2.png)
 
@@ -574,15 +579,15 @@ for i in range(loop_N):
     # keep a history of our loss values
     loss_history.append(loss_value)
 
-    # logger.info our progress
+    # print our progress
     mstr = " ".join([
         f"[{i:03d}]",
         f"dy_i = {m:.2f} * x + {b:.2f}",
         f"previously calculated: y_i = {m_calc:.2f} * x + {b_calc:.2f}",
         f"loss: {loss_value:.2f}",
     ])
-    logger.info(mstr)
-    # logger.info(
+    print(mstr)
+    # print(
     #         '[%03d]  dy_i = %.2f * x + %.2f     previously calculated: y_i = %.2f * x + %.2f    loss: %f' % (i,m,b,m_calc,b_calc,loss_value))
 
     # close/delete previous plots
@@ -617,7 +622,8 @@ for i in range(loop_N):
     ipydis.clear_output(wait=True)
 ```
 
-    [2025-07-25 06:57:46,287130][I][ipykernel_3408/3358379817:33:linear-regression] [029] dy_i = 88.89 * x + 32912.24 previously calculated: y_i = 87.69 * x + 34754.08 loss: 1478200827.64
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">029</span><span style="font-weight: bold">]</span> dy_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.89</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32912.24</span> previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span> loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.64</span>
+</pre>
 
 ![](index_files/figure-commonmark/cell-19-output-2.png)
 
@@ -724,20 +730,29 @@ def train(batch_size, epochs=30, learning_rate_m = 1e-7, learning_rate_b = 1e-1)
 ## Minibatch training
 
 ``` python
-logger.info('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
+print('previously calculated: y_i = %.2f * x + %.2f    loss: %f\n=======================================' % (m_calc,b_calc,loss_value))
 
 
 for bs in 64, 128, 256, 512:
     m, b, l = train(bs, epochs=30)
-    logger.info(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    [2025-07-25 06:57:48,952563][I][ipykernel_3408/713484243:1:linear-regression] previously calculated: y_i = 87.69 * x + 34754.08    loss: 1478200827.641291
-    =======================================
-    [2025-07-25 06:57:48,980863][I][ipykernel_3408/713484243:6:linear-regression] batch size: 64, m=86.6933, b=39767.6013, loss=1491105743.0044
-    [2025-07-25 06:57:48,993122][I][ipykernel_3408/713484243:6:linear-regression] batch size: 128, m=86.3369, b=37861.2945, loss=1479734377.2194
-    [2025-07-25 06:57:48,999083][I][ipykernel_3408/713484243:6:linear-regression] batch size: 256, m=88.8445, b=34385.0101, loss=1479734069.2153
-    [2025-07-25 06:57:49,003911][I][ipykernel_3408/713484243:6:linear-regression] batch size: 512, m=88.6190, b=33317.3050, loss=1478035579.1159
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">previously calculated: y_i = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.69</span> * x + <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">34754.08</span>    loss: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478200827.641291</span>
+=======================================
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.3180</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32326.9619</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1486511928.1124</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.3147</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32032.2304</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1481273702.6483</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.6782</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35180.5096</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1477951780.9075</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">88.9465</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32626.3914</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478343293.7138</span>
+</pre>
 
 We see that eventually, we all get similar results with the minibatch
 training. Of course, here, we still keep the same learning rate. A gene
@@ -749,13 +764,20 @@ for i in 1, 2, 4, 8:
     bs, lrm, lrb = np.array([64, 1e-7, 1e-1])*i
     bs = int(bs)
     m, b, l = train(int(bs), epochs=30, learning_rate_m = lrm, learning_rate_b = lrb)
-    logger.info(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
+    print(f"batch size: {bs}, m={m:.4f}, b={b:.4f}, loss={l:.4f}")
 ```
 
-    [2025-07-25 06:57:49,025637][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 64, m=82.7636, b=41158.8752, loss=1484722072.5032
-    [2025-07-25 06:57:49,034589][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 128, m=90.3469, b=33278.1437, loss=1484864554.4411
-    [2025-07-25 06:57:49,039838][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 256, m=83.5859, b=39068.6931, loss=1484538718.9052
-    [2025-07-25 06:57:49,044053][I][ipykernel_3408/2109497066:5:linear-regression] batch size: 512, m=78160.4620, b=12419733.5223, loss=16633672705012016.0000
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">87.0015</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">36356.2911</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1478314942.5253</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">90.4034</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">35495.4588</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1500640516.1472</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">82.3918</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">39374.5437</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1493532932.0244</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">batch size: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span>, <span style="color: #808000; text-decoration-color: #808000">m</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">84873.1706</span>, <span style="color: #808000; text-decoration-color: #808000">b</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">-29661347.8843</span>, <span style="color: #808000; text-decoration-color: #808000">loss</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">10016806045876076.0000</span>
+</pre>
 
 We can see that, if we increase the batch size and the learning rate
 proportionally, at certain point, it does not converge for example for

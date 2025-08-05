@@ -57,7 +57,7 @@ import random
 import time
 
 import ezpz
-logger = ezpz.get_logger('mcmc')
+from rich import print
 
 
 fig, ax = plt.subplots()
@@ -84,14 +84,17 @@ for i in range(1, N+1):
 
 res = np.array(Nin, dtype='d')
 t1 = time.time()
-logger.info(f"Pi = {res/float(N/4.0)}")
-logger.info("Time: %s" %(t1 - t0))
+print(f"Pi = {res/float(N/4.0)}")
+print("Time: %s" %(t1 - t0))
 ```
 
-    [2025-07-25 11:14:18,071391][I][ipykernel_47428/500593173:44:mcmc] Pi = 3.168
-    [2025-07-25 11:14:18,073357][I][ipykernel_47428/500593173:45:mcmc] Time: 20.542076110839844
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Pi = <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.128</span>
+</pre>
 
-![](index_files/figure-commonmark/cell-2-output-2.png)
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">19.539742946624756</span>
+</pre>
+
+![](index_files/figure-commonmark/cell-2-output-3.png)
 
 ### MPI example
 
@@ -120,12 +123,15 @@ res_tot = np.array(Nin, dtype='d')
 comm.Allreduce(res, res_tot, op=MPI.SUM)
 t1 = time.time()
 if comm.rank==0:
-    logger.info(res_tot/float(N/4.0))
-    logger.info("Time: %s" %(t1 - t0))
+    print(res_tot/float(N/4.0))
+    print("Time: %s" %(t1 - t0))
 ```
 
-    [2025-07-25 11:14:21,174739][I][ipykernel_47428/94852726:20:mcmc] 3.1431768
-    [2025-07-25 11:14:21,175828][I][ipykernel_47428/94852726:21:mcmc] Time: 3.021682024002075
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3.1420384</span>
+</pre>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">Time: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2.927213668823242</span>
+</pre>
 
 ### Running $\pi$ example on Google Colab
 
