@@ -9,6 +9,13 @@ date: 2025-07-15
 date-modified: last-modified
 ---
 
+::: {.callout-note title="Authors" collapse="false"}
+Content modified from original content written by Archit Vasan, including
+materials on LLMs by: Varuni Sastri and Carlo Graziani at Argonne, and
+discussion/editorial work by Taylor Childers, Bethany Lusch, and Venkat
+Vishwanath (Argonne)
+:::
+
 ## Contents
 
 - 📂 [02-llms/](index.qmd)
@@ -23,6 +30,23 @@ date-modified: last-modified
    - [10-evaluating-llms](10-evaluating-llms/index.qmd)
    <!-- - [10-llm-applications](./10-llm-applications/index.qmd) -->
 
+## Overview
+
+Inspiration from the blog posts "The Illustrated Transformer" and "The
+Illustrated GPT2" by Jay Alammar, highly recommended reading.
+
+This tutorial covers the some fundamental concepts necessary to to study of
+large language models (LLMs).
+
+### Topics
+
+* Scientific applications for language models
+* General overview of Transformers
+* Tokenization
+* Model Architecture
+* Pipeline using HuggingFace
+* Model loading
+
 ## Natural Language Processing (NLP)
 
 Large Language Models (LLMs) are a subset of Natural Language Processing (NLP)
@@ -30,7 +54,6 @@ techniques that focus on understanding and generating human language.
 NLP is a field of linguistics / artificial intelligence that enables computers
 to interpret, understand, and respond to human language in a way that is both
 meaningful and useful.
-
 
 The following is a list of common NLP tasks, with some examples:
 
@@ -74,3 +97,17 @@ Even with the advances in LLMs, many fundamental challenges remain.
 These include understanding ambiguity, cultural context, sarcasm and humor.
 LLMs address these challenges through massive training on diverse datasets, but
 still often fall short of human-level understanding in many complex scenarios.
+
+
+## References
+
+I strongly recommend reading:
+
+- ["The Illustrated Transformer"](https://jalammar.github.io/illustrated-transformer/)
+  by Jay AlammarAlammar also has a useful post dedicated more generally to
+  Sequence-to-Sequence modeling 
+- [LLM Course by 🤗 HuggingFace](https://huggingface.co/learn/llm-course/chapter1/1)
+- ["Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/),
+  which illustrates the attention mechanism in the context of a more generic
+  language translation model.
+- [GPT in 60 Lines of NumPy](https://jaykmody.com/blog/gpt-from-scratch/)

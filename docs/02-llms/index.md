@@ -5,8 +5,20 @@ Sam Foreman
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 - [Contents](#contents)
+- [Overview](#overview)
+  - [Topics](#topics)
 - [Natural Language Processing (NLP)](#natural-language-processing-nlp)
 - [Large Language Models (LLMs)](#large-language-models-llms)
+- [References](#references)
+
+> [!NOTE]
+>
+> ### Authors
+>
+> Content modified from original content written by Archit Vasan,
+> including materials on LLMs by: Varuni Sastri and Carlo Graziani at
+> Argonne, and discussion/editorial work by Taylor Childers, Bethany
+> Lusch, and Venkat Vishwanath (Argonne)
 
 ## Contents
 
@@ -20,6 +32,23 @@ Sam Foreman
   - [08-shakespeare-example-colab](08-shakespeare-example-colab/index.ipynb)
   - [09-rag-tutorial](09-rag-tutorial/index.qmd)
   - [10-evaluating-llms](10-evaluating-llms/index.qmd)
+
+## Overview
+
+Inspiration from the blog posts “The Illustrated Transformer” and “The
+Illustrated GPT2” by Jay Alammar, highly recommended reading.
+
+This tutorial covers the some fundamental concepts necessary to to study
+of large language models (LLMs).
+
+### Topics
+
+- Scientific applications for language models
+- General overview of Transformers
+- Tokenization
+- Model Architecture
+- Pipeline using HuggingFace
+- Model loading
 
 ## Natural Language Processing (NLP)
 
@@ -73,6 +102,24 @@ These include understanding ambiguity, cultural context, sarcasm and
 humor. LLMs address these challenges through massive training on diverse
 datasets, but still often fall short of human-level understanding in
 many complex scenarios.
+
+## References
+
+I strongly recommend reading:
+
+- [“The Illustrated
+  Transformer”](https://jalammar.github.io/illustrated-transformer/) by
+  Jay AlammarAlammar also has a useful post dedicated more generally to
+  Sequence-to-Sequence modeling
+- [LLM Course by 🤗
+  HuggingFace](https://huggingface.co/learn/llm-course/chapter1/1)
+- [“Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq
+  Models With
+  Attention)](https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/),
+  which illustrates the attention mechanism in the context of a more
+  generic language translation model.
+- [GPT in 60 Lines of
+  NumPy](https://jaykmody.com/blog/gpt-from-scratch/)
 
 <div id="refs" class="references csl-bib-body hanging-indent"
 entry-spacing="0">

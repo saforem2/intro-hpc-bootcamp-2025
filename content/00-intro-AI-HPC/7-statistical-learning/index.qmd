@@ -6,6 +6,12 @@ date-modified: last-modified
 execute:
   cache: true
   freeze: auto
+format:
+  ipynb:
+    default-image-extension: svg
+  html: default
+  gfm:
+    toc: true
 ---
 
 ```{python}

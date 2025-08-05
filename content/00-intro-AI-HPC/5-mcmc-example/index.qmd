@@ -9,6 +9,12 @@ categories:
 toc: true
 date: 2025-07-15
 date-modified: last-modified
+format:
+  ipynb:
+    default-image-extension: svg
+  html: default
+  gfm:
+    toc: true
 ---
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb)

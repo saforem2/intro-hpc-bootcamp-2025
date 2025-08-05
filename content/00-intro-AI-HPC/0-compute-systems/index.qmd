@@ -1,6 +1,8 @@
 ---
 title: "What is a Supercomputer?"
 description: "An introduction to supercomputers, their architecture, and how they differ from regular computers."
+date: 2025-08-01
+date-modified: last-modified
 format:
   html: default
   gfm:

@@ -97,73 +97,74 @@ sidebar: sidebar
 
 ## Contents
 
+<!--
+[ 1/24] index.qmd
+[ 2/24] 00-intro-AI-HPC/index.qmd
+[ 3/24] 00-intro-AI-HPC/0-compute-systems/index.qmd
+[ 4/24] 00-intro-AI-HPC/1-shared-resources/index.qmd
+[ 5/24] 00-intro-AI-HPC/2-jupyter-notebooks/index.qmd
+[ 6/24] 00-intro-AI-HPC/3-homework/index.qmd
+[ 7/24] 00-intro-AI-HPC/4-nersc/index.qmd
+[ 8/24] 00-intro-AI-HPC/5-mcmc-example/index.qmd
+[ 9/24] 00-intro-AI-HPC/6-linear-regression/index.qmd
+[10/24] 00-intro-AI-HPC/7-statistical-learning/index.qmd
+[11/24] 00-intro-AI-HPC/8-clustering/index.ipynb
+[12/24] 01-neural-networks/0-intro/index.qmd
+[13/24] 01-neural-networks/1-mnist/index.qmd
+[14/24] 01-neural-networks/4-representation-learning/index.qmd
+[15/24] 01-neural-networks/5-distributed-training/index.qmd
+Warning: couldn't recognize format, using default tabset rendering
+WARNING (/Applications/quarto/share/filters/main.lua:18698) No renderer for PanelLayout
+WARNING (/Applications/quarto/share/filters/main.lua:18703) Don't know how to render PanelLayout without a float; will return empty output
+WARNING (/Applications/quarto/share/filters/main.lua:18698) No renderer for PanelLayout
+WARNING (/Applications/quarto/share/filters/main.lua:18703) Don't know how to render PanelLayout without a float; will return empty output
+Warning: couldn't recognize format, using default tabset rendering
+WARNING (/Applications/quarto/share/filters/main.lua:18698) No renderer for PanelLayout
+WARNING (/Applications/quarto/share/filters/main.lua:18703) Don't know how to render PanelLayout without a float; will return empty output
+[16/24] 01-neural-networks/index.qmd
+WARN: Unable to resolve link target: 01-neural-networks/2-advanced/index.qmd
+[17/24] 01-neural-networks/3-conv-nets/index.ipynb
+[18/24] 01-neural-networks/1-mnist-ipynb/index.ipynb
+[19/24] 01-neural-networks/2-advanced/index.ipynb
+[20/24] 02-llms/index.qmd
+WARN: Unable to resolve link target: 02-llms/05-advanced-llms/index.qmd
+[21/24] 02-llms/00-intro-to-llms/index.qmd
+[22/24] 02-llms/01-hands-on-llms/index.ipynb
+[23/24] 02-llms/06-parallel-training/index.qmd
+[24/24] 02-llms/08-shakespeare-example-colab/index.ipynb
+-->
+
+
 - 🏡 [Intro to {AI, HPC} for Science](./)
 
-    - 📂 [\[00\] Intro to AI and HPC](00-intro-AI-HPC/)
+    - 📂 [\[00\] Intro to AI and HPC/](00-intro-AI-HPC/)
         - 📄 [\[0\] Compute systems](./00-intro-AI-hpc/0-compute-systems/)
         - 📄 [\[1\] Shared-resources](./00-intro-AI-HPC/1-shared-resources/)
-        - 📗 [\[2\]-jupyter-notebooks](./00-intro-AI-hpc/2-jupyter-notebooks/)
-        - 📄 [\[3\]-homework](./00-intro-AI-hpc/3-homework/)
-        - 📄 [\[4\]-nersc](./00-intro-AI-hpc/4-nersc/)
-        - 📗 [\[5\]-mcmc-example](./00-intro-AI-hpc/5-mcmc-example/)
-        - 📗 [\[6\]-linear-regression](./00-intro-AI-hpc/6-linear-regression/)
-        - 📗 [\[7\]-statistical-learning](./00-intro-AI-hpc/7-statistical-learning/)
+        - 📄 [\[2\] Jupyter Notebooks](./00-intro-AI-hpc/2-jupyter-notebooks/)
+        - 📄 [\[3\] Homework](./00-intro-AI-hpc/3-homework/)
+        - 📄 [\[4\] NERSC](./00-intro-AI-hpc/4-nersc/)
+        - 📗 [\[5\] MCMC Example](./00-intro-AI-hpc/5-mcmc-example/)
+        - 📗 [\[6\] Linear Regression](./00-intro-AI-hpc/6-linear-regression/)
+        - 📗 [\[7\] Statistical Learning](./00-intro-AI-hpc/7-statistical-learning/)
 
     - 📂 [\[01\] Neural Networks/](./01-neural-networks/)
-        - 📄 [0-intro](./01-neural-networks/0-intro/)
-        - 📗 [1-mnist](./01-neural-networks/1-mnist/)
-        - 📗 [1-mnist-ipynb](./01-neural-networks/1-mnist-ipynb/)
-        - 📄 [2-advanced](./01-neural-networks/2-advanced/)
-        - 📗 [3-conv-nets](./01-neural-networks/3-conv-nets/)
-        - 📗 [4-representation-learning](./01-neural-networks/4-representation-learning/)
+        - 📄 [\[0\] Intro](./01-neural-networks/0-intro/)
+        - 📗 [\[1\] MNIST](./01-neural-networks/1-mnist/)
+        - 📗 [\[1\] MNIST (ipynb)](./01-neural-networks/1-mnist-ipynb/)
+        - 📄 [\[2\] Advanced](./01-neural-networks/2-advanced/)
+        - 📗 [\[3\] Conv. Nets](./01-neural-networks/3-conv-nets/)
+        - 📗 [\[4\] Representation Learning](./01-neural-networks/4-representation-learning/)
+        - 📗 [\[5\] Distributed Training](./01-neural-networks/5-distributed-training/)
 
-    - 📂 [02-llms/](./02-llms/)
-        - 📄 [00-intro-to-llms](./02-llms/00-intro-to-llms/)
-        - 📗 [01-hands-on-llms](./02-llms/01-hands-on-llms/)
-        - 📄 [02-prompt-engineering](./02-llms/02-prompt-engineering/)
+    - 📂 [\[02\] Large Language Models](./02-llms/)
+        - 📄 [\[00\] Intro to LLMs](./02-llms/00-intro-to-llms/)
+        - 📗 [\[01\] Hands-on LLMs](./02-llms/01-hands-on-llms/)
+        - 📄 [\[02\] Prompt Engineering](./02-llms/02-prompt-engineering/)
         <!-- - 📄 [03-training-llms](./02-llms/03-training-llms/) -->
         <!-- - 📄 [04-evaluating-llms](./02-llms/03-training-llms/) -->
         <!-- - 📄 []() -->
-        - 📗 [06-parallel-training](./02-llms/06-parallel-training/)
-        - 📗 [07-shakespeare-example](./02-llms/07-shakespeare-example/)
-        - 📗 [08-shakespeare-example-colab](./02-llms/08-shakespeare-example-colab/)
+        - 📗 [\[06\] Parallel Training](./02-llms/06-parallel-training/)
+        - 📗 [\[07\] Shakespeare Example](./02-llms/07-shakespeare-example/)
+        - 📗 [\[08\] Shakespeare Example (colab)](./02-llms/08-shakespeare-example-colab/)
 
-    - 📂 [03-ai-for-science/](./03-ai-for-science/index.html)
-
-<!--
-
-### QMD
-
-- 📂 [00-intro-AI-hpc/](./00-intro-AI-HPC/index.html)
-  - 📄 [0-compute-systems](./00-intro-AI-hpc/0-compute-systems/index.html)
-  - 📄 [1-shared-resources](./00-intro-AI-HPC/1-shared-resources/)
-  - 📗 [2-jupyter-notebooks](./00-intro-AI-hpc/2-jupyter-notebooks/index.html)
-  - 📄 [3-homework](./00-intro-AI-hpc/3-homework/index.qmd)
-  - 📄 [4-nersc](./00-intro-AI-hpc/4-nersc/index.qmd)
-  - 📗 [5-mcmc-example](./00-intro-AI-hpc/5-mcmc-example/index.qmd)
-  - 📗 [6-linear-regression](./00-intro-AI-hpc/6-linear-regression/index.qmd)
-
-- 📂 [01-neural-networks/](./01-neural-networks/index.qmd)
-  - 📄 [0-intro](./01-neural-networks/0-intro/index.qmd)
-  - 📗 [1-mnist](./01-neural-networks/1-mnist/index.qmd)
-  - 📄 [2-advanced](./01-neural-networks/2-advanced/index.qmd)
-  - 📗 [3-conv-nets](./01-neural-networks/3-conv-nets/index.qmd)
-  - 📗 [4-representation-learning](./01-neural-networks/4-representation-learning/index.qmd)
-
-- 📂 [02-llms/](./02-llms/index.qmd)
-  - 📄 [0-intro-to-llms](./02-llms/0-intro-to-llms/index.qmd)
-  - 📗 [1-hands-on-llms](./02-llms/1-hands-on-llms/index.qmd)
-  - 📄 [2-prompt-engineering](./02-llms/2-prompt-engineering/index.qmd)
-  - 📄 [3-rag-tutorial](./02-llms/3-rag-tutorial/index.qmd)
-  - 📄 [4-evaluating-llms](./02-llms/4-evaluating-llms/index.qmd)
-  - 📄 [5-advanced-llms](./02-llms/5-advanced-llms/index.qmd)
-  - 📗 [6-parallel-training](./02-llms/6-parallel-training/index.qmd)
-  - 📗 [7-shakespeare-example](./02-llms/7-shakespeare-example/index.qmd)
-  - 📗 [8-shakespeare-example-colab](./02-llms/8-shakespeare-example-colab/index.ipynbd)
-
-- 📂 [03-ai-for-science/](./03-ai-for-science/index.qmd)
-
-### HTML
-
--->
-
+    - 📂 [03-ai-for-science/](./03-ai-for-science/)
