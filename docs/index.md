@@ -25,6 +25,7 @@ Sam Foreman
   - 📂 [\[01\] Neural Networks/](./01-neural-networks/)
     - 📄 [0-intro](./01-neural-networks/0-intro/)
     - 📗 [1-mnist](./01-neural-networks/1-mnist/)
+    - 📗 [1-mnist-ipynb](./01-neural-networks/1-mnist-ipynb/)
     - 📄 [2-advanced](./01-neural-networks/2-advanced/)
     - 📗 [3-conv-nets](./01-neural-networks/3-conv-nets/)
     - 📗

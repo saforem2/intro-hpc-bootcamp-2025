@@ -46,7 +46,7 @@
   </url>
   <url>
     <loc>https://saforem2.github.io/hpc-bootcamp-2025/index.html</loc>
-    <lastmod>2025-08-04T22:43:20.321Z</lastmod>
+    <lastmod>2025-08-05T04:24:16.219Z</lastmod>
   </url>
   <url>
     <loc>https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/0-compute-systems/index.html</loc>
@@ -87,5 +87,9 @@
   <url>
     <loc>https://saforem2.github.io/hpc-bootcamp-2025/02-llms/06-parallel-training/index.html</loc>
     <lastmod>2025-07-27T13:52:46.050Z</lastmod>
+  </url>
+  <url>
+    <loc>https://saforem2.github.io/hpc-bootcamp-2025/01-neural-networks/1-mnist-ipynb/index.html</loc>
+    <lastmod>2025-08-05T04:23:37.449Z</lastmod>
   </url>
 </urlset>
