@@ -42,8 +42,8 @@ This is a quick introduction to some statistical learning methods you
 may have encountered that will help us understand how modern deep
 learning methods operate.
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/content/00-intr-AI-HPC/8-clustering/index.ipynb)
-[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/8-clustering/index.md)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/content/00-intro-AI-HPC/8-clustering/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/8-clustering/README.md)
 
 ## Import Python packages
 
