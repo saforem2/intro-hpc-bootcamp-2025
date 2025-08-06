@@ -1,6 +1,6 @@
 ---
-title: Artificial intelligence in a nutshell
-description: An introduction to AI training, large language models, and a simple AI model example using linear regression.
+title: "Example: Linear Regression"
+description: "Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices."
 categories:
   - ai
   - hpc

@@ -1,0 +1,33 @@
+---
+title: "Using Python"
+description: "An introduction to using Python"
+categories:
+    - hpc
+    - python
+date: 2025-08-06
+date-modified: last-modified
+format:
+  html: default
+  gfm:
+    toc: true
+---
+
+## 🐚 Using the Shell
+
+::: {.callout-tip icon="false" title="📓 References" collapse="true"}
+- [Course overview + the shell · Missing Semester](https://missing.csail.mit.edu/2020/course-shell/)
+- [Shell Tools and Scripting · Missing Semester](https://missing.csail.mit.edu/2020/shell-tools/)
+:::
+
+## 🐍 Intro to Python
+
+::: {.callout-tip icon="false" title="📓 References" collapse="true"}
+- [The Python Tutorial](https://docs.python.org/3/tutorial/)
+- [Python For Beginners](https://www.python.org/about/gettingstarted/)
+- [A Whirlwind Tour of Python](https://nbviewer.org/github/jakevdp/WhirlwindTourOfPython/blob/master/Index.ipynb)
+- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/index.html)
+- [Python Introduction | Google for Developers](https://developers.google.com/edu/python/introduction)
+- [foundational\_hpc\_skills/intro\_to\_python at master · olcf/foundational\_hpc\_skills](https://github.com/olcf/foundational_hpc_skills/tree/master/intro_to_python)
+:::
+
+

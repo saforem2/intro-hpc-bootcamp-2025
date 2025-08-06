@@ -716,7 +716,7 @@ pre {
 }
 
 .ansi-escaped-output > pre {
-	line-height: calc(2/3);
+  line-height: calc(2 / 3);
 }
 
 pre code {
@@ -960,43 +960,24 @@ div.sidebar-item-container .show > .nav-link,
 div.sidebar-item-container .sidebar-link > code {
   color: $link-color;
   background: none;
-  border: 1pt solid $link-color;
-  padding-inline-start: 5pt;
-  padding-block: 1pt;
-  // padding: 1pt;
-  // border-left: 3pt solid $link-color;
-  // padding-block: 5pt;
+  background-color: oklch(from $link-color calc(l * 1.15) c h / 0.1);
   &:hover {
     color: $link-color-hover;
     background: none;
-    border: 1pt dashed $link-color-hover;
-    padding-block: 1pt;
-    padding-inline-start: 5pt;
-    // transition: background 0.3s ease-in-out;
-    // padding: 1pt;
-    // border-left: 3pt solid $link-color-hover;
-    // padding-block: 5pt;
+    background-color: oklch(from $link-color-hover calc(l * 1.15) c h / 0.1);
+    border: none;
   }
 }
 
 .sidebar-navigation li a {
-  // color: $link-color;
   background: none;
-  border: 1pt dashed rgba(0, 0, 0, 0);
-  // border-left: 3pt solid rgba(0,0,0,0.0);
-  // padding-inline-start: 5pt;
-  padding-block: 0.25lh;
-  padding: 2pt;
-  // padding: 2pt;
+  padding-block: 0.1lh;
+  padding-inline-start: 2pt;
   &:hover {
     color: $link-color-hover;
     background: none;
-    border: 1pt dashed $link-color-hover;
-    // border-left: 3pt solid rgba(0,0,0,0.0);
-    // padding-inline-start: 5pt;
-    // padding-block: 1pt;
-    transition: background 0.3s ease-in-out;
-    // padding: 2pt;
+    background-color: oklch(from $link-color-hover calc(l * 1.15) c h / 0.1);
+    transition: color 0.15s ease;
   }
 }
 
@@ -1015,13 +996,13 @@ div.sidebar-item-container .sidebar-link > code {
 
 .sidebar-navigation .sidebar-item li:hover {
   color: $link-color-hover;
-  background: none !important;
+  // background: none !important;
 }
 
 .sidebar-navigation li a {
   &:hover {
     color: $link-color-hover;
-    background: none !important;
+    // background: none !important;
   }
 }
 
@@ -1040,7 +1021,7 @@ div.sidebar-item-container .sidebar-link > code {
 }
 
 .sidebar nav[role="doc-toc"] > ul a {
-	border-left: 1px solid rgba(255, 255, 255, 0.025);
+  border-left: 1px solid rgba(255, 255, 255, 0.025);
 }
 
 // .sidebar nav[role="doc-toc"] > ul a {
@@ -1056,14 +1037,21 @@ div.sidebar-item-container .sidebar-link > code {
 
 .sidebar nav[role="doc-toc"] ul > li > a.active,
 .sidebar nav[role="doc-toc"] ul > li > ul > li > a.active {
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0);
   color: $link-color;
+  background-color: oklch(from $link-color calc(l * 1.15) c h / 0.1);
   // min-width: max-content;
   // max-width: min-content;
-  border-left: 1px dashed $link-color;
-  border-right: 1px dashed $link-color;
-  border-top: 1px dashed $link-color;
-  border-bottom: 1px dashed $link-color;
+  // border-left: 1px dashed $link-color;
+  // border-right: 1px dashed $link-color;
+  // border-top: 1px dashed $link-color;
+  // border-bottom: 1px dashed $link-color;
+  &:hover {
+    color: $link-color-hover;
+    background: none;
+    border: 1pt dashed $link-color-hover;
+    background-color: oklch(from $link-color-hover calc(l * 1.15) c h / 0.1);
+  }
 }
 
 .sidebar nav[role="doc-toc"] ul > li > a:hover,
@@ -2936,6 +2924,10 @@ details > summary:hover {
   background: oklch(from $link-color-hover calc(l * 1.15) c h / 0.1);
   border: 1px solid $link-color-hover;
   padding-inline: 5pt;
+}
+
+details > summary::marker {
+  margin: auto;
 }
 
 .navbar-dark .navbar-nav .show > .nav-link,

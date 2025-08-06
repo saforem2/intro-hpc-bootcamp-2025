@@ -1,6 +1,6 @@
 ---
-title: 'Computing $\pi$ in Parallel with Markov Chain Monte Carlo (MCMC) and MPI'
-description: 'Simple example of parallel computing using MPI to estimate the value of $\pi$ with the Monte Carlo method.'
+title: 'Example: Approximating $\pi$ using Markov Chain Monte Carlo (MCMC)'
+description: 'Simple example illustrating how to estimate \$\pi$ (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI'
 categories:
   - ai4science
   - hpc

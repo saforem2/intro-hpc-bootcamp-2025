@@ -1,6 +1,6 @@
 ---
-title: "Jupyter Notebooks on ThetaGPU"
-description: "A guide to using Jupyter Notebooks on the ThetaGPU supercomputer at ALCF."
+title: "Jupyter Notebooks on Supercomputers"
+description: "A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF)."
 categories:
     - hpc
 date: 2025-07-15
@@ -11,34 +11,66 @@ format:
     toc: true
 ---
 
-## Logging in
+## NERSC Instructions
 
-Login via: https://jupyter.alcf.anl.gov/
+1. **Project Setup**:
 
-Select "Login Polaris" and use your ALCF credentials and Multi-Factor Authentication.
+   - Login to Perlmutter:
 
-**Note: some of the images below show "ThetaGPU" being used, however, similar instructions apply to "Polaris" or "Sophia".**
+     ```bash
+     ssh <your_nersc_username>@perlmutter.nersc.gov
+     mkdir -p /global/cfs/cdirs/m4388/$USER/
+     cd /global/cfs/cdirs/m4388/$USER
+     ```
 
-![Login GIF](../img/jupyter_login_01.gif)
+1. **Using Jupyter on Perlmutter @ NERSC**
 
-## Server settings & start up
+   - [jupyter.nersc.gov](https://jupyter.nersc.gov/)
 
-![server options](../img/jupyter_server_options.png)
+   ```{=html}
+   <iframe src="perlmutter.pdf" width="100%" height="800px">
+     <p>Your browser does not support iframes.</p>
+   </iframe>
+   ```
 
-You'll want to set your server options to the following:
-* job profile: ThetaGPU Compute Node
-* Sophia Queue: by-gpu
-* Project List: ALCFAITP
-* Runtime: can be 5 to 60 minutes
+<details closed><summary><h2>ALCF Instructions</h2></summary>
 
-When you click "start" you are submitting a job to the batch queue and waiting for the job to begin.
+1. **Logging In**: <https://jupyter.alcf.anl.gov/>
 
-## Server shutdown & logout
+   Select "Login Polaris" and use your ALCF credentials and Multi-Factor
+   Authentication.
 
-ALCF's guiding policy is:
+   ::: {.callout-note icon="false" title="📝 Note" collapse="true"}
+   Some of the images below show "ThetaGPU" being used, however, similar
+   instructions apply to "Polaris" or "Sophia".
+   :::
 
-> "We ask that all users follow good etiquette and be excellent to one another."
+   ![Login GIF](../img/jupyter_login_01.gif)
 
-If you simply close your browser window, or logout without shutting down the jupyter server, your job will continue to occupy the worker node. Be considerate and shutdown your job when you finish.
+1. **Server settings & start up**
 
-![Shutdown GIF](../img/jupyter_shutdown_01.gif)
+   ![server options](../img/jupyter_server_options.png)
+
+   You'll want to set your server options to the following:
+   - job profile: ThetaGPU Compute Node
+   - Sophia Queue: by-gpu
+   - Project List: ALCFAITP
+   - Runtime: can be 5 to 60 minutes
+
+   When you click "start" you are submitting a job to the batch queue and
+   waiting for the job to begin.
+
+1. **Server shutdown & logout**
+
+   ALCF's guiding policy is:
+
+   > "We ask that all users follow good etiquette and be excellent to one
+   > another."
+
+   If you simply close your browser window, or logout without shutting down the
+   jupyter server, your job will continue to occupy the worker node.
+   Be considerate and shutdown your job when you finish.
+
+   ![Shutdown GIF](../img/jupyter_shutdown_01.gif)
+
+</details>

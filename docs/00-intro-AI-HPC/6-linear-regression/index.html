@@ -8,9 +8,9 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2025-07-15">
-<meta name="description" content="An introduction to AI training, large language models, and a simple AI model example using linear regression.">
+<meta name="description" content="Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices.">
 
-<title>Artificial intelligence in a nutshell – Intro to HPC Bootcamp 2025</title>
+<title>Example: Linear Regression – Intro to HPC Bootcamp 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -81,8 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-22c6c940514060718923bc7c0517e30f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6370e6232f092f5e109cabfab8284c51.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-1e859b4d395b2f29ae1ef82969c29fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-652f570b8b1879f39df0e0b453ff1d06.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7ed7b956390c4b79159f05cb27058288.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -182,20 +182,20 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Artificial intelligence in a nutshell – Intro to HPC Bootcamp 2025">
-<meta property="og:description" content="An introduction to AI training, large language models, and a simple AI model example using linear regression.">
+<meta property="og:title" content="Example: Linear Regression – Intro to HPC Bootcamp 2025">
+<meta property="og:description" content="Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices.">
 <meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/figures/jupyter1.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
 <meta property="og:image:height" content="1704">
 <meta property="og:image:width" content="1630">
-<meta name="twitter:title" content="Artificial intelligence in a nutshell – Intro to HPC Bootcamp 2025">
-<meta name="twitter:description" content="An introduction to AI training, large language models, and a simple AI model example using linear regression.">
+<meta name="twitter:title" content="Example: Linear Regression – Intro to HPC Bootcamp 2025">
+<meta name="twitter:description" content="Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices.">
 <meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/figures/jupyter1.png">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:image-height" content="1704">
 <meta name="twitter:image-width" content="1630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="citation_title" content="Artificial intelligence in a nutshell">
+<meta name="citation_title" content="Example: Linear Regression">
 <meta name="citation_author" content="Sam Foreman">
 <meta name="citation_publication_date" content="2025-07-15">
 <meta name="citation_cover_date" content="2025-07-15">
@@ -507,14 +507,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../00-intro-AI-HPC/3-homework/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Homework</span></a>
+  <a href="../../00-intro-AI-HPC/3-python/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[3] Using Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../00-intro-AI-HPC/4-nersc/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] NERSC</span></a>
+  <a href="../../00-intro-AI-HPC/4-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[4] Working with Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -533,6 +533,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[7] Statistical Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/8-clustering/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[8] Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -653,7 +659,7 @@ window.Quarto = {
   <li><a href="#minibatch-training" id="toc-minibatch-training" class="nav-link" data-scroll-target="#minibatch-training">Minibatch training</a></li>
   <li><a href="#learning-rate" id="toc-learning-rate" class="nav-link" data-scroll-target="#learning-rate">Learning rate</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/6-linear-regression/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -664,7 +670,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/6-linear-regression/index.html">[6] Linear Regression</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Artificial intelligence in a nutshell</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Example: Linear Regression</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">ai</div>
     <div class="quarto-category">hpc</div>
@@ -674,7 +680,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    An introduction to AI training, large language models, and a simple AI model example using linear regression.
+    Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices.
   </div>
 </div>
 
@@ -707,7 +713,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 5, 2025</p>
+      <p class="date-modified">August 6, 2025</p>
     </div>
   </div>
     
@@ -1356,14 +1362,14 @@ Homework Answer
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
   author = {Foreman, Sam},
-  title = {Artificial Intelligence in a Nutshell},
+  title = {Example: {Linear} {Regression}},
   date = {2025-07-15},
   url = {https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Foreman, Sam. 2025. <span>“Artificial Intelligence in a
-Nutshell.”</span> July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/">https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/</a>.
+Foreman, Sam. 2025. <span>“Example: Linear Regression.”</span> July 15,
+2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/">https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/6-linear-regression/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1878,8 +1884,8 @@ Nutshell.”</span> July 15, 2025. <a href="https://saforem2.github.io/hpc-bootc
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1"></a><span class="co">---</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="an">title:</span><span class="co"> Artificial intelligence in a nutshell</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="an">description:</span><span class="co"> An introduction to AI training, large language models, and a simple AI model example using linear regression.</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="an">title:</span><span class="co"> "Example: Linear Regression"</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="an">description:</span><span class="co"> "Simple example illustrating how to train a linear regression model using stochastic gradient descent (SGD) on a dataset of house prices."</span></span>
 <span id="cb26-4"><a href="#cb26-4"></a><span class="an">categories:</span></span>
 <span id="cb26-5"><a href="#cb26-5"></a><span class="co">  - ai</span></span>
 <span id="cb26-6"><a href="#cb26-6"></a><span class="co">  - hpc</span></span>

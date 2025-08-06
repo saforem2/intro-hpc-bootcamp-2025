@@ -8,9 +8,9 @@
 
 <meta name="author" content="Sam Foreman">
 <meta name="dcterms.date" content="2025-07-15">
-<meta name="description" content="A guide to using Jupyter Notebooks on the ThetaGPU supercomputer at ALCF.">
+<meta name="description" content="A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF).">
 
-<title>Jupyter Notebooks on ThetaGPU – Intro to HPC Bootcamp 2025</title>
+<title>Jupyter Notebooks on Supercomputers – Intro to HPC Bootcamp 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,7 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../00-intro-AI-HPC/3-homework/index.html" rel="next">
+<link href="../../00-intro-AI-HPC/3-python/index.html" rel="next">
 <link href="../../00-intro-AI-HPC/1-shared-resources/index.html" rel="prev">
 <link href="../../assets/favicon-sf.svg" rel="icon" type="image/svg+xml">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -81,8 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-22c6c940514060718923bc7c0517e30f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6370e6232f092f5e109cabfab8284c51.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-1e859b4d395b2f29ae1ef82969c29fb5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-652f570b8b1879f39df0e0b453ff1d06.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-7ed7b956390c4b79159f05cb27058288.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -136,18 +136,18 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
 
 
-<meta property="og:title" content="Jupyter Notebooks on ThetaGPU – Intro to HPC Bootcamp 2025">
-<meta property="og:description" content="A guide to using Jupyter Notebooks on the ThetaGPU supercomputer at ALCF.">
+<meta property="og:title" content="Jupyter Notebooks on Supercomputers – Intro to HPC Bootcamp 2025">
+<meta property="og:description" content="A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF).">
 <meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/img/jupyter_login_01.gif">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
 <meta property="og:image:alt" content="Login GIF">
-<meta name="twitter:title" content="Jupyter Notebooks on ThetaGPU – Intro to HPC Bootcamp 2025">
-<meta name="twitter:description" content="A guide to using Jupyter Notebooks on the ThetaGPU supercomputer at ALCF.">
+<meta name="twitter:title" content="Jupyter Notebooks on Supercomputers – Intro to HPC Bootcamp 2025">
+<meta name="twitter:description" content="A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF).">
 <meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/img/jupyter_login_01.gif">
 <meta name="twitter:site" content="saforem2">
 <meta name="twitter:image:alt" content="Login GIF">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="citation_title" content="Jupyter Notebooks on ThetaGPU">
+<meta name="citation_title" content="Jupyter Notebooks on Supercomputers">
 <meta name="citation_author" content="Sam Foreman">
 <meta name="citation_publication_date" content="2025-07-15">
 <meta name="citation_cover_date" content="2025-07-15">
@@ -459,14 +459,14 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../00-intro-AI-HPC/3-homework/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[3] Homework</span></a>
+  <a href="../../00-intro-AI-HPC/3-python/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[3] Using Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../00-intro-AI-HPC/4-nersc/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">[4] NERSC</span></a>
+  <a href="../../00-intro-AI-HPC/4-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[4] Working with Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -485,6 +485,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
   <div class="sidebar-item-container"> 
   <a href="../../00-intro-AI-HPC/7-statistical-learning/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">[7] Statistical Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../00-intro-AI-HPC/8-clustering/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">[8] Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -587,11 +593,9 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#logging-in" id="toc-logging-in" class="nav-link active" data-scroll-target="#logging-in">Logging in</a></li>
-  <li><a href="#server-settings-start-up" id="toc-server-settings-start-up" class="nav-link" data-scroll-target="#server-settings-start-up">Server settings &amp; start up</a></li>
-  <li><a href="#server-shutdown-logout" id="toc-server-shutdown-logout" class="nav-link" data-scroll-target="#server-shutdown-logout">Server shutdown &amp; logout</a></li>
+  <li><a href="#nersc-instructions" id="toc-nersc-instructions" class="nav-link active" data-scroll-target="#nersc-instructions">NERSC Instructions</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/2-jupyter-notebooks/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/2-jupyter-notebooks/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/2-jupyter-notebooks/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/2-jupyter-notebooks/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -602,7 +606,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/index.html">[00] Intro to AI and HPC</a></li><li class="breadcrumb-item"><a href="../../00-intro-AI-HPC/2-jupyter-notebooks/index.html">[2] Jupyter Notebooks</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Jupyter Notebooks on ThetaGPU</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Jupyter Notebooks on Supercomputers</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">hpc</div>
   </div>
@@ -610,7 +614,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <div>
   <div class="description">
-    A guide to using Jupyter Notebooks on the ThetaGPU supercomputer at ALCF.
+    A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF).
   </div>
 </div>
 
@@ -643,7 +647,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 5, 2025</p>
+      <p class="date-modified">August 6, 2025</p>
     </div>
   </div>
     
@@ -654,31 +658,71 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </header>
 
 
-<section id="logging-in" class="level2">
-<h2 class="anchored" data-anchor-id="logging-in">Logging in</h2>
-<p>Login via: https://jupyter.alcf.anl.gov/</p>
+<section id="nersc-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="nersc-instructions">NERSC Instructions</h2>
+<ol type="1">
+<li><p><strong>Project Setup</strong>:</p>
+<ul>
+<li><p>Login to Perlmutter:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>your_nersc_username<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">mkdir</span> <span class="at">-p</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span>/</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="bu">cd</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul></li>
+<li><p><strong>Using Jupyter on Perlmutter @ NERSC</strong></p>
+<ul>
+<li><a href="https://jupyter.nersc.gov/">jupyter.nersc.gov</a></li>
+</ul>
+<iframe src="perlmutter.pdf" width="100%" height="800px">
+  <p>Your browser does not support iframes.</p>
+</iframe></li>
+</ol>
+<details closed="">
+<summary>
+<h2 class="anchored">
+ALCF Instructions
+</h2>
+</summary>
+<ol type="1">
+<li><p><strong>Logging In</strong>: <a href="https://jupyter.alcf.anl.gov/" class="uri">https://jupyter.alcf.anl.gov/</a></p>
 <p>Select “Login Polaris” and use your ALCF credentials and Multi-Factor Authentication.</p>
-<p><strong>Note: some of the images below show “ThetaGPU” being used, however, similar instructions apply to “Polaris” or “Sophia”.</strong></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="📝 Note">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>📝 Note
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Some of the images below show “ThetaGPU” being used, however, similar instructions apply to “Polaris” or “Sophia”.</p>
+</div>
+</div>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="../img/jupyter_login_01.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Login GIF"><img src="../img/jupyter_login_01.gif" class="img-fluid figure-img" alt="Login GIF"></a></p>
 <figcaption>Login GIF</figcaption>
 </figure>
-</div>
-</section>
-<section id="server-settings-start-up" class="level2">
-<h2 class="anchored" data-anchor-id="server-settings-start-up">Server settings &amp; start up</h2>
+</div></li>
+<li><p><strong>Server settings &amp; start up</strong></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="../img/jupyter_server_options.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="server options"><img src="../img/jupyter_server_options.png" class="img-fluid figure-img" alt="server options"></a></p>
 <figcaption>server options</figcaption>
 </figure>
 </div>
-<p>You’ll want to set your server options to the following: * job profile: ThetaGPU Compute Node * Sophia Queue: by-gpu * Project List: ALCFAITP * Runtime: can be 5 to 60 minutes</p>
-<p>When you click “start” you are submitting a job to the batch queue and waiting for the job to begin.</p>
-</section>
-<section id="server-shutdown-logout" class="level2">
-<h2 class="anchored" data-anchor-id="server-shutdown-logout">Server shutdown &amp; logout</h2>
+<p>You’ll want to set your server options to the following:</p>
+<ul>
+<li>job profile: ThetaGPU Compute Node</li>
+<li>Sophia Queue: by-gpu</li>
+<li>Project List: ALCFAITP</li>
+<li>Runtime: can be 5 to 60 minutes</li>
+</ul>
+<p>When you click “start” you are submitting a job to the batch queue and waiting for the job to begin.</p></li>
+<li><p><strong>Server shutdown &amp; logout</strong></p>
 <p>ALCF’s guiding policy is:</p>
 <blockquote class="blockquote">
 <p>“We ask that all users follow good etiquette and be excellent to one another.”</p>
@@ -689,7 +733,9 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <p><a href="../img/jupyter_shutdown_01.gif" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Shutdown GIF"><img src="../img/jupyter_shutdown_01.gif" class="img-fluid figure-img" alt="Shutdown GIF"></a></p>
 <figcaption>Shutdown GIF</figcaption>
 </figure>
-</div>
+</div></li>
+</ol>
+</details>
 
 
 
@@ -697,14 +743,14 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{foreman2025,
   author = {Foreman, Sam},
-  title = {Jupyter {Notebooks} on {ThetaGPU}},
+  title = {Jupyter {Notebooks} on {Supercomputers}},
   date = {2025-07-15},
   url = {https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-foreman2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Foreman, Sam. 2025. <span>“Jupyter Notebooks on ThetaGPU.”</span> July
-15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/">https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/</a>.
+Foreman, Sam. 2025. <span>“Jupyter Notebooks on Supercomputers.”</span>
+July 15, 2025. <a href="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/">https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/2-jupyter-notebooks/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1213,55 +1259,87 @@ Foreman, Sam. 2025. <span>“Jupyter Notebooks on ThetaGPU.”</span> July
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../00-intro-AI-HPC/3-homework/index.html" class="pagination-link" aria-label="[3] Homework">
-        <span class="nav-page-text">[3] Homework</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../00-intro-AI-HPC/3-python/index.html" class="pagination-link" aria-label="[3] Using Python">
+        <span class="nav-page-text">[3] Using Python</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="an">title:</span><span class="co"> "Jupyter Notebooks on ThetaGPU"</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="an">description:</span><span class="co"> "A guide to using Jupyter Notebooks on the ThetaGPU supercomputer at ALCF."</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="an">categories:</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">    - hpc</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="an">format:</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">  html: default</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">  gfm:</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">    toc: true</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">---</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="fu">## Logging in</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a>Login via: https://jupyter.alcf.anl.gov/</span>
-<span id="cb1-17"><a href="#cb1-17"></a></span>
-<span id="cb1-18"><a href="#cb1-18"></a>Select "Login Polaris" and use your ALCF credentials and Multi-Factor Authentication.</span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a>**Note: some of the images below show "ThetaGPU" being used, however, similar instructions apply to "Polaris" or "Sophia".**</span>
-<span id="cb1-21"><a href="#cb1-21"></a></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="al">![Login GIF](../img/jupyter_login_01.gif)</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="fu">## Server settings &amp; start up</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a></span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="al">![server options](../img/jupyter_server_options.png)</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a></span>
-<span id="cb1-28"><a href="#cb1-28"></a>You'll want to set your server options to the following:</span>
-<span id="cb1-29"><a href="#cb1-29"></a><span class="ss">* </span>job profile: ThetaGPU Compute Node</span>
-<span id="cb1-30"><a href="#cb1-30"></a><span class="ss">* </span>Sophia Queue: by-gpu</span>
-<span id="cb1-31"><a href="#cb1-31"></a><span class="ss">* </span>Project List: ALCFAITP</span>
-<span id="cb1-32"><a href="#cb1-32"></a><span class="ss">* </span>Runtime: can be 5 to 60 minutes</span>
-<span id="cb1-33"><a href="#cb1-33"></a></span>
-<span id="cb1-34"><a href="#cb1-34"></a>When you click "start" you are submitting a job to the batch queue and waiting for the job to begin.</span>
-<span id="cb1-35"><a href="#cb1-35"></a></span>
-<span id="cb1-36"><a href="#cb1-36"></a><span class="fu">## Server shutdown &amp; logout</span></span>
-<span id="cb1-37"><a href="#cb1-37"></a></span>
-<span id="cb1-38"><a href="#cb1-38"></a>ALCF's guiding policy is:</span>
-<span id="cb1-39"><a href="#cb1-39"></a></span>
-<span id="cb1-40"><a href="#cb1-40"></a><span class="at">&gt; "We ask that all users follow good etiquette and be excellent to one another."</span></span>
-<span id="cb1-41"><a href="#cb1-41"></a></span>
-<span id="cb1-42"><a href="#cb1-42"></a>If you simply close your browser window, or logout without shutting down the jupyter server, your job will continue to occupy the worker node. Be considerate and shutdown your job when you finish.</span>
-<span id="cb1-43"><a href="#cb1-43"></a></span>
-<span id="cb1-44"><a href="#cb1-44"></a><span class="al">![Shutdown GIF](../img/jupyter_shutdown_01.gif)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="an">title:</span><span class="co"> "Jupyter Notebooks on Supercomputers"</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="an">description:</span><span class="co"> "A guide to using Jupyter Notebooks on various HPC systems including Perlmutter (NERSC) and Polaris (ALCF)."</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="an">categories:</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">    - hpc</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="an">format:</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">  html: default</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">  gfm:</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">    toc: true</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">---</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="fu">## NERSC Instructions</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="ss">1. </span>**Project Setup**:</span>
+<span id="cb2-17"><a href="#cb2-17"></a></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="ss">   - </span>Login to Perlmutter:</span>
+<span id="cb2-19"><a href="#cb2-19"></a></span>
+<span id="cb2-20"><a href="#cb2-20"></a>     <span class="in">```bash</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a>     <span class="fu">ssh</span> <span class="op">&lt;</span>your_nersc_username<span class="op">&gt;</span>@perlmutter.nersc.gov</span>
+<span id="cb2-22"><a href="#cb2-22"></a>     <span class="fu">mkdir</span> <span class="at">-p</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span>/</span>
+<span id="cb2-23"><a href="#cb2-23"></a>     <span class="bu">cd</span> /global/cfs/cdirs/m4388/<span class="va">$USER</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a>     <span class="in">```</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="ss">1. </span>**Using Jupyter on Perlmutter @ NERSC**</span>
+<span id="cb2-27"><a href="#cb2-27"></a></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="ss">   - </span><span class="co">[</span><span class="ot">jupyter.nersc.gov</span><span class="co">](https://jupyter.nersc.gov/)</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a></span>
+<span id="cb2-30"><a href="#cb2-30"></a>   <span class="in">```{=html}</span></span>
+<span id="cb2-31"><a href="#cb2-31"></a><span class="in">   &lt;iframe src="perlmutter.pdf" width="100%" height="800px"&gt;</span></span>
+<span id="cb2-32"><a href="#cb2-32"></a><span class="in">     &lt;p&gt;Your browser does not support iframes.&lt;/p&gt;</span></span>
+<span id="cb2-33"><a href="#cb2-33"></a><span class="in">   &lt;/iframe&gt;</span></span>
+<span id="cb2-34"><a href="#cb2-34"></a><span class="in">   ```</span></span>
+<span id="cb2-35"><a href="#cb2-35"></a></span>
+<span id="cb2-36"><a href="#cb2-36"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> closed</span><span class="dt">&gt;&lt;</span><span class="kw">summary</span><span class="dt">&gt;&lt;</span><span class="kw">h2</span><span class="dt">&gt;</span>ALCF Instructions<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb2-37"><a href="#cb2-37"></a></span>
+<span id="cb2-38"><a href="#cb2-38"></a><span class="ss">1. </span>**Logging In**: <span class="ot">&lt;https://jupyter.alcf.anl.gov/&gt;</span></span>
+<span id="cb2-39"><a href="#cb2-39"></a></span>
+<span id="cb2-40"><a href="#cb2-40"></a>   Select "Login Polaris" and use your ALCF credentials and Multi-Factor</span>
+<span id="cb2-41"><a href="#cb2-41"></a>   Authentication.</span>
+<span id="cb2-42"><a href="#cb2-42"></a></span>
+<span id="cb2-43"><a href="#cb2-43"></a>   ::: {.callout-note icon="false" title="📝 Note" collapse="true"}</span>
+<span id="cb2-44"><a href="#cb2-44"></a>   Some of the images below show "ThetaGPU" being used, however, similar</span>
+<span id="cb2-45"><a href="#cb2-45"></a>   instructions apply to "Polaris" or "Sophia".</span>
+<span id="cb2-46"><a href="#cb2-46"></a>   :::</span>
+<span id="cb2-47"><a href="#cb2-47"></a></span>
+<span id="cb2-48"><a href="#cb2-48"></a>   <span class="al">![Login GIF](../img/jupyter_login_01.gif)</span></span>
+<span id="cb2-49"><a href="#cb2-49"></a></span>
+<span id="cb2-50"><a href="#cb2-50"></a><span class="ss">1. </span>**Server settings &amp; start up**</span>
+<span id="cb2-51"><a href="#cb2-51"></a></span>
+<span id="cb2-52"><a href="#cb2-52"></a>   <span class="al">![server options](../img/jupyter_server_options.png)</span></span>
+<span id="cb2-53"><a href="#cb2-53"></a></span>
+<span id="cb2-54"><a href="#cb2-54"></a>   You'll want to set your server options to the following:</span>
+<span id="cb2-55"><a href="#cb2-55"></a><span class="ss">   - </span>job profile: ThetaGPU Compute Node</span>
+<span id="cb2-56"><a href="#cb2-56"></a><span class="ss">   - </span>Sophia Queue: by-gpu</span>
+<span id="cb2-57"><a href="#cb2-57"></a><span class="ss">   - </span>Project List: ALCFAITP</span>
+<span id="cb2-58"><a href="#cb2-58"></a><span class="ss">   - </span>Runtime: can be 5 to 60 minutes</span>
+<span id="cb2-59"><a href="#cb2-59"></a></span>
+<span id="cb2-60"><a href="#cb2-60"></a>   When you click "start" you are submitting a job to the batch queue and</span>
+<span id="cb2-61"><a href="#cb2-61"></a>   waiting for the job to begin.</span>
+<span id="cb2-62"><a href="#cb2-62"></a></span>
+<span id="cb2-63"><a href="#cb2-63"></a><span class="ss">1. </span>**Server shutdown &amp; logout**</span>
+<span id="cb2-64"><a href="#cb2-64"></a></span>
+<span id="cb2-65"><a href="#cb2-65"></a>   ALCF's guiding policy is:</span>
+<span id="cb2-66"><a href="#cb2-66"></a></span>
+<span id="cb2-67"><a href="#cb2-67"></a><span class="at">   &gt; "We ask that all users follow good etiquette and be excellent to one</span></span>
+<span id="cb2-68"><a href="#cb2-68"></a><span class="at">   &gt; another."</span></span>
+<span id="cb2-69"><a href="#cb2-69"></a></span>
+<span id="cb2-70"><a href="#cb2-70"></a>   If you simply close your browser window, or logout without shutting down the</span>
+<span id="cb2-71"><a href="#cb2-71"></a>   jupyter server, your job will continue to occupy the worker node.</span>
+<span id="cb2-72"><a href="#cb2-72"></a>   Be considerate and shutdown your job when you finish.</span>
+<span id="cb2-73"><a href="#cb2-73"></a></span>
+<span id="cb2-74"><a href="#cb2-74"></a>   <span class="al">![Shutdown GIF](../img/jupyter_shutdown_01.gif)</span></span>
+<span id="cb2-75"><a href="#cb2-75"></a></span>
+<span id="cb2-76"><a href="#cb2-76"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

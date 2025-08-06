@@ -21,8 +21,8 @@ format:
   - 📄 [0-compute-systems](./0-compute-systems/index.qmd)
   - 📄 [1-shared-resources](./1-shared-resources/index.qmd)
   - 📗 [2-jupyter-notebooks](./2-jupyter-notebooks/index.qmd)
-  - 📄 [3-homework](./3-homework/index.qmd)
-  - 📄 [4-nersc](./4-nersc/index.qmd)
+  - 📄 [3-python](./3-python/index.qmd)
+  - 📄 [4-data](./4-data/index.qmd)
 
 
 

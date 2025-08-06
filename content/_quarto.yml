@@ -58,11 +58,11 @@ format:
     page-layout: article
     fig-width: 6.4
     fig-height: 4.8
-    grid:
-      body-width: 1000px
-      margin-width: 250px
-      sidebar-width: 250px
-      # gutter-width: 1.5rem
+    # grid:
+    #   body-width: 1000px
+    #   margin-width: 200px
+    #   sidebar-width: 200px
+    #   # gutter-width: 1.5rem
     fig-align: center
     fig-responsive: true
     anchor-sections: true
@@ -80,37 +80,15 @@ format:
     mermaid:
       layout: elk
       useMaxWidth: true
-    # css:
-    #   # - css/colors-oklch.min.css
-    #   # - css/custom.css
-    #   # - css/svgbob.css
-    #   # - static/fonts/IosevkaQP/IosevkaQP.css
-    #   - static/fonts/MIosevkaQp/MIosevkaQp.css
-    #   - static/fonts/MIosevkaterm/MIosevkaTerm.css
-    #   # - static/fonts/IosevkaTerm/IosevkaTerm.css
-    #   # - css/giscus.css
     theme:
       dark:
-        # - css/sam/callouts.scss
-        # - css/global.scss
-        # - css/now_playing.scss
-        # - css/common.cleaned.scss
-        # - css/common.cleaned.minimal.scss
         - css/common.scss
-        # - css/style.scss
-        # - css/sf.scss
         - css/dark.scss
         - css/syntax-dark.scss
         - css/callout-cards.scss
         - default
       light:
-        # - css/sam/callouts.scss
-        # - css/global.scss
-        # - css/now_playing.scss
         - css/common.scss
-        # - css/style.scss
-        # - css/sf.scss
-        # - css/common.cleaned.minimal.scss
         - css/light.scss
         - css/syntax-light.scss
         - css/callout-cards.scss
@@ -139,12 +117,11 @@ format:
       <link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet">
   ipynb:
     default-image-extension: svg
+    extract-media: "assets"
   gfm:
     toc: true
+    output-file: README
 
-    # <pre>
-    # </pre>
-    #
   # revealjs:
   #   # width: 1280
   #   # height: 720
@@ -239,22 +216,20 @@ project:
     port: 4208
   render:
     - "index.qmd"
-    # - "./**/**/*.qmd"
-    # - "./00-intro-AI-HPC/**/**/*.qmd"
-    # - "./00-intro-AI-HPC/**/**/*.ipynb"
+
     - "./00-intro-AI-HPC/index.qmd"
     - "./00-intro-AI-HPC/0-compute-systems/index.qmd"
     - "./00-intro-AI-HPC/1-shared-resources/index.qmd"
     - "./00-intro-AI-HPC/2-jupyter-notebooks/index.qmd"
-    - "./00-intro-AI-HPC/3-homework/index.qmd"
-    - "./00-intro-AI-HPC/4-nersc/index.qmd"
+    - "./00-intro-AI-HPC/3-python/index.qmd"
+    - "./00-intro-AI-HPC/4-data/index.qmd"
     - "./00-intro-AI-HPC/5-mcmc-example/index.qmd"
     - "./00-intro-AI-HPC/6-linear-regression/index.qmd"
     - "./00-intro-AI-HPC/7-statistical-learning/index.qmd"
     - "./00-intro-AI-HPC/8-clustering/index.ipynb"
+
     - "./01-neural-networks/**/**/*.qmd"
     - "./01-neural-networks/3-conv-nets/index.ipynb"
-    - "!./01-neural-networks/3-conv-nets/index.qmd"
     - "./01-neural-networks/0-intro/index.qmd"
     - "./01-neural-networks/1-mnist/index.qmd"
     - "./01-neural-networks/1-mnist-ipynb/index.ipynb"
@@ -262,19 +237,22 @@ project:
     - "./01-neural-networks/3-conv-nets/index.ipynb"
     - "./01-neural-networks/4-representation-learning/index.qmd"
     - "./01-neural-networks/5-distributed-training/index.qmd"
+    - "!./01-neural-networks/3-conv-nets/index.qmd"
+
     - "./02-llms/index.qmd"
     - "./02-llms/00-intro-to-llms/index.qmd"
     - "./02-llms/01-hands-on-llms/index.ipynb"
     - "./02-llms/06-parallel-training/index.qmd"
     - "./02-llms/08-shakespeare-example-colab/index.ipynb"
+    - "!./02-llms/00-intro-to-llms/OLD/"
+    - "!./02-llms/02-prompt-engineering/index.qmd"
+
     # - "./02-llms/08-shakespeare-example-colab/index.ipynb"
     # - "./02-llms/10-evaluating-llms"
     # - "./03-ai-for-science/0-genslm/index.qmd"
     # - "./02-llms/index.qmd"
     # - "./02-llms/**/*index.qmd"
     # - "./02-llms/**/*.ipynb"
-    - "!./02-llms/02-prompt-engineering/index.qmd"
-    - "!./02-llms/00-intro-to-llms/OLD/"
     # - "./03-ai-for-science/**/**/*.qmd"
     # - "./02-llms/0-intro-to-llms/index.qmd"
     # - "!./02-llms/1-hands-on-llms/index.ipynb"
@@ -339,16 +317,18 @@ website:
             href: "00-intro-AI-HPC/1-shared-resources/index.qmd"
           - text: "[2] Jupyter Notebooks"
             href: "00-intro-AI-HPC/2-jupyter-notebooks/index.qmd"
-          - text: "[3] Homework"
-            href: "00-intro-AI-HPC/3-homework/index.qmd"
-          - text: "[4] NERSC"
-            href: "00-intro-AI-HPC/4-nersc/index.qmd"
+          - text: "[3] Using Python"
+            href: "00-intro-AI-HPC/3-python/index.qmd"
+          - text: "[4] Working with Data"
+            href: "00-intro-AI-HPC/4-data/index.qmd"
           - text: "[5] MCMC Example"
             href: "00-intro-AI-HPC/5-mcmc-example/index.qmd"
           - text: "[6] Linear Regression"
             href: "00-intro-AI-HPC/6-linear-regression/index.qmd"
           - text: "[7] Statistical Learning"
             href: "00-intro-AI-HPC/7-statistical-learning/index.qmd"
+          - text: "[8] Clustering"
+            href: "./00-intro-AI-HPC/8-clustering/index.ipynb"
 
       - id: 01-neural-networks
         section: "[01] Neural Networks"
@@ -387,71 +367,8 @@ website:
           #   href: "./02-llms/05-advanced-llms/index.qmd"
           - text: "[6] Parallel Training"
             href: "./02-llms/06-parallel-training/index.qmd"
-          # - text: "[7] Shakespeare Example"
-          #   href: "./02-llms/07-shakespeare-example/index.qmd"
           - text: "[8] Shakespeare Example (Colab)"
             href: "./02-llms/08-shakespeare-example-colab/index.ipynb"
-
-      # - id: 03-ai-for-science
-      #   section: "[03] AI for Science"
-      #   href: "03-ai-for-science/index.qmd"
-      #   # contents:
-      #   #   - text: "[0] GenSLM"
-      #   #     href: "03-ai-for-science/0-genslm/index.qmd"
-
-        # contents:
-        # - text: "[0] Intro to AI for Science"
-        #   href: "03-ai-for-science/0-intro/index.qmd"
-        # - text: "[1] AI for Materials Science"
-        #   href: "03-ai-for-science/1-materials-science/index.qmd"
-        # - text: "[2] AI for Chemistry"
-        #   href: "03-ai-for-science/2-chemistry/index.qmd"
-        # - text: "[3] AI for Biology"
-        #   href: "03-ai-for-science/3-biology/index.qmd"
-        #
-      # - id: NM-auto-generated
-      #   section: "[nm] Auro Generated"
-      #   contents: auto
-
-    #
-    #           # - id: 02-llms
-    #           #   section: "02 Large Language Models"
-    #           #   href: "projects/hpc-bootcamp-2025/02-llms/index.qmd"
-    #           #   contents:
-    #           #     - auto: "projects/hpc-bootcamp-2025/02-llms/**/**/*.qmd"
-    #           #
-    #           # - id: 03-ai-for-science
-    #           #   section: "03 AI for Science"
-    #           #   href: "projects/hpc-bootcamp-2025/03-ai-for-science/index.qmd"
-    #           #   contents:
-    #           #     - auto: "projects/hpc-bootcamp-2025/03-ai-for-science/**/**/*.qmd"
-    #
-    #           # - auto: "projects/hpc-bootcamp-2025/**/**/*.qmd"
-    #           # - id: 00-intro-supercomputers
-    #           #   section: "00 Intro to Supercomputers"
-    #           #   href: "projects/hpc-bootcamp-2025/00-intro-supercomputers/index.qmd"
-    #           #   contents:
-    #           #     # - auto: "projects/hpc-bootcamp-2025/00-intro-supercomputers/**/**/*.qmd"
-    #           # - id: 01-intro-AI-HPC
-    #           #   section: "01 Intro to AI and HPC"
-    #           #   href: "projects/hpc-bootcamp-2025/01-intro-AI-HPC/index.qmd"
-    #           #   contents:
-    #           #     - auto: "projects/hpc-bootcamp-2025/01-intro-AI-HPC/**/**/*.qmd"
-    #           # - id: 02-neural-networks
-    #           #   section: "02 Neural Networks"
-    #           #   href: "projects/hpc-bootcamp-2025/02-neural-networks/index.qmd"
-    #           #   contents:
-    #           #     - auto: "projects/hpc-bootcamp-2025/02-neural-networks/**/**/*.qmd"
-    #           # - id: 03-llms
-    #           #   section: "03 Large Language Models"
-    #           #   href: "projects/hpc-bootcamp-2025/03-llms/index.qmd"
-    #           #   contents:
-    #           #     - auto: "projects/hpc-bootcamp-2025/03-llms/**/**/*.qmd"
-    #           # - id: 04-ai-for-science
-    #           #   section: "04 AI for Science"
-    #           #   href: "projects/hpc-bootcamp-2025/04-ai-for-science/index.qmd"
-    #           #   contents:
-    #           #     - auto: "projects/hpc-bootcamp-2025/04-ai-for-science/**/**/*.qmd"
 
   page-footer:
     # left: |

@@ -1,0 +1,16 @@
+---
+title: "Working with Data in Python"
+description: "An introduction to working with data in Python, including visualization and array manipulation using NumPy and Matplotlib."
+categories:
+    - hpc
+date: 2025-08-06
+date-modified: last-modified
+format:
+  html: default
+  gfm:
+    toc: true
+---
+
+## References
+
+- [MachineLearningStatistics/notebooks/Visualization.ipynb](https://github.com/dkirkby/MachineLearningStatistics/blob/3aa7385e1fd0b1572013bdf1f1c823806b744b2d/notebooks/Visualization.ipynb)
