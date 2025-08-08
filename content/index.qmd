@@ -116,18 +116,19 @@ cd intro-hpc-bootcamp-2025
         - 📗 [\[5\] MCMC Example](./00-intro-AI-hpc/5-mcmc-example/index.html)
         - 📗 [\[6\] Linear Regression](./00-intro-AI-hpc/6-linear-regression/index.html)
         - 📗 [\[7\] Statistical Learning](./00-intro-AI-hpc/7-statistical-learning/index.html)
+        - 📗 [\[8\] Clustering](./00-intro-AI-hpc/8-clustering/index.html) 
 
     - 📂 [**\[01\] Neural Networks/**](./01-neural-networks/index.html)
         - 📄 [\[0\] Intro](./01-neural-networks/0-intro/index.html)
         - 📗 [\[1\] MNIST](./01-neural-networks/1-mnist/index.html)
         - 📗 [\[1\] MNIST (ipynb)](./01-neural-networks/1-mnist-ipynb/index.html)
-        - 📄 [\[2\] Advanced](./01-neural-networks/2-advanced/index.html)
+        - 📗 [\[2\] Advanced](./01-neural-networks/2-advanced/index.html)
         - 📗 [\[3\] Conv. Nets](./01-neural-networks/3-conv-nets/index.html)
         - 📗 [\[4\] Representation Learning](./01-neural-networks/4-representation-learning/index.html)
-        - 📗 [\[5\] Distributed Training](./01-neural-networks/5-distributed-training/index.html)
+        - 📄 [\[5\] Distributed Training](./01-neural-networks/5-distributed-training/index.html)
 
     - 📂 [**\[02\] Large Language Models**](./02-llms/index.html)
-        - 📄 [\[00\] Intro to LLMs](./02-llms/00-intro-to-llms/index.html)
+        - 📗 [\[00\] Intro to LLMs](./02-llms/00-intro-to-llms/index.html)
         - 📗 [\[01\] Hands-on LLMs](./02-llms/01-hands-on-llms/index.html)
         - 📄 [\[02\] Prompt Engineering](./02-llms/02-prompt-engineering/index.html)
         <!-- - 📄 [03-training-llms](./02-llms/03-training-llms/index.html) -->
@@ -137,43 +138,4 @@ cd intro-hpc-bootcamp-2025
         - 📗 [\[07\] Shakespeare Example](./02-llms/07-shakespeare-example/index.html)
         - 📗 [\[08\] Shakespeare Example (colab)](./02-llms/08-shakespeare-example-colab/index.html)
 
-    - 📂 [03-ai-for-science/](./03-ai-for-science/)
-
-<!--
-[ 1/24] index.qmd
-[ 2/24] 00-intro-AI-HPC/index.qmd
-[ 3/24] 00-intro-AI-HPC/0-compute-systems/index.qmd
-[ 4/24] 00-intro-AI-HPC/1-shared-resources/index.qmd
-[ 5/24] 00-intro-AI-HPC/2-jupyter-notebooks/index.qmd
-[ 6/24] 00-intro-AI-HPC/3-homework/index.qmd
-[ 7/24] 00-intro-AI-HPC/4-nersc/index.qmd
-[ 8/24] 00-intro-AI-HPC/5-mcmc-example/index.qmd
-[ 9/24] 00-intro-AI-HPC/6-linear-regression/index.qmd
-[10/24] 00-intro-AI-HPC/7-statistical-learning/index.qmd
-[11/24] 00-intro-AI-HPC/8-clustering/index.ipynb
-[12/24] 01-neural-networks/0-intro/index.qmd
-[13/24] 01-neural-networks/1-mnist/index.qmd
-[14/24] 01-neural-networks/4-representation-learning/index.qmd
-[15/24] 01-neural-networks/5-distributed-training/index.qmd
-Warning: couldn't recognize format, using default tabset rendering
-WARNING (/Applications/quarto/share/filters/main.lua:18698) No renderer for PanelLayout
-WARNING (/Applications/quarto/share/filters/main.lua:18703) Don't know how to render PanelLayout without a float; will return empty output
-WARNING (/Applications/quarto/share/filters/main.lua:18698) No renderer for PanelLayout
-WARNING (/Applications/quarto/share/filters/main.lua:18703) Don't know how to render PanelLayout without a float; will return empty output
-Warning: couldn't recognize format, using default tabset rendering
-WARNING (/Applications/quarto/share/filters/main.lua:18698) No renderer for PanelLayout
-WARNING (/Applications/quarto/share/filters/main.lua:18703) Don't know how to render PanelLayout without a float; will return empty output
-[16/24] 01-neural-networks/index.qmd
-WARN: Unable to resolve link target: 01-neural-networks/2-advanced/index.qmd
-[17/24] 01-neural-networks/3-conv-nets/index.ipynb
-[18/24] 01-neural-networks/1-mnist-ipynb/index.ipynb
-[19/24] 01-neural-networks/2-advanced/index.ipynb
-[20/24] 02-llms/index.qmd
-WARN: Unable to resolve link target: 02-llms/05-advanced-llms/index.qmd
-[21/24] 02-llms/00-intro-to-llms/index.qmd
-[22/24] 02-llms/01-hands-on-llms/index.ipynb
-[23/24] 02-llms/06-parallel-training/index.qmd
-[24/24] 02-llms/08-shakespeare-example-colab/index.ipynb
--->
-
-
+    <!-- - 📂 [03-ai-for-science/](./03-ai-for-science/) -->

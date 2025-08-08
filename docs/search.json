@@ -620,7 +620,7 @@
     "href": "index.html#project-contents",
     "title": "Intro to HPC Bootcamp 2025",
     "section": "📂 Project Contents",
-    "text": "📂 Project Contents\n\n🏡 Intro to {AI, HPC} for Science/\n\n📂 [00] Intro to AI and HPC/\n\n📄 [0] Compute systems\n📄 [1] Shared-resources\n📄 [2] Jupyter Notebooks\n📄 [3] Using Python\n📄 [4] Working with Data\n📗 [5] MCMC Example\n📗 [6] Linear Regression\n📗 [7] Statistical Learning\n\n📂 [01] Neural Networks/\n\n📄 [0] Intro\n📗 [1] MNIST\n📗 [1] MNIST (ipynb)\n📄 [2] Advanced\n📗 [3] Conv. Nets\n📗 [4] Representation Learning\n📗 [5] Distributed Training\n\n📂 [02] Large Language Models\n\n📄 [00] Intro to LLMs\n📗 [01] Hands-on LLMs\n📄 [02] Prompt Engineering \n📗 [06] Parallel Training\n📗 [07] Shakespeare Example\n📗 [08] Shakespeare Example (colab)\n\n📂 03-ai-for-science/"
+    "text": "📂 Project Contents\n\n🏡 Intro to {AI, HPC} for Science/\n\n📂 [00] Intro to AI and HPC/\n\n📄 [0] Compute systems\n📄 [1] Shared-resources\n📄 [2] Jupyter Notebooks\n📄 [3] Using Python\n📄 [4] Working with Data\n📗 [5] MCMC Example\n📗 [6] Linear Regression\n📗 [7] Statistical Learning\n📗 [8] Clustering\n\n📂 [01] Neural Networks/\n\n📄 [0] Intro\n📗 [1] MNIST\n📗 [1] MNIST (ipynb)\n📗 [2] Advanced\n📗 [3] Conv. Nets\n📗 [4] Representation Learning\n📄 [5] Distributed Training\n\n📂 [02] Large Language Models\n\n📗 [00] Intro to LLMs\n📗 [01] Hands-on LLMs\n📄 [02] Prompt Engineering \n📗 [06] Parallel Training\n📗 [07] Shakespeare Example\n📗 [08] Shakespeare Example (colab)"
   },
   {
     "objectID": "00-intro-AI-HPC/0-compute-systems/index.html#overview",
