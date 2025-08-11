@@ -32,6 +32,9 @@ Sam Foreman
   - [Visualization of trained SOM](#visualization-of-trained-som)
 - [Keep learning](#keep-learning)
 
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)
+
 ``` python
 %load_ext autoreload
 %autoreload 2

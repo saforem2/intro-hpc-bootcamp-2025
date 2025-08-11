@@ -713,7 +713,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 5, 2025</p>
+      <p class="date-modified">August 11, 2025</p>
     </div>
   </div>
     
@@ -724,6 +724,7 @@ window.Quarto = {
 </header>
 
 
+<p><a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid"></a> <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md"><img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid"></a></p>
 <div id="4e0f8677" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
@@ -2199,827 +2200,829 @@ Foreman, Sam. 2025. <span>“Statistical Learning.”</span> July 25, 2025.
 <span id="cb44-14"><a href="#cb44-14"></a><span class="co">    toc: true</span></span>
 <span id="cb44-15"><a href="#cb44-15"></a><span class="co">---</span></span>
 <span id="cb44-16"><a href="#cb44-16"></a></span>
-<span id="cb44-19"><a href="#cb44-19"></a><span class="in">```{python}</span></span>
-<span id="cb44-20"><a href="#cb44-20"></a><span class="op">%</span>load_ext autoreload</span>
-<span id="cb44-21"><a href="#cb44-21"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
-<span id="cb44-22"><a href="#cb44-22"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
-<span id="cb44-23"><a href="#cb44-23"></a>matplotlib_inline.backend_inline.set_matplotlib_formats(<span class="st">'retina'</span>, <span class="st">'svg'</span>, <span class="st">'png'</span>)</span>
-<span id="cb44-24"><a href="#cb44-24"></a><span class="im">import</span> os</span>
-<span id="cb44-25"><a href="#cb44-25"></a>os.environ[<span class="st">"TRUECOLOR"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
-<span id="cb44-26"><a href="#cb44-26"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
-<span id="cb44-27"><a href="#cb44-27"></a><span class="co"># mpl.rcParams['figure.dpi'] = 400</span></span>
-<span id="cb44-28"><a href="#cb44-28"></a><span class="in">```</span></span>
-<span id="cb44-29"><a href="#cb44-29"></a></span>
-<span id="cb44-30"><a href="#cb44-30"></a><span class="fu">## Learning to Cluster Data</span></span>
+<span id="cb44-17"><a href="#cb44-17"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)</span> <span class="co">[</span><span class="al">![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png)</span><span class="co">](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/README.md)</span></span>
+<span id="cb44-18"><a href="#cb44-18"></a></span>
+<span id="cb44-21"><a href="#cb44-21"></a><span class="in">```{python}</span></span>
+<span id="cb44-22"><a href="#cb44-22"></a><span class="op">%</span>load_ext autoreload</span>
+<span id="cb44-23"><a href="#cb44-23"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
+<span id="cb44-24"><a href="#cb44-24"></a><span class="im">import</span> matplotlib_inline.backend_inline</span>
+<span id="cb44-25"><a href="#cb44-25"></a>matplotlib_inline.backend_inline.set_matplotlib_formats(<span class="st">'retina'</span>, <span class="st">'svg'</span>, <span class="st">'png'</span>)</span>
+<span id="cb44-26"><a href="#cb44-26"></a><span class="im">import</span> os</span>
+<span id="cb44-27"><a href="#cb44-27"></a>os.environ[<span class="st">"TRUECOLOR"</span>] <span class="op">=</span> <span class="st">"1"</span></span>
+<span id="cb44-28"><a href="#cb44-28"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
+<span id="cb44-29"><a href="#cb44-29"></a><span class="co"># mpl.rcParams['figure.dpi'] = 400</span></span>
+<span id="cb44-30"><a href="#cb44-30"></a><span class="in">```</span></span>
 <span id="cb44-31"><a href="#cb44-31"></a></span>
-<span id="cb44-32"><a href="#cb44-32"></a>If we have data with distinct groupings, the objective is to devise a method</span>
-<span id="cb44-33"><a href="#cb44-33"></a>for labeling our data by its group in an automated way.</span>
-<span id="cb44-34"><a href="#cb44-34"></a></span>
-<span id="cb44-35"><a href="#cb44-35"></a>We will demonstrate this, first, on a toy dataset that we _design_ to have a</span>
-<span id="cb44-36"><a href="#cb44-36"></a>lower inherent dimensionality, then we move to a higher dimensional dataset.</span>
-<span id="cb44-37"><a href="#cb44-37"></a></span>
-<span id="cb44-38"><a href="#cb44-38"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)</span></span>
+<span id="cb44-32"><a href="#cb44-32"></a><span class="fu">## Learning to Cluster Data</span></span>
+<span id="cb44-33"><a href="#cb44-33"></a></span>
+<span id="cb44-34"><a href="#cb44-34"></a>If we have data with distinct groupings, the objective is to devise a method</span>
+<span id="cb44-35"><a href="#cb44-35"></a>for labeling our data by its group in an automated way.</span>
+<span id="cb44-36"><a href="#cb44-36"></a></span>
+<span id="cb44-37"><a href="#cb44-37"></a>We will demonstrate this, first, on a toy dataset that we _design_ to have a</span>
+<span id="cb44-38"><a href="#cb44-38"></a>lower inherent dimensionality, then we move to a higher dimensional dataset.</span>
 <span id="cb44-39"><a href="#cb44-39"></a></span>
-<span id="cb44-40"><a href="#cb44-40"></a><span class="fu">### Toy Dataset (2D Blobs)</span></span>
+<span id="cb44-40"><a href="#cb44-40"></a><span class="co">[</span><span class="al">![](https://colab.research.google.com/assets/colab-badge.svg)</span><span class="co">](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/7-statistical-learning/index.ipynb)</span></span>
 <span id="cb44-41"><a href="#cb44-41"></a></span>
-<span id="cb44-42"><a href="#cb44-42"></a>Define 3 blobs on a 2D plane:</span>
+<span id="cb44-42"><a href="#cb44-42"></a><span class="fu">### Toy Dataset (2D Blobs)</span></span>
 <span id="cb44-43"><a href="#cb44-43"></a></span>
-<span id="cb44-46"><a href="#cb44-46"></a><span class="in">```{python}</span></span>
-<span id="cb44-47"><a href="#cb44-47"></a><span class="im">import</span> time</span>
-<span id="cb44-48"><a href="#cb44-48"></a><span class="im">import</span> os</span>
-<span id="cb44-49"><a href="#cb44-49"></a><span class="im">import</span> sklearn</span>
-<span id="cb44-50"><a href="#cb44-50"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
-<span id="cb44-51"><a href="#cb44-51"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb44-52"><a href="#cb44-52"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb44-53"><a href="#cb44-53"></a></span>
-<span id="cb44-54"><a href="#cb44-54"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> (</span>
-<span id="cb44-55"><a href="#cb44-55"></a>    StandardScaler,</span>
-<span id="cb44-56"><a href="#cb44-56"></a>    MinMaxScaler,</span>
-<span id="cb44-57"><a href="#cb44-57"></a>    RobustScaler</span>
-<span id="cb44-58"><a href="#cb44-58"></a>)</span>
-<span id="cb44-59"><a href="#cb44-59"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
-<span id="cb44-60"><a href="#cb44-60"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb44-61"><a href="#cb44-61"></a><span class="im">import</span> ambivalent</span>
-<span id="cb44-62"><a href="#cb44-62"></a>plt.style.use(ambivalent.STYLES[<span class="st">"ambivalent"</span>])</span>
-<span id="cb44-63"><a href="#cb44-63"></a></span>
-<span id="cb44-64"><a href="#cb44-64"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
-<span id="cb44-65"><a href="#cb44-65"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> scatter, COLORS</span>
-<span id="cb44-66"><a href="#cb44-66"></a></span>
-<span id="cb44-67"><a href="#cb44-67"></a><span class="co"># set random seed for reproducibility</span></span>
-<span id="cb44-68"><a href="#cb44-68"></a>SEED <span class="op">=</span> <span class="dv">42</span></span>
-<span id="cb44-69"><a href="#cb44-69"></a>DFIGSIZE <span class="op">=</span> plt.rcParamsDefault[<span class="st">'figure.figsize'</span>]</span>
-<span id="cb44-70"><a href="#cb44-70"></a><span class="in">```</span></span>
-<span id="cb44-71"><a href="#cb44-71"></a></span>
-<span id="cb44-74"><a href="#cb44-74"></a><span class="in">```{python}</span></span>
-<span id="cb44-75"><a href="#cb44-75"></a>n_samples <span class="op">=</span> <span class="dv">1000</span> <span class="co"># 300 2D data points</span></span>
-<span id="cb44-76"><a href="#cb44-76"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
-<span id="cb44-77"><a href="#cb44-77"></a>n_clusters <span class="op">=</span> <span class="dv">4</span>  <span class="co"># 3 unique blobs</span></span>
-<span id="cb44-78"><a href="#cb44-78"></a></span>
-<span id="cb44-79"><a href="#cb44-79"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html</span></span>
-<span id="cb44-80"><a href="#cb44-80"></a><span class="co"># -- Returns --------------------------------------------------------</span></span>
-<span id="cb44-81"><a href="#cb44-81"></a><span class="co"># x (n_samples, n_features): The generated samples.</span></span>
-<span id="cb44-82"><a href="#cb44-82"></a><span class="co"># y (n_samples,): Int labels for cluster membership of each sample.</span></span>
-<span id="cb44-83"><a href="#cb44-83"></a><span class="co"># -------------------------------------------------------------------</span></span>
-<span id="cb44-84"><a href="#cb44-84"></a>cmap <span class="op">=</span> ListedColormap(<span class="bu">list</span>(COLORS.values()))</span>
-<span id="cb44-85"><a href="#cb44-85"></a>x, y <span class="op">=</span> datasets.make_blobs(</span>
-<span id="cb44-86"><a href="#cb44-86"></a>    n_samples<span class="op">=</span>n_samples,</span>
-<span id="cb44-87"><a href="#cb44-87"></a>    n_features<span class="op">=</span>n_features,</span>
-<span id="cb44-88"><a href="#cb44-88"></a>    centers<span class="op">=</span>n_clusters,</span>
-<span id="cb44-89"><a href="#cb44-89"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
-<span id="cb44-90"><a href="#cb44-90"></a>)</span>
-<span id="cb44-91"><a href="#cb44-91"></a>scatter_kwargs <span class="op">=</span> {</span>
-<span id="cb44-92"><a href="#cb44-92"></a>    <span class="st">'xlabel'</span>: <span class="st">'x0'</span>,</span>
-<span id="cb44-93"><a href="#cb44-93"></a>    <span class="st">'ylabel'</span>: <span class="st">'x1'</span>,</span>
-<span id="cb44-94"><a href="#cb44-94"></a>    <span class="st">'cmap'</span>: cmap,</span>
-<span id="cb44-95"><a href="#cb44-95"></a>    <span class="st">'plot_kwargs'</span>: {</span>
-<span id="cb44-96"><a href="#cb44-96"></a>        <span class="st">'alpha'</span>: <span class="fl">0.8</span>,</span>
-<span id="cb44-97"><a href="#cb44-97"></a>        <span class="st">'edgecolor'</span>: <span class="st">'#222'</span>,</span>
-<span id="cb44-98"><a href="#cb44-98"></a>    }</span>
-<span id="cb44-99"><a href="#cb44-99"></a>}</span>
-<span id="cb44-100"><a href="#cb44-100"></a>_ <span class="op">=</span> scatter(x, y, <span class="op">**</span>scatter_kwargs)</span>
-<span id="cb44-101"><a href="#cb44-101"></a><span class="in">```</span></span>
-<span id="cb44-102"><a href="#cb44-102"></a></span>
-<span id="cb44-105"><a href="#cb44-105"></a><span class="in">```{python}</span></span>
-<span id="cb44-106"><a href="#cb44-106"></a><span class="co"># Normalize features</span></span>
-<span id="cb44-107"><a href="#cb44-107"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html</span></span>
-<span id="cb44-108"><a href="#cb44-108"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span>
-<span id="cb44-109"><a href="#cb44-109"></a><span class="in">```</span></span>
-<span id="cb44-110"><a href="#cb44-110"></a></span>
-<span id="cb44-113"><a href="#cb44-113"></a><span class="in">```{python}</span></span>
-<span id="cb44-114"><a href="#cb44-114"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(</span>
-<span id="cb44-115"><a href="#cb44-115"></a>    figsize<span class="op">=</span>(<span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.8</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
-<span id="cb44-116"><a href="#cb44-116"></a>    ncols<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb44-117"><a href="#cb44-117"></a>    subplot_kw<span class="op">=</span>{</span>
-<span id="cb44-118"><a href="#cb44-118"></a>        <span class="st">'aspect'</span>: <span class="st">'equal'</span>,</span>
-<span id="cb44-119"><a href="#cb44-119"></a>    },</span>
-<span id="cb44-120"><a href="#cb44-120"></a>    </span>
-<span id="cb44-121"><a href="#cb44-121"></a>)</span>
-<span id="cb44-122"><a href="#cb44-122"></a>fig, ax1 <span class="op">=</span> scatter(</span>
-<span id="cb44-123"><a href="#cb44-123"></a>    x,</span>
-<span id="cb44-124"><a href="#cb44-124"></a>    y,</span>
-<span id="cb44-125"><a href="#cb44-125"></a>    fig<span class="op">=</span>fig,</span>
-<span id="cb44-126"><a href="#cb44-126"></a>    ax<span class="op">=</span>ax1,</span>
-<span id="cb44-127"><a href="#cb44-127"></a>    title<span class="op">=</span><span class="st">'Original'</span>,</span>
-<span id="cb44-128"><a href="#cb44-128"></a>    <span class="op">**</span>scatter_kwargs</span>
-<span id="cb44-129"><a href="#cb44-129"></a>)</span>
-<span id="cb44-130"><a href="#cb44-130"></a>fig.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb44-131"><a href="#cb44-131"></a>fig, ax2 <span class="op">=</span> scatter(</span>
-<span id="cb44-132"><a href="#cb44-132"></a>    x_sc,</span>
-<span id="cb44-133"><a href="#cb44-133"></a>    y,</span>
-<span id="cb44-134"><a href="#cb44-134"></a>    fig<span class="op">=</span>fig,</span>
-<span id="cb44-135"><a href="#cb44-135"></a>    ax<span class="op">=</span>ax2,</span>
-<span id="cb44-136"><a href="#cb44-136"></a>    title<span class="op">=</span><span class="st">'Normalized'</span>,</span>
-<span id="cb44-137"><a href="#cb44-137"></a>    <span class="op">**</span>scatter_kwargs</span>
-<span id="cb44-138"><a href="#cb44-138"></a>)</span>
-<span id="cb44-139"><a href="#cb44-139"></a><span class="in">```</span></span>
-<span id="cb44-140"><a href="#cb44-140"></a></span>
-<span id="cb44-141"><a href="#cb44-141"></a><span class="fu">## K-means Clustering</span></span>
+<span id="cb44-44"><a href="#cb44-44"></a>Define 3 blobs on a 2D plane:</span>
+<span id="cb44-45"><a href="#cb44-45"></a></span>
+<span id="cb44-48"><a href="#cb44-48"></a><span class="in">```{python}</span></span>
+<span id="cb44-49"><a href="#cb44-49"></a><span class="im">import</span> time</span>
+<span id="cb44-50"><a href="#cb44-50"></a><span class="im">import</span> os</span>
+<span id="cb44-51"><a href="#cb44-51"></a><span class="im">import</span> sklearn</span>
+<span id="cb44-52"><a href="#cb44-52"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
+<span id="cb44-53"><a href="#cb44-53"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb44-54"><a href="#cb44-54"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb44-55"><a href="#cb44-55"></a></span>
+<span id="cb44-56"><a href="#cb44-56"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> (</span>
+<span id="cb44-57"><a href="#cb44-57"></a>    StandardScaler,</span>
+<span id="cb44-58"><a href="#cb44-58"></a>    MinMaxScaler,</span>
+<span id="cb44-59"><a href="#cb44-59"></a>    RobustScaler</span>
+<span id="cb44-60"><a href="#cb44-60"></a>)</span>
+<span id="cb44-61"><a href="#cb44-61"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb44-62"><a href="#cb44-62"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb44-63"><a href="#cb44-63"></a><span class="im">import</span> ambivalent</span>
+<span id="cb44-64"><a href="#cb44-64"></a>plt.style.use(ambivalent.STYLES[<span class="st">"ambivalent"</span>])</span>
+<span id="cb44-65"><a href="#cb44-65"></a></span>
+<span id="cb44-66"><a href="#cb44-66"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb44-67"><a href="#cb44-67"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> scatter, COLORS</span>
+<span id="cb44-68"><a href="#cb44-68"></a></span>
+<span id="cb44-69"><a href="#cb44-69"></a><span class="co"># set random seed for reproducibility</span></span>
+<span id="cb44-70"><a href="#cb44-70"></a>SEED <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb44-71"><a href="#cb44-71"></a>DFIGSIZE <span class="op">=</span> plt.rcParamsDefault[<span class="st">'figure.figsize'</span>]</span>
+<span id="cb44-72"><a href="#cb44-72"></a><span class="in">```</span></span>
+<span id="cb44-73"><a href="#cb44-73"></a></span>
+<span id="cb44-76"><a href="#cb44-76"></a><span class="in">```{python}</span></span>
+<span id="cb44-77"><a href="#cb44-77"></a>n_samples <span class="op">=</span> <span class="dv">1000</span> <span class="co"># 300 2D data points</span></span>
+<span id="cb44-78"><a href="#cb44-78"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
+<span id="cb44-79"><a href="#cb44-79"></a>n_clusters <span class="op">=</span> <span class="dv">4</span>  <span class="co"># 3 unique blobs</span></span>
+<span id="cb44-80"><a href="#cb44-80"></a></span>
+<span id="cb44-81"><a href="#cb44-81"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html</span></span>
+<span id="cb44-82"><a href="#cb44-82"></a><span class="co"># -- Returns --------------------------------------------------------</span></span>
+<span id="cb44-83"><a href="#cb44-83"></a><span class="co"># x (n_samples, n_features): The generated samples.</span></span>
+<span id="cb44-84"><a href="#cb44-84"></a><span class="co"># y (n_samples,): Int labels for cluster membership of each sample.</span></span>
+<span id="cb44-85"><a href="#cb44-85"></a><span class="co"># -------------------------------------------------------------------</span></span>
+<span id="cb44-86"><a href="#cb44-86"></a>cmap <span class="op">=</span> ListedColormap(<span class="bu">list</span>(COLORS.values()))</span>
+<span id="cb44-87"><a href="#cb44-87"></a>x, y <span class="op">=</span> datasets.make_blobs(</span>
+<span id="cb44-88"><a href="#cb44-88"></a>    n_samples<span class="op">=</span>n_samples,</span>
+<span id="cb44-89"><a href="#cb44-89"></a>    n_features<span class="op">=</span>n_features,</span>
+<span id="cb44-90"><a href="#cb44-90"></a>    centers<span class="op">=</span>n_clusters,</span>
+<span id="cb44-91"><a href="#cb44-91"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb44-92"><a href="#cb44-92"></a>)</span>
+<span id="cb44-93"><a href="#cb44-93"></a>scatter_kwargs <span class="op">=</span> {</span>
+<span id="cb44-94"><a href="#cb44-94"></a>    <span class="st">'xlabel'</span>: <span class="st">'x0'</span>,</span>
+<span id="cb44-95"><a href="#cb44-95"></a>    <span class="st">'ylabel'</span>: <span class="st">'x1'</span>,</span>
+<span id="cb44-96"><a href="#cb44-96"></a>    <span class="st">'cmap'</span>: cmap,</span>
+<span id="cb44-97"><a href="#cb44-97"></a>    <span class="st">'plot_kwargs'</span>: {</span>
+<span id="cb44-98"><a href="#cb44-98"></a>        <span class="st">'alpha'</span>: <span class="fl">0.8</span>,</span>
+<span id="cb44-99"><a href="#cb44-99"></a>        <span class="st">'edgecolor'</span>: <span class="st">'#222'</span>,</span>
+<span id="cb44-100"><a href="#cb44-100"></a>    }</span>
+<span id="cb44-101"><a href="#cb44-101"></a>}</span>
+<span id="cb44-102"><a href="#cb44-102"></a>_ <span class="op">=</span> scatter(x, y, <span class="op">**</span>scatter_kwargs)</span>
+<span id="cb44-103"><a href="#cb44-103"></a><span class="in">```</span></span>
+<span id="cb44-104"><a href="#cb44-104"></a></span>
+<span id="cb44-107"><a href="#cb44-107"></a><span class="in">```{python}</span></span>
+<span id="cb44-108"><a href="#cb44-108"></a><span class="co"># Normalize features</span></span>
+<span id="cb44-109"><a href="#cb44-109"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html</span></span>
+<span id="cb44-110"><a href="#cb44-110"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span>
+<span id="cb44-111"><a href="#cb44-111"></a><span class="in">```</span></span>
+<span id="cb44-112"><a href="#cb44-112"></a></span>
+<span id="cb44-115"><a href="#cb44-115"></a><span class="in">```{python}</span></span>
+<span id="cb44-116"><a href="#cb44-116"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(</span>
+<span id="cb44-117"><a href="#cb44-117"></a>    figsize<span class="op">=</span>(<span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.8</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
+<span id="cb44-118"><a href="#cb44-118"></a>    ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb44-119"><a href="#cb44-119"></a>    subplot_kw<span class="op">=</span>{</span>
+<span id="cb44-120"><a href="#cb44-120"></a>        <span class="st">'aspect'</span>: <span class="st">'equal'</span>,</span>
+<span id="cb44-121"><a href="#cb44-121"></a>    },</span>
+<span id="cb44-122"><a href="#cb44-122"></a>    </span>
+<span id="cb44-123"><a href="#cb44-123"></a>)</span>
+<span id="cb44-124"><a href="#cb44-124"></a>fig, ax1 <span class="op">=</span> scatter(</span>
+<span id="cb44-125"><a href="#cb44-125"></a>    x,</span>
+<span id="cb44-126"><a href="#cb44-126"></a>    y,</span>
+<span id="cb44-127"><a href="#cb44-127"></a>    fig<span class="op">=</span>fig,</span>
+<span id="cb44-128"><a href="#cb44-128"></a>    ax<span class="op">=</span>ax1,</span>
+<span id="cb44-129"><a href="#cb44-129"></a>    title<span class="op">=</span><span class="st">'Original'</span>,</span>
+<span id="cb44-130"><a href="#cb44-130"></a>    <span class="op">**</span>scatter_kwargs</span>
+<span id="cb44-131"><a href="#cb44-131"></a>)</span>
+<span id="cb44-132"><a href="#cb44-132"></a>fig.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb44-133"><a href="#cb44-133"></a>fig, ax2 <span class="op">=</span> scatter(</span>
+<span id="cb44-134"><a href="#cb44-134"></a>    x_sc,</span>
+<span id="cb44-135"><a href="#cb44-135"></a>    y,</span>
+<span id="cb44-136"><a href="#cb44-136"></a>    fig<span class="op">=</span>fig,</span>
+<span id="cb44-137"><a href="#cb44-137"></a>    ax<span class="op">=</span>ax2,</span>
+<span id="cb44-138"><a href="#cb44-138"></a>    title<span class="op">=</span><span class="st">'Normalized'</span>,</span>
+<span id="cb44-139"><a href="#cb44-139"></a>    <span class="op">**</span>scatter_kwargs</span>
+<span id="cb44-140"><a href="#cb44-140"></a>)</span>
+<span id="cb44-141"><a href="#cb44-141"></a><span class="in">```</span></span>
 <span id="cb44-142"><a href="#cb44-142"></a></span>
-<span id="cb44-143"><a href="#cb44-143"></a>K-means clustering aims to partition n observations into k clusters in which</span>
-<span id="cb44-144"><a href="#cb44-144"></a>each observation belongs to the cluster with the nearest mean, serving as a</span>
-<span id="cb44-145"><a href="#cb44-145"></a>prototype of the cluster.</span>
-<span id="cb44-146"><a href="#cb44-146"></a>This results in a partitioning of the data space into Voronoi cells.</span>
-<span id="cb44-147"><a href="#cb44-147"></a></span>
-<span id="cb44-148"><a href="#cb44-148"></a><span class="ss">1. </span>Pick random starting centroids from data</span>
-<span id="cb44-149"><a href="#cb44-149"></a><span class="ss">   - </span>$k$ initial "means" (in this case, $k=3$) are randomly generated within</span>
-<span id="cb44-150"><a href="#cb44-150"></a>     the data domain (shown in color)</span>
-<span id="cb44-151"><a href="#cb44-151"></a><span class="ss">2. </span>Calculate distance to each centroid</span>
-<span id="cb44-152"><a href="#cb44-152"></a><span class="ss">   - </span>$k$ clusters are created by associating  every observation with the</span>
-<span id="cb44-153"><a href="#cb44-153"></a>     nearest mean.</span>
-<span id="cb44-154"><a href="#cb44-154"></a>     The partitions here represent the Voroni diagram generated by the means</span>
-<span id="cb44-155"><a href="#cb44-155"></a><span class="ss">   - </span>Find nearest cluster for each point</span>
-<span id="cb44-156"><a href="#cb44-156"></a><span class="ss">3. </span>Calculate new centroids</span>
-<span id="cb44-157"><a href="#cb44-157"></a><span class="ss">   - </span>The **centroid** of each of the $k$ clusters becomes the new mean</span>
-<span id="cb44-158"><a href="#cb44-158"></a><span class="ss">4. </span>Steps 2 and 3 are repeated until convergence has been reached</span>
-<span id="cb44-159"><a href="#cb44-159"></a></span>
-<span id="cb44-160"><a href="#cb44-160"></a></span>
-<span id="cb44-161"><a href="#cb44-161"></a>::: {#fig-kmeans}</span>
+<span id="cb44-143"><a href="#cb44-143"></a><span class="fu">## K-means Clustering</span></span>
+<span id="cb44-144"><a href="#cb44-144"></a></span>
+<span id="cb44-145"><a href="#cb44-145"></a>K-means clustering aims to partition n observations into k clusters in which</span>
+<span id="cb44-146"><a href="#cb44-146"></a>each observation belongs to the cluster with the nearest mean, serving as a</span>
+<span id="cb44-147"><a href="#cb44-147"></a>prototype of the cluster.</span>
+<span id="cb44-148"><a href="#cb44-148"></a>This results in a partitioning of the data space into Voronoi cells.</span>
+<span id="cb44-149"><a href="#cb44-149"></a></span>
+<span id="cb44-150"><a href="#cb44-150"></a><span class="ss">1. </span>Pick random starting centroids from data</span>
+<span id="cb44-151"><a href="#cb44-151"></a><span class="ss">   - </span>$k$ initial "means" (in this case, $k=3$) are randomly generated within</span>
+<span id="cb44-152"><a href="#cb44-152"></a>     the data domain (shown in color)</span>
+<span id="cb44-153"><a href="#cb44-153"></a><span class="ss">2. </span>Calculate distance to each centroid</span>
+<span id="cb44-154"><a href="#cb44-154"></a><span class="ss">   - </span>$k$ clusters are created by associating  every observation with the</span>
+<span id="cb44-155"><a href="#cb44-155"></a>     nearest mean.</span>
+<span id="cb44-156"><a href="#cb44-156"></a>     The partitions here represent the Voroni diagram generated by the means</span>
+<span id="cb44-157"><a href="#cb44-157"></a><span class="ss">   - </span>Find nearest cluster for each point</span>
+<span id="cb44-158"><a href="#cb44-158"></a><span class="ss">3. </span>Calculate new centroids</span>
+<span id="cb44-159"><a href="#cb44-159"></a><span class="ss">   - </span>The **centroid** of each of the $k$ clusters becomes the new mean</span>
+<span id="cb44-160"><a href="#cb44-160"></a><span class="ss">4. </span>Steps 2 and 3 are repeated until convergence has been reached</span>
+<span id="cb44-161"><a href="#cb44-161"></a></span>
 <span id="cb44-162"><a href="#cb44-162"></a></span>
-<span id="cb44-163"><a href="#cb44-163"></a>::: {.flex-container}</span>
-<span id="cb44-164"><a href="#cb44-164"></a><span class="al">![](./assets/k-means0.svg)</span></span>
-<span id="cb44-165"><a href="#cb44-165"></a></span>
-<span id="cb44-166"><a href="#cb44-166"></a><span class="al">![](./assets/k-means1.svg)</span></span>
+<span id="cb44-163"><a href="#cb44-163"></a>::: {#fig-kmeans}</span>
+<span id="cb44-164"><a href="#cb44-164"></a></span>
+<span id="cb44-165"><a href="#cb44-165"></a>::: {.flex-container}</span>
+<span id="cb44-166"><a href="#cb44-166"></a><span class="al">![](./assets/k-means0.svg)</span></span>
 <span id="cb44-167"><a href="#cb44-167"></a></span>
-<span id="cb44-168"><a href="#cb44-168"></a><span class="al">![](./assets/k-means2.svg)</span></span>
+<span id="cb44-168"><a href="#cb44-168"></a><span class="al">![](./assets/k-means1.svg)</span></span>
 <span id="cb44-169"><a href="#cb44-169"></a></span>
-<span id="cb44-170"><a href="#cb44-170"></a><span class="al">![](./assets/k-means3.svg)</span></span>
-<span id="cb44-171"><a href="#cb44-171"></a>:::</span>
-<span id="cb44-172"><a href="#cb44-172"></a></span>
-<span id="cb44-173"><a href="#cb44-173"></a>Illustration of the K-means algorithm steps</span>
-<span id="cb44-174"><a href="#cb44-174"></a>:::</span>
-<span id="cb44-175"><a href="#cb44-175"></a></span>
-<span id="cb44-176"><a href="#cb44-176"></a><span class="fu">### Step 1: Pick random starting centroids from data</span></span>
+<span id="cb44-170"><a href="#cb44-170"></a><span class="al">![](./assets/k-means2.svg)</span></span>
+<span id="cb44-171"><a href="#cb44-171"></a></span>
+<span id="cb44-172"><a href="#cb44-172"></a><span class="al">![](./assets/k-means3.svg)</span></span>
+<span id="cb44-173"><a href="#cb44-173"></a>:::</span>
+<span id="cb44-174"><a href="#cb44-174"></a></span>
+<span id="cb44-175"><a href="#cb44-175"></a>Illustration of the K-means algorithm steps</span>
+<span id="cb44-176"><a href="#cb44-176"></a>:::</span>
 <span id="cb44-177"><a href="#cb44-177"></a></span>
-<span id="cb44-178"><a href="#cb44-178"></a><span class="ss">- </span>$k$ initial "means" (in this case, $k=3$) are randomly generated within</span>
-<span id="cb44-179"><a href="#cb44-179"></a>  the data domain (shown in color)</span>
-<span id="cb44-180"><a href="#cb44-180"></a></span>
-<span id="cb44-181"><a href="#cb44-181"></a>:::{#fig-kmeans-step1 style="width:40%"}</span>
+<span id="cb44-178"><a href="#cb44-178"></a><span class="fu">### Step 1: Pick random starting centroids from data</span></span>
+<span id="cb44-179"><a href="#cb44-179"></a></span>
+<span id="cb44-180"><a href="#cb44-180"></a><span class="ss">- </span>$k$ initial "means" (in this case, $k=3$) are randomly generated within</span>
+<span id="cb44-181"><a href="#cb44-181"></a>  the data domain (shown in color)</span>
 <span id="cb44-182"><a href="#cb44-182"></a></span>
-<span id="cb44-183"><a href="#cb44-183"></a><span class="al">![](./assets/k-means0.svg)</span></span>
+<span id="cb44-183"><a href="#cb44-183"></a>:::{#fig-kmeans-step1 style="width:40%"}</span>
 <span id="cb44-184"><a href="#cb44-184"></a></span>
-<span id="cb44-185"><a href="#cb44-185"></a>:::</span>
+<span id="cb44-185"><a href="#cb44-185"></a><span class="al">![](./assets/k-means0.svg)</span></span>
 <span id="cb44-186"><a href="#cb44-186"></a></span>
-<span id="cb44-189"><a href="#cb44-189"></a><span class="in">```{python}</span></span>
-<span id="cb44-190"><a href="#cb44-190"></a><span class="kw">def</span> initialize_centroids(</span>
-<span id="cb44-191"><a href="#cb44-191"></a>        x: np.ndarray,</span>
-<span id="cb44-192"><a href="#cb44-192"></a>        n_clusters: <span class="bu">int</span>,</span>
-<span id="cb44-193"><a href="#cb44-193"></a>        seed: <span class="bu">int</span> <span class="op">=</span> <span class="dv">123</span></span>
-<span id="cb44-194"><a href="#cb44-194"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
-<span id="cb44-195"><a href="#cb44-195"></a>    <span class="co">"""Initialize centroids.</span></span>
-<span id="cb44-196"><a href="#cb44-196"></a><span class="co">    </span></span>
-<span id="cb44-197"><a href="#cb44-197"></a><span class="co">    Inputs:</span></span>
-<span id="cb44-198"><a href="#cb44-198"></a><span class="co">      - x (np.ndarray): Data of shape (num_points, num_features)</span></span>
-<span id="cb44-199"><a href="#cb44-199"></a><span class="co">      - n_clusters (int): Number of clusters to use</span></span>
-<span id="cb44-200"><a href="#cb44-200"></a><span class="co">      - seed (int): Random seed.</span></span>
-<span id="cb44-201"><a href="#cb44-201"></a><span class="co">        </span></span>
-<span id="cb44-202"><a href="#cb44-202"></a><span class="co">    Outputs:</span></span>
-<span id="cb44-203"><a href="#cb44-203"></a><span class="co">      - centroids (np.ndarray): Randomly chosen from the data</span></span>
-<span id="cb44-204"><a href="#cb44-204"></a><span class="co">        with shape: (num_clusters, num_features).</span></span>
-<span id="cb44-205"><a href="#cb44-205"></a><span class="co">    """</span></span>
-<span id="cb44-206"><a href="#cb44-206"></a>    np.random.RandomState(seed)</span>
-<span id="cb44-207"><a href="#cb44-207"></a>    <span class="co"># 1. Randomly permute data points</span></span>
-<span id="cb44-208"><a href="#cb44-208"></a>    <span class="co"># 2. From this, pick the first `n_clusters` indices</span></span>
-<span id="cb44-209"><a href="#cb44-209"></a>    <span class="co"># 3. Return these as our initial centroids</span></span>
-<span id="cb44-210"><a href="#cb44-210"></a>    random_idx <span class="op">=</span> np.random.permutation(x.shape[<span class="dv">0</span>])</span>
-<span id="cb44-211"><a href="#cb44-211"></a>    centroids <span class="op">=</span> x[random_idx[:n_clusters]]</span>
-<span id="cb44-212"><a href="#cb44-212"></a>    <span class="cf">return</span> centroids</span>
-<span id="cb44-213"><a href="#cb44-213"></a><span class="in">```</span></span>
-<span id="cb44-214"><a href="#cb44-214"></a></span>
-<span id="cb44-215"><a href="#cb44-215"></a><span class="fu">### Step 2a: Calculate distance to each centroid</span></span>
+<span id="cb44-187"><a href="#cb44-187"></a>:::</span>
+<span id="cb44-188"><a href="#cb44-188"></a></span>
+<span id="cb44-191"><a href="#cb44-191"></a><span class="in">```{python}</span></span>
+<span id="cb44-192"><a href="#cb44-192"></a><span class="kw">def</span> initialize_centroids(</span>
+<span id="cb44-193"><a href="#cb44-193"></a>        x: np.ndarray,</span>
+<span id="cb44-194"><a href="#cb44-194"></a>        n_clusters: <span class="bu">int</span>,</span>
+<span id="cb44-195"><a href="#cb44-195"></a>        seed: <span class="bu">int</span> <span class="op">=</span> <span class="dv">123</span></span>
+<span id="cb44-196"><a href="#cb44-196"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb44-197"><a href="#cb44-197"></a>    <span class="co">"""Initialize centroids.</span></span>
+<span id="cb44-198"><a href="#cb44-198"></a><span class="co">    </span></span>
+<span id="cb44-199"><a href="#cb44-199"></a><span class="co">    Inputs:</span></span>
+<span id="cb44-200"><a href="#cb44-200"></a><span class="co">      - x (np.ndarray): Data of shape (num_points, num_features)</span></span>
+<span id="cb44-201"><a href="#cb44-201"></a><span class="co">      - n_clusters (int): Number of clusters to use</span></span>
+<span id="cb44-202"><a href="#cb44-202"></a><span class="co">      - seed (int): Random seed.</span></span>
+<span id="cb44-203"><a href="#cb44-203"></a><span class="co">        </span></span>
+<span id="cb44-204"><a href="#cb44-204"></a><span class="co">    Outputs:</span></span>
+<span id="cb44-205"><a href="#cb44-205"></a><span class="co">      - centroids (np.ndarray): Randomly chosen from the data</span></span>
+<span id="cb44-206"><a href="#cb44-206"></a><span class="co">        with shape: (num_clusters, num_features).</span></span>
+<span id="cb44-207"><a href="#cb44-207"></a><span class="co">    """</span></span>
+<span id="cb44-208"><a href="#cb44-208"></a>    np.random.RandomState(seed)</span>
+<span id="cb44-209"><a href="#cb44-209"></a>    <span class="co"># 1. Randomly permute data points</span></span>
+<span id="cb44-210"><a href="#cb44-210"></a>    <span class="co"># 2. From this, pick the first `n_clusters` indices</span></span>
+<span id="cb44-211"><a href="#cb44-211"></a>    <span class="co"># 3. Return these as our initial centroids</span></span>
+<span id="cb44-212"><a href="#cb44-212"></a>    random_idx <span class="op">=</span> np.random.permutation(x.shape[<span class="dv">0</span>])</span>
+<span id="cb44-213"><a href="#cb44-213"></a>    centroids <span class="op">=</span> x[random_idx[:n_clusters]]</span>
+<span id="cb44-214"><a href="#cb44-214"></a>    <span class="cf">return</span> centroids</span>
+<span id="cb44-215"><a href="#cb44-215"></a><span class="in">```</span></span>
 <span id="cb44-216"><a href="#cb44-216"></a></span>
-<span id="cb44-217"><a href="#cb44-217"></a><span class="ss">- </span>Calculate distance to each centroid</span>
-<span id="cb44-218"><a href="#cb44-218"></a><span class="ss">  - </span>$k$ clusters are created by associating every observation with the</span>
-<span id="cb44-219"><a href="#cb44-219"></a>    nearest mean.</span>
-<span id="cb44-220"><a href="#cb44-220"></a>    The partitions here represent the Voroni diagram generated by the means.</span>
-<span id="cb44-221"><a href="#cb44-221"></a><span class="ss">  - </span>Find nearest cluster for each point</span>
-<span id="cb44-222"><a href="#cb44-222"></a></span>
-<span id="cb44-223"><a href="#cb44-223"></a>::: {#fig-kmeans-step2a style="width:40%;"}</span>
+<span id="cb44-217"><a href="#cb44-217"></a><span class="fu">### Step 2a: Calculate distance to each centroid</span></span>
+<span id="cb44-218"><a href="#cb44-218"></a></span>
+<span id="cb44-219"><a href="#cb44-219"></a><span class="ss">- </span>Calculate distance to each centroid</span>
+<span id="cb44-220"><a href="#cb44-220"></a><span class="ss">  - </span>$k$ clusters are created by associating every observation with the</span>
+<span id="cb44-221"><a href="#cb44-221"></a>    nearest mean.</span>
+<span id="cb44-222"><a href="#cb44-222"></a>    The partitions here represent the Voroni diagram generated by the means.</span>
+<span id="cb44-223"><a href="#cb44-223"></a><span class="ss">  - </span>Find nearest cluster for each point</span>
 <span id="cb44-224"><a href="#cb44-224"></a></span>
-<span id="cb44-225"><a href="#cb44-225"></a><span class="al">![](./assets/k-means1.svg)</span></span>
+<span id="cb44-225"><a href="#cb44-225"></a>::: {#fig-kmeans-step2a style="width:40%;"}</span>
 <span id="cb44-226"><a href="#cb44-226"></a></span>
-<span id="cb44-227"><a href="#cb44-227"></a>:::</span>
+<span id="cb44-227"><a href="#cb44-227"></a><span class="al">![](./assets/k-means1.svg)</span></span>
 <span id="cb44-228"><a href="#cb44-228"></a></span>
-<span id="cb44-231"><a href="#cb44-231"></a><span class="in">```{python}</span></span>
-<span id="cb44-232"><a href="#cb44-232"></a><span class="kw">def</span> compute_distance(</span>
-<span id="cb44-233"><a href="#cb44-233"></a>        x: np.ndarray,</span>
-<span id="cb44-234"><a href="#cb44-234"></a>        centroids: np.ndarray,</span>
-<span id="cb44-235"><a href="#cb44-235"></a>        n_clusters: <span class="bu">int</span></span>
-<span id="cb44-236"><a href="#cb44-236"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
-<span id="cb44-237"><a href="#cb44-237"></a>    <span class="co">"""Compute distance.</span></span>
-<span id="cb44-238"><a href="#cb44-238"></a></span>
-<span id="cb44-239"><a href="#cb44-239"></a><span class="co">    Inputs:</span></span>
-<span id="cb44-240"><a href="#cb44-240"></a><span class="co">      - x (np.ndarray): Input data of shape</span></span>
-<span id="cb44-241"><a href="#cb44-241"></a><span class="co">        (num_points, num_features)</span></span>
-<span id="cb44-242"><a href="#cb44-242"></a><span class="co">      - centroids (np.ndarray): Cluster centroids  with shape </span></span>
-<span id="cb44-243"><a href="#cb44-243"></a><span class="co">        (num_clusters, num_features)</span></span>
-<span id="cb44-244"><a href="#cb44-244"></a><span class="co">      - n_clusters (int): Number of clusters being used.</span></span>
-<span id="cb44-245"><a href="#cb44-245"></a></span>
-<span id="cb44-246"><a href="#cb44-246"></a><span class="co">    Outputs:</span></span>
-<span id="cb44-247"><a href="#cb44-247"></a><span class="co">      - distance (np.ndarray): Distance of each point </span></span>
-<span id="cb44-248"><a href="#cb44-248"></a><span class="co">        to each centroid with shape </span></span>
-<span id="cb44-249"><a href="#cb44-249"></a><span class="co">        (num_points, num_clusters)</span></span>
-<span id="cb44-250"><a href="#cb44-250"></a><span class="co">    """</span></span>
-<span id="cb44-251"><a href="#cb44-251"></a>    <span class="co"># distance vector</span></span>
-<span id="cb44-252"><a href="#cb44-252"></a>    distance <span class="op">=</span> np.zeros((x.shape[<span class="dv">0</span>], n_clusters))</span>
-<span id="cb44-253"><a href="#cb44-253"></a>    <span class="co"># loop over each centroid</span></span>
-<span id="cb44-254"><a href="#cb44-254"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n_clusters):</span>
-<span id="cb44-255"><a href="#cb44-255"></a>        <span class="co"># calculate distance for each point from centroid</span></span>
-<span id="cb44-256"><a href="#cb44-256"></a>        kcentroid_distance <span class="op">=</span> x <span class="op">-</span> centroids[k, :]</span>
-<span id="cb44-257"><a href="#cb44-257"></a>        <span class="co"># apply normalization for stability</span></span>
-<span id="cb44-258"><a href="#cb44-258"></a>        row_norm <span class="op">=</span> np.linalg.norm(kcentroid_distance, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb44-259"><a href="#cb44-259"></a>        <span class="co"># return distance squared</span></span>
-<span id="cb44-260"><a href="#cb44-260"></a>        distance[:, k] <span class="op">=</span> np.square(row_norm) </span>
-<span id="cb44-261"><a href="#cb44-261"></a></span>
-<span id="cb44-262"><a href="#cb44-262"></a>    <span class="cf">return</span> distance</span>
-<span id="cb44-263"><a href="#cb44-263"></a><span class="in">```</span></span>
-<span id="cb44-264"><a href="#cb44-264"></a></span>
-<span id="cb44-265"><a href="#cb44-265"></a><span class="fu">### Step 2b: Find nearest cluster for each point</span></span>
+<span id="cb44-229"><a href="#cb44-229"></a>:::</span>
+<span id="cb44-230"><a href="#cb44-230"></a></span>
+<span id="cb44-233"><a href="#cb44-233"></a><span class="in">```{python}</span></span>
+<span id="cb44-234"><a href="#cb44-234"></a><span class="kw">def</span> compute_distance(</span>
+<span id="cb44-235"><a href="#cb44-235"></a>        x: np.ndarray,</span>
+<span id="cb44-236"><a href="#cb44-236"></a>        centroids: np.ndarray,</span>
+<span id="cb44-237"><a href="#cb44-237"></a>        n_clusters: <span class="bu">int</span></span>
+<span id="cb44-238"><a href="#cb44-238"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb44-239"><a href="#cb44-239"></a>    <span class="co">"""Compute distance.</span></span>
+<span id="cb44-240"><a href="#cb44-240"></a></span>
+<span id="cb44-241"><a href="#cb44-241"></a><span class="co">    Inputs:</span></span>
+<span id="cb44-242"><a href="#cb44-242"></a><span class="co">      - x (np.ndarray): Input data of shape</span></span>
+<span id="cb44-243"><a href="#cb44-243"></a><span class="co">        (num_points, num_features)</span></span>
+<span id="cb44-244"><a href="#cb44-244"></a><span class="co">      - centroids (np.ndarray): Cluster centroids  with shape </span></span>
+<span id="cb44-245"><a href="#cb44-245"></a><span class="co">        (num_clusters, num_features)</span></span>
+<span id="cb44-246"><a href="#cb44-246"></a><span class="co">      - n_clusters (int): Number of clusters being used.</span></span>
+<span id="cb44-247"><a href="#cb44-247"></a></span>
+<span id="cb44-248"><a href="#cb44-248"></a><span class="co">    Outputs:</span></span>
+<span id="cb44-249"><a href="#cb44-249"></a><span class="co">      - distance (np.ndarray): Distance of each point </span></span>
+<span id="cb44-250"><a href="#cb44-250"></a><span class="co">        to each centroid with shape </span></span>
+<span id="cb44-251"><a href="#cb44-251"></a><span class="co">        (num_points, num_clusters)</span></span>
+<span id="cb44-252"><a href="#cb44-252"></a><span class="co">    """</span></span>
+<span id="cb44-253"><a href="#cb44-253"></a>    <span class="co"># distance vector</span></span>
+<span id="cb44-254"><a href="#cb44-254"></a>    distance <span class="op">=</span> np.zeros((x.shape[<span class="dv">0</span>], n_clusters))</span>
+<span id="cb44-255"><a href="#cb44-255"></a>    <span class="co"># loop over each centroid</span></span>
+<span id="cb44-256"><a href="#cb44-256"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n_clusters):</span>
+<span id="cb44-257"><a href="#cb44-257"></a>        <span class="co"># calculate distance for each point from centroid</span></span>
+<span id="cb44-258"><a href="#cb44-258"></a>        kcentroid_distance <span class="op">=</span> x <span class="op">-</span> centroids[k, :]</span>
+<span id="cb44-259"><a href="#cb44-259"></a>        <span class="co"># apply normalization for stability</span></span>
+<span id="cb44-260"><a href="#cb44-260"></a>        row_norm <span class="op">=</span> np.linalg.norm(kcentroid_distance, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb44-261"><a href="#cb44-261"></a>        <span class="co"># return distance squared</span></span>
+<span id="cb44-262"><a href="#cb44-262"></a>        distance[:, k] <span class="op">=</span> np.square(row_norm) </span>
+<span id="cb44-263"><a href="#cb44-263"></a></span>
+<span id="cb44-264"><a href="#cb44-264"></a>    <span class="cf">return</span> distance</span>
+<span id="cb44-265"><a href="#cb44-265"></a><span class="in">```</span></span>
 <span id="cb44-266"><a href="#cb44-266"></a></span>
-<span id="cb44-269"><a href="#cb44-269"></a><span class="in">```{python}</span></span>
-<span id="cb44-270"><a href="#cb44-270"></a><span class="kw">def</span> find_closest_centroid(</span>
-<span id="cb44-271"><a href="#cb44-271"></a>        distance: np.ndarray</span>
-<span id="cb44-272"><a href="#cb44-272"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
-<span id="cb44-273"><a href="#cb44-273"></a>    <span class="co">"""Find closest centroid.</span></span>
-<span id="cb44-274"><a href="#cb44-274"></a></span>
-<span id="cb44-275"><a href="#cb44-275"></a><span class="co">    Inputs:</span></span>
-<span id="cb44-276"><a href="#cb44-276"></a><span class="co">      - distance (np.ndarray): Distance of each point to each centroid with shape</span></span>
-<span id="cb44-277"><a href="#cb44-277"></a><span class="co">        (num_points, num_clusters)</span></span>
-<span id="cb44-278"><a href="#cb44-278"></a></span>
-<span id="cb44-279"><a href="#cb44-279"></a><span class="co">    Outputs:</span></span>
-<span id="cb44-280"><a href="#cb44-280"></a><span class="co">      - nearest_centroid_indices (np.ndarray): Index of nearest centroid with shape</span></span>
-<span id="cb44-281"><a href="#cb44-281"></a><span class="co">        (num_points,)</span></span>
-<span id="cb44-282"><a href="#cb44-282"></a><span class="co">    """</span></span>
-<span id="cb44-283"><a href="#cb44-283"></a>    nearest_centroid_indices <span class="op">=</span> np.argmin(distance, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb44-284"><a href="#cb44-284"></a>    <span class="cf">return</span> nearest_centroid_indices</span>
-<span id="cb44-285"><a href="#cb44-285"></a></span>
-<span id="cb44-286"><a href="#cb44-286"></a><span class="in">```</span></span>
+<span id="cb44-267"><a href="#cb44-267"></a><span class="fu">### Step 2b: Find nearest cluster for each point</span></span>
+<span id="cb44-268"><a href="#cb44-268"></a></span>
+<span id="cb44-271"><a href="#cb44-271"></a><span class="in">```{python}</span></span>
+<span id="cb44-272"><a href="#cb44-272"></a><span class="kw">def</span> find_closest_centroid(</span>
+<span id="cb44-273"><a href="#cb44-273"></a>        distance: np.ndarray</span>
+<span id="cb44-274"><a href="#cb44-274"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb44-275"><a href="#cb44-275"></a>    <span class="co">"""Find closest centroid.</span></span>
+<span id="cb44-276"><a href="#cb44-276"></a></span>
+<span id="cb44-277"><a href="#cb44-277"></a><span class="co">    Inputs:</span></span>
+<span id="cb44-278"><a href="#cb44-278"></a><span class="co">      - distance (np.ndarray): Distance of each point to each centroid with shape</span></span>
+<span id="cb44-279"><a href="#cb44-279"></a><span class="co">        (num_points, num_clusters)</span></span>
+<span id="cb44-280"><a href="#cb44-280"></a></span>
+<span id="cb44-281"><a href="#cb44-281"></a><span class="co">    Outputs:</span></span>
+<span id="cb44-282"><a href="#cb44-282"></a><span class="co">      - nearest_centroid_indices (np.ndarray): Index of nearest centroid with shape</span></span>
+<span id="cb44-283"><a href="#cb44-283"></a><span class="co">        (num_points,)</span></span>
+<span id="cb44-284"><a href="#cb44-284"></a><span class="co">    """</span></span>
+<span id="cb44-285"><a href="#cb44-285"></a>    nearest_centroid_indices <span class="op">=</span> np.argmin(distance, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb44-286"><a href="#cb44-286"></a>    <span class="cf">return</span> nearest_centroid_indices</span>
 <span id="cb44-287"><a href="#cb44-287"></a></span>
-<span id="cb44-288"><a href="#cb44-288"></a><span class="fu">### Step 3: Calculate new centroids</span></span>
+<span id="cb44-288"><a href="#cb44-288"></a><span class="in">```</span></span>
 <span id="cb44-289"><a href="#cb44-289"></a></span>
-<span id="cb44-290"><a href="#cb44-290"></a><span class="ss">3. </span>Calculate new centroids</span>
-<span id="cb44-291"><a href="#cb44-291"></a><span class="ss">   - </span>The **centroid** of each of the $k$ clusters becomes the new mean</span>
-<span id="cb44-292"><a href="#cb44-292"></a></span>
-<span id="cb44-293"><a href="#cb44-293"></a>::: {#fig-kmeans-step3 style="width:40%;"}</span>
-<span id="cb44-294"><a href="#cb44-294"></a><span class="al">![](./assets/k-means2.svg)</span></span>
-<span id="cb44-295"><a href="#cb44-295"></a>:::</span>
-<span id="cb44-296"><a href="#cb44-296"></a></span>
-<span id="cb44-299"><a href="#cb44-299"></a><span class="in">```{python}</span></span>
-<span id="cb44-300"><a href="#cb44-300"></a><span class="kw">def</span> compute_centroids(</span>
-<span id="cb44-301"><a href="#cb44-301"></a>        x: np.ndarray,</span>
-<span id="cb44-302"><a href="#cb44-302"></a>        nearest_centroid_indices: np.ndarray,</span>
-<span id="cb44-303"><a href="#cb44-303"></a>        n_clusters: <span class="bu">int</span></span>
-<span id="cb44-304"><a href="#cb44-304"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
-<span id="cb44-305"><a href="#cb44-305"></a>    <span class="co">"""Compute centroids.</span></span>
-<span id="cb44-306"><a href="#cb44-306"></a><span class="co">    </span></span>
-<span id="cb44-307"><a href="#cb44-307"></a><span class="co">    Inputs:</span></span>
-<span id="cb44-308"><a href="#cb44-308"></a><span class="co">      - x (np.ndarray): Input data of shape</span></span>
-<span id="cb44-309"><a href="#cb44-309"></a><span class="co">        (num_points, num_features)</span></span>
-<span id="cb44-310"><a href="#cb44-310"></a><span class="co">      - nearest_centroid_indices: Index of nearest centroid of shape</span></span>
-<span id="cb44-311"><a href="#cb44-311"></a><span class="co">        (num_points,)</span></span>
-<span id="cb44-312"><a href="#cb44-312"></a><span class="co">      - n_clusters (int): Number of clusters being used</span></span>
-<span id="cb44-313"><a href="#cb44-313"></a><span class="co">      </span></span>
-<span id="cb44-314"><a href="#cb44-314"></a><span class="co">    Outputs:</span></span>
-<span id="cb44-315"><a href="#cb44-315"></a><span class="co">      - centroids (np.ndarray): Cluster centroids with shape</span></span>
-<span id="cb44-316"><a href="#cb44-316"></a><span class="co">        (num_clusters, num_features)</span></span>
-<span id="cb44-317"><a href="#cb44-317"></a><span class="co">    """</span></span>
-<span id="cb44-318"><a href="#cb44-318"></a>    <span class="co"># new centroids vector</span></span>
-<span id="cb44-319"><a href="#cb44-319"></a>    centroids <span class="op">=</span> np.zeros((n_clusters, x.shape[<span class="dv">1</span>]))</span>
-<span id="cb44-320"><a href="#cb44-320"></a>    <span class="co"># loop over each centroids</span></span>
-<span id="cb44-321"><a href="#cb44-321"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n_clusters):</span>
-<span id="cb44-322"><a href="#cb44-322"></a>        <span class="co"># calculate the mean of all points assigned to this centroid</span></span>
-<span id="cb44-323"><a href="#cb44-323"></a>        centroids[k, :] <span class="op">=</span> np.mean(</span>
-<span id="cb44-324"><a href="#cb44-324"></a>            x[nearest_centroid_indices <span class="op">==</span> k, :],</span>
-<span id="cb44-325"><a href="#cb44-325"></a>            axis<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb44-326"><a href="#cb44-326"></a>        )</span>
-<span id="cb44-327"><a href="#cb44-327"></a>    <span class="cf">return</span> centroids</span>
-<span id="cb44-328"><a href="#cb44-328"></a><span class="in">```</span></span>
-<span id="cb44-329"><a href="#cb44-329"></a></span>
-<span id="cb44-330"><a href="#cb44-330"></a><span class="fu">### Step 4: Repeat until convergence</span></span>
+<span id="cb44-290"><a href="#cb44-290"></a><span class="fu">### Step 3: Calculate new centroids</span></span>
+<span id="cb44-291"><a href="#cb44-291"></a></span>
+<span id="cb44-292"><a href="#cb44-292"></a><span class="ss">3. </span>Calculate new centroids</span>
+<span id="cb44-293"><a href="#cb44-293"></a><span class="ss">   - </span>The **centroid** of each of the $k$ clusters becomes the new mean</span>
+<span id="cb44-294"><a href="#cb44-294"></a></span>
+<span id="cb44-295"><a href="#cb44-295"></a>::: {#fig-kmeans-step3 style="width:40%;"}</span>
+<span id="cb44-296"><a href="#cb44-296"></a><span class="al">![](./assets/k-means2.svg)</span></span>
+<span id="cb44-297"><a href="#cb44-297"></a>:::</span>
+<span id="cb44-298"><a href="#cb44-298"></a></span>
+<span id="cb44-301"><a href="#cb44-301"></a><span class="in">```{python}</span></span>
+<span id="cb44-302"><a href="#cb44-302"></a><span class="kw">def</span> compute_centroids(</span>
+<span id="cb44-303"><a href="#cb44-303"></a>        x: np.ndarray,</span>
+<span id="cb44-304"><a href="#cb44-304"></a>        nearest_centroid_indices: np.ndarray,</span>
+<span id="cb44-305"><a href="#cb44-305"></a>        n_clusters: <span class="bu">int</span></span>
+<span id="cb44-306"><a href="#cb44-306"></a>) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb44-307"><a href="#cb44-307"></a>    <span class="co">"""Compute centroids.</span></span>
+<span id="cb44-308"><a href="#cb44-308"></a><span class="co">    </span></span>
+<span id="cb44-309"><a href="#cb44-309"></a><span class="co">    Inputs:</span></span>
+<span id="cb44-310"><a href="#cb44-310"></a><span class="co">      - x (np.ndarray): Input data of shape</span></span>
+<span id="cb44-311"><a href="#cb44-311"></a><span class="co">        (num_points, num_features)</span></span>
+<span id="cb44-312"><a href="#cb44-312"></a><span class="co">      - nearest_centroid_indices: Index of nearest centroid of shape</span></span>
+<span id="cb44-313"><a href="#cb44-313"></a><span class="co">        (num_points,)</span></span>
+<span id="cb44-314"><a href="#cb44-314"></a><span class="co">      - n_clusters (int): Number of clusters being used</span></span>
+<span id="cb44-315"><a href="#cb44-315"></a><span class="co">      </span></span>
+<span id="cb44-316"><a href="#cb44-316"></a><span class="co">    Outputs:</span></span>
+<span id="cb44-317"><a href="#cb44-317"></a><span class="co">      - centroids (np.ndarray): Cluster centroids with shape</span></span>
+<span id="cb44-318"><a href="#cb44-318"></a><span class="co">        (num_clusters, num_features)</span></span>
+<span id="cb44-319"><a href="#cb44-319"></a><span class="co">    """</span></span>
+<span id="cb44-320"><a href="#cb44-320"></a>    <span class="co"># new centroids vector</span></span>
+<span id="cb44-321"><a href="#cb44-321"></a>    centroids <span class="op">=</span> np.zeros((n_clusters, x.shape[<span class="dv">1</span>]))</span>
+<span id="cb44-322"><a href="#cb44-322"></a>    <span class="co"># loop over each centroids</span></span>
+<span id="cb44-323"><a href="#cb44-323"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n_clusters):</span>
+<span id="cb44-324"><a href="#cb44-324"></a>        <span class="co"># calculate the mean of all points assigned to this centroid</span></span>
+<span id="cb44-325"><a href="#cb44-325"></a>        centroids[k, :] <span class="op">=</span> np.mean(</span>
+<span id="cb44-326"><a href="#cb44-326"></a>            x[nearest_centroid_indices <span class="op">==</span> k, :],</span>
+<span id="cb44-327"><a href="#cb44-327"></a>            axis<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb44-328"><a href="#cb44-328"></a>        )</span>
+<span id="cb44-329"><a href="#cb44-329"></a>    <span class="cf">return</span> centroids</span>
+<span id="cb44-330"><a href="#cb44-330"></a><span class="in">```</span></span>
 <span id="cb44-331"><a href="#cb44-331"></a></span>
-<span id="cb44-332"><a href="#cb44-332"></a><span class="ss">4. </span>Repeat steps 2 and 3 until convergence has been reached</span>
+<span id="cb44-332"><a href="#cb44-332"></a><span class="fu">### Step 4: Repeat until convergence</span></span>
 <span id="cb44-333"><a href="#cb44-333"></a></span>
-<span id="cb44-334"><a href="#cb44-334"></a>::: {#fig-kmeans-step4 style="width:40%;"}</span>
+<span id="cb44-334"><a href="#cb44-334"></a><span class="ss">4. </span>Repeat steps 2 and 3 until convergence has been reached</span>
 <span id="cb44-335"><a href="#cb44-335"></a></span>
-<span id="cb44-336"><a href="#cb44-336"></a><span class="al">![](./assets/k-means3.svg)</span></span>
+<span id="cb44-336"><a href="#cb44-336"></a>::: {#fig-kmeans-step4 style="width:40%;"}</span>
 <span id="cb44-337"><a href="#cb44-337"></a></span>
-<span id="cb44-338"><a href="#cb44-338"></a>:::</span>
+<span id="cb44-338"><a href="#cb44-338"></a><span class="al">![](./assets/k-means3.svg)</span></span>
 <span id="cb44-339"><a href="#cb44-339"></a></span>
-<span id="cb44-342"><a href="#cb44-342"></a><span class="in">```{python}</span></span>
-<span id="cb44-343"><a href="#cb44-343"></a><span class="im">from</span> __future__ <span class="im">import</span> absolute_import, annotations, division, print_function</span>
-<span id="cb44-344"><a href="#cb44-344"></a></span>
-<span id="cb44-345"><a href="#cb44-345"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
-<span id="cb44-346"><a href="#cb44-346"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb44-347"><a href="#cb44-347"></a><span class="im">import</span> IPython.display <span class="im">as</span> ipydis</span>
-<span id="cb44-348"><a href="#cb44-348"></a></span>
-<span id="cb44-349"><a href="#cb44-349"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_kmeans_points</span>
+<span id="cb44-340"><a href="#cb44-340"></a>:::</span>
+<span id="cb44-341"><a href="#cb44-341"></a></span>
+<span id="cb44-344"><a href="#cb44-344"></a><span class="in">```{python}</span></span>
+<span id="cb44-345"><a href="#cb44-345"></a><span class="im">from</span> __future__ <span class="im">import</span> absolute_import, annotations, division, print_function</span>
+<span id="cb44-346"><a href="#cb44-346"></a></span>
+<span id="cb44-347"><a href="#cb44-347"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
+<span id="cb44-348"><a href="#cb44-348"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb44-349"><a href="#cb44-349"></a><span class="im">import</span> IPython.display <span class="im">as</span> ipydis</span>
 <span id="cb44-350"><a href="#cb44-350"></a></span>
-<span id="cb44-351"><a href="#cb44-351"></a><span class="kw">def</span> apply_kmeans(</span>
-<span id="cb44-352"><a href="#cb44-352"></a>    x: np.ndarray,</span>
-<span id="cb44-353"><a href="#cb44-353"></a>    n_clusters: <span class="bu">int</span>,</span>
-<span id="cb44-354"><a href="#cb44-354"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">100</span>,</span>
-<span id="cb44-355"><a href="#cb44-355"></a>    seed: <span class="bu">int</span> <span class="op">=</span> <span class="dv">123</span>,</span>
-<span id="cb44-356"><a href="#cb44-356"></a>    cmap: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span>,</span>
-<span id="cb44-357"><a href="#cb44-357"></a>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[np.ndarray, np.ndarray]:</span>
-<span id="cb44-358"><a href="#cb44-358"></a>    <span class="co">"""Returns (centroids, cluster_id)."""</span></span>
-<span id="cb44-359"><a href="#cb44-359"></a>    <span class="co"># ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓</span></span>
-<span id="cb44-360"><a href="#cb44-360"></a>    <span class="co"># ┃ initialize centroids:               ┃</span></span>
-<span id="cb44-361"><a href="#cb44-361"></a>    <span class="co"># ┃   - shape: (n_clusters, x.shape[1]) ┃</span></span>
-<span id="cb44-362"><a href="#cb44-362"></a>    <span class="co"># ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛</span></span>
-<span id="cb44-363"><a href="#cb44-363"></a>    centroids <span class="op">=</span> initialize_centroids(</span>
-<span id="cb44-364"><a href="#cb44-364"></a>        x,  <span class="co"># (n_points, n_features)</span></span>
-<span id="cb44-365"><a href="#cb44-365"></a>        n_clusters<span class="op">=</span>n_clusters,</span>
-<span id="cb44-366"><a href="#cb44-366"></a>        seed<span class="op">=</span>seed,</span>
-<span id="cb44-367"><a href="#cb44-367"></a>    )</span>
-<span id="cb44-368"><a href="#cb44-368"></a>    <span class="co"># ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓</span></span>
-<span id="cb44-369"><a href="#cb44-369"></a>    <span class="co"># ┃ -- Iteratively improve centroid location ----------------- ┃</span></span>
-<span id="cb44-370"><a href="#cb44-370"></a>    <span class="co"># ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛</span></span>
-<span id="cb44-371"><a href="#cb44-371"></a>    <span class="co"># ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓</span></span>
-<span id="cb44-372"><a href="#cb44-372"></a>    <span class="co"># ┃ 1. Compute the distance from entries in x to each centroid ┃</span></span>
-<span id="cb44-373"><a href="#cb44-373"></a>    <span class="co"># ┃    - distance.shape: (n_points, n_clusters)                ┃</span></span>
-<span id="cb44-374"><a href="#cb44-374"></a>    <span class="co"># ┃ 2. Return the closest cluster (0, 1, ..., n_clusters-1)    ┃</span></span>
-<span id="cb44-375"><a href="#cb44-375"></a>    <span class="co"># ┃    - cluster_id.shape: (n_points)                          ┃</span></span>
-<span id="cb44-376"><a href="#cb44-376"></a>    <span class="co"># ┃ 3. Calculate the mean position of each labeled cluster     ┃</span></span>
-<span id="cb44-377"><a href="#cb44-377"></a>    <span class="co"># ┃    - centroids.shape: (n_clusters, n_features)             ┃</span></span>
-<span id="cb44-378"><a href="#cb44-378"></a>    <span class="co"># ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛</span></span>
-<span id="cb44-379"><a href="#cb44-379"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(iterations):</span>
-<span id="cb44-380"><a href="#cb44-380"></a>        <span class="co"># save old centroids</span></span>
-<span id="cb44-381"><a href="#cb44-381"></a>        old_centroids <span class="op">=</span> centroids</span>
-<span id="cb44-382"><a href="#cb44-382"></a>        distance <span class="op">=</span> compute_distance(x, old_centroids, n_clusters)</span>
-<span id="cb44-383"><a href="#cb44-383"></a>        cluster_id <span class="op">=</span> find_closest_centroid(distance)</span>
-<span id="cb44-384"><a href="#cb44-384"></a>        centroids <span class="op">=</span> compute_centroids(x, cluster_id, n_clusters)</span>
-<span id="cb44-385"><a href="#cb44-385"></a></span>
-<span id="cb44-386"><a href="#cb44-386"></a>        <span class="co"># plotting for visual comprehension</span></span>
-<span id="cb44-387"><a href="#cb44-387"></a>        ipydis.clear_output(<span class="st">"wait"</span>)</span>
-<span id="cb44-388"><a href="#cb44-388"></a>        <span class="bu">print</span>(<span class="ss">f"Iteration: </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-389"><a href="#cb44-389"></a>        plot_kmeans_points(x, centroids, cluster_id, cmap<span class="op">=</span>cmap)</span>
-<span id="cb44-390"><a href="#cb44-390"></a>        time.sleep(<span class="fl">0.5</span>)</span>
-<span id="cb44-391"><a href="#cb44-391"></a></span>
-<span id="cb44-392"><a href="#cb44-392"></a>        <span class="co"># if our points are the same as the old centroids, then we can stop</span></span>
-<span id="cb44-393"><a href="#cb44-393"></a>        <span class="cf">if</span> np.<span class="bu">all</span>(old_centroids <span class="op">==</span> centroids):</span>
-<span id="cb44-394"><a href="#cb44-394"></a>            <span class="bu">print</span>(<span class="ss">f"No change in centroids! Exiting!"</span>)</span>
-<span id="cb44-395"><a href="#cb44-395"></a>            <span class="cf">break</span></span>
-<span id="cb44-396"><a href="#cb44-396"></a></span>
-<span id="cb44-397"><a href="#cb44-397"></a>    <span class="cf">return</span> centroids, cluster_id</span>
-<span id="cb44-398"><a href="#cb44-398"></a><span class="in">```</span></span>
-<span id="cb44-399"><a href="#cb44-399"></a></span>
-<span id="cb44-400"><a href="#cb44-400"></a><span class="fu">## Run Example</span></span>
+<span id="cb44-351"><a href="#cb44-351"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_kmeans_points</span>
+<span id="cb44-352"><a href="#cb44-352"></a></span>
+<span id="cb44-353"><a href="#cb44-353"></a><span class="kw">def</span> apply_kmeans(</span>
+<span id="cb44-354"><a href="#cb44-354"></a>    x: np.ndarray,</span>
+<span id="cb44-355"><a href="#cb44-355"></a>    n_clusters: <span class="bu">int</span>,</span>
+<span id="cb44-356"><a href="#cb44-356"></a>    iterations: <span class="bu">int</span> <span class="op">=</span> <span class="dv">100</span>,</span>
+<span id="cb44-357"><a href="#cb44-357"></a>    seed: <span class="bu">int</span> <span class="op">=</span> <span class="dv">123</span>,</span>
+<span id="cb44-358"><a href="#cb44-358"></a>    cmap: Optional[<span class="bu">str</span>] <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb44-359"><a href="#cb44-359"></a>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[np.ndarray, np.ndarray]:</span>
+<span id="cb44-360"><a href="#cb44-360"></a>    <span class="co">"""Returns (centroids, cluster_id)."""</span></span>
+<span id="cb44-361"><a href="#cb44-361"></a>    <span class="co"># ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓</span></span>
+<span id="cb44-362"><a href="#cb44-362"></a>    <span class="co"># ┃ initialize centroids:               ┃</span></span>
+<span id="cb44-363"><a href="#cb44-363"></a>    <span class="co"># ┃   - shape: (n_clusters, x.shape[1]) ┃</span></span>
+<span id="cb44-364"><a href="#cb44-364"></a>    <span class="co"># ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛</span></span>
+<span id="cb44-365"><a href="#cb44-365"></a>    centroids <span class="op">=</span> initialize_centroids(</span>
+<span id="cb44-366"><a href="#cb44-366"></a>        x,  <span class="co"># (n_points, n_features)</span></span>
+<span id="cb44-367"><a href="#cb44-367"></a>        n_clusters<span class="op">=</span>n_clusters,</span>
+<span id="cb44-368"><a href="#cb44-368"></a>        seed<span class="op">=</span>seed,</span>
+<span id="cb44-369"><a href="#cb44-369"></a>    )</span>
+<span id="cb44-370"><a href="#cb44-370"></a>    <span class="co"># ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓</span></span>
+<span id="cb44-371"><a href="#cb44-371"></a>    <span class="co"># ┃ -- Iteratively improve centroid location ----------------- ┃</span></span>
+<span id="cb44-372"><a href="#cb44-372"></a>    <span class="co"># ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛</span></span>
+<span id="cb44-373"><a href="#cb44-373"></a>    <span class="co"># ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓</span></span>
+<span id="cb44-374"><a href="#cb44-374"></a>    <span class="co"># ┃ 1. Compute the distance from entries in x to each centroid ┃</span></span>
+<span id="cb44-375"><a href="#cb44-375"></a>    <span class="co"># ┃    - distance.shape: (n_points, n_clusters)                ┃</span></span>
+<span id="cb44-376"><a href="#cb44-376"></a>    <span class="co"># ┃ 2. Return the closest cluster (0, 1, ..., n_clusters-1)    ┃</span></span>
+<span id="cb44-377"><a href="#cb44-377"></a>    <span class="co"># ┃    - cluster_id.shape: (n_points)                          ┃</span></span>
+<span id="cb44-378"><a href="#cb44-378"></a>    <span class="co"># ┃ 3. Calculate the mean position of each labeled cluster     ┃</span></span>
+<span id="cb44-379"><a href="#cb44-379"></a>    <span class="co"># ┃    - centroids.shape: (n_clusters, n_features)             ┃</span></span>
+<span id="cb44-380"><a href="#cb44-380"></a>    <span class="co"># ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛</span></span>
+<span id="cb44-381"><a href="#cb44-381"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(iterations):</span>
+<span id="cb44-382"><a href="#cb44-382"></a>        <span class="co"># save old centroids</span></span>
+<span id="cb44-383"><a href="#cb44-383"></a>        old_centroids <span class="op">=</span> centroids</span>
+<span id="cb44-384"><a href="#cb44-384"></a>        distance <span class="op">=</span> compute_distance(x, old_centroids, n_clusters)</span>
+<span id="cb44-385"><a href="#cb44-385"></a>        cluster_id <span class="op">=</span> find_closest_centroid(distance)</span>
+<span id="cb44-386"><a href="#cb44-386"></a>        centroids <span class="op">=</span> compute_centroids(x, cluster_id, n_clusters)</span>
+<span id="cb44-387"><a href="#cb44-387"></a></span>
+<span id="cb44-388"><a href="#cb44-388"></a>        <span class="co"># plotting for visual comprehension</span></span>
+<span id="cb44-389"><a href="#cb44-389"></a>        ipydis.clear_output(<span class="st">"wait"</span>)</span>
+<span id="cb44-390"><a href="#cb44-390"></a>        <span class="bu">print</span>(<span class="ss">f"Iteration: </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-391"><a href="#cb44-391"></a>        plot_kmeans_points(x, centroids, cluster_id, cmap<span class="op">=</span>cmap)</span>
+<span id="cb44-392"><a href="#cb44-392"></a>        time.sleep(<span class="fl">0.5</span>)</span>
+<span id="cb44-393"><a href="#cb44-393"></a></span>
+<span id="cb44-394"><a href="#cb44-394"></a>        <span class="co"># if our points are the same as the old centroids, then we can stop</span></span>
+<span id="cb44-395"><a href="#cb44-395"></a>        <span class="cf">if</span> np.<span class="bu">all</span>(old_centroids <span class="op">==</span> centroids):</span>
+<span id="cb44-396"><a href="#cb44-396"></a>            <span class="bu">print</span>(<span class="ss">f"No change in centroids! Exiting!"</span>)</span>
+<span id="cb44-397"><a href="#cb44-397"></a>            <span class="cf">break</span></span>
+<span id="cb44-398"><a href="#cb44-398"></a></span>
+<span id="cb44-399"><a href="#cb44-399"></a>    <span class="cf">return</span> centroids, cluster_id</span>
+<span id="cb44-400"><a href="#cb44-400"></a><span class="in">```</span></span>
 <span id="cb44-401"><a href="#cb44-401"></a></span>
-<span id="cb44-404"><a href="#cb44-404"></a><span class="in">```{python}</span></span>
-<span id="cb44-405"><a href="#cb44-405"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> COLORS</span>
-<span id="cb44-406"><a href="#cb44-406"></a></span>
-<span id="cb44-407"><a href="#cb44-407"></a>cmap <span class="op">=</span> ListedColormap(<span class="bu">list</span>(COLORS.values()))</span>
+<span id="cb44-402"><a href="#cb44-402"></a><span class="fu">## Run Example</span></span>
+<span id="cb44-403"><a href="#cb44-403"></a></span>
+<span id="cb44-406"><a href="#cb44-406"></a><span class="in">```{python}</span></span>
+<span id="cb44-407"><a href="#cb44-407"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> COLORS</span>
 <span id="cb44-408"><a href="#cb44-408"></a></span>
-<span id="cb44-409"><a href="#cb44-409"></a>n_samples <span class="op">=</span> <span class="dv">500</span>  <span class="co"># 300 2D data points</span></span>
-<span id="cb44-410"><a href="#cb44-410"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
-<span id="cb44-411"><a href="#cb44-411"></a>n_clusters_true <span class="op">=</span> <span class="dv">5</span>  <span class="co"># unique blobs</span></span>
-<span id="cb44-412"><a href="#cb44-412"></a>n_clusters_guess <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb44-413"><a href="#cb44-413"></a>SEED <span class="op">=</span> <span class="dv">456</span></span>
-<span id="cb44-414"><a href="#cb44-414"></a>iterations <span class="op">=</span> <span class="dv">50</span></span>
-<span id="cb44-415"><a href="#cb44-415"></a></span>
-<span id="cb44-416"><a href="#cb44-416"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html</span></span>
-<span id="cb44-417"><a href="#cb44-417"></a>x, y <span class="op">=</span> datasets.make_blobs(</span>
-<span id="cb44-418"><a href="#cb44-418"></a>    n_samples<span class="op">=</span>n_samples,</span>
-<span id="cb44-419"><a href="#cb44-419"></a>    n_features<span class="op">=</span>n_features,</span>
-<span id="cb44-420"><a href="#cb44-420"></a>    centers<span class="op">=</span>n_clusters_true,</span>
-<span id="cb44-421"><a href="#cb44-421"></a>    random_state<span class="op">=</span>SEED,</span>
-<span id="cb44-422"><a href="#cb44-422"></a>)</span>
-<span id="cb44-423"><a href="#cb44-423"></a></span>
-<span id="cb44-424"><a href="#cb44-424"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span>
+<span id="cb44-409"><a href="#cb44-409"></a>cmap <span class="op">=</span> ListedColormap(<span class="bu">list</span>(COLORS.values()))</span>
+<span id="cb44-410"><a href="#cb44-410"></a></span>
+<span id="cb44-411"><a href="#cb44-411"></a>n_samples <span class="op">=</span> <span class="dv">500</span>  <span class="co"># 300 2D data points</span></span>
+<span id="cb44-412"><a href="#cb44-412"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
+<span id="cb44-413"><a href="#cb44-413"></a>n_clusters_true <span class="op">=</span> <span class="dv">5</span>  <span class="co"># unique blobs</span></span>
+<span id="cb44-414"><a href="#cb44-414"></a>n_clusters_guess <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb44-415"><a href="#cb44-415"></a>SEED <span class="op">=</span> <span class="dv">456</span></span>
+<span id="cb44-416"><a href="#cb44-416"></a>iterations <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb44-417"><a href="#cb44-417"></a></span>
+<span id="cb44-418"><a href="#cb44-418"></a><span class="co"># https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html</span></span>
+<span id="cb44-419"><a href="#cb44-419"></a>x, y <span class="op">=</span> datasets.make_blobs(</span>
+<span id="cb44-420"><a href="#cb44-420"></a>    n_samples<span class="op">=</span>n_samples,</span>
+<span id="cb44-421"><a href="#cb44-421"></a>    n_features<span class="op">=</span>n_features,</span>
+<span id="cb44-422"><a href="#cb44-422"></a>    centers<span class="op">=</span>n_clusters_true,</span>
+<span id="cb44-423"><a href="#cb44-423"></a>    random_state<span class="op">=</span>SEED,</span>
+<span id="cb44-424"><a href="#cb44-424"></a>)</span>
 <span id="cb44-425"><a href="#cb44-425"></a></span>
-<span id="cb44-426"><a href="#cb44-426"></a>centroids, cluster_id <span class="op">=</span> apply_kmeans(</span>
-<span id="cb44-427"><a href="#cb44-427"></a>    x_sc,</span>
-<span id="cb44-428"><a href="#cb44-428"></a>    n_clusters_guess,</span>
-<span id="cb44-429"><a href="#cb44-429"></a>    iterations,</span>
-<span id="cb44-430"><a href="#cb44-430"></a>    SEED,</span>
-<span id="cb44-431"><a href="#cb44-431"></a>    cmap<span class="op">=</span>cmap,</span>
-<span id="cb44-432"><a href="#cb44-432"></a>)</span>
-<span id="cb44-433"><a href="#cb44-433"></a><span class="in">```</span></span>
-<span id="cb44-434"><a href="#cb44-434"></a></span>
-<span id="cb44-435"><a href="#cb44-435"></a></span>
-<span id="cb44-436"><a href="#cb44-436"></a><span class="fu">## K-Means on a Breast Cancer Dataset</span></span>
+<span id="cb44-426"><a href="#cb44-426"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span>
+<span id="cb44-427"><a href="#cb44-427"></a></span>
+<span id="cb44-428"><a href="#cb44-428"></a>centroids, cluster_id <span class="op">=</span> apply_kmeans(</span>
+<span id="cb44-429"><a href="#cb44-429"></a>    x_sc,</span>
+<span id="cb44-430"><a href="#cb44-430"></a>    n_clusters_guess,</span>
+<span id="cb44-431"><a href="#cb44-431"></a>    iterations,</span>
+<span id="cb44-432"><a href="#cb44-432"></a>    SEED,</span>
+<span id="cb44-433"><a href="#cb44-433"></a>    cmap<span class="op">=</span>cmap,</span>
+<span id="cb44-434"><a href="#cb44-434"></a>)</span>
+<span id="cb44-435"><a href="#cb44-435"></a><span class="in">```</span></span>
+<span id="cb44-436"><a href="#cb44-436"></a></span>
 <span id="cb44-437"><a href="#cb44-437"></a></span>
-<span id="cb44-438"><a href="#cb44-438"></a>Now we use more realistic data that cannot be easily plotted on a 2D grid.</span>
-<span id="cb44-439"><a href="#cb44-439"></a>This dataset has 30 features (columns) for 569 patients (rows).</span>
-<span id="cb44-440"><a href="#cb44-440"></a>In addition, there is a _target_ feature that indicates if the cancer was</span>
-<span id="cb44-441"><a href="#cb44-441"></a>_malignant_ (0) or _benign_ (1).</span>
-<span id="cb44-442"><a href="#cb44-442"></a>In the ideal case, our 30 features would provide easy deliniation between these</span>
-<span id="cb44-443"><a href="#cb44-443"></a>two classes.</span>
-<span id="cb44-444"><a href="#cb44-444"></a></span>
-<span id="cb44-445"><a href="#cb44-445"></a>Let's extract our data into $x$ and our truth labels into $y$</span>
+<span id="cb44-438"><a href="#cb44-438"></a><span class="fu">## K-Means on a Breast Cancer Dataset</span></span>
+<span id="cb44-439"><a href="#cb44-439"></a></span>
+<span id="cb44-440"><a href="#cb44-440"></a>Now we use more realistic data that cannot be easily plotted on a 2D grid.</span>
+<span id="cb44-441"><a href="#cb44-441"></a>This dataset has 30 features (columns) for 569 patients (rows).</span>
+<span id="cb44-442"><a href="#cb44-442"></a>In addition, there is a _target_ feature that indicates if the cancer was</span>
+<span id="cb44-443"><a href="#cb44-443"></a>_malignant_ (0) or _benign_ (1).</span>
+<span id="cb44-444"><a href="#cb44-444"></a>In the ideal case, our 30 features would provide easy deliniation between these</span>
+<span id="cb44-445"><a href="#cb44-445"></a>two classes.</span>
 <span id="cb44-446"><a href="#cb44-446"></a></span>
-<span id="cb44-449"><a href="#cb44-449"></a><span class="in">```{python}</span></span>
-<span id="cb44-450"><a href="#cb44-450"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb44-451"><a href="#cb44-451"></a></span>
-<span id="cb44-452"><a href="#cb44-452"></a></span>
-<span id="cb44-453"><a href="#cb44-453"></a><span class="kw">def</span> load_cancer_data() <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
-<span id="cb44-454"><a href="#cb44-454"></a>    <span class="co">"""Return cancer dataset (unscaled)."""</span></span>
-<span id="cb44-455"><a href="#cb44-455"></a>    <span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
-<span id="cb44-456"><a href="#cb44-456"></a></span>
-<span id="cb44-457"><a href="#cb44-457"></a>    data <span class="op">=</span> datasets.load_breast_cancer()</span>
-<span id="cb44-458"><a href="#cb44-458"></a>    <span class="cf">return</span> data</span>
-<span id="cb44-459"><a href="#cb44-459"></a></span>
-<span id="cb44-460"><a href="#cb44-460"></a></span>
-<span id="cb44-461"><a href="#cb44-461"></a><span class="kw">def</span> sort_cancer_data(data: <span class="bu">dict</span>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[pd.DataFrame, pd.Series]:</span>
-<span id="cb44-462"><a href="#cb44-462"></a>    <span class="co"># Get features and target</span></span>
-<span id="cb44-463"><a href="#cb44-463"></a>    x <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb44-464"><a href="#cb44-464"></a>        data[<span class="st">"data"</span>],</span>
-<span id="cb44-465"><a href="#cb44-465"></a>        columns<span class="op">=</span>data[<span class="st">"feature_names"</span>],</span>
-<span id="cb44-466"><a href="#cb44-466"></a>    )</span>
-<span id="cb44-467"><a href="#cb44-467"></a>    x <span class="op">=</span> x[<span class="bu">sorted</span>(x.columns)]</span>
-<span id="cb44-468"><a href="#cb44-468"></a>    y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
-<span id="cb44-469"><a href="#cb44-469"></a>    <span class="cf">return</span> x, y</span>
-<span id="cb44-470"><a href="#cb44-470"></a><span class="in">```</span></span>
-<span id="cb44-471"><a href="#cb44-471"></a></span>
-<span id="cb44-474"><a href="#cb44-474"></a><span class="in">```{python}</span></span>
-<span id="cb44-475"><a href="#cb44-475"></a>data <span class="op">=</span> load_cancer_data()</span>
-<span id="cb44-476"><a href="#cb44-476"></a>x, y <span class="op">=</span> sort_cancer_data(data)</span>
-<span id="cb44-477"><a href="#cb44-477"></a><span class="in">```</span></span>
-<span id="cb44-478"><a href="#cb44-478"></a></span>
-<span id="cb44-481"><a href="#cb44-481"></a><span class="in">```{python}</span></span>
-<span id="cb44-482"><a href="#cb44-482"></a><span class="bu">print</span>(data.keys())</span>
-<span id="cb44-483"><a href="#cb44-483"></a><span class="bu">print</span>(<span class="st">"data size:"</span>, <span class="bu">len</span>(data[<span class="st">"data"</span>]))</span>
-<span id="cb44-484"><a href="#cb44-484"></a><span class="bu">print</span>(<span class="st">"number of features:"</span>, <span class="bu">len</span>(data[<span class="st">"feature_names"</span>]))</span>
-<span id="cb44-485"><a href="#cb44-485"></a><span class="bu">print</span>(data[<span class="st">"feature_names"</span>])</span>
-<span id="cb44-486"><a href="#cb44-486"></a><span class="in">```</span></span>
-<span id="cb44-487"><a href="#cb44-487"></a></span>
-<span id="cb44-490"><a href="#cb44-490"></a><span class="in">```{python}</span></span>
-<span id="cb44-491"><a href="#cb44-491"></a><span class="co"># wrap data in pandas DataFrame</span></span>
-<span id="cb44-492"><a href="#cb44-492"></a><span class="co"># y = data['target'] # value: 0 = 'Malignant' 1 = 'Benign'</span></span>
-<span id="cb44-493"><a href="#cb44-493"></a>x <span class="op">=</span> data[<span class="st">"data"</span>]</span>
-<span id="cb44-494"><a href="#cb44-494"></a>y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
-<span id="cb44-495"><a href="#cb44-495"></a><span class="bu">print</span>(<span class="ss">f"(malignant, benign): </span><span class="sc">{</span>np<span class="sc">.</span>bincount(y)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-496"><a href="#cb44-496"></a><span class="bu">print</span>(<span class="ss">f"x.shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-497"><a href="#cb44-497"></a><span class="bu">print</span>(<span class="ss">f"y.shape: </span><span class="sc">{</span>y<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-498"><a href="#cb44-498"></a><span class="in">```</span></span>
-<span id="cb44-499"><a href="#cb44-499"></a></span>
-<span id="cb44-502"><a href="#cb44-502"></a><span class="in">```{python}</span></span>
-<span id="cb44-503"><a href="#cb44-503"></a><span class="co"># normalize</span></span>
-<span id="cb44-504"><a href="#cb44-504"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span>
-<span id="cb44-505"><a href="#cb44-505"></a><span class="in">```</span></span>
-<span id="cb44-506"><a href="#cb44-506"></a></span>
-<span id="cb44-507"><a href="#cb44-507"></a>Plot histogram of number of true class labels (malignant/benign) and number of k-means cluster labels.</span>
+<span id="cb44-447"><a href="#cb44-447"></a>Let's extract our data into $x$ and our truth labels into $y$</span>
+<span id="cb44-448"><a href="#cb44-448"></a></span>
+<span id="cb44-451"><a href="#cb44-451"></a><span class="in">```{python}</span></span>
+<span id="cb44-452"><a href="#cb44-452"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb44-453"><a href="#cb44-453"></a></span>
+<span id="cb44-454"><a href="#cb44-454"></a></span>
+<span id="cb44-455"><a href="#cb44-455"></a><span class="kw">def</span> load_cancer_data() <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
+<span id="cb44-456"><a href="#cb44-456"></a>    <span class="co">"""Return cancer dataset (unscaled)."""</span></span>
+<span id="cb44-457"><a href="#cb44-457"></a>    <span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
+<span id="cb44-458"><a href="#cb44-458"></a></span>
+<span id="cb44-459"><a href="#cb44-459"></a>    data <span class="op">=</span> datasets.load_breast_cancer()</span>
+<span id="cb44-460"><a href="#cb44-460"></a>    <span class="cf">return</span> data</span>
+<span id="cb44-461"><a href="#cb44-461"></a></span>
+<span id="cb44-462"><a href="#cb44-462"></a></span>
+<span id="cb44-463"><a href="#cb44-463"></a><span class="kw">def</span> sort_cancer_data(data: <span class="bu">dict</span>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[pd.DataFrame, pd.Series]:</span>
+<span id="cb44-464"><a href="#cb44-464"></a>    <span class="co"># Get features and target</span></span>
+<span id="cb44-465"><a href="#cb44-465"></a>    x <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb44-466"><a href="#cb44-466"></a>        data[<span class="st">"data"</span>],</span>
+<span id="cb44-467"><a href="#cb44-467"></a>        columns<span class="op">=</span>data[<span class="st">"feature_names"</span>],</span>
+<span id="cb44-468"><a href="#cb44-468"></a>    )</span>
+<span id="cb44-469"><a href="#cb44-469"></a>    x <span class="op">=</span> x[<span class="bu">sorted</span>(x.columns)]</span>
+<span id="cb44-470"><a href="#cb44-470"></a>    y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
+<span id="cb44-471"><a href="#cb44-471"></a>    <span class="cf">return</span> x, y</span>
+<span id="cb44-472"><a href="#cb44-472"></a><span class="in">```</span></span>
+<span id="cb44-473"><a href="#cb44-473"></a></span>
+<span id="cb44-476"><a href="#cb44-476"></a><span class="in">```{python}</span></span>
+<span id="cb44-477"><a href="#cb44-477"></a>data <span class="op">=</span> load_cancer_data()</span>
+<span id="cb44-478"><a href="#cb44-478"></a>x, y <span class="op">=</span> sort_cancer_data(data)</span>
+<span id="cb44-479"><a href="#cb44-479"></a><span class="in">```</span></span>
+<span id="cb44-480"><a href="#cb44-480"></a></span>
+<span id="cb44-483"><a href="#cb44-483"></a><span class="in">```{python}</span></span>
+<span id="cb44-484"><a href="#cb44-484"></a><span class="bu">print</span>(data.keys())</span>
+<span id="cb44-485"><a href="#cb44-485"></a><span class="bu">print</span>(<span class="st">"data size:"</span>, <span class="bu">len</span>(data[<span class="st">"data"</span>]))</span>
+<span id="cb44-486"><a href="#cb44-486"></a><span class="bu">print</span>(<span class="st">"number of features:"</span>, <span class="bu">len</span>(data[<span class="st">"feature_names"</span>]))</span>
+<span id="cb44-487"><a href="#cb44-487"></a><span class="bu">print</span>(data[<span class="st">"feature_names"</span>])</span>
+<span id="cb44-488"><a href="#cb44-488"></a><span class="in">```</span></span>
+<span id="cb44-489"><a href="#cb44-489"></a></span>
+<span id="cb44-492"><a href="#cb44-492"></a><span class="in">```{python}</span></span>
+<span id="cb44-493"><a href="#cb44-493"></a><span class="co"># wrap data in pandas DataFrame</span></span>
+<span id="cb44-494"><a href="#cb44-494"></a><span class="co"># y = data['target'] # value: 0 = 'Malignant' 1 = 'Benign'</span></span>
+<span id="cb44-495"><a href="#cb44-495"></a>x <span class="op">=</span> data[<span class="st">"data"</span>]</span>
+<span id="cb44-496"><a href="#cb44-496"></a>y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
+<span id="cb44-497"><a href="#cb44-497"></a><span class="bu">print</span>(<span class="ss">f"(malignant, benign): </span><span class="sc">{</span>np<span class="sc">.</span>bincount(y)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-498"><a href="#cb44-498"></a><span class="bu">print</span>(<span class="ss">f"x.shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-499"><a href="#cb44-499"></a><span class="bu">print</span>(<span class="ss">f"y.shape: </span><span class="sc">{</span>y<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-500"><a href="#cb44-500"></a><span class="in">```</span></span>
+<span id="cb44-501"><a href="#cb44-501"></a></span>
+<span id="cb44-504"><a href="#cb44-504"></a><span class="in">```{python}</span></span>
+<span id="cb44-505"><a href="#cb44-505"></a><span class="co"># normalize</span></span>
+<span id="cb44-506"><a href="#cb44-506"></a>x_sc <span class="op">=</span> StandardScaler().fit_transform(x)</span>
+<span id="cb44-507"><a href="#cb44-507"></a><span class="in">```</span></span>
 <span id="cb44-508"><a href="#cb44-508"></a></span>
-<span id="cb44-509"><a href="#cb44-509"></a>This gives an indication of how well we did in clustering our data, but is not a "correctness" or "accuracy" metric.</span>
+<span id="cb44-509"><a href="#cb44-509"></a>Plot histogram of number of true class labels (malignant/benign) and number of k-means cluster labels.</span>
 <span id="cb44-510"><a href="#cb44-510"></a></span>
-<span id="cb44-511"><a href="#cb44-511"></a>::: {.callout-note}</span>
+<span id="cb44-511"><a href="#cb44-511"></a>This gives an indication of how well we did in clustering our data, but is not a "correctness" or "accuracy" metric.</span>
 <span id="cb44-512"><a href="#cb44-512"></a></span>
-<span id="cb44-513"><a href="#cb44-513"></a>Keep in mind, k-means is not a classifier.</span>
+<span id="cb44-513"><a href="#cb44-513"></a>::: {.callout-note}</span>
 <span id="cb44-514"><a href="#cb44-514"></a></span>
-<span id="cb44-515"><a href="#cb44-515"></a>Cluster label 0 given from k-means, does not correspond to cluster label 0 in the truth.</span>
-<span id="cb44-516"><a href="#cb44-516"></a>:::</span>
-<span id="cb44-517"><a href="#cb44-517"></a></span>
-<span id="cb44-520"><a href="#cb44-520"></a><span class="in">```{python}</span></span>
-<span id="cb44-521"><a href="#cb44-521"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_hists</span>
-<span id="cb44-522"><a href="#cb44-522"></a></span>
-<span id="cb44-523"><a href="#cb44-523"></a><span class="co"># for seed in range(10):</span></span>
-<span id="cb44-524"><a href="#cb44-524"></a>CSEED <span class="op">=</span> <span class="dv">42</span></span>
-<span id="cb44-525"><a href="#cb44-525"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span>CSEED)</span>
-<span id="cb44-526"><a href="#cb44-526"></a><span class="co"># fit the data</span></span>
-<span id="cb44-527"><a href="#cb44-527"></a>kfit <span class="op">=</span> kmeans.fit(x_sc)</span>
-<span id="cb44-528"><a href="#cb44-528"></a>cluster_ids <span class="op">=</span> kmeans.labels_</span>
-<span id="cb44-529"><a href="#cb44-529"></a><span class="bu">print</span>(</span>
-<span id="cb44-530"><a href="#cb44-530"></a>    <span class="ss">f"seed: </span><span class="sc">{</span>CSEED<span class="sc">}</span><span class="ch">\n</span><span class="ss">Number of samples in each cluster: </span><span class="sc">{</span>np<span class="sc">.</span>bincount(kmeans.labels_)<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb44-531"><a href="#cb44-531"></a>)</span>
-<span id="cb44-532"><a href="#cb44-532"></a>k_means_bins <span class="op">=</span> np.bincount(cluster_ids)</span>
-<span id="cb44-533"><a href="#cb44-533"></a>y_bins <span class="op">=</span> np.bincount(y)</span>
-<span id="cb44-534"><a href="#cb44-534"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.8</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]]</span>
-<span id="cb44-535"><a href="#cb44-535"></a>plot_hists(k_means_bins, y_bins, xlabels<span class="op">=</span>[<span class="st">"Malignant"</span>, <span class="st">"Benign"</span>])</span>
-<span id="cb44-536"><a href="#cb44-536"></a><span class="in">```</span></span>
-<span id="cb44-537"><a href="#cb44-537"></a></span>
-<span id="cb44-538"><a href="#cb44-538"></a>This plot shows the normalized inertia as we vary the number <span class="in">`n_clusters`</span> used</span>
-<span id="cb44-539"><a href="#cb44-539"></a>in our k-means fit to the breast cancer data.</span>
-<span id="cb44-540"><a href="#cb44-540"></a>This value essentially indicates the mean distance of a point to the cluster</span>
-<span id="cb44-541"><a href="#cb44-541"></a>centroids.</span>
-<span id="cb44-542"><a href="#cb44-542"></a>Obviously more clusters result in data points being nearer to a centroid.</span>
-<span id="cb44-543"><a href="#cb44-543"></a></span>
-<span id="cb44-544"><a href="#cb44-544"></a>If our dataset easily split into 2 clusters, we would see a step function</span>
-<span id="cb44-545"><a href="#cb44-545"></a>behavior going from 1 to 2, then only very minor improvements above 2.</span>
-<span id="cb44-546"><a href="#cb44-546"></a>What we see here tells us our data does not easily cluster.</span>
-<span id="cb44-547"><a href="#cb44-547"></a></span>
-<span id="cb44-550"><a href="#cb44-550"></a><span class="in">```{python}</span></span>
-<span id="cb44-551"><a href="#cb44-551"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_kmeans_obj</span>
-<span id="cb44-552"><a href="#cb44-552"></a></span>
-<span id="cb44-553"><a href="#cb44-553"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.6</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]]</span>
-<span id="cb44-554"><a href="#cb44-554"></a>_ <span class="op">=</span> plot_kmeans_obj(x_sc, nclusters<span class="op">=</span><span class="dv">10</span>, plot_points<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb44-555"><a href="#cb44-555"></a><span class="in">```</span></span>
-<span id="cb44-556"><a href="#cb44-556"></a></span>
-<span id="cb44-557"><a href="#cb44-557"></a>For example, if we return to our blob data with 2 clusters, it become clear.</span>
+<span id="cb44-515"><a href="#cb44-515"></a>Keep in mind, k-means is not a classifier.</span>
+<span id="cb44-516"><a href="#cb44-516"></a></span>
+<span id="cb44-517"><a href="#cb44-517"></a>Cluster label 0 given from k-means, does not correspond to cluster label 0 in the truth.</span>
+<span id="cb44-518"><a href="#cb44-518"></a>:::</span>
+<span id="cb44-519"><a href="#cb44-519"></a></span>
+<span id="cb44-522"><a href="#cb44-522"></a><span class="in">```{python}</span></span>
+<span id="cb44-523"><a href="#cb44-523"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_hists</span>
+<span id="cb44-524"><a href="#cb44-524"></a></span>
+<span id="cb44-525"><a href="#cb44-525"></a><span class="co"># for seed in range(10):</span></span>
+<span id="cb44-526"><a href="#cb44-526"></a>CSEED <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb44-527"><a href="#cb44-527"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span>CSEED)</span>
+<span id="cb44-528"><a href="#cb44-528"></a><span class="co"># fit the data</span></span>
+<span id="cb44-529"><a href="#cb44-529"></a>kfit <span class="op">=</span> kmeans.fit(x_sc)</span>
+<span id="cb44-530"><a href="#cb44-530"></a>cluster_ids <span class="op">=</span> kmeans.labels_</span>
+<span id="cb44-531"><a href="#cb44-531"></a><span class="bu">print</span>(</span>
+<span id="cb44-532"><a href="#cb44-532"></a>    <span class="ss">f"seed: </span><span class="sc">{</span>CSEED<span class="sc">}</span><span class="ch">\n</span><span class="ss">Number of samples in each cluster: </span><span class="sc">{</span>np<span class="sc">.</span>bincount(kmeans.labels_)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb44-533"><a href="#cb44-533"></a>)</span>
+<span id="cb44-534"><a href="#cb44-534"></a>k_means_bins <span class="op">=</span> np.bincount(cluster_ids)</span>
+<span id="cb44-535"><a href="#cb44-535"></a>y_bins <span class="op">=</span> np.bincount(y)</span>
+<span id="cb44-536"><a href="#cb44-536"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [<span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.8</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]]</span>
+<span id="cb44-537"><a href="#cb44-537"></a>plot_hists(k_means_bins, y_bins, xlabels<span class="op">=</span>[<span class="st">"Malignant"</span>, <span class="st">"Benign"</span>])</span>
+<span id="cb44-538"><a href="#cb44-538"></a><span class="in">```</span></span>
+<span id="cb44-539"><a href="#cb44-539"></a></span>
+<span id="cb44-540"><a href="#cb44-540"></a>This plot shows the normalized inertia as we vary the number <span class="in">`n_clusters`</span> used</span>
+<span id="cb44-541"><a href="#cb44-541"></a>in our k-means fit to the breast cancer data.</span>
+<span id="cb44-542"><a href="#cb44-542"></a>This value essentially indicates the mean distance of a point to the cluster</span>
+<span id="cb44-543"><a href="#cb44-543"></a>centroids.</span>
+<span id="cb44-544"><a href="#cb44-544"></a>Obviously more clusters result in data points being nearer to a centroid.</span>
+<span id="cb44-545"><a href="#cb44-545"></a></span>
+<span id="cb44-546"><a href="#cb44-546"></a>If our dataset easily split into 2 clusters, we would see a step function</span>
+<span id="cb44-547"><a href="#cb44-547"></a>behavior going from 1 to 2, then only very minor improvements above 2.</span>
+<span id="cb44-548"><a href="#cb44-548"></a>What we see here tells us our data does not easily cluster.</span>
+<span id="cb44-549"><a href="#cb44-549"></a></span>
+<span id="cb44-552"><a href="#cb44-552"></a><span class="in">```{python}</span></span>
+<span id="cb44-553"><a href="#cb44-553"></a><span class="im">from</span> bootcamp.plots <span class="im">import</span> plot_kmeans_obj</span>
+<span id="cb44-554"><a href="#cb44-554"></a></span>
+<span id="cb44-555"><a href="#cb44-555"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [DFIGSIZE[<span class="dv">0</span>], <span class="fl">0.6</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]]</span>
+<span id="cb44-556"><a href="#cb44-556"></a>_ <span class="op">=</span> plot_kmeans_obj(x_sc, nclusters<span class="op">=</span><span class="dv">10</span>, plot_points<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb44-557"><a href="#cb44-557"></a><span class="in">```</span></span>
 <span id="cb44-558"><a href="#cb44-558"></a></span>
-<span id="cb44-561"><a href="#cb44-561"></a><span class="in">```{python}</span></span>
-<span id="cb44-562"><a href="#cb44-562"></a>n_samples <span class="op">=</span> <span class="dv">300</span>  <span class="co"># 300 2D data points</span></span>
-<span id="cb44-563"><a href="#cb44-563"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
-<span id="cb44-564"><a href="#cb44-564"></a>n_clusters <span class="op">=</span> <span class="dv">2</span>  <span class="co"># unique blobs</span></span>
-<span id="cb44-565"><a href="#cb44-565"></a>seed <span class="op">=</span> <span class="dv">456</span></span>
-<span id="cb44-566"><a href="#cb44-566"></a>iterations <span class="op">=</span> <span class="dv">25</span></span>
-<span id="cb44-567"><a href="#cb44-567"></a>x, y <span class="op">=</span> datasets.make_blobs(</span>
-<span id="cb44-568"><a href="#cb44-568"></a>    n_samples<span class="op">=</span>n_samples, n_features<span class="op">=</span>n_features, centers<span class="op">=</span>n_clusters, random_state<span class="op">=</span>seed</span>
-<span id="cb44-569"><a href="#cb44-569"></a>)</span>
-<span id="cb44-570"><a href="#cb44-570"></a>plot_kmeans_obj(x, nclusters<span class="op">=</span><span class="dv">10</span>, plot_points<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb44-571"><a href="#cb44-571"></a><span class="in">```</span></span>
-<span id="cb44-572"><a href="#cb44-572"></a></span>
-<span id="cb44-573"><a href="#cb44-573"></a><span class="fu">## [Self-organizing maps](https://en.wikipedia.org/wiki/Self-organizing_map)</span></span>
+<span id="cb44-559"><a href="#cb44-559"></a>For example, if we return to our blob data with 2 clusters, it become clear.</span>
+<span id="cb44-560"><a href="#cb44-560"></a></span>
+<span id="cb44-563"><a href="#cb44-563"></a><span class="in">```{python}</span></span>
+<span id="cb44-564"><a href="#cb44-564"></a>n_samples <span class="op">=</span> <span class="dv">300</span>  <span class="co"># 300 2D data points</span></span>
+<span id="cb44-565"><a href="#cb44-565"></a>n_features <span class="op">=</span> <span class="dv">2</span>  <span class="co"># 2D data</span></span>
+<span id="cb44-566"><a href="#cb44-566"></a>n_clusters <span class="op">=</span> <span class="dv">2</span>  <span class="co"># unique blobs</span></span>
+<span id="cb44-567"><a href="#cb44-567"></a>seed <span class="op">=</span> <span class="dv">456</span></span>
+<span id="cb44-568"><a href="#cb44-568"></a>iterations <span class="op">=</span> <span class="dv">25</span></span>
+<span id="cb44-569"><a href="#cb44-569"></a>x, y <span class="op">=</span> datasets.make_blobs(</span>
+<span id="cb44-570"><a href="#cb44-570"></a>    n_samples<span class="op">=</span>n_samples, n_features<span class="op">=</span>n_features, centers<span class="op">=</span>n_clusters, random_state<span class="op">=</span>seed</span>
+<span id="cb44-571"><a href="#cb44-571"></a>)</span>
+<span id="cb44-572"><a href="#cb44-572"></a>plot_kmeans_obj(x, nclusters<span class="op">=</span><span class="dv">10</span>, plot_points<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb44-573"><a href="#cb44-573"></a><span class="in">```</span></span>
 <span id="cb44-574"><a href="#cb44-574"></a></span>
-<span id="cb44-575"><a href="#cb44-575"></a>Self Organizing Maps (SOM) were proposed and became widespread in the 1980s, by a Finnish professor named Teuvo Kohonen and are also called 'Kohonen maps'.</span>
+<span id="cb44-575"><a href="#cb44-575"></a><span class="fu">## [Self-organizing maps](https://en.wikipedia.org/wiki/Self-organizing_map)</span></span>
 <span id="cb44-576"><a href="#cb44-576"></a></span>
-<span id="cb44-577"><a href="#cb44-577"></a></span>
-<span id="cb44-580"><a href="#cb44-580"></a><span class="in">```{python}</span></span>
-<span id="cb44-581"><a href="#cb44-581"></a><span class="co"># finding best matching unit</span></span>
-<span id="cb44-582"><a href="#cb44-582"></a><span class="kw">def</span> find_bmu(t, net, n):</span>
-<span id="cb44-583"><a href="#cb44-583"></a>    <span class="co">"""</span></span>
-<span id="cb44-584"><a href="#cb44-584"></a><span class="co">    Find the best matching unit for a given vector, t, in the SOM</span></span>
-<span id="cb44-585"><a href="#cb44-585"></a><span class="co">    Returns: a (bmu, bmu_idx) tuple where bmu is the high-dimensional BMU</span></span>
-<span id="cb44-586"><a href="#cb44-586"></a><span class="co">             and bmu_idx is the index of this vector in the SOM</span></span>
-<span id="cb44-587"><a href="#cb44-587"></a><span class="co">    """</span></span>
-<span id="cb44-588"><a href="#cb44-588"></a>    bmu_idx <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
-<span id="cb44-589"><a href="#cb44-589"></a>    <span class="co"># set the initial minimum distance to a huge number</span></span>
-<span id="cb44-590"><a href="#cb44-590"></a>    <span class="co"># min_dist = #np.iinfo(np.int).max</span></span>
-<span id="cb44-591"><a href="#cb44-591"></a>    min_dist <span class="op">=</span> np.inf</span>
-<span id="cb44-592"><a href="#cb44-592"></a>    <span class="co"># calculate the high-dimensional distance between each neuron and the input</span></span>
-<span id="cb44-593"><a href="#cb44-593"></a>    <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">0</span>]):</span>
-<span id="cb44-594"><a href="#cb44-594"></a>        <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">1</span>]):</span>
-<span id="cb44-595"><a href="#cb44-595"></a>            w <span class="op">=</span> net[x, y, :].reshape(n, <span class="dv">1</span>)</span>
-<span id="cb44-596"><a href="#cb44-596"></a>            <span class="co"># don't bother with actual Euclidean distance, to avoid expensive sqrt operation</span></span>
-<span id="cb44-597"><a href="#cb44-597"></a>            sq_dist <span class="op">=</span> np.<span class="bu">sum</span>((w <span class="op">-</span> t) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb44-598"><a href="#cb44-598"></a>            <span class="cf">if</span> sq_dist <span class="op">&lt;</span> min_dist:</span>
-<span id="cb44-599"><a href="#cb44-599"></a>                min_dist <span class="op">=</span> sq_dist</span>
-<span id="cb44-600"><a href="#cb44-600"></a>                bmu_idx <span class="op">=</span> np.array([x, y])</span>
-<span id="cb44-601"><a href="#cb44-601"></a>    <span class="co"># get vector corresponding to bmu_idx</span></span>
-<span id="cb44-602"><a href="#cb44-602"></a>    bmu <span class="op">=</span> net[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], :].reshape(n, <span class="dv">1</span>)</span>
-<span id="cb44-603"><a href="#cb44-603"></a>    <span class="co"># return the (bmu, bmu_idx) tuple</span></span>
-<span id="cb44-604"><a href="#cb44-604"></a>    <span class="cf">return</span> (bmu, bmu_idx)</span>
-<span id="cb44-605"><a href="#cb44-605"></a></span>
-<span id="cb44-606"><a href="#cb44-606"></a></span>
-<span id="cb44-607"><a href="#cb44-607"></a><span class="co"># Decaying radius of influence</span></span>
-<span id="cb44-608"><a href="#cb44-608"></a><span class="kw">def</span> decay_radius(initial_radius, i, time_constant):</span>
-<span id="cb44-609"><a href="#cb44-609"></a>    <span class="cf">return</span> initial_radius <span class="op">*</span> np.exp(<span class="op">-</span>i <span class="op">/</span> time_constant)</span>
-<span id="cb44-610"><a href="#cb44-610"></a></span>
-<span id="cb44-611"><a href="#cb44-611"></a></span>
-<span id="cb44-612"><a href="#cb44-612"></a><span class="co"># Decaying learning rate</span></span>
-<span id="cb44-613"><a href="#cb44-613"></a><span class="kw">def</span> decay_learning_rate(initial_learning_rate, i, n_iterations):</span>
-<span id="cb44-614"><a href="#cb44-614"></a>    <span class="cf">return</span> initial_learning_rate <span class="op">*</span> np.exp(<span class="op">-</span>i <span class="op">/</span> n_iterations)</span>
-<span id="cb44-615"><a href="#cb44-615"></a></span>
-<span id="cb44-616"><a href="#cb44-616"></a></span>
-<span id="cb44-617"><a href="#cb44-617"></a><span class="co"># Influence in 2D space</span></span>
-<span id="cb44-618"><a href="#cb44-618"></a><span class="kw">def</span> calculate_influence(distance, radius):</span>
-<span id="cb44-619"><a href="#cb44-619"></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>distance <span class="op">/</span> (<span class="fl">2.0</span> <span class="op">*</span> (radius<span class="op">**</span><span class="dv">2</span>)))</span>
-<span id="cb44-620"><a href="#cb44-620"></a></span>
-<span id="cb44-621"><a href="#cb44-621"></a></span>
-<span id="cb44-622"><a href="#cb44-622"></a><span class="co"># Update weights</span></span>
-<span id="cb44-623"><a href="#cb44-623"></a><span class="kw">def</span> update_weights(net, bmu_idx, r, l):</span>
-<span id="cb44-624"><a href="#cb44-624"></a>    wlen <span class="op">=</span> net.shape[<span class="dv">2</span>]</span>
-<span id="cb44-625"><a href="#cb44-625"></a>    <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">0</span>]):</span>
-<span id="cb44-626"><a href="#cb44-626"></a>        <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">1</span>]):</span>
-<span id="cb44-627"><a href="#cb44-627"></a>            w <span class="op">=</span> net[x, y, :].reshape(wlen, <span class="dv">1</span>)</span>
-<span id="cb44-628"><a href="#cb44-628"></a>            <span class="co"># get the 2-D distance (again, not the actual Euclidean distance)</span></span>
-<span id="cb44-629"><a href="#cb44-629"></a>            w_dist <span class="op">=</span> np.<span class="bu">sum</span>((np.array([x, y]) <span class="op">-</span> bmu_idx) <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb44-630"><a href="#cb44-630"></a>            <span class="co"># if the distance is within the current neighbourhood radius</span></span>
-<span id="cb44-631"><a href="#cb44-631"></a>            <span class="cf">if</span> w_dist <span class="op">&lt;=</span> r<span class="op">**</span><span class="dv">2</span>:</span>
-<span id="cb44-632"><a href="#cb44-632"></a>                <span class="co"># calculate the degree of influence (based on the 2-D distance)</span></span>
-<span id="cb44-633"><a href="#cb44-633"></a>                influence <span class="op">=</span> calculate_influence(w_dist, r)</span>
-<span id="cb44-634"><a href="#cb44-634"></a>                <span class="co"># now update the neuron's weight using the formula:</span></span>
-<span id="cb44-635"><a href="#cb44-635"></a>                <span class="co"># new w = old w + (learning rate * influence * delta)</span></span>
-<span id="cb44-636"><a href="#cb44-636"></a>                <span class="co"># where delta = input vector (t) - old w</span></span>
-<span id="cb44-637"><a href="#cb44-637"></a>                new_w <span class="op">=</span> w <span class="op">+</span> (l <span class="op">*</span> influence <span class="op">*</span> (t <span class="op">-</span> w))</span>
-<span id="cb44-638"><a href="#cb44-638"></a>                <span class="co"># commit the new weight</span></span>
-<span id="cb44-639"><a href="#cb44-639"></a>                net[x, y, :] <span class="op">=</span> new_w.reshape(<span class="dv">1</span>, wlen)</span>
-<span id="cb44-640"><a href="#cb44-640"></a>    <span class="cf">return</span> net</span>
-<span id="cb44-641"><a href="#cb44-641"></a><span class="in">```</span></span>
-<span id="cb44-642"><a href="#cb44-642"></a></span>
-<span id="cb44-643"><a href="#cb44-643"></a>The idea behind a SOM is that you’re mapping high-dimensional vectors onto a</span>
-<span id="cb44-644"><a href="#cb44-644"></a>smaller dimensional (typically 2D) space.</span>
-<span id="cb44-645"><a href="#cb44-645"></a>Vectors that are close in the high-dimensional space also end up being mapped</span>
-<span id="cb44-646"><a href="#cb44-646"></a>to nodes that are close in 2D space thus preserving the "topology" of the</span>
-<span id="cb44-647"><a href="#cb44-647"></a>original data.</span>
-<span id="cb44-648"><a href="#cb44-648"></a></span>
-<span id="cb44-649"><a href="#cb44-649"></a><span class="fu">### Generating "Color" data and normalizing</span></span>
+<span id="cb44-577"><a href="#cb44-577"></a>Self Organizing Maps (SOM) were proposed and became widespread in the 1980s, by a Finnish professor named Teuvo Kohonen and are also called 'Kohonen maps'.</span>
+<span id="cb44-578"><a href="#cb44-578"></a></span>
+<span id="cb44-579"><a href="#cb44-579"></a></span>
+<span id="cb44-582"><a href="#cb44-582"></a><span class="in">```{python}</span></span>
+<span id="cb44-583"><a href="#cb44-583"></a><span class="co"># finding best matching unit</span></span>
+<span id="cb44-584"><a href="#cb44-584"></a><span class="kw">def</span> find_bmu(t, net, n):</span>
+<span id="cb44-585"><a href="#cb44-585"></a>    <span class="co">"""</span></span>
+<span id="cb44-586"><a href="#cb44-586"></a><span class="co">    Find the best matching unit for a given vector, t, in the SOM</span></span>
+<span id="cb44-587"><a href="#cb44-587"></a><span class="co">    Returns: a (bmu, bmu_idx) tuple where bmu is the high-dimensional BMU</span></span>
+<span id="cb44-588"><a href="#cb44-588"></a><span class="co">             and bmu_idx is the index of this vector in the SOM</span></span>
+<span id="cb44-589"><a href="#cb44-589"></a><span class="co">    """</span></span>
+<span id="cb44-590"><a href="#cb44-590"></a>    bmu_idx <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb44-591"><a href="#cb44-591"></a>    <span class="co"># set the initial minimum distance to a huge number</span></span>
+<span id="cb44-592"><a href="#cb44-592"></a>    <span class="co"># min_dist = #np.iinfo(np.int).max</span></span>
+<span id="cb44-593"><a href="#cb44-593"></a>    min_dist <span class="op">=</span> np.inf</span>
+<span id="cb44-594"><a href="#cb44-594"></a>    <span class="co"># calculate the high-dimensional distance between each neuron and the input</span></span>
+<span id="cb44-595"><a href="#cb44-595"></a>    <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">0</span>]):</span>
+<span id="cb44-596"><a href="#cb44-596"></a>        <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">1</span>]):</span>
+<span id="cb44-597"><a href="#cb44-597"></a>            w <span class="op">=</span> net[x, y, :].reshape(n, <span class="dv">1</span>)</span>
+<span id="cb44-598"><a href="#cb44-598"></a>            <span class="co"># don't bother with actual Euclidean distance, to avoid expensive sqrt operation</span></span>
+<span id="cb44-599"><a href="#cb44-599"></a>            sq_dist <span class="op">=</span> np.<span class="bu">sum</span>((w <span class="op">-</span> t) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb44-600"><a href="#cb44-600"></a>            <span class="cf">if</span> sq_dist <span class="op">&lt;</span> min_dist:</span>
+<span id="cb44-601"><a href="#cb44-601"></a>                min_dist <span class="op">=</span> sq_dist</span>
+<span id="cb44-602"><a href="#cb44-602"></a>                bmu_idx <span class="op">=</span> np.array([x, y])</span>
+<span id="cb44-603"><a href="#cb44-603"></a>    <span class="co"># get vector corresponding to bmu_idx</span></span>
+<span id="cb44-604"><a href="#cb44-604"></a>    bmu <span class="op">=</span> net[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], :].reshape(n, <span class="dv">1</span>)</span>
+<span id="cb44-605"><a href="#cb44-605"></a>    <span class="co"># return the (bmu, bmu_idx) tuple</span></span>
+<span id="cb44-606"><a href="#cb44-606"></a>    <span class="cf">return</span> (bmu, bmu_idx)</span>
+<span id="cb44-607"><a href="#cb44-607"></a></span>
+<span id="cb44-608"><a href="#cb44-608"></a></span>
+<span id="cb44-609"><a href="#cb44-609"></a><span class="co"># Decaying radius of influence</span></span>
+<span id="cb44-610"><a href="#cb44-610"></a><span class="kw">def</span> decay_radius(initial_radius, i, time_constant):</span>
+<span id="cb44-611"><a href="#cb44-611"></a>    <span class="cf">return</span> initial_radius <span class="op">*</span> np.exp(<span class="op">-</span>i <span class="op">/</span> time_constant)</span>
+<span id="cb44-612"><a href="#cb44-612"></a></span>
+<span id="cb44-613"><a href="#cb44-613"></a></span>
+<span id="cb44-614"><a href="#cb44-614"></a><span class="co"># Decaying learning rate</span></span>
+<span id="cb44-615"><a href="#cb44-615"></a><span class="kw">def</span> decay_learning_rate(initial_learning_rate, i, n_iterations):</span>
+<span id="cb44-616"><a href="#cb44-616"></a>    <span class="cf">return</span> initial_learning_rate <span class="op">*</span> np.exp(<span class="op">-</span>i <span class="op">/</span> n_iterations)</span>
+<span id="cb44-617"><a href="#cb44-617"></a></span>
+<span id="cb44-618"><a href="#cb44-618"></a></span>
+<span id="cb44-619"><a href="#cb44-619"></a><span class="co"># Influence in 2D space</span></span>
+<span id="cb44-620"><a href="#cb44-620"></a><span class="kw">def</span> calculate_influence(distance, radius):</span>
+<span id="cb44-621"><a href="#cb44-621"></a>    <span class="cf">return</span> np.exp(<span class="op">-</span>distance <span class="op">/</span> (<span class="fl">2.0</span> <span class="op">*</span> (radius<span class="op">**</span><span class="dv">2</span>)))</span>
+<span id="cb44-622"><a href="#cb44-622"></a></span>
+<span id="cb44-623"><a href="#cb44-623"></a></span>
+<span id="cb44-624"><a href="#cb44-624"></a><span class="co"># Update weights</span></span>
+<span id="cb44-625"><a href="#cb44-625"></a><span class="kw">def</span> update_weights(net, bmu_idx, r, l):</span>
+<span id="cb44-626"><a href="#cb44-626"></a>    wlen <span class="op">=</span> net.shape[<span class="dv">2</span>]</span>
+<span id="cb44-627"><a href="#cb44-627"></a>    <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">0</span>]):</span>
+<span id="cb44-628"><a href="#cb44-628"></a>        <span class="cf">for</span> y <span class="kw">in</span> <span class="bu">range</span>(net.shape[<span class="dv">1</span>]):</span>
+<span id="cb44-629"><a href="#cb44-629"></a>            w <span class="op">=</span> net[x, y, :].reshape(wlen, <span class="dv">1</span>)</span>
+<span id="cb44-630"><a href="#cb44-630"></a>            <span class="co"># get the 2-D distance (again, not the actual Euclidean distance)</span></span>
+<span id="cb44-631"><a href="#cb44-631"></a>            w_dist <span class="op">=</span> np.<span class="bu">sum</span>((np.array([x, y]) <span class="op">-</span> bmu_idx) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb44-632"><a href="#cb44-632"></a>            <span class="co"># if the distance is within the current neighbourhood radius</span></span>
+<span id="cb44-633"><a href="#cb44-633"></a>            <span class="cf">if</span> w_dist <span class="op">&lt;=</span> r<span class="op">**</span><span class="dv">2</span>:</span>
+<span id="cb44-634"><a href="#cb44-634"></a>                <span class="co"># calculate the degree of influence (based on the 2-D distance)</span></span>
+<span id="cb44-635"><a href="#cb44-635"></a>                influence <span class="op">=</span> calculate_influence(w_dist, r)</span>
+<span id="cb44-636"><a href="#cb44-636"></a>                <span class="co"># now update the neuron's weight using the formula:</span></span>
+<span id="cb44-637"><a href="#cb44-637"></a>                <span class="co"># new w = old w + (learning rate * influence * delta)</span></span>
+<span id="cb44-638"><a href="#cb44-638"></a>                <span class="co"># where delta = input vector (t) - old w</span></span>
+<span id="cb44-639"><a href="#cb44-639"></a>                new_w <span class="op">=</span> w <span class="op">+</span> (l <span class="op">*</span> influence <span class="op">*</span> (t <span class="op">-</span> w))</span>
+<span id="cb44-640"><a href="#cb44-640"></a>                <span class="co"># commit the new weight</span></span>
+<span id="cb44-641"><a href="#cb44-641"></a>                net[x, y, :] <span class="op">=</span> new_w.reshape(<span class="dv">1</span>, wlen)</span>
+<span id="cb44-642"><a href="#cb44-642"></a>    <span class="cf">return</span> net</span>
+<span id="cb44-643"><a href="#cb44-643"></a><span class="in">```</span></span>
+<span id="cb44-644"><a href="#cb44-644"></a></span>
+<span id="cb44-645"><a href="#cb44-645"></a>The idea behind a SOM is that you’re mapping high-dimensional vectors onto a</span>
+<span id="cb44-646"><a href="#cb44-646"></a>smaller dimensional (typically 2D) space.</span>
+<span id="cb44-647"><a href="#cb44-647"></a>Vectors that are close in the high-dimensional space also end up being mapped</span>
+<span id="cb44-648"><a href="#cb44-648"></a>to nodes that are close in 2D space thus preserving the "topology" of the</span>
+<span id="cb44-649"><a href="#cb44-649"></a>original data.</span>
 <span id="cb44-650"><a href="#cb44-650"></a></span>
-<span id="cb44-653"><a href="#cb44-653"></a><span class="in">```{python}</span></span>
-<span id="cb44-654"><a href="#cb44-654"></a>raw_data <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">255</span>, (<span class="dv">10000</span>, <span class="dv">3</span>))  <span class="co"># JPEG like data</span></span>
-<span id="cb44-655"><a href="#cb44-655"></a><span class="co"># raw_data = np.random.uniform(size=(500, 3))</span></span>
-<span id="cb44-656"><a href="#cb44-656"></a>data <span class="op">=</span> StandardScaler().fit_transform(raw_data)  <span class="co"># Normalized</span></span>
-<span id="cb44-657"><a href="#cb44-657"></a><span class="in">```</span></span>
-<span id="cb44-658"><a href="#cb44-658"></a></span>
-<span id="cb44-659"><a href="#cb44-659"></a><span class="fu">### Defining SOM </span></span>
+<span id="cb44-651"><a href="#cb44-651"></a><span class="fu">### Generating "Color" data and normalizing</span></span>
+<span id="cb44-652"><a href="#cb44-652"></a></span>
+<span id="cb44-655"><a href="#cb44-655"></a><span class="in">```{python}</span></span>
+<span id="cb44-656"><a href="#cb44-656"></a>raw_data <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">255</span>, (<span class="dv">10000</span>, <span class="dv">3</span>))  <span class="co"># JPEG like data</span></span>
+<span id="cb44-657"><a href="#cb44-657"></a><span class="co"># raw_data = np.random.uniform(size=(500, 3))</span></span>
+<span id="cb44-658"><a href="#cb44-658"></a>data <span class="op">=</span> StandardScaler().fit_transform(raw_data)  <span class="co"># Normalized</span></span>
+<span id="cb44-659"><a href="#cb44-659"></a><span class="in">```</span></span>
 <span id="cb44-660"><a href="#cb44-660"></a></span>
-<span id="cb44-661"><a href="#cb44-661"></a>Defining network size, number of iterations and learning rate</span>
+<span id="cb44-661"><a href="#cb44-661"></a><span class="fu">### Defining SOM </span></span>
 <span id="cb44-662"><a href="#cb44-662"></a></span>
-<span id="cb44-665"><a href="#cb44-665"></a><span class="in">```{python}</span></span>
-<span id="cb44-666"><a href="#cb44-666"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">50</span>, <span class="dv">50</span>])</span>
-<span id="cb44-667"><a href="#cb44-667"></a>n_iterations <span class="op">=</span> <span class="dv">2500</span></span>
-<span id="cb44-668"><a href="#cb44-668"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.075</span></span>
-<span id="cb44-669"><a href="#cb44-669"></a><span class="in">```</span></span>
-<span id="cb44-670"><a href="#cb44-670"></a></span>
-<span id="cb44-671"><a href="#cb44-671"></a>Establish size variables based on data</span>
+<span id="cb44-663"><a href="#cb44-663"></a>Defining network size, number of iterations and learning rate</span>
+<span id="cb44-664"><a href="#cb44-664"></a></span>
+<span id="cb44-667"><a href="#cb44-667"></a><span class="in">```{python}</span></span>
+<span id="cb44-668"><a href="#cb44-668"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">50</span>, <span class="dv">50</span>])</span>
+<span id="cb44-669"><a href="#cb44-669"></a>n_iterations <span class="op">=</span> <span class="dv">2500</span></span>
+<span id="cb44-670"><a href="#cb44-670"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.075</span></span>
+<span id="cb44-671"><a href="#cb44-671"></a><span class="in">```</span></span>
 <span id="cb44-672"><a href="#cb44-672"></a></span>
-<span id="cb44-675"><a href="#cb44-675"></a><span class="in">```{python}</span></span>
-<span id="cb44-676"><a href="#cb44-676"></a>m <span class="op">=</span> data.shape[<span class="dv">0</span>]</span>
-<span id="cb44-677"><a href="#cb44-677"></a>n <span class="op">=</span> data.shape[<span class="dv">1</span>]</span>
-<span id="cb44-678"><a href="#cb44-678"></a><span class="in">```</span></span>
-<span id="cb44-679"><a href="#cb44-679"></a></span>
-<span id="cb44-680"><a href="#cb44-680"></a>Weight matrix (i.e. the SOM) needs to be one n-dimensional vector for each</span>
-<span id="cb44-681"><a href="#cb44-681"></a>neuron in the SOM</span>
-<span id="cb44-682"><a href="#cb44-682"></a></span>
-<span id="cb44-685"><a href="#cb44-685"></a><span class="in">```{python}</span></span>
-<span id="cb44-686"><a href="#cb44-686"></a>net <span class="op">=</span> np.random.random(</span>
-<span id="cb44-687"><a href="#cb44-687"></a>    (network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>], n)</span>
-<span id="cb44-688"><a href="#cb44-688"></a>)  <span class="co"># 25 neurons each with a 3D vector</span></span>
-<span id="cb44-689"><a href="#cb44-689"></a><span class="in">```</span></span>
-<span id="cb44-690"><a href="#cb44-690"></a></span>
-<span id="cb44-691"><a href="#cb44-691"></a>Initial neighbourhood radius and decay parameter</span>
+<span id="cb44-673"><a href="#cb44-673"></a>Establish size variables based on data</span>
+<span id="cb44-674"><a href="#cb44-674"></a></span>
+<span id="cb44-677"><a href="#cb44-677"></a><span class="in">```{python}</span></span>
+<span id="cb44-678"><a href="#cb44-678"></a>m <span class="op">=</span> data.shape[<span class="dv">0</span>]</span>
+<span id="cb44-679"><a href="#cb44-679"></a>n <span class="op">=</span> data.shape[<span class="dv">1</span>]</span>
+<span id="cb44-680"><a href="#cb44-680"></a><span class="in">```</span></span>
+<span id="cb44-681"><a href="#cb44-681"></a></span>
+<span id="cb44-682"><a href="#cb44-682"></a>Weight matrix (i.e. the SOM) needs to be one n-dimensional vector for each</span>
+<span id="cb44-683"><a href="#cb44-683"></a>neuron in the SOM</span>
+<span id="cb44-684"><a href="#cb44-684"></a></span>
+<span id="cb44-687"><a href="#cb44-687"></a><span class="in">```{python}</span></span>
+<span id="cb44-688"><a href="#cb44-688"></a>net <span class="op">=</span> np.random.random(</span>
+<span id="cb44-689"><a href="#cb44-689"></a>    (network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>], n)</span>
+<span id="cb44-690"><a href="#cb44-690"></a>)  <span class="co"># 25 neurons each with a 3D vector</span></span>
+<span id="cb44-691"><a href="#cb44-691"></a><span class="in">```</span></span>
 <span id="cb44-692"><a href="#cb44-692"></a></span>
-<span id="cb44-695"><a href="#cb44-695"></a><span class="in">```{python}</span></span>
-<span id="cb44-696"><a href="#cb44-696"></a>init_radius <span class="op">=</span> <span class="bu">max</span>(network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>]) <span class="op">/</span> <span class="fl">2.0</span></span>
-<span id="cb44-697"><a href="#cb44-697"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span>
-<span id="cb44-698"><a href="#cb44-698"></a><span class="in">```</span></span>
-<span id="cb44-699"><a href="#cb44-699"></a></span>
-<span id="cb44-700"><a href="#cb44-700"></a><span class="fu">### Initial state of SOM color network</span></span>
+<span id="cb44-693"><a href="#cb44-693"></a>Initial neighbourhood radius and decay parameter</span>
+<span id="cb44-694"><a href="#cb44-694"></a></span>
+<span id="cb44-697"><a href="#cb44-697"></a><span class="in">```{python}</span></span>
+<span id="cb44-698"><a href="#cb44-698"></a>init_radius <span class="op">=</span> <span class="bu">max</span>(network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>]) <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb44-699"><a href="#cb44-699"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span>
+<span id="cb44-700"><a href="#cb44-700"></a><span class="in">```</span></span>
 <span id="cb44-701"><a href="#cb44-701"></a></span>
-<span id="cb44-704"><a href="#cb44-704"></a><span class="in">```{python}</span></span>
-<span id="cb44-705"><a href="#cb44-705"></a>plt.rcParams[<span class="st">"image.cmap"</span>] <span class="op">=</span> <span class="st">"rainbow"</span></span>
-<span id="cb44-706"><a href="#cb44-706"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb44-707"><a href="#cb44-707"></a>image <span class="op">=</span> ax.matshow(net)</span>
-<span id="cb44-708"><a href="#cb44-708"></a><span class="co"># _ = fig.colorbar(image)</span></span>
-<span id="cb44-709"><a href="#cb44-709"></a>_ <span class="op">=</span> plt.show()</span>
-<span id="cb44-710"><a href="#cb44-710"></a><span class="in">```</span></span>
-<span id="cb44-711"><a href="#cb44-711"></a></span>
-<span id="cb44-712"><a href="#cb44-712"></a><span class="fu">### Training SOM</span></span>
+<span id="cb44-702"><a href="#cb44-702"></a><span class="fu">### Initial state of SOM color network</span></span>
+<span id="cb44-703"><a href="#cb44-703"></a></span>
+<span id="cb44-706"><a href="#cb44-706"></a><span class="in">```{python}</span></span>
+<span id="cb44-707"><a href="#cb44-707"></a>plt.rcParams[<span class="st">"image.cmap"</span>] <span class="op">=</span> <span class="st">"rainbow"</span></span>
+<span id="cb44-708"><a href="#cb44-708"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb44-709"><a href="#cb44-709"></a>image <span class="op">=</span> ax.matshow(net)</span>
+<span id="cb44-710"><a href="#cb44-710"></a><span class="co"># _ = fig.colorbar(image)</span></span>
+<span id="cb44-711"><a href="#cb44-711"></a>_ <span class="op">=</span> plt.show()</span>
+<span id="cb44-712"><a href="#cb44-712"></a><span class="in">```</span></span>
 <span id="cb44-713"><a href="#cb44-713"></a></span>
-<span id="cb44-716"><a href="#cb44-716"></a><span class="in">```{python}</span></span>
-<span id="cb44-717"><a href="#cb44-717"></a><span class="kw">def</span> normalize(x: np.ndarray) <span class="op">-&gt;</span> np.ndarray:</span>
-<span id="cb44-718"><a href="#cb44-718"></a>    <span class="cf">return</span> (x <span class="op">-</span> np.<span class="bu">min</span>(x)) <span class="op">/</span> (np.<span class="bu">max</span>(x) <span class="op">-</span> np.<span class="bu">min</span>(x))</span>
-<span id="cb44-719"><a href="#cb44-719"></a></span>
-<span id="cb44-720"><a href="#cb44-720"></a></span>
-<span id="cb44-721"><a href="#cb44-721"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [</span>
-<span id="cb44-722"><a href="#cb44-722"></a>    i <span class="op">/</span> <span class="fl">2.0</span> <span class="cf">for</span> i <span class="kw">in</span> plt.rcParamsDefault[<span class="st">"figure.figsize"</span>]</span>
-<span id="cb44-723"><a href="#cb44-723"></a>]</span>
-<span id="cb44-724"><a href="#cb44-724"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.1</span></span>
-<span id="cb44-725"><a href="#cb44-725"></a><span class="co"># net = np.random.uniform(size=net.shape)</span></span>
-<span id="cb44-726"><a href="#cb44-726"></a><span class="co"># net = (255 * ((net + 1.) / 2.))</span></span>
-<span id="cb44-727"><a href="#cb44-727"></a>images <span class="op">=</span> []</span>
-<span id="cb44-728"><a href="#cb44-728"></a><span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iterations):</span>
-<span id="cb44-729"><a href="#cb44-729"></a>    <span class="co"># select a training example at random - shape of 1x3</span></span>
-<span id="cb44-730"><a href="#cb44-730"></a>    t <span class="op">=</span> data[np.random.randint(<span class="dv">0</span>, m), :].reshape(np.array([n, <span class="dv">1</span>]))</span>
-<span id="cb44-731"><a href="#cb44-731"></a>    <span class="co"># find its Best Matching Unit</span></span>
-<span id="cb44-732"><a href="#cb44-732"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n)  <span class="co"># Gives the row, column of the best neuron</span></span>
-<span id="cb44-733"><a href="#cb44-733"></a>    <span class="co"># decay the SOM parameters</span></span>
-<span id="cb44-734"><a href="#cb44-734"></a>    r <span class="op">=</span> decay_radius(init_radius, iteration, time_constant)</span>
-<span id="cb44-735"><a href="#cb44-735"></a>    l <span class="op">=</span> decay_learning_rate(init_learning_rate, iteration, n_iterations)</span>
-<span id="cb44-736"><a href="#cb44-736"></a>    <span class="co"># Update SOM weights</span></span>
-<span id="cb44-737"><a href="#cb44-737"></a>    net <span class="op">=</span> update_weights(net, bmu_idx, r, l)</span>
-<span id="cb44-738"><a href="#cb44-738"></a>    <span class="cf">if</span> iteration <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb44-739"><a href="#cb44-739"></a>        <span class="bu">print</span>(<span class="ss">f"Iteration: </span><span class="sc">{</span>iteration<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-740"><a href="#cb44-740"></a>        ipydis.clear_output(<span class="st">"wait"</span>)</span>
-<span id="cb44-741"><a href="#cb44-741"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb44-742"><a href="#cb44-742"></a>        net_img <span class="op">=</span> normalize(net)</span>
-<span id="cb44-743"><a href="#cb44-743"></a>        _ <span class="op">=</span> fig.suptitle(<span class="ss">f"Iteration: </span><span class="sc">{</span>iteration<span class="sc">}</span><span class="ss">"</span>, y<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb44-744"><a href="#cb44-744"></a>        plt.tight_layout()</span>
-<span id="cb44-745"><a href="#cb44-745"></a>        image <span class="op">=</span> ax.matshow(net_img, cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
-<span id="cb44-746"><a href="#cb44-746"></a>        <span class="cf">if</span> iteration <span class="op">%</span> <span class="dv">100</span> <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb44-747"><a href="#cb44-747"></a>            images.append(net_img)</span>
-<span id="cb44-748"><a href="#cb44-748"></a>        _ <span class="op">=</span> plt.show()</span>
-<span id="cb44-749"><a href="#cb44-749"></a>        time.sleep(<span class="fl">0.5</span>)</span>
-<span id="cb44-750"><a href="#cb44-750"></a><span class="in">```</span></span>
-<span id="cb44-751"><a href="#cb44-751"></a></span>
-<span id="cb44-752"><a href="#cb44-752"></a><span class="fu">### Visualization of trained colormap SOM</span></span>
+<span id="cb44-714"><a href="#cb44-714"></a><span class="fu">### Training SOM</span></span>
+<span id="cb44-715"><a href="#cb44-715"></a></span>
+<span id="cb44-718"><a href="#cb44-718"></a><span class="in">```{python}</span></span>
+<span id="cb44-719"><a href="#cb44-719"></a><span class="kw">def</span> normalize(x: np.ndarray) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb44-720"><a href="#cb44-720"></a>    <span class="cf">return</span> (x <span class="op">-</span> np.<span class="bu">min</span>(x)) <span class="op">/</span> (np.<span class="bu">max</span>(x) <span class="op">-</span> np.<span class="bu">min</span>(x))</span>
+<span id="cb44-721"><a href="#cb44-721"></a></span>
+<span id="cb44-722"><a href="#cb44-722"></a></span>
+<span id="cb44-723"><a href="#cb44-723"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> [</span>
+<span id="cb44-724"><a href="#cb44-724"></a>    i <span class="op">/</span> <span class="fl">2.0</span> <span class="cf">for</span> i <span class="kw">in</span> plt.rcParamsDefault[<span class="st">"figure.figsize"</span>]</span>
+<span id="cb44-725"><a href="#cb44-725"></a>]</span>
+<span id="cb44-726"><a href="#cb44-726"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb44-727"><a href="#cb44-727"></a><span class="co"># net = np.random.uniform(size=net.shape)</span></span>
+<span id="cb44-728"><a href="#cb44-728"></a><span class="co"># net = (255 * ((net + 1.) / 2.))</span></span>
+<span id="cb44-729"><a href="#cb44-729"></a>images <span class="op">=</span> []</span>
+<span id="cb44-730"><a href="#cb44-730"></a><span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iterations):</span>
+<span id="cb44-731"><a href="#cb44-731"></a>    <span class="co"># select a training example at random - shape of 1x3</span></span>
+<span id="cb44-732"><a href="#cb44-732"></a>    t <span class="op">=</span> data[np.random.randint(<span class="dv">0</span>, m), :].reshape(np.array([n, <span class="dv">1</span>]))</span>
+<span id="cb44-733"><a href="#cb44-733"></a>    <span class="co"># find its Best Matching Unit</span></span>
+<span id="cb44-734"><a href="#cb44-734"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n)  <span class="co"># Gives the row, column of the best neuron</span></span>
+<span id="cb44-735"><a href="#cb44-735"></a>    <span class="co"># decay the SOM parameters</span></span>
+<span id="cb44-736"><a href="#cb44-736"></a>    r <span class="op">=</span> decay_radius(init_radius, iteration, time_constant)</span>
+<span id="cb44-737"><a href="#cb44-737"></a>    l <span class="op">=</span> decay_learning_rate(init_learning_rate, iteration, n_iterations)</span>
+<span id="cb44-738"><a href="#cb44-738"></a>    <span class="co"># Update SOM weights</span></span>
+<span id="cb44-739"><a href="#cb44-739"></a>    net <span class="op">=</span> update_weights(net, bmu_idx, r, l)</span>
+<span id="cb44-740"><a href="#cb44-740"></a>    <span class="cf">if</span> iteration <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb44-741"><a href="#cb44-741"></a>        <span class="bu">print</span>(<span class="ss">f"Iteration: </span><span class="sc">{</span>iteration<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-742"><a href="#cb44-742"></a>        ipydis.clear_output(<span class="st">"wait"</span>)</span>
+<span id="cb44-743"><a href="#cb44-743"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb44-744"><a href="#cb44-744"></a>        net_img <span class="op">=</span> normalize(net)</span>
+<span id="cb44-745"><a href="#cb44-745"></a>        _ <span class="op">=</span> fig.suptitle(<span class="ss">f"Iteration: </span><span class="sc">{</span>iteration<span class="sc">}</span><span class="ss">"</span>, y<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb44-746"><a href="#cb44-746"></a>        plt.tight_layout()</span>
+<span id="cb44-747"><a href="#cb44-747"></a>        image <span class="op">=</span> ax.matshow(net_img, cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
+<span id="cb44-748"><a href="#cb44-748"></a>        <span class="cf">if</span> iteration <span class="op">%</span> <span class="dv">100</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb44-749"><a href="#cb44-749"></a>            images.append(net_img)</span>
+<span id="cb44-750"><a href="#cb44-750"></a>        _ <span class="op">=</span> plt.show()</span>
+<span id="cb44-751"><a href="#cb44-751"></a>        time.sleep(<span class="fl">0.5</span>)</span>
+<span id="cb44-752"><a href="#cb44-752"></a><span class="in">```</span></span>
 <span id="cb44-753"><a href="#cb44-753"></a></span>
-<span id="cb44-756"><a href="#cb44-756"></a><span class="in">```{python}</span></span>
-<span id="cb44-757"><a href="#cb44-757"></a><span class="bu">len</span>(images)</span>
-<span id="cb44-758"><a href="#cb44-758"></a><span class="in">```</span></span>
-<span id="cb44-759"><a href="#cb44-759"></a></span>
-<span id="cb44-762"><a href="#cb44-762"></a><span class="in">```{python}</span></span>
-<span id="cb44-763"><a href="#cb44-763"></a>fig, axes <span class="op">=</span> plt.subplots(</span>
-<span id="cb44-764"><a href="#cb44-764"></a>    figsize<span class="op">=</span>(<span class="fl">2.0</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
-<span id="cb44-765"><a href="#cb44-765"></a>    nrows<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb44-766"><a href="#cb44-766"></a>    ncols<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb44-767"><a href="#cb44-767"></a>    tight_layout<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb44-768"><a href="#cb44-768"></a>)</span>
-<span id="cb44-769"><a href="#cb44-769"></a>fig.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb44-770"><a href="#cb44-770"></a>axes <span class="op">=</span> axes.flatten()</span>
-<span id="cb44-771"><a href="#cb44-771"></a><span class="cf">for</span> idx, (img, ax) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(images, axes)):</span>
-<span id="cb44-772"><a href="#cb44-772"></a>    _ <span class="op">=</span> ax.matshow(img, cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
-<span id="cb44-773"><a href="#cb44-773"></a>    _ <span class="op">=</span> ax.set_title(<span class="ss">f"Iteration: </span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> idx<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-774"><a href="#cb44-774"></a>    _ <span class="op">=</span> ax.set_xticks([])</span>
-<span id="cb44-775"><a href="#cb44-775"></a>    _ <span class="op">=</span> ax.set_xticklabels([])</span>
-<span id="cb44-776"><a href="#cb44-776"></a>    _ <span class="op">=</span> ax.set_yticks([])</span>
-<span id="cb44-777"><a href="#cb44-777"></a>    _ <span class="op">=</span> ax.set_yticklabels([])</span>
-<span id="cb44-778"><a href="#cb44-778"></a></span>
-<span id="cb44-779"><a href="#cb44-779"></a>_ <span class="op">=</span> plt.show()</span>
-<span id="cb44-780"><a href="#cb44-780"></a><span class="in">```</span></span>
-<span id="cb44-781"><a href="#cb44-781"></a></span>
-<span id="cb44-784"><a href="#cb44-784"></a><span class="in">```{python}</span></span>
-<span id="cb44-785"><a href="#cb44-785"></a><span class="im">from</span> matplotlib <span class="im">import</span> cm</span>
-<span id="cb44-786"><a href="#cb44-786"></a></span>
-<span id="cb44-787"><a href="#cb44-787"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb44-788"><a href="#cb44-788"></a>image <span class="op">=</span> ax.imshow(normalize(net), cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
-<span id="cb44-789"><a href="#cb44-789"></a>_ <span class="op">=</span> ax.set_title(<span class="st">"Final SOM"</span>)</span>
-<span id="cb44-790"><a href="#cb44-790"></a>_ <span class="op">=</span> plt.show()</span>
-<span id="cb44-791"><a href="#cb44-791"></a><span class="in">```</span></span>
-<span id="cb44-792"><a href="#cb44-792"></a></span>
-<span id="cb44-793"><a href="#cb44-793"></a></span>
-<span id="cb44-794"><a href="#cb44-794"></a><span class="fu">### SOM on Cancer data</span></span>
+<span id="cb44-754"><a href="#cb44-754"></a><span class="fu">### Visualization of trained colormap SOM</span></span>
+<span id="cb44-755"><a href="#cb44-755"></a></span>
+<span id="cb44-758"><a href="#cb44-758"></a><span class="in">```{python}</span></span>
+<span id="cb44-759"><a href="#cb44-759"></a><span class="bu">len</span>(images)</span>
+<span id="cb44-760"><a href="#cb44-760"></a><span class="in">```</span></span>
+<span id="cb44-761"><a href="#cb44-761"></a></span>
+<span id="cb44-764"><a href="#cb44-764"></a><span class="in">```{python}</span></span>
+<span id="cb44-765"><a href="#cb44-765"></a>fig, axes <span class="op">=</span> plt.subplots(</span>
+<span id="cb44-766"><a href="#cb44-766"></a>    figsize<span class="op">=</span>(<span class="fl">2.0</span> <span class="op">*</span> DFIGSIZE[<span class="dv">0</span>], <span class="fl">1.5</span> <span class="op">*</span> DFIGSIZE[<span class="dv">1</span>]),</span>
+<span id="cb44-767"><a href="#cb44-767"></a>    nrows<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb44-768"><a href="#cb44-768"></a>    ncols<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb44-769"><a href="#cb44-769"></a>    tight_layout<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb44-770"><a href="#cb44-770"></a>)</span>
+<span id="cb44-771"><a href="#cb44-771"></a>fig.subplots_adjust(wspace<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb44-772"><a href="#cb44-772"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb44-773"><a href="#cb44-773"></a><span class="cf">for</span> idx, (img, ax) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(images, axes)):</span>
+<span id="cb44-774"><a href="#cb44-774"></a>    _ <span class="op">=</span> ax.matshow(img, cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
+<span id="cb44-775"><a href="#cb44-775"></a>    _ <span class="op">=</span> ax.set_title(<span class="ss">f"Iteration: </span><span class="sc">{</span><span class="dv">100</span> <span class="op">*</span> idx<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-776"><a href="#cb44-776"></a>    _ <span class="op">=</span> ax.set_xticks([])</span>
+<span id="cb44-777"><a href="#cb44-777"></a>    _ <span class="op">=</span> ax.set_xticklabels([])</span>
+<span id="cb44-778"><a href="#cb44-778"></a>    _ <span class="op">=</span> ax.set_yticks([])</span>
+<span id="cb44-779"><a href="#cb44-779"></a>    _ <span class="op">=</span> ax.set_yticklabels([])</span>
+<span id="cb44-780"><a href="#cb44-780"></a></span>
+<span id="cb44-781"><a href="#cb44-781"></a>_ <span class="op">=</span> plt.show()</span>
+<span id="cb44-782"><a href="#cb44-782"></a><span class="in">```</span></span>
+<span id="cb44-783"><a href="#cb44-783"></a></span>
+<span id="cb44-786"><a href="#cb44-786"></a><span class="in">```{python}</span></span>
+<span id="cb44-787"><a href="#cb44-787"></a><span class="im">from</span> matplotlib <span class="im">import</span> cm</span>
+<span id="cb44-788"><a href="#cb44-788"></a></span>
+<span id="cb44-789"><a href="#cb44-789"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb44-790"><a href="#cb44-790"></a>image <span class="op">=</span> ax.imshow(normalize(net), cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
+<span id="cb44-791"><a href="#cb44-791"></a>_ <span class="op">=</span> ax.set_title(<span class="st">"Final SOM"</span>)</span>
+<span id="cb44-792"><a href="#cb44-792"></a>_ <span class="op">=</span> plt.show()</span>
+<span id="cb44-793"><a href="#cb44-793"></a><span class="in">```</span></span>
+<span id="cb44-794"><a href="#cb44-794"></a></span>
 <span id="cb44-795"><a href="#cb44-795"></a></span>
-<span id="cb44-798"><a href="#cb44-798"></a><span class="in">```{python}</span></span>
-<span id="cb44-799"><a href="#cb44-799"></a><span class="co"># Load data</span></span>
-<span id="cb44-800"><a href="#cb44-800"></a>data <span class="op">=</span> datasets.load_breast_cancer()</span>
-<span id="cb44-801"><a href="#cb44-801"></a><span class="co"># Get features and target</span></span>
-<span id="cb44-802"><a href="#cb44-802"></a>X <span class="op">=</span> data[<span class="st">"data"</span>]  <span class="co"># pd.DataFrame(data['data'], columns=data['feature_names'])</span></span>
-<span id="cb44-803"><a href="#cb44-803"></a>Y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
-<span id="cb44-804"><a href="#cb44-804"></a><span class="bu">print</span>(X.shape, Y.shape)</span>
-<span id="cb44-805"><a href="#cb44-805"></a><span class="in">```</span></span>
-<span id="cb44-806"><a href="#cb44-806"></a></span>
-<span id="cb44-809"><a href="#cb44-809"></a><span class="in">```{python}</span></span>
-<span id="cb44-810"><a href="#cb44-810"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">10</span>])</span>
-<span id="cb44-811"><a href="#cb44-811"></a>n_iterations <span class="op">=</span> <span class="dv">2000</span></span>
-<span id="cb44-812"><a href="#cb44-812"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.01</span></span>
-<span id="cb44-813"><a href="#cb44-813"></a><span class="co"># establish size variables based on data</span></span>
-<span id="cb44-814"><a href="#cb44-814"></a>n_points <span class="op">=</span> X.shape[<span class="dv">0</span>]  <span class="co"># number of points</span></span>
-<span id="cb44-815"><a href="#cb44-815"></a>n_features <span class="op">=</span> X.shape[<span class="dv">1</span>]  <span class="co"># 30 features per point</span></span>
-<span id="cb44-816"><a href="#cb44-816"></a></span>
-<span id="cb44-817"><a href="#cb44-817"></a><span class="co"># weight matrix (i.e. the SOM) needs to be one n-dimensional vector for each neuron in the SOM</span></span>
-<span id="cb44-818"><a href="#cb44-818"></a>net <span class="op">=</span> np.random.random((network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>], n_features))</span>
-<span id="cb44-819"><a href="#cb44-819"></a></span>
-<span id="cb44-820"><a href="#cb44-820"></a><span class="co"># initial neighbourhood radius</span></span>
-<span id="cb44-821"><a href="#cb44-821"></a>init_radius <span class="op">=</span> <span class="bu">max</span>(network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>]) <span class="op">/</span> <span class="dv">2</span></span>
-<span id="cb44-822"><a href="#cb44-822"></a><span class="co"># radius decay parameter</span></span>
-<span id="cb44-823"><a href="#cb44-823"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span>
-<span id="cb44-824"><a href="#cb44-824"></a><span class="in">```</span></span>
-<span id="cb44-825"><a href="#cb44-825"></a></span>
-<span id="cb44-828"><a href="#cb44-828"></a><span class="in">```{python}</span></span>
-<span id="cb44-829"><a href="#cb44-829"></a><span class="co"># convert the network to something we can visualize</span></span>
-<span id="cb44-830"><a href="#cb44-830"></a>net_vis <span class="op">=</span> np.zeros(</span>
-<span id="cb44-831"><a href="#cb44-831"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>),</span>
-<span id="cb44-832"><a href="#cb44-832"></a>    dtype<span class="op">=</span>np.float32,</span>
-<span id="cb44-833"><a href="#cb44-833"></a>)  <span class="co"># Array for SOM color map visualization</span></span>
-<span id="cb44-834"><a href="#cb44-834"></a></span>
-<span id="cb44-835"><a href="#cb44-835"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="bu">range</span>(n_points):</span>
-<span id="cb44-836"><a href="#cb44-836"></a>    t <span class="op">=</span> X[sample, :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
-<span id="cb44-837"><a href="#cb44-837"></a>    <span class="co"># find its Best Matching Unit for this data point</span></span>
-<span id="cb44-838"><a href="#cb44-838"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
-<span id="cb44-839"><a href="#cb44-839"></a>    <span class="co"># set that unit to the label of this data point</span></span>
-<span id="cb44-840"><a href="#cb44-840"></a>    net_vis[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], <span class="dv">0</span>] <span class="op">=</span> Y[sample]  <span class="co"># Red if benign</span></span>
-<span id="cb44-841"><a href="#cb44-841"></a></span>
-<span id="cb44-842"><a href="#cb44-842"></a></span>
-<span id="cb44-843"><a href="#cb44-843"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb44-844"><a href="#cb44-844"></a>im <span class="op">=</span> ax.matshow(normalize(net_vis))</span>
-<span id="cb44-845"><a href="#cb44-845"></a><span class="co"># _ = plt.colorbar(im1, ax=ax1)</span></span>
-<span id="cb44-846"><a href="#cb44-846"></a>plt.show()</span>
-<span id="cb44-847"><a href="#cb44-847"></a><span class="in">```</span></span>
-<span id="cb44-848"><a href="#cb44-848"></a></span>
-<span id="cb44-849"><a href="#cb44-849"></a><span class="fu">### Training SOM on Cancer data</span></span>
+<span id="cb44-796"><a href="#cb44-796"></a><span class="fu">### SOM on Cancer data</span></span>
+<span id="cb44-797"><a href="#cb44-797"></a></span>
+<span id="cb44-800"><a href="#cb44-800"></a><span class="in">```{python}</span></span>
+<span id="cb44-801"><a href="#cb44-801"></a><span class="co"># Load data</span></span>
+<span id="cb44-802"><a href="#cb44-802"></a>data <span class="op">=</span> datasets.load_breast_cancer()</span>
+<span id="cb44-803"><a href="#cb44-803"></a><span class="co"># Get features and target</span></span>
+<span id="cb44-804"><a href="#cb44-804"></a>X <span class="op">=</span> data[<span class="st">"data"</span>]  <span class="co"># pd.DataFrame(data['data'], columns=data['feature_names'])</span></span>
+<span id="cb44-805"><a href="#cb44-805"></a>Y <span class="op">=</span> data[<span class="st">"target"</span>]</span>
+<span id="cb44-806"><a href="#cb44-806"></a><span class="bu">print</span>(X.shape, Y.shape)</span>
+<span id="cb44-807"><a href="#cb44-807"></a><span class="in">```</span></span>
+<span id="cb44-808"><a href="#cb44-808"></a></span>
+<span id="cb44-811"><a href="#cb44-811"></a><span class="in">```{python}</span></span>
+<span id="cb44-812"><a href="#cb44-812"></a>network_dimensions <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">10</span>])</span>
+<span id="cb44-813"><a href="#cb44-813"></a>n_iterations <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb44-814"><a href="#cb44-814"></a>init_learning_rate <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb44-815"><a href="#cb44-815"></a><span class="co"># establish size variables based on data</span></span>
+<span id="cb44-816"><a href="#cb44-816"></a>n_points <span class="op">=</span> X.shape[<span class="dv">0</span>]  <span class="co"># number of points</span></span>
+<span id="cb44-817"><a href="#cb44-817"></a>n_features <span class="op">=</span> X.shape[<span class="dv">1</span>]  <span class="co"># 30 features per point</span></span>
+<span id="cb44-818"><a href="#cb44-818"></a></span>
+<span id="cb44-819"><a href="#cb44-819"></a><span class="co"># weight matrix (i.e. the SOM) needs to be one n-dimensional vector for each neuron in the SOM</span></span>
+<span id="cb44-820"><a href="#cb44-820"></a>net <span class="op">=</span> np.random.random((network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>], n_features))</span>
+<span id="cb44-821"><a href="#cb44-821"></a></span>
+<span id="cb44-822"><a href="#cb44-822"></a><span class="co"># initial neighbourhood radius</span></span>
+<span id="cb44-823"><a href="#cb44-823"></a>init_radius <span class="op">=</span> <span class="bu">max</span>(network_dimensions[<span class="dv">0</span>], network_dimensions[<span class="dv">1</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb44-824"><a href="#cb44-824"></a><span class="co"># radius decay parameter</span></span>
+<span id="cb44-825"><a href="#cb44-825"></a>time_constant <span class="op">=</span> n_iterations <span class="op">/</span> np.log(init_radius)</span>
+<span id="cb44-826"><a href="#cb44-826"></a><span class="in">```</span></span>
+<span id="cb44-827"><a href="#cb44-827"></a></span>
+<span id="cb44-830"><a href="#cb44-830"></a><span class="in">```{python}</span></span>
+<span id="cb44-831"><a href="#cb44-831"></a><span class="co"># convert the network to something we can visualize</span></span>
+<span id="cb44-832"><a href="#cb44-832"></a>net_vis <span class="op">=</span> np.zeros(</span>
+<span id="cb44-833"><a href="#cb44-833"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>),</span>
+<span id="cb44-834"><a href="#cb44-834"></a>    dtype<span class="op">=</span>np.float32,</span>
+<span id="cb44-835"><a href="#cb44-835"></a>)  <span class="co"># Array for SOM color map visualization</span></span>
+<span id="cb44-836"><a href="#cb44-836"></a></span>
+<span id="cb44-837"><a href="#cb44-837"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="bu">range</span>(n_points):</span>
+<span id="cb44-838"><a href="#cb44-838"></a>    t <span class="op">=</span> X[sample, :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
+<span id="cb44-839"><a href="#cb44-839"></a>    <span class="co"># find its Best Matching Unit for this data point</span></span>
+<span id="cb44-840"><a href="#cb44-840"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
+<span id="cb44-841"><a href="#cb44-841"></a>    <span class="co"># set that unit to the label of this data point</span></span>
+<span id="cb44-842"><a href="#cb44-842"></a>    net_vis[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], <span class="dv">0</span>] <span class="op">=</span> Y[sample]  <span class="co"># Red if benign</span></span>
+<span id="cb44-843"><a href="#cb44-843"></a></span>
+<span id="cb44-844"><a href="#cb44-844"></a></span>
+<span id="cb44-845"><a href="#cb44-845"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb44-846"><a href="#cb44-846"></a>im <span class="op">=</span> ax.matshow(normalize(net_vis))</span>
+<span id="cb44-847"><a href="#cb44-847"></a><span class="co"># _ = plt.colorbar(im1, ax=ax1)</span></span>
+<span id="cb44-848"><a href="#cb44-848"></a>plt.show()</span>
+<span id="cb44-849"><a href="#cb44-849"></a><span class="in">```</span></span>
 <span id="cb44-850"><a href="#cb44-850"></a></span>
-<span id="cb44-853"><a href="#cb44-853"></a><span class="in">```{python}</span></span>
-<span id="cb44-854"><a href="#cb44-854"></a><span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iterations):</span>
-<span id="cb44-855"><a href="#cb44-855"></a>    <span class="co"># select a training example at random - shape of 1x3</span></span>
-<span id="cb44-856"><a href="#cb44-856"></a>    t <span class="op">=</span> X[np.random.randint(<span class="dv">0</span>, n_points), :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
-<span id="cb44-857"><a href="#cb44-857"></a>    <span class="co"># find its Best Matching Unit</span></span>
-<span id="cb44-858"><a href="#cb44-858"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
-<span id="cb44-859"><a href="#cb44-859"></a>    <span class="co"># decay the SOM parameters</span></span>
-<span id="cb44-860"><a href="#cb44-860"></a>    r <span class="op">=</span> decay_radius(init_radius, iteration, time_constant)</span>
-<span id="cb44-861"><a href="#cb44-861"></a>    l <span class="op">=</span> decay_learning_rate(init_learning_rate, iteration, n_iterations)</span>
-<span id="cb44-862"><a href="#cb44-862"></a>    <span class="co"># Update SOM weights</span></span>
-<span id="cb44-863"><a href="#cb44-863"></a>    net <span class="op">=</span> update_weights(net, bmu_idx, r, l)</span>
-<span id="cb44-864"><a href="#cb44-864"></a></span>
-<span id="cb44-865"><a href="#cb44-865"></a>    <span class="cf">if</span> iteration <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb44-866"><a href="#cb44-866"></a>        ipydis.clear_output(<span class="st">"wait"</span>)</span>
-<span id="cb44-867"><a href="#cb44-867"></a>        net_vis <span class="op">=</span> np.zeros(</span>
-<span id="cb44-868"><a href="#cb44-868"></a>            shape<span class="op">=</span>(np.shape(net)[<span class="dv">0</span>], np.shape(net)[<span class="dv">1</span>], <span class="dv">3</span>), dtype<span class="op">=</span><span class="st">"double"</span></span>
-<span id="cb44-869"><a href="#cb44-869"></a>        )  <span class="co"># Array for SOM color map visualization</span></span>
-<span id="cb44-870"><a href="#cb44-870"></a>        <span class="cf">for</span> sample <span class="kw">in</span> <span class="bu">range</span>(n_points):</span>
-<span id="cb44-871"><a href="#cb44-871"></a>            t <span class="op">=</span> X[sample, :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
-<span id="cb44-872"><a href="#cb44-872"></a>            <span class="co"># find its Best Matching Unit</span></span>
-<span id="cb44-873"><a href="#cb44-873"></a>            bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
-<span id="cb44-874"><a href="#cb44-874"></a>            net_vis[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], <span class="dv">0</span>] <span class="op">=</span> Y[sample]  <span class="co"># Red if benign</span></span>
-<span id="cb44-875"><a href="#cb44-875"></a></span>
-<span id="cb44-876"><a href="#cb44-876"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">3</span>))</span>
-<span id="cb44-877"><a href="#cb44-877"></a>        _ <span class="op">=</span> ax.set_title(<span class="ss">f"Iteration: </span><span class="sc">{</span>iteration<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb44-878"><a href="#cb44-878"></a>        _ <span class="op">=</span> ax.imshow(normalize(net_vis), cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
-<span id="cb44-879"><a href="#cb44-879"></a>        _ <span class="op">=</span> plt.show()</span>
-<span id="cb44-880"><a href="#cb44-880"></a>        time.sleep(<span class="fl">0.25</span>)</span>
-<span id="cb44-881"><a href="#cb44-881"></a><span class="in">```</span></span>
-<span id="cb44-882"><a href="#cb44-882"></a></span>
-<span id="cb44-883"><a href="#cb44-883"></a><span class="fu">### Visualization of trained SOM</span></span>
+<span id="cb44-851"><a href="#cb44-851"></a><span class="fu">### Training SOM on Cancer data</span></span>
+<span id="cb44-852"><a href="#cb44-852"></a></span>
+<span id="cb44-855"><a href="#cb44-855"></a><span class="in">```{python}</span></span>
+<span id="cb44-856"><a href="#cb44-856"></a><span class="cf">for</span> iteration <span class="kw">in</span> <span class="bu">range</span>(n_iterations):</span>
+<span id="cb44-857"><a href="#cb44-857"></a>    <span class="co"># select a training example at random - shape of 1x3</span></span>
+<span id="cb44-858"><a href="#cb44-858"></a>    t <span class="op">=</span> X[np.random.randint(<span class="dv">0</span>, n_points), :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
+<span id="cb44-859"><a href="#cb44-859"></a>    <span class="co"># find its Best Matching Unit</span></span>
+<span id="cb44-860"><a href="#cb44-860"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
+<span id="cb44-861"><a href="#cb44-861"></a>    <span class="co"># decay the SOM parameters</span></span>
+<span id="cb44-862"><a href="#cb44-862"></a>    r <span class="op">=</span> decay_radius(init_radius, iteration, time_constant)</span>
+<span id="cb44-863"><a href="#cb44-863"></a>    l <span class="op">=</span> decay_learning_rate(init_learning_rate, iteration, n_iterations)</span>
+<span id="cb44-864"><a href="#cb44-864"></a>    <span class="co"># Update SOM weights</span></span>
+<span id="cb44-865"><a href="#cb44-865"></a>    net <span class="op">=</span> update_weights(net, bmu_idx, r, l)</span>
+<span id="cb44-866"><a href="#cb44-866"></a></span>
+<span id="cb44-867"><a href="#cb44-867"></a>    <span class="cf">if</span> iteration <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb44-868"><a href="#cb44-868"></a>        ipydis.clear_output(<span class="st">"wait"</span>)</span>
+<span id="cb44-869"><a href="#cb44-869"></a>        net_vis <span class="op">=</span> np.zeros(</span>
+<span id="cb44-870"><a href="#cb44-870"></a>            shape<span class="op">=</span>(np.shape(net)[<span class="dv">0</span>], np.shape(net)[<span class="dv">1</span>], <span class="dv">3</span>), dtype<span class="op">=</span><span class="st">"double"</span></span>
+<span id="cb44-871"><a href="#cb44-871"></a>        )  <span class="co"># Array for SOM color map visualization</span></span>
+<span id="cb44-872"><a href="#cb44-872"></a>        <span class="cf">for</span> sample <span class="kw">in</span> <span class="bu">range</span>(n_points):</span>
+<span id="cb44-873"><a href="#cb44-873"></a>            t <span class="op">=</span> X[sample, :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
+<span id="cb44-874"><a href="#cb44-874"></a>            <span class="co"># find its Best Matching Unit</span></span>
+<span id="cb44-875"><a href="#cb44-875"></a>            bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
+<span id="cb44-876"><a href="#cb44-876"></a>            net_vis[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], <span class="dv">0</span>] <span class="op">=</span> Y[sample]  <span class="co"># Red if benign</span></span>
+<span id="cb44-877"><a href="#cb44-877"></a></span>
+<span id="cb44-878"><a href="#cb44-878"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">3</span>))</span>
+<span id="cb44-879"><a href="#cb44-879"></a>        _ <span class="op">=</span> ax.set_title(<span class="ss">f"Iteration: </span><span class="sc">{</span>iteration<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-880"><a href="#cb44-880"></a>        _ <span class="op">=</span> ax.imshow(normalize(net_vis), cmap<span class="op">=</span><span class="st">"rainbow"</span>)</span>
+<span id="cb44-881"><a href="#cb44-881"></a>        _ <span class="op">=</span> plt.show()</span>
+<span id="cb44-882"><a href="#cb44-882"></a>        time.sleep(<span class="fl">0.25</span>)</span>
+<span id="cb44-883"><a href="#cb44-883"></a><span class="in">```</span></span>
 <span id="cb44-884"><a href="#cb44-884"></a></span>
-<span id="cb44-885"><a href="#cb44-885"></a></span>
-<span id="cb44-888"><a href="#cb44-888"></a><span class="in">```{python}</span></span>
-<span id="cb44-889"><a href="#cb44-889"></a>net_vis <span class="op">=</span> np.zeros(</span>
-<span id="cb44-890"><a href="#cb44-890"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>), dtype<span class="op">=</span><span class="st">"double"</span></span>
-<span id="cb44-891"><a href="#cb44-891"></a>)  <span class="co"># Array for SOM color map visualization</span></span>
-<span id="cb44-892"><a href="#cb44-892"></a></span>
-<span id="cb44-893"><a href="#cb44-893"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="bu">range</span>(n_points):</span>
-<span id="cb44-894"><a href="#cb44-894"></a>    t <span class="op">=</span> X[sample, :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
-<span id="cb44-895"><a href="#cb44-895"></a>    <span class="co"># find its Best Matching Unit</span></span>
-<span id="cb44-896"><a href="#cb44-896"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
-<span id="cb44-897"><a href="#cb44-897"></a>    net_vis[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], <span class="dv">0</span>] <span class="op">=</span> Y[sample]  <span class="co"># Red if benign</span></span>
-<span id="cb44-898"><a href="#cb44-898"></a></span>
-<span id="cb44-899"><a href="#cb44-899"></a>_ <span class="op">=</span> plt.imshow(normalize(net_vis))</span>
-<span id="cb44-900"><a href="#cb44-900"></a>_ <span class="op">=</span> plt.show()</span>
-<span id="cb44-901"><a href="#cb44-901"></a><span class="in">```</span></span>
-<span id="cb44-902"><a href="#cb44-902"></a></span>
-<span id="cb44-903"><a href="#cb44-903"></a><span class="fu">## Keep learning</span></span>
+<span id="cb44-885"><a href="#cb44-885"></a><span class="fu">### Visualization of trained SOM</span></span>
+<span id="cb44-886"><a href="#cb44-886"></a></span>
+<span id="cb44-887"><a href="#cb44-887"></a></span>
+<span id="cb44-890"><a href="#cb44-890"></a><span class="in">```{python}</span></span>
+<span id="cb44-891"><a href="#cb44-891"></a>net_vis <span class="op">=</span> np.zeros(</span>
+<span id="cb44-892"><a href="#cb44-892"></a>    shape<span class="op">=</span>(net.shape[<span class="dv">0</span>], net.shape[<span class="dv">1</span>], <span class="dv">3</span>), dtype<span class="op">=</span><span class="st">"double"</span></span>
+<span id="cb44-893"><a href="#cb44-893"></a>)  <span class="co"># Array for SOM color map visualization</span></span>
+<span id="cb44-894"><a href="#cb44-894"></a></span>
+<span id="cb44-895"><a href="#cb44-895"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="bu">range</span>(n_points):</span>
+<span id="cb44-896"><a href="#cb44-896"></a>    t <span class="op">=</span> X[sample, :].reshape(np.array([n_features, <span class="dv">1</span>]))</span>
+<span id="cb44-897"><a href="#cb44-897"></a>    <span class="co"># find its Best Matching Unit</span></span>
+<span id="cb44-898"><a href="#cb44-898"></a>    bmu, bmu_idx <span class="op">=</span> find_bmu(t, net, n_features)</span>
+<span id="cb44-899"><a href="#cb44-899"></a>    net_vis[bmu_idx[<span class="dv">0</span>], bmu_idx[<span class="dv">1</span>], <span class="dv">0</span>] <span class="op">=</span> Y[sample]  <span class="co"># Red if benign</span></span>
+<span id="cb44-900"><a href="#cb44-900"></a></span>
+<span id="cb44-901"><a href="#cb44-901"></a>_ <span class="op">=</span> plt.imshow(normalize(net_vis))</span>
+<span id="cb44-902"><a href="#cb44-902"></a>_ <span class="op">=</span> plt.show()</span>
+<span id="cb44-903"><a href="#cb44-903"></a><span class="in">```</span></span>
 <span id="cb44-904"><a href="#cb44-904"></a></span>
-<span id="cb44-905"><a href="#cb44-905"></a><span class="ss">1. </span>&lt;lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/course/&gt;</span>
-<span id="cb44-906"><a href="#cb44-906"></a><span class="ss">2. </span>&lt;www.coursera.org/learn/ml-clustering-and-retrieval/&gt;</span>
-<span id="cb44-907"><a href="#cb44-907"></a><span class="ss">3. </span>&lt;www.coursera.org/learn/machine-learning/home/week/8&gt;</span>
+<span id="cb44-905"><a href="#cb44-905"></a><span class="fu">## Keep learning</span></span>
+<span id="cb44-906"><a href="#cb44-906"></a></span>
+<span id="cb44-907"><a href="#cb44-907"></a><span class="ss">1. </span>&lt;lagunita.stanford.edu/courses/HumanitiesSciences/StatLearning/Winter2016/course/&gt;</span>
+<span id="cb44-908"><a href="#cb44-908"></a><span class="ss">2. </span>&lt;www.coursera.org/learn/ml-clustering-and-retrieval/&gt;</span>
+<span id="cb44-909"><a href="#cb44-909"></a><span class="ss">3. </span>&lt;www.coursera.org/learn/machine-learning/home/week/8&gt;</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
