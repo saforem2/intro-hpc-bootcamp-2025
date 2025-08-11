@@ -1,4 +1,28 @@
-# Intro to HPC Bootcamp 2025
+# 🤖 Intro to HPC Bootcamp 2025
+
+- [Intro to HPC Bootcamp 2025](https://intro-hpc-bootcamp.alcf.anl.gov/)
+  - [Intro to {AI, HPC} for Science](https://saforem2.github.io/intro-hpc-bootcamp-2025)
+
+## 🐣 Getting Started
+
+### 🏃‍♂️ Running on NERSC
+
+```bash
+ssh perlmutter
+NODES=2 ; HRS=02 ; QUEUE=interactive ; salloc --nodes $NODES --qos $QUEUE --time $HRS:30:00 -C 'gpu' --gpus=$(( 4 * NODES )) -A m4388_g
+```
+
+### 📦 Installing `bootcamp`
+
+```bash
+git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
+cd intro-hpc-bootcamp-2025
+source <(curl -L https://bit.ly/ezpz-utils) && ezpz_setup_env
+```
+
+---
+
+<details closed><summary>Instructions for Building Site</summary>
 
 ## Instructions for Building Site
 
@@ -34,3 +58,5 @@
    ```bash
    quarto preview content
    ```
+
+</details>
