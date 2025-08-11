@@ -3,6 +3,7 @@ title: "Shared Resources"
 description: "An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage."
 categories:
     - hpc
+    - supercomputing
 date: 2025-07-15
 date-modified: last-modified
 format:
@@ -35,6 +36,15 @@ nodes? 1000 nodes?
     If you hover on a colored node in the graphic, it will highlight all the
   nodes used by the same job AND the job in the _running_ table below.
   - _queued_ jobs are waiting for an opening in which to run.
-- [📊 **Live Status of Jobs on Polaris**](https://status.alcf.anl.gov/#/polaris)
 
-  ![polaris-activity](../img/polaris_activity1.png)
+## 📊 Live Status of Polaris
+
+
+<!-- ::: {.column-page #fig-polaris-status} -->
+<!-- ::: {.column-body-outset #fig-polaris-status} -->
+::: {.column-page #fig-polaris-status}
+
+<iframe src="https://status.alcf.anl.gov/#/polaris" loading="lazy" height="720" width="100%" frameborder="0" align="center" allowfullscreen style="border:0"></iframe>
+
+See: <https://status.alcf.anl.gov/#/polaris>
+:::

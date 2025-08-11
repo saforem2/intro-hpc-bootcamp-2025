@@ -83,9 +83,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-1a95a006fa96163f90bf11620203e68d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-174353d2fa111ba48747fab321614398.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -138,18 +135,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 
 <meta property="og:title" content="Shared Resources – Intro to HPC Bootcamp 2025">
 <meta property="og:description" content="An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage.">
-<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/img/polaris_activity1.png">
+<meta property="og:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/1-shared-resources/assets/thumbnail.png">
 <meta property="og:site_name" content="Intro to HPC Bootcamp 2025">
-<meta property="og:image:alt" content="polaris-activity">
-<meta property="og:image:height" content="1314">
-<meta property="og:image:width" content="2474">
 <meta name="twitter:title" content="Shared Resources – Intro to HPC Bootcamp 2025">
 <meta name="twitter:description" content="An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage.">
-<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/img/polaris_activity1.png">
+<meta name="twitter:image" content="https://saforem2.github.io/hpc-bootcamp-2025/00-intro-AI-HPC/1-shared-resources/assets/thumbnail.png">
 <meta name="twitter:site" content="saforem2">
-<meta name="twitter:image:alt" content="polaris-activity">
-<meta name="twitter:image-height" content="1314">
-<meta name="twitter:image-width" content="2474">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="citation_title" content="Shared Resources">
 <meta name="citation_author" content="Sam Foreman">
@@ -598,11 +589,12 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#polaris-activity-webpage" id="toc-polaris-activity-webpage" class="nav-link active" data-scroll-target="#polaris-activity-webpage">Polaris Activity Webpage</a></li>
+  <li><a href="#live-status-of-polaris" id="toc-live-status-of-polaris" class="nav-link" data-scroll-target="#live-status-of-polaris">📊 Live Status of Polaris</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/00-intro-AI-HPC/1-shared-resources/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/00-intro-AI-HPC/1-shared-resources/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -613,6 +605,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <div class="quarto-title-block"><div><h1 class="title">Shared Resources</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">hpc</div>
+    <div class="quarto-category">supercomputing</div>
   </div>
   </div>
 
@@ -651,7 +644,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 5, 2025</p>
+      <p class="date-modified">August 8, 2025</p>
     </div>
   </div>
     
@@ -677,19 +670,26 @@ How many compute <em>nodes</em> does the application need to run? 5 nodes? 100 n
 <section id="polaris-activity-webpage" class="level2">
 <h2 class="anchored" data-anchor-id="polaris-activity-webpage">Polaris Activity Webpage</h2>
 <ul>
-<li><p>We have a page that shows all the current activity on Polaris. The top of the page shows a graphical representation of all nodes. Colors indicate a <em>job</em> running on that <em>node</em>. Below the graphic there is a table that lists <em>running</em> and <em>queued</em> jobs.</p>
+<li>We have a page that shows all the current activity on Polaris. The top of the page shows a graphical representation of all nodes. Colors indicate a <em>job</em> running on that <em>node</em>. Below the graphic there is a table that lists <em>running</em> and <em>queued</em> jobs.
 <ul>
 <li><em>running</em> refers to jobs running right now on comptuer nodes. If you hover on a colored node in the graphic, it will highlight all the nodes used by the same job AND the job in the <em>running</em> table below.</li>
 <li><em>queued</em> jobs are waiting for an opening in which to run.</li>
 </ul></li>
-<li><p><a href="https://status.alcf.anl.gov/#/polaris">📊 <strong>Live Status of Jobs on Polaris</strong></a></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../img/polaris_activity1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="polaris-activity"><img src="../img/polaris_activity1.png" class="img-fluid figure-img" alt="polaris-activity"></a></p>
-<figcaption>polaris-activity</figcaption>
-</figure>
-</div></li>
 </ul>
+</section>
+<section id="live-status-of-polaris" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="live-status-of-polaris">📊 Live Status of Polaris</h2>
+<div id="fig-polaris-status" class="column-page quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-polaris-status-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe src="https://status.alcf.anl.gov/#/polaris" loading="lazy" height="720" width="100%" frameborder="0" align="center" allowfullscreen="" style="border:0">
+</iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polaris-status-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: See: <a href="https://status.alcf.anl.gov/#/polaris" class="uri">https://status.alcf.anl.gov/#/polaris</a>
+</figcaption>
+</figure>
+</div>
 
 
 
@@ -1222,41 +1222,51 @@ Foreman, Sam. 2025. <span>“Shared Resources.”</span> July 15, 2025. <a href=
 <span id="cb1-3"><a href="#cb1-3"></a><span class="an">description:</span><span class="co"> "An introduction to shared resources in supercomputing, including job scheduling and the Polaris activity webpage."</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="an">categories:</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="co">    - hpc</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="an">format:</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">  html: default</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">  gfm:</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">    toc: true</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">---</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a>Supercomputers contain many computer _nodes_ and not every application will use</span>
-<span id="cb1-15"><a href="#cb1-15"></a>ALL of them.</span>
-<span id="cb1-16"><a href="#cb1-16"></a>Therefore, we use programs called _schedulers_ that allow users to schedule a</span>
-<span id="cb1-17"><a href="#cb1-17"></a>_job_ based on how many nodes they need for a specified time.</span>
-<span id="cb1-18"><a href="#cb1-18"></a></span>
-<span id="cb1-19"><a href="#cb1-19"></a>A _job_ is defined by a user and requires these parameters to be defined:</span>
-<span id="cb1-20"><a href="#cb1-20"></a></span>
-<span id="cb1-21"><a href="#cb1-21"></a>run-time</span>
-<span id="cb1-22"><a href="#cb1-22"></a>: How long will this _job_ run? 5 minutes? 60 minutes? 6 hours?</span>
-<span id="cb1-23"><a href="#cb1-23"></a></span>
-<span id="cb1-24"><a href="#cb1-24"></a>number-of-nodes</span>
-<span id="cb1-25"><a href="#cb1-25"></a>: How many compute _nodes_ does the application need to run? 5 nodes? 100</span>
-<span id="cb1-26"><a href="#cb1-26"></a>nodes? 1000 nodes?</span>
-<span id="cb1-27"><a href="#cb1-27"></a></span>
-<span id="cb1-28"><a href="#cb1-28"></a><span class="fu">## Polaris Activity Webpage</span></span>
-<span id="cb1-29"><a href="#cb1-29"></a></span>
-<span id="cb1-30"><a href="#cb1-30"></a><span class="ss">- </span>We have a page that shows all the current activity on Polaris.</span>
-<span id="cb1-31"><a href="#cb1-31"></a>  The top of the page shows a graphical representation of all nodes.</span>
-<span id="cb1-32"><a href="#cb1-32"></a>  Colors indicate a _job_ running on that _node_.</span>
-<span id="cb1-33"><a href="#cb1-33"></a>  Below the graphic there is a table that lists _running_ and _queued_ jobs.</span>
-<span id="cb1-34"><a href="#cb1-34"></a><span class="ss">  - </span>_running_ refers to jobs running right now on comptuer nodes.</span>
-<span id="cb1-35"><a href="#cb1-35"></a>    If you hover on a colored node in the graphic, it will highlight all the</span>
-<span id="cb1-36"><a href="#cb1-36"></a>  nodes used by the same job AND the job in the _running_ table below.</span>
-<span id="cb1-37"><a href="#cb1-37"></a><span class="ss">  - </span>_queued_ jobs are waiting for an opening in which to run.</span>
-<span id="cb1-38"><a href="#cb1-38"></a><span class="ss">- </span><span class="co">[</span><span class="ot">📊 **Live Status of Jobs on Polaris**</span><span class="co">](https://status.alcf.anl.gov/#/polaris)</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">    - supercomputing</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="an">format:</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">  html: default</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">  gfm:</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">    toc: true</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co">---</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a>Supercomputers contain many computer _nodes_ and not every application will use</span>
+<span id="cb1-16"><a href="#cb1-16"></a>ALL of them.</span>
+<span id="cb1-17"><a href="#cb1-17"></a>Therefore, we use programs called _schedulers_ that allow users to schedule a</span>
+<span id="cb1-18"><a href="#cb1-18"></a>_job_ based on how many nodes they need for a specified time.</span>
+<span id="cb1-19"><a href="#cb1-19"></a></span>
+<span id="cb1-20"><a href="#cb1-20"></a>A _job_ is defined by a user and requires these parameters to be defined:</span>
+<span id="cb1-21"><a href="#cb1-21"></a></span>
+<span id="cb1-22"><a href="#cb1-22"></a>run-time</span>
+<span id="cb1-23"><a href="#cb1-23"></a>: How long will this _job_ run? 5 minutes? 60 minutes? 6 hours?</span>
+<span id="cb1-24"><a href="#cb1-24"></a></span>
+<span id="cb1-25"><a href="#cb1-25"></a>number-of-nodes</span>
+<span id="cb1-26"><a href="#cb1-26"></a>: How many compute _nodes_ does the application need to run? 5 nodes? 100</span>
+<span id="cb1-27"><a href="#cb1-27"></a>nodes? 1000 nodes?</span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="fu">## Polaris Activity Webpage</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a></span>
+<span id="cb1-31"><a href="#cb1-31"></a><span class="ss">- </span>We have a page that shows all the current activity on Polaris.</span>
+<span id="cb1-32"><a href="#cb1-32"></a>  The top of the page shows a graphical representation of all nodes.</span>
+<span id="cb1-33"><a href="#cb1-33"></a>  Colors indicate a _job_ running on that _node_.</span>
+<span id="cb1-34"><a href="#cb1-34"></a>  Below the graphic there is a table that lists _running_ and _queued_ jobs.</span>
+<span id="cb1-35"><a href="#cb1-35"></a><span class="ss">  - </span>_running_ refers to jobs running right now on comptuer nodes.</span>
+<span id="cb1-36"><a href="#cb1-36"></a>    If you hover on a colored node in the graphic, it will highlight all the</span>
+<span id="cb1-37"><a href="#cb1-37"></a>  nodes used by the same job AND the job in the _running_ table below.</span>
+<span id="cb1-38"><a href="#cb1-38"></a><span class="ss">  - </span>_queued_ jobs are waiting for an opening in which to run.</span>
 <span id="cb1-39"><a href="#cb1-39"></a></span>
-<span id="cb1-40"><a href="#cb1-40"></a>  <span class="al">![polaris-activity](../img/polaris_activity1.png)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-40"><a href="#cb1-40"></a><span class="fu">## 📊 Live Status of Polaris</span></span>
+<span id="cb1-41"><a href="#cb1-41"></a></span>
+<span id="cb1-42"><a href="#cb1-42"></a></span>
+<span id="cb1-43"><a href="#cb1-43"></a><span class="co">&lt;!-- ::: {.column-page #fig-polaris-status} --&gt;</span></span>
+<span id="cb1-44"><a href="#cb1-44"></a><span class="co">&lt;!-- ::: {.column-body-outset #fig-polaris-status} --&gt;</span></span>
+<span id="cb1-45"><a href="#cb1-45"></a>::: {.column-page #fig-polaris-status}</span>
+<span id="cb1-46"><a href="#cb1-46"></a></span>
+<span id="cb1-47"><a href="#cb1-47"></a><span class="dt">&lt;</span><span class="kw">iframe</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://status.alcf.anl.gov/#/polaris"</span><span class="ot"> loading</span><span class="op">=</span><span class="st">"lazy"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"720"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100%"</span><span class="ot"> frameborder</span><span class="op">=</span><span class="st">"0"</span><span class="ot"> align</span><span class="op">=</span><span class="st">"center"</span><span class="ot"> allowfullscreen style</span><span class="op">=</span><span class="st">"border:0"</span><span class="dt">&gt;&lt;/</span><span class="kw">iframe</span><span class="dt">&gt;</span></span>
+<span id="cb1-48"><a href="#cb1-48"></a></span>
+<span id="cb1-49"><a href="#cb1-49"></a>See: <span class="ot">&lt;https://status.alcf.anl.gov/#/polaris&gt;</span></span>
+<span id="cb1-50"><a href="#cb1-50"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1291,38 +1301,6 @@ Foreman, Sam. 2025. <span>“Shared Resources.”</span> July 15, 2025. <a href=
     </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 

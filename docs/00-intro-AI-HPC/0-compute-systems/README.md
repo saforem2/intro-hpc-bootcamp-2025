@@ -13,6 +13,7 @@ Sam Foreman
   - [Aurora](#aurora)
   - [Sophia](#sophia)
   - [Polaris](#polaris)
+- [📓 References](#notebook-references)
 
 ## Overview
 
@@ -29,7 +30,7 @@ If you look inside your Desktop or Laptop you’ll find these parts:
 
 <div id="fig-computer-parts">
 
-![](../img/computer-parts-diagram.svg)
+![](../img/computer-internals/light.svg)
 
 Figure 1: Typical computer parts
 
@@ -162,3 +163,9 @@ Polaris Machine Specs
   - 4 NVIDIA (A100) GPUs
   - 1 AMD EPYC (Milan) CPUs
 - ~560 Total Nodes
+
+## 📓 References
+
+- [Awesome
+  HPC](https://github.com/trevor-vincent/awesome-high-performance-computing)
+- [ALCF User Guides](https://docs.alcf.anl.gov)

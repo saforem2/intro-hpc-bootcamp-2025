@@ -592,7 +592,7 @@
     "href": "00-intro-AI-HPC/1-shared-resources/index.html#polaris-activity-webpage",
     "title": "Shared Resources",
     "section": "Polaris Activity Webpage",
-    "text": "Polaris Activity Webpage\n\nWe have a page that shows all the current activity on Polaris. The top of the page shows a graphical representation of all nodes. Colors indicate a job running on that node. Below the graphic there is a table that lists running and queued jobs.\n\nrunning refers to jobs running right now on comptuer nodes. If you hover on a colored node in the graphic, it will highlight all the nodes used by the same job AND the job in the running table below.\nqueued jobs are waiting for an opening in which to run.\n\n📊 Live Status of Jobs on Polaris\n\n\n\npolaris-activity",
+    "text": "Polaris Activity Webpage\n\nWe have a page that shows all the current activity on Polaris. The top of the page shows a graphical representation of all nodes. Colors indicate a job running on that node. Below the graphic there is a table that lists running and queued jobs.\n\nrunning refers to jobs running right now on comptuer nodes. If you hover on a colored node in the graphic, it will highlight all the nodes used by the same job AND the job in the running table below.\nqueued jobs are waiting for an opening in which to run.",
     "crumbs": [
       "[00] Intro to AI and HPC",
       "[1] Shared Resources"
@@ -1412,6 +1412,28 @@
     "crumbs": [
       "[02] Large Language Models",
       "[6] Parallel Training"
+    ]
+  },
+  {
+    "objectID": "00-intro-AI-HPC/1-shared-resources/index.html#live-status-of-polaris",
+    "href": "00-intro-AI-HPC/1-shared-resources/index.html#live-status-of-polaris",
+    "title": "Shared Resources",
+    "section": "📊 Live Status of Polaris",
+    "text": "📊 Live Status of Polaris\n\n\n\n\n\n\n\nFigure 1: See: https://status.alcf.anl.gov/#/polaris",
+    "crumbs": [
+      "[00] Intro to AI and HPC",
+      "[1] Shared Resources"
+    ]
+  },
+  {
+    "objectID": "00-intro-AI-HPC/0-compute-systems/index.html#references",
+    "href": "00-intro-AI-HPC/0-compute-systems/index.html#references",
+    "title": "What is a Supercomputer?",
+    "section": "📓 References",
+    "text": "📓 References\n\nAwesome HPC\nALCF User Guides",
+    "crumbs": [
+      "[00] Intro to AI and HPC",
+      "[0] Compute Systems"
     ]
   }
 ]
