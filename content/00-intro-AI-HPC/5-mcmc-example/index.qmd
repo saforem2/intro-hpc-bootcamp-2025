@@ -1,6 +1,6 @@
 ---
 title: 'Example: Approximating $\pi$ using Markov Chain Monte Carlo (MCMC)'
-description: 'Simple example illustrating how to estimate \$\pi$ (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI'
+description: 'Simple example illustrating how to estimate $\pi$ (in parallel) with Markov Chain Monte Carlo (MCMC) and MPI'
 categories:
   - ai4science
   - hpc
@@ -17,7 +17,18 @@ format:
     toc: true
 ---
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md)
+
+<!--
+<p>
+    <a href="https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/content/00-intro-AI-HPC/8-clustering/index.ipynb">
+        <img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid">
+    </a>
+    <a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md">
+        <img src="https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&amp;logo=github&amp;labelColor=gray.png" class="img-fluid">
+    </a>
+</p>
+-->
 
 ::: {.callout-important title="Parallel Computing" collapse="false"}
 
