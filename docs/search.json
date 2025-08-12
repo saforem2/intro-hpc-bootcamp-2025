@@ -603,7 +603,7 @@
     "href": "00-intro-AI-HPC/index.html#contents",
     "title": "Introduction to AI on Supercomputers",
     "section": "Contents",
-    "text": "Contents\n\n📂 00-intro-AI-HPC/\n\n📄 0-compute-systems\n📄 1-shared-resources\n📗 2-jupyter-notebooks\n📄 3-python\n📄 4-data\n\n\nLink to original slides: https://drive.google.com/file/d/1PH6HlXPhsVB1wDcEkfRSZrDQTqWBi7aH/view?usp=sharing",
+    "text": "Contents\n\n📂 [00] Intro to AI and HPC/\n\n📄 [0] Compute systems\n📄 [1] Shared-resources\n📄 [2] Jupyter Notebooks\n📄 [3] Using Python\n📄 [4] Working with Data\n📗 [5] MCMC Example\n📗 [6] Linear Regression\n📗 [7] Statistical Learning\n📗 [8] Clustering\n\n\nLink to original slides: https://drive.google.com/file/d/1PH6HlXPhsVB1wDcEkfRSZrDQTqWBi7aH/view?usp=sharing",
     "crumbs": [
       "[00] Intro to AI and HPC"
     ]
@@ -613,7 +613,7 @@
     "href": "index.html#getting-started",
     "title": "Intro to HPC Bootcamp 2025",
     "section": "🐣 Getting Started",
-    "text": "🐣 Getting Started\ngit clone https://github.com/saforem2/intro-hpc-bootcamp-2025\ncd intro-hpc-bootcamp-2025"
+    "text": "🐣 Getting Started\n\nClone the repo:\ngit clone https://github.com/saforem2/intro-hpc-bootcamp-2025\ncd intro-hpc-bootcamp-2025\nInstall the dependencies:\n uv venv --python=3.12\n source .venv/bin/activate\n uv pip install -e . --no-cache\n uv pip install \"git+https://github.com/saforem2/ezpz\" --no-cache"
   },
   {
     "objectID": "index.html#project-contents",

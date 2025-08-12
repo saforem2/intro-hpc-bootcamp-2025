@@ -9,10 +9,21 @@ Sam Foreman
 
 ## 🐣 Getting Started
 
-``` bash
-git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
-cd intro-hpc-bootcamp-2025
-```
+1.  Clone the repo:
+
+    ``` bash
+    git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
+    cd intro-hpc-bootcamp-2025
+    ```
+
+2.  Install the dependencies:
+
+    ``` bash
+     uv venv --python=3.12
+     source .venv/bin/activate
+     uv pip install -e . --no-cache
+     uv pip install "git+https://github.com/saforem2/ezpz" --no-cache
+    ```
 
 ## 📂 Project Contents
 

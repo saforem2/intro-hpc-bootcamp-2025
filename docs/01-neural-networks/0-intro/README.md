@@ -1,5 +1,5 @@
 # Introduction to Neural Networks
-Sam Foreman
+Sam Foreman, Marieme Ngom, Huihuo Zheng, Bethany Lusch, Taylor Childers
 2025-07-15
 
 <link rel="preconnect" href="https://fonts.googleapis.com">

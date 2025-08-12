@@ -1,5 +1,5 @@
 # Statistical Learning
-Sam Foreman
+Sam Foreman, Huihuo Zheng
 2025-07-25
 
 <link rel="preconnect" href="https://fonts.googleapis.com">

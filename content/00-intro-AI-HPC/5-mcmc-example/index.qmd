@@ -15,6 +15,25 @@ format:
   html: default
   gfm:
     toc: true
+author:
+  - id: sf
+    name: Sam Foreman
+    orcid: 0000-0002-9981-0876
+    email: foremans@anl.gov
+    affiliation:
+      - name: '[ANL](https://www.anl.gov/)'
+        city: Lemont
+        state: IL
+        url: https://alcf.anl.gov/about/people/sam-foreman
+  - id: hz
+    name: Huihuo Zheng
+    # orcid: 0000-0002-9981-0876
+    email: huihuo.zheng@anl.gov
+    affiliation:
+      - name: '[ANL](https://www.anl.gov/)'
+        city: Lemont
+        state: IL
+        url: https://alcf.anl.gov/about/people/huihuo-zheng
 ---
 
 [![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/index.ipynb) [![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/00-intro-AI-HPC/5-mcmc-example/README.md)

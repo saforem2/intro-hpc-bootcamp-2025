@@ -1,5 +1,5 @@
 # Example: Linear Regression
-Sam Foreman
+Sam Foreman, Huihuo Zheng
 2025-07-15
 
 <link rel="preconnect" href="https://fonts.googleapis.com">

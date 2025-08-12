@@ -10,6 +10,53 @@ format:
   html: default
   gfm:
     toc: true
+author:
+  - id: sf
+    name: Sam Foreman
+    orcid: 0000-0002-9981-0876
+    email: foremans@anl.gov
+    affiliation:
+      - name: '[ANL](https://www.anl.gov/)'
+        city: Lemont
+        state: IL
+        url: https://alcf.anl.gov/about/people/sam-foreman
+  - id: mn
+    name: Marieme Ngom
+    # orcid: 0000-0002-9981-0876
+    email: mngom@anl.gov
+    affiliation:
+      - name: '[ANL](https://www.anl.gov/)'
+        city: Lemont
+        state: IL
+        url: https://alcf.anl.gov/about/people/marieme-ngom
+  - id: hz
+    name: Huihuo Zheng
+    # orcid: 0000-0002-9981-0876
+    email: huihuo.zheng@anl.gov
+    affiliation:
+      - name: '[ANL](https://www.anl.gov/)'
+        city: Lemont
+        state: IL
+        url: https://alcf.anl.gov/about/people/huihuo-zheng
+  - id: bl
+    name: Bethany Lusch
+    email: blusch@anl.gov
+    orcid: 0000-0002-9521-9990
+    # orcid: 0000-0002-9981-0876
+    affiliation:
+      - name: '[ANL](https://www.anl.gov/)'
+        city: Lemont
+        state: IL
+        url: https://alcf.anl.gov/about/people/bethany-lusch
+  - id: tc
+    name: Taylor Childers
+    orcid: 0000-0002-0492-613X
+    email: jchilders@anl.gov
+    affiliation:
+      - name: '[ANL](https://www.anl.gov/)'
+        city: Lemont
+        state: IL
+        url: https://alcf.anl.gov/about/people/taylor-childers
 ---
 
 <!--
