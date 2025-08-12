@@ -15,7 +15,8 @@ Sam Foreman, Marieme Ngom, Huihuo Zheng, Bethany Lusch, Taylor Childers
 - [Homework](#homework)
 - [Homework solution](#homework-solution)
 
-[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/02-llms/1-hands-on-llms/index.ipynb)
+[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/1-mnist/index.ipynb)
+[![](https://img.shields.io/badge/-View%20on%20GitHub-333333?style=flat&logo=github&labelColor=gray.png)](https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/docs/01-neural-networks/1-mnist/README.md)
 
 > [!NOTE]
 >
