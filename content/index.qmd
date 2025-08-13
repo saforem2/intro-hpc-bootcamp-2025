@@ -97,12 +97,57 @@ sidebar: sidebar
 
 ## 🐣 Getting Started
 
+<!--
 1. Clone the repo:
 
    ```bash
    git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
    cd intro-hpc-bootcamp-2025
    ```
+-->
+
+1. Start terminal
+1. Create symlink:
+
+    ```bash
+    # symlink 
+    ln -s /global/cfs/cdirs/m4388 $HOME/m4388
+    ```
+
+1. Navigate to `m4388` directory:
+
+   ```bash
+   cd $HOME/m4388
+   ```
+
+1. Clone repo (somewhere) in `$HOME/$USER/`:
+
+   ```bash
+   mkdir $USER && cd $USER
+   git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
+   ```
+
+1. Find all Jupyter notebooks:
+
+    ```bash
+    # find all *.ipynb files
+    ls **/**/**.ipynb | grep -v "cache" | sort | uniq
+    ```
+
+## Distributed Training Example
+
+1. Login to Perlmutter:
+
+    ```bash
+    ssh <user>@perlmutter.nersc.gov 
+    [ -d $HOME/m4388 ] || ln -s /global/cfs/cdirs/m4388 $HOME/m4388
+    cd $HOME/m4388/$USER
+    git clone https://github.com/saforem2/wordplay
+    cd wordplay
+
+    ```
+
+
 
 <!--
 2. Install the dependencies:

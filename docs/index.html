@@ -593,6 +593,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">🐣 Getting Started</a></li>
+  <li><a href="#distributed-training-example" id="toc-distributed-training-example" class="nav-link" data-scroll-target="#distributed-training-example">Distributed Training Example</a></li>
   <li><a href="#project-contents" id="toc-project-contents" class="nav-link" data-scroll-target="#project-contents">📂 Project Contents</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/edit/main/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li><li><a href="https://github.com/saforem2/intro-hpc-bootcamp-2025/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.ipynb" download="index.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
@@ -649,7 +650,7 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 12, 2025</p>
+      <p class="date-modified">August 13, 2025</p>
     </div>
   </div>
     
@@ -663,9 +664,29 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started">🐣 Getting Started</h2>
 <ol type="1">
-<li><p>Clone the repo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp-2025</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="bu">cd</span> intro-hpc-bootcamp-2025</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Start terminal</p></li>
+<li><p>Create symlink:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># symlink </span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">ln</span> <span class="at">-s</span> /global/cfs/cdirs/m4388 <span class="va">$HOME</span>/m4388</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Navigate to <code>m4388</code> directory:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="bu">cd</span> <span class="va">$HOME</span>/m4388</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Clone repo (somewhere) in <code>$HOME/$USER/</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mkdir</span> <span class="va">$USER</span> <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> <span class="va">$USER</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp-2025</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Find all Jupyter notebooks:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># find all *.ipynb files</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">ls</span> <span class="pp">**</span>/<span class="pp">**</span>/<span class="pp">**</span>.ipynb <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"cache"</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ol>
+</section>
+<section id="distributed-training-example" class="level2">
+<h2 class="anchored" data-anchor-id="distributed-training-example">Distributed Training Example</h2>
+<ol type="1">
+<li><p>Login to Perlmutter:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@perlmutter.nersc.gov </span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="bu">[</span> <span class="ot">-d</span> <span class="va">$HOME</span>/m4388 <span class="bu">]</span> <span class="kw">||</span> <span class="fu">ln</span> <span class="at">-s</span> /global/cfs/cdirs/m4388 <span class="va">$HOME</span>/m4388</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="bu">cd</span> <span class="va">$HOME</span>/m4388/<span class="va">$USER</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="bu">cd</span> wordplay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ol>
 </section>
 <section id="project-contents" class="level2">
@@ -709,10 +730,10 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 </ul>
 <details class="code-fold">
 <summary>👀</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> datetime</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>now <span class="op">=</span> datetime.datetime.now()</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="bu">print</span>(<span class="st">' '</span>.join([ <span class="st">"[#838383]Last Updated[/]:"</span>, <span class="ss">f"[#E599F7]</span><span class="sc">{</span>now<span class="sc">.</span>strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)<span class="sc">}</span><span class="ss">[/]"</span>, <span class="st">"[#838383]@[/]"</span>, <span class="ss">f"[#00CCFF]</span><span class="sc">{</span>now<span class="sc">.</span>strftime(<span class="st">"%H:%M:%S"</span>)<span class="sc">}</span><span class="ss">[/]"</span>, ]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> datetime</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>now <span class="op">=</span> datetime.datetime.now()</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="bu">print</span>(<span class="st">' '</span>.join([ <span class="st">"[#838383]Last Updated[/]:"</span>, <span class="ss">f"[#E599F7]</span><span class="sc">{</span>now<span class="sc">.</span>strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)<span class="sc">}</span><span class="ss">[/]"</span>, <span class="st">"[#838383]@[/]"</span>, <span class="ss">f"[#00CCFF]</span><span class="sc">{</span>now<span class="sc">.</span>strftime(<span class="st">"%H:%M:%S"</span>)<span class="sc">}</span><span class="ss">[/]"</span>, ]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #838383; text-decoration-color: #838383">Last Updated</span>: <span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">2025</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">08</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">12</span> <span style="color: #838383; text-decoration-color: #838383">@</span> <span style="color: #00ccff; text-decoration-color: #00ccff; font-weight: bold">16:53:47</span>
 </pre>
@@ -1232,174 +1253,219 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 15,
   }
   loadGiscus();
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># toc: true</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="an">title:</span><span class="co"> "Intro to HPC Bootcamp 2025"</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="an">description:</span><span class="co"> "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="an">categories:</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">  - ai4science</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">  - hpc</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">  - llm</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="an">citation:</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">   author: Sam Foreman</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">   type: webpage</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">   title: "Intro to HPC Bootcamp 2025"</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">   url: https://saforem2.github.io/intro-hpc-bootcamp-2025</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="an">open-graph:</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a><span class="co">  title: "Intro to HPC Bootcamp 2025"</span></span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="co">  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"</span></span>
-<span id="cb3-19"><a href="#cb3-19"></a><span class="co">  # image: "./assets/thumbnail.png"</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a><span class="an">twitter-card:</span></span>
-<span id="cb3-21"><a href="#cb3-21"></a><span class="co">  title: "Intro to HPC Bootcamp 2025"</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a><span class="co">  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"</span></span>
-<span id="cb3-23"><a href="#cb3-23"></a><span class="co">  site: "saforem2"</span></span>
-<span id="cb3-24"><a href="#cb3-24"></a><span class="co">  creator: "saforem2"</span></span>
-<span id="cb3-25"><a href="#cb3-25"></a><span class="an">sidebar:</span><span class="co"> sidebar</span></span>
-<span id="cb3-26"><a href="#cb3-26"></a><span class="co"># format: live-html</span></span>
-<span id="cb3-27"><a href="#cb3-27"></a><span class="co"># format:</span></span>
-<span id="cb3-28"><a href="#cb3-28"></a><span class="co">#   live-html:</span></span>
-<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#     respect-user-color-scheme: true</span></span>
-<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#     date-modified: last-modified</span></span>
-<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#     link-external-newwindow: true</span></span>
-<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#     link-external-icon: false</span></span>
-<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#     callout-appearance: simple</span></span>
-<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#     code-tools: true</span></span>
-<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#     code-link: true</span></span>
-<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#     code-line-numbers: true</span></span>
-<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#     toc: true</span></span>
-<span id="cb3-38"><a href="#cb3-38"></a><span class="co">#     self-contained: false</span></span>
-<span id="cb3-39"><a href="#cb3-39"></a><span class="co">#     default-image-extension: svg</span></span>
-<span id="cb3-40"><a href="#cb3-40"></a><span class="co">#     toc-title: ""</span></span>
-<span id="cb3-41"><a href="#cb3-41"></a><span class="co">#     page-layout: article</span></span>
-<span id="cb3-42"><a href="#cb3-42"></a><span class="co">#     fig-width: 6.4</span></span>
-<span id="cb3-43"><a href="#cb3-43"></a><span class="co">#     fig-height: 4.8</span></span>
-<span id="cb3-44"><a href="#cb3-44"></a><span class="co">#     grid:</span></span>
-<span id="cb3-45"><a href="#cb3-45"></a><span class="co">#       body-width: 1000px</span></span>
-<span id="cb3-46"><a href="#cb3-46"></a><span class="co">#       margin-width: 250px</span></span>
-<span id="cb3-47"><a href="#cb3-47"></a><span class="co">#       sidebar-width: 250px</span></span>
-<span id="cb3-48"><a href="#cb3-48"></a><span class="co">#       # gutter-width: 1.5rem</span></span>
-<span id="cb3-49"><a href="#cb3-49"></a><span class="co">#     fig-align: center</span></span>
-<span id="cb3-50"><a href="#cb3-50"></a><span class="co">#     fig-responsive: true</span></span>
-<span id="cb3-51"><a href="#cb3-51"></a><span class="co">#     anchor-sections: true</span></span>
-<span id="cb3-52"><a href="#cb3-52"></a><span class="co">#     code-overflow: scroll</span></span>
-<span id="cb3-53"><a href="#cb3-53"></a><span class="co">#     code-copy: hover</span></span>
-<span id="cb3-54"><a href="#cb3-54"></a><span class="co">#     code-summary: " "</span></span>
-<span id="cb3-55"><a href="#cb3-55"></a><span class="co">#     citations-hover: true</span></span>
-<span id="cb3-56"><a href="#cb3-56"></a><span class="co">#     crossrefs-hover: true</span></span>
-<span id="cb3-57"><a href="#cb3-57"></a><span class="co">#     html-math-method: katex</span></span>
-<span id="cb3-58"><a href="#cb3-58"></a><span class="co">#     footnotes-hover: true</span></span>
-<span id="cb3-59"><a href="#cb3-59"></a><span class="co">#     section-divs: true</span></span>
-<span id="cb3-60"><a href="#cb3-60"></a><span class="co">#     highlight-style:</span></span>
-<span id="cb3-61"><a href="#cb3-61"></a><span class="co">#       light: github</span></span>
-<span id="cb3-62"><a href="#cb3-62"></a><span class="co">#       dark: github-dark</span></span>
-<span id="cb3-63"><a href="#cb3-63"></a><span class="co">#     theme:</span></span>
-<span id="cb3-64"><a href="#cb3-64"></a><span class="co">#       dark:</span></span>
-<span id="cb3-65"><a href="#cb3-65"></a><span class="co">#         - css/common.scss</span></span>
-<span id="cb3-66"><a href="#cb3-66"></a><span class="co">#         - css/dark.scss</span></span>
-<span id="cb3-67"><a href="#cb3-67"></a><span class="co">#         - css/syntax-dark.scss</span></span>
-<span id="cb3-68"><a href="#cb3-68"></a><span class="co">#         - css/callout-cards.scss</span></span>
-<span id="cb3-69"><a href="#cb3-69"></a><span class="co">#         - default</span></span>
-<span id="cb3-70"><a href="#cb3-70"></a><span class="co">#       light:</span></span>
-<span id="cb3-71"><a href="#cb3-71"></a><span class="co">#         - css/common.scss</span></span>
-<span id="cb3-72"><a href="#cb3-72"></a><span class="co">#         - css/light.scss</span></span>
-<span id="cb3-73"><a href="#cb3-73"></a><span class="co">#         - css/syntax-light.scss</span></span>
-<span id="cb3-74"><a href="#cb3-74"></a><span class="co">#         - css/callout-cards.scss</span></span>
-<span id="cb3-75"><a href="#cb3-75"></a><span class="co">#         - default</span></span>
-<span id="cb3-76"><a href="#cb3-76"></a><span class="co">#     include-in-header:</span></span>
-<span id="cb3-77"><a href="#cb3-77"></a><span class="co">#       - text: | # KaTeX</span></span>
-<span id="cb3-78"><a href="#cb3-78"></a><span class="co">#           &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous"&gt;</span></span>
-<span id="cb3-79"><a href="#cb3-79"></a><span class="co">#           &lt;script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"&gt;&lt;/script&gt;</span></span>
-<span id="cb3-80"><a href="#cb3-80"></a><span class="co">#           &lt;script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" onload="renderMathInElement(document.body);"&gt;&lt;/script&gt;</span></span>
-<span id="cb3-81"><a href="#cb3-81"></a><span class="co">#           &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</span></span>
-<span id="cb3-82"><a href="#cb3-82"></a><span class="co">#           &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</span></span>
-<span id="cb3-83"><a href="#cb3-83"></a><span class="co">#           &lt;link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700&amp;family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&amp;display=swap" rel="stylesheet"&gt;</span></span>
-<span id="cb3-84"><a href="#cb3-84"></a><span class="co">#           &lt;link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&amp;family=IBM+Plex+Sans+Condensed&amp;family=IBM+Plex+Mono&amp;display=swap" rel="stylesheet"&gt;</span></span>
-<span id="cb3-85"><a href="#cb3-85"></a><span class="co">#           &lt;!-- Google Tag Manager --&gt;</span></span>
-<span id="cb3-86"><a href="#cb3-86"></a><span class="co">#           &lt;script&gt;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TC329HJ');&lt;/script&gt;</span></span>
-<span id="cb3-87"><a href="#cb3-87"></a><span class="co">#           &lt;!-- End Google Tag Manager --&gt;</span></span>
-<span id="cb3-88"><a href="#cb3-88"></a><span class="co">#     include-before-body:</span></span>
-<span id="cb3-89"><a href="#cb3-89"></a><span class="co">#       - text: |</span></span>
-<span id="cb3-90"><a href="#cb3-90"></a><span class="co">#           &lt;!-- Google Tag Manager (noscript) --&gt;</span></span>
-<span id="cb3-91"><a href="#cb3-91"></a><span class="co">#           &lt;noscript&gt;&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;&lt;/noscript&gt;</span></span>
-<span id="cb3-92"><a href="#cb3-92"></a><span class="co">#           &lt;!-- End Google Tag Manager (noscript) --&gt;</span></span>
-<span id="cb3-93"><a href="#cb3-93"></a><span class="co">#     header-includes: |</span></span>
-<span id="cb3-94"><a href="#cb3-94"></a><span class="co">#       &lt;link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet"&gt;</span></span>
-<span id="cb3-95"><a href="#cb3-95"></a></span>
-<span id="cb3-96"><a href="#cb3-96"></a><span class="co">---</span></span>
-<span id="cb3-97"><a href="#cb3-97"></a></span>
-<span id="cb3-98"><a href="#cb3-98"></a><span class="fu">## 🐣 Getting Started</span></span>
-<span id="cb3-99"><a href="#cb3-99"></a></span>
-<span id="cb3-100"><a href="#cb3-100"></a><span class="ss">1. </span>Clone the repo:</span>
-<span id="cb3-101"><a href="#cb3-101"></a></span>
-<span id="cb3-102"><a href="#cb3-102"></a>   <span class="in">```bash</span></span>
-<span id="cb3-103"><a href="#cb3-103"></a>   <span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp-2025</span>
-<span id="cb3-104"><a href="#cb3-104"></a>   <span class="bu">cd</span> intro-hpc-bootcamp-2025</span>
-<span id="cb3-105"><a href="#cb3-105"></a>   <span class="in">```</span></span>
-<span id="cb3-106"><a href="#cb3-106"></a></span>
-<span id="cb3-107"><a href="#cb3-107"></a><span class="co">&lt;!--</span></span>
-<span id="cb3-108"><a href="#cb3-108"></a><span class="co">2. Install the dependencies:</span></span>
-<span id="cb3-109"><a href="#cb3-109"></a></span>
-<span id="cb3-110"><a href="#cb3-110"></a><span class="co">   &lt;details closed&gt;&lt;summary&gt;Using &lt;code&gt;uv&lt;/code&gt; (recommended)&lt;/summary&gt;</span></span>
-<span id="cb3-111"><a href="#cb3-111"></a></span>
-<span id="cb3-112"><a href="#cb3-112"></a><span class="co">   ```bash</span></span>
-<span id="cb3-113"><a href="#cb3-113"></a><span class="co">    uv venv --python=3.12</span></span>
-<span id="cb3-114"><a href="#cb3-114"></a><span class="co">    source .venv/bin/activate</span></span>
-<span id="cb3-115"><a href="#cb3-115"></a><span class="co">    uv pip install -e . --no-cache</span></span>
-<span id="cb3-116"><a href="#cb3-116"></a><span class="co">    uv pip install "git+https://github.com/saforem2/ezpz" --no-cache</span></span>
-<span id="cb3-117"><a href="#cb3-117"></a><span class="co">    ```</span></span>
-<span id="cb3-118"><a href="#cb3-118"></a></span>
-<span id="cb3-119"><a href="#cb3-119"></a><span class="co">    &lt;/details&gt;</span></span>
-<span id="cb3-120"><a href="#cb3-120"></a><span class="co">--&gt;</span></span>
-<span id="cb3-121"><a href="#cb3-121"></a></span>
-<span id="cb3-122"><a href="#cb3-122"></a></span>
-<span id="cb3-123"><a href="#cb3-123"></a><span class="fu">## 📂 Project Contents</span></span>
-<span id="cb3-124"><a href="#cb3-124"></a></span>
-<span id="cb3-125"><a href="#cb3-125"></a><span class="ss">- </span>🏡 <span class="co">[</span><span class="ot">Intro to {AI, HPC} for Science/</span><span class="co">](./)</span></span>
-<span id="cb3-126"><a href="#cb3-126"></a></span>
-<span id="cb3-127"><a href="#cb3-127"></a><span class="ss">    - </span>📂 <span class="co">[</span><span class="ot">**\[00\] Intro to AI and HPC**/</span><span class="co">](00-intro-AI-HPC/)</span></span>
-<span id="cb3-128"><a href="#cb3-128"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[0\] Compute systems</span><span class="co">](./00-intro-AI-HPC/0-compute-systems/)</span></span>
-<span id="cb3-129"><a href="#cb3-129"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[1\] Shared-resources</span><span class="co">](./00-intro-AI-HPC/1-shared-resources/)</span></span>
-<span id="cb3-130"><a href="#cb3-130"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[2\] Jupyter Notebooks</span><span class="co">](./00-intro-AI-HPC/2-jupyter-notebooks/)</span></span>
-<span id="cb3-131"><a href="#cb3-131"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[3\] Using Python</span><span class="co">](./00-intro-AI-HPC/3-python/)</span></span>
-<span id="cb3-132"><a href="#cb3-132"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[4\] Working with Data</span><span class="co">](./00-intro-AI-HPC/4-data/)</span></span>
-<span id="cb3-133"><a href="#cb3-133"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[5\] MCMC Example</span><span class="co">](./00-intro-AI-HPC/5-mcmc-example/)</span></span>
-<span id="cb3-134"><a href="#cb3-134"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[6\] Linear Regression</span><span class="co">](./00-intro-AI-HPC/6-linear-regression/)</span></span>
-<span id="cb3-135"><a href="#cb3-135"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[7\] Statistical Learning</span><span class="co">](./00-intro-AI-HPC/7-statistical-learning/)</span></span>
-<span id="cb3-136"><a href="#cb3-136"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[8\] Clustering</span><span class="co">](./00-intro-AI-HPC/8-clustering/)</span> </span>
-<span id="cb3-137"><a href="#cb3-137"></a></span>
-<span id="cb3-138"><a href="#cb3-138"></a><span class="ss">    - </span>📂 <span class="co">[</span><span class="ot">**\[01\] Neural Networks/**</span><span class="co">](./01-neural-networks/)</span></span>
-<span id="cb3-139"><a href="#cb3-139"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[0\] Intro</span><span class="co">](./01-neural-networks/0-intro/)</span></span>
-<span id="cb3-140"><a href="#cb3-140"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[1\] MNIST</span><span class="co">](./01-neural-networks/1-mnist/)</span></span>
-<span id="cb3-141"><a href="#cb3-141"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[1\] MNIST (ipynb)</span><span class="co">](./01-neural-networks/1-mnist-ipynb/)</span></span>
-<span id="cb3-142"><a href="#cb3-142"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[2\] Advanced</span><span class="co">](./01-neural-networks/2-advanced/)</span></span>
-<span id="cb3-143"><a href="#cb3-143"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[3\] Conv. Nets</span><span class="co">](./01-neural-networks/3-conv-nets/)</span></span>
-<span id="cb3-144"><a href="#cb3-144"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[4\] Representation Learning</span><span class="co">](./01-neural-networks/4-representation-learning/)</span></span>
-<span id="cb3-145"><a href="#cb3-145"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[5\] Distributed Training</span><span class="co">](./01-neural-networks/5-distributed-training/)</span></span>
-<span id="cb3-146"><a href="#cb3-146"></a></span>
-<span id="cb3-147"><a href="#cb3-147"></a><span class="ss">    - </span>📂 <span class="co">[</span><span class="ot">**\[02\] Large Language Models**</span><span class="co">](./02-llms/)</span></span>
-<span id="cb3-148"><a href="#cb3-148"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[00\] Intro to LLMs</span><span class="co">](./02-llms/00-intro-to-llms/)</span></span>
-<span id="cb3-149"><a href="#cb3-149"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[01\] Hands-on LLMs</span><span class="co">](./02-llms/01-hands-on-llms/)</span></span>
-<span id="cb3-150"><a href="#cb3-150"></a><span class="ss">        - </span>📄 <span class="co">[</span><span class="ot">\[02\] Prompt Engineering</span><span class="co">](./02-llms/02-prompt-engineering/)</span></span>
-<span id="cb3-151"><a href="#cb3-151"></a>        <span class="co">&lt;!-- - 📄 [03-training-llms](./02-llms/03-training-llms/) --&gt;</span></span>
-<span id="cb3-152"><a href="#cb3-152"></a>        <span class="co">&lt;!-- - 📄 [04-evaluating-llms](./02-llms/03-training-llms/) --&gt;</span></span>
-<span id="cb3-153"><a href="#cb3-153"></a>        <span class="co">&lt;!-- - 📄 []() --&gt;</span></span>
-<span id="cb3-154"><a href="#cb3-154"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[06\] Parallel Training</span><span class="co">](./02-llms/06-parallel-training/)</span></span>
-<span id="cb3-155"><a href="#cb3-155"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[07\] Shakespeare Example</span><span class="co">](./02-llms/07-shakespeare-example/)</span></span>
-<span id="cb3-156"><a href="#cb3-156"></a><span class="ss">        - </span>📗 <span class="co">[</span><span class="ot">\[08\] Shakespeare Example (colab)</span><span class="co">](./02-llms/08-shakespeare-example-colab/)</span></span>
-<span id="cb3-157"><a href="#cb3-157"></a></span>
-<span id="cb3-158"><a href="#cb3-158"></a>    <span class="co">&lt;!-- - 📂 [03-ai-for-science/](./03-ai-for-science/) --&gt;</span></span>
-<span id="cb3-159"><a href="#cb3-159"></a></span>
-<span id="cb3-162"><a href="#cb3-162"></a><span class="in">```{python}</span></span>
-<span id="cb3-163"><a href="#cb3-163"></a><span class="co">#| output: asis</span></span>
-<span id="cb3-164"><a href="#cb3-164"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb3-165"><a href="#cb3-165"></a><span class="co">#| code-summary: "👀"</span></span>
-<span id="cb3-166"><a href="#cb3-166"></a><span class="im">import</span> datetime</span>
-<span id="cb3-167"><a href="#cb3-167"></a><span class="im">from</span> rich <span class="im">import</span> <span class="bu">print</span></span>
-<span id="cb3-168"><a href="#cb3-168"></a>now <span class="op">=</span> datetime.datetime.now()</span>
-<span id="cb3-169"><a href="#cb3-169"></a><span class="bu">print</span>(<span class="st">' '</span>.join([ <span class="st">"[#838383]Last Updated[/]:"</span>, <span class="ss">f"[#E599F7]</span><span class="sc">{</span>now<span class="sc">.</span>strftime(<span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>)<span class="sc">}</span><span class="ss">[/]"</span>, <span class="st">"[#838383]@[/]"</span>, <span class="ss">f"[#00CCFF]</span><span class="sc">{</span>now<span class="sc">.</span>strftime(<span class="st">"%H:%M:%S"</span>)<span class="sc">}</span><span class="ss">[/]"</span>, ]))</span>
-<span id="cb3-170"><a href="#cb3-170"></a><span class="in">```</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">---</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co"># toc: true</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="an">title:</span><span class="co"> "Intro to HPC Bootcamp 2025"</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="an">description:</span><span class="co"> "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="an">categories:</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">  - ai4science</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">  - hpc</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">  - llm</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="an">date:</span><span class="co"> 2025-07-15</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="an">citation:</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">   author: Sam Foreman</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">   type: webpage</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">   title: "Intro to HPC Bootcamp 2025"</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">   url: https://saforem2.github.io/intro-hpc-bootcamp-2025</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="an">open-graph:</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">  title: "Intro to HPC Bootcamp 2025"</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">  # image: "./assets/thumbnail.png"</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="an">twitter-card:</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a><span class="co">  title: "Intro to HPC Bootcamp 2025"</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="co">  description: "Homepage for Sam Foreman's Intro to HPC Bootcamp 2025 Project"</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a><span class="co">  site: "saforem2"</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="co">  creator: "saforem2"</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a><span class="an">sidebar:</span><span class="co"> sidebar</span></span>
+<span id="cb7-26"><a href="#cb7-26"></a><span class="co"># format: live-html</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a><span class="co"># format:</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a><span class="co">#   live-html:</span></span>
+<span id="cb7-29"><a href="#cb7-29"></a><span class="co">#     respect-user-color-scheme: true</span></span>
+<span id="cb7-30"><a href="#cb7-30"></a><span class="co">#     date-modified: last-modified</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a><span class="co">#     link-external-newwindow: true</span></span>
+<span id="cb7-32"><a href="#cb7-32"></a><span class="co">#     link-external-icon: false</span></span>
+<span id="cb7-33"><a href="#cb7-33"></a><span class="co">#     callout-appearance: simple</span></span>
+<span id="cb7-34"><a href="#cb7-34"></a><span class="co">#     code-tools: true</span></span>
+<span id="cb7-35"><a href="#cb7-35"></a><span class="co">#     code-link: true</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a><span class="co">#     code-line-numbers: true</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a><span class="co">#     toc: true</span></span>
+<span id="cb7-38"><a href="#cb7-38"></a><span class="co">#     self-contained: false</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a><span class="co">#     default-image-extension: svg</span></span>
+<span id="cb7-40"><a href="#cb7-40"></a><span class="co">#     toc-title: ""</span></span>
+<span id="cb7-41"><a href="#cb7-41"></a><span class="co">#     page-layout: article</span></span>
+<span id="cb7-42"><a href="#cb7-42"></a><span class="co">#     fig-width: 6.4</span></span>
+<span id="cb7-43"><a href="#cb7-43"></a><span class="co">#     fig-height: 4.8</span></span>
+<span id="cb7-44"><a href="#cb7-44"></a><span class="co">#     grid:</span></span>
+<span id="cb7-45"><a href="#cb7-45"></a><span class="co">#       body-width: 1000px</span></span>
+<span id="cb7-46"><a href="#cb7-46"></a><span class="co">#       margin-width: 250px</span></span>
+<span id="cb7-47"><a href="#cb7-47"></a><span class="co">#       sidebar-width: 250px</span></span>
+<span id="cb7-48"><a href="#cb7-48"></a><span class="co">#       # gutter-width: 1.5rem</span></span>
+<span id="cb7-49"><a href="#cb7-49"></a><span class="co">#     fig-align: center</span></span>
+<span id="cb7-50"><a href="#cb7-50"></a><span class="co">#     fig-responsive: true</span></span>
+<span id="cb7-51"><a href="#cb7-51"></a><span class="co">#     anchor-sections: true</span></span>
+<span id="cb7-52"><a href="#cb7-52"></a><span class="co">#     code-overflow: scroll</span></span>
+<span id="cb7-53"><a href="#cb7-53"></a><span class="co">#     code-copy: hover</span></span>
+<span id="cb7-54"><a href="#cb7-54"></a><span class="co">#     code-summary: " "</span></span>
+<span id="cb7-55"><a href="#cb7-55"></a><span class="co">#     citations-hover: true</span></span>
+<span id="cb7-56"><a href="#cb7-56"></a><span class="co">#     crossrefs-hover: true</span></span>
+<span id="cb7-57"><a href="#cb7-57"></a><span class="co">#     html-math-method: katex</span></span>
+<span id="cb7-58"><a href="#cb7-58"></a><span class="co">#     footnotes-hover: true</span></span>
+<span id="cb7-59"><a href="#cb7-59"></a><span class="co">#     section-divs: true</span></span>
+<span id="cb7-60"><a href="#cb7-60"></a><span class="co">#     highlight-style:</span></span>
+<span id="cb7-61"><a href="#cb7-61"></a><span class="co">#       light: github</span></span>
+<span id="cb7-62"><a href="#cb7-62"></a><span class="co">#       dark: github-dark</span></span>
+<span id="cb7-63"><a href="#cb7-63"></a><span class="co">#     theme:</span></span>
+<span id="cb7-64"><a href="#cb7-64"></a><span class="co">#       dark:</span></span>
+<span id="cb7-65"><a href="#cb7-65"></a><span class="co">#         - css/common.scss</span></span>
+<span id="cb7-66"><a href="#cb7-66"></a><span class="co">#         - css/dark.scss</span></span>
+<span id="cb7-67"><a href="#cb7-67"></a><span class="co">#         - css/syntax-dark.scss</span></span>
+<span id="cb7-68"><a href="#cb7-68"></a><span class="co">#         - css/callout-cards.scss</span></span>
+<span id="cb7-69"><a href="#cb7-69"></a><span class="co">#         - default</span></span>
+<span id="cb7-70"><a href="#cb7-70"></a><span class="co">#       light:</span></span>
+<span id="cb7-71"><a href="#cb7-71"></a><span class="co">#         - css/common.scss</span></span>
+<span id="cb7-72"><a href="#cb7-72"></a><span class="co">#         - css/light.scss</span></span>
+<span id="cb7-73"><a href="#cb7-73"></a><span class="co">#         - css/syntax-light.scss</span></span>
+<span id="cb7-74"><a href="#cb7-74"></a><span class="co">#         - css/callout-cards.scss</span></span>
+<span id="cb7-75"><a href="#cb7-75"></a><span class="co">#         - default</span></span>
+<span id="cb7-76"><a href="#cb7-76"></a><span class="co">#     include-in-header:</span></span>
+<span id="cb7-77"><a href="#cb7-77"></a><span class="co">#       - text: | # KaTeX</span></span>
+<span id="cb7-78"><a href="#cb7-78"></a><span class="co">#           &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous"&gt;</span></span>
+<span id="cb7-79"><a href="#cb7-79"></a><span class="co">#           &lt;script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"&gt;&lt;/script&gt;</span></span>
+<span id="cb7-80"><a href="#cb7-80"></a><span class="co">#           &lt;script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous" onload="renderMathInElement(document.body);"&gt;&lt;/script&gt;</span></span>
+<span id="cb7-81"><a href="#cb7-81"></a><span class="co">#           &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</span></span>
+<span id="cb7-82"><a href="#cb7-82"></a><span class="co">#           &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</span></span>
+<span id="cb7-83"><a href="#cb7-83"></a><span class="co">#           &lt;link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700&amp;family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&amp;display=swap" rel="stylesheet"&gt;</span></span>
+<span id="cb7-84"><a href="#cb7-84"></a><span class="co">#           &lt;link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&amp;family=IBM+Plex+Sans+Condensed&amp;family=IBM+Plex+Mono&amp;display=swap" rel="stylesheet"&gt;</span></span>
+<span id="cb7-85"><a href="#cb7-85"></a><span class="co">#           &lt;!-- Google Tag Manager --&gt;</span></span>
+<span id="cb7-86"><a href="#cb7-86"></a><span class="co">#           &lt;script&gt;(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TC329HJ');&lt;/script&gt;</span></span>
+<span id="cb7-87"><a href="#cb7-87"></a><span class="co">#           &lt;!-- End Google Tag Manager --&gt;</span></span>
+<span id="cb7-88"><a href="#cb7-88"></a><span class="co">#     include-before-body:</span></span>
+<span id="cb7-89"><a href="#cb7-89"></a><span class="co">#       - text: |</span></span>
+<span id="cb7-90"><a href="#cb7-90"></a><span class="co">#           &lt;!-- Google Tag Manager (noscript) --&gt;</span></span>
+<span id="cb7-91"><a href="#cb7-91"></a><span class="co">#           &lt;noscript&gt;&lt;iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC329HJ" height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;&lt;/noscript&gt;</span></span>
+<span id="cb7-92"><a href="#cb7-92"></a><span class="co">#           &lt;!-- End Google Tag Manager (noscript) --&gt;</span></span>
+<span id="cb7-93"><a href="#cb7-93"></a><span class="co">#     header-includes: |</span></span>
+<span id="cb7-94"><a href="#cb7-94"></a><span class="co">#       &lt;link href="https://iosevka-webfonts.github.io/iosevka/iosevka.css" rel="stylesheet"&gt;</span></span>
+<span id="cb7-95"><a href="#cb7-95"></a></span>
+<span id="cb7-96"><a href="#cb7-96"></a><span class="co">---</span></span>
+<span id="cb7-97"><a href="#cb7-97"></a></span>
+<span id="cb7-98"><a href="#cb7-98"></a><span class="fu">## 🐣 Getting Started</span></span>
+<span id="cb7-99"><a href="#cb7-99"></a></span>
+<span id="cb7-100"><a href="#cb7-100"></a><span class="co">&lt;!--</span></span>
+<span id="cb7-101"><a href="#cb7-101"></a><span class="co">1. Clone the repo:</span></span>
+<span id="cb7-102"><a href="#cb7-102"></a></span>
+<span id="cb7-103"><a href="#cb7-103"></a><span class="co">   ```bash</span></span>
+<span id="cb7-104"><a href="#cb7-104"></a><span class="co">   git clone https://github.com/saforem2/intro-hpc-bootcamp-2025</span></span>
+<span id="cb7-105"><a href="#cb7-105"></a><span class="co">   cd intro-hpc-bootcamp-2025</span></span>
+<span id="cb7-106"><a href="#cb7-106"></a><span class="co">   ```</span></span>
+<span id="cb7-107"><a href="#cb7-107"></a><span class="co">--&gt;</span></span>
+<span id="cb7-108"><a href="#cb7-108"></a></span>
+<span id="cb7-109"><a href="#cb7-109"></a><span class="ss">1. </span>Start terminal</span>
+<span id="cb7-110"><a href="#cb7-110"></a><span class="ss">1. </span>Create symlink:</span>
+<span id="cb7-111"><a href="#cb7-111"></a></span>
+<span id="cb7-112"><a href="#cb7-112"></a>    <span class="in">```bash</span></span>
+<span id="cb7-113"><a href="#cb7-113"></a>    <span class="co"># symlink </span></span>
+<span id="cb7-114"><a href="#cb7-114"></a>    <span class="fu">ln</span> <span class="at">-s</span> /global/cfs/cdirs/m4388 <span class="va">$HOME</span>/m4388</span>
+<span id="cb7-115"><a href="#cb7-115"></a>    <span class="in">```</span></span>
+<span id="cb7-116"><a href="#cb7-116"></a></span>
+<span id="cb7-117"><a href="#cb7-117"></a><span class="ss">1. </span>Navigate to <span class="in">`m4388`</span> directory:</span>
+<span id="cb7-118"><a href="#cb7-118"></a></span>
+<span id="cb7-119"><a href="#cb7-119"></a>   <span class="in">```bash</span></span>
+<span id="cb7-120"><a href="#cb7-120"></a>   <span class="bu">cd</span> <span class="va">$HOME</span>/m4388</span>
+<span id="cb7-121"><a href="#cb7-121"></a>   <span class="in">```</span></span>
+<span id="cb7-122"><a href="#cb7-122"></a></span>
+<span id="cb7-123"><a href="#cb7-123"></a><span class="ss">1. </span>Clone repo (somewhere) in <span class="in">`$HOME/$USER/`</span>:</span>
+<span id="cb7-124"><a href="#cb7-124"></a></span>
+<span id="cb7-125"><a href="#cb7-125"></a>   <span class="in">```bash</span></span>
+<span id="cb7-126"><a href="#cb7-126"></a>   <span class="fu">mkdir</span> <span class="va">$USER</span> <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> <span class="va">$USER</span></span>
+<span id="cb7-127"><a href="#cb7-127"></a>   <span class="fu">git</span> clone https://github.com/saforem2/intro-hpc-bootcamp-2025</span>
+<span id="cb7-128"><a href="#cb7-128"></a>   <span class="in">```</span></span>
+<span id="cb7-129"><a href="#cb7-129"></a></span>
+<span id="cb7-130"><a href="#cb7-130"></a><span class="ss">1. </span>Find all Jupyter notebooks:</span>
+<span id="cb7-131"><a href="#cb7-131"></a></span>
+<span id="cb7-132"><a href="#cb7-132"></a>    <span class="in">```bash</span></span>
+<span id="cb7-133"><a href="#cb7-133"></a>    <span class="co"># find all *.ipynb files</span></span>
+<span id="cb7-134"><a href="#cb7-134"></a>    <span class="fu">ls</span> <span class="pp">**</span>/<span class="pp">**</span>/<span class="pp">**</span>.ipynb <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">"cache"</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span></span>
+<span id="cb7-135"><a href="#cb7-135"></a>    <span class="in">```</span></span>
+<span id="cb7-136"><a href="#cb7-136"></a></span>
+<span id="cb7-137"><a href="#cb7-137"></a><span class="fu">## Distributed Training Example</span></span>
+<span id="cb7-138"><a href="#cb7-138"></a></span>
+<span id="cb7-139"><a href="#cb7-139"></a><span class="ss">1. </span>Login to Perlmutter:</span>
+<span id="cb7-140"><a href="#cb7-140"></a></span>
+<span id="cb7-141"><a href="#cb7-141"></a>    <span class="in">```bash</span></span>
+<span id="cb7-142"><a href="#cb7-142"></a>    <span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@perlmutter.nersc.gov </span>
+<span id="cb7-143"><a href="#cb7-143"></a>    <span class="bu">[</span> <span class="ot">-d</span> <span class="va">$HOME</span>/m4388 <span class="bu">]</span> <span class="kw">||</span> <span class="fu">ln</span> <span class="at">-s</span> /global/cfs/cdirs/m4388 <span class="va">$HOME</span>/m4388</span>
+<span id="cb7-144"><a href="#cb7-144"></a>    <span class="bu">cd</span> <span class="va">$HOME</span>/m4388/<span class="va">$USER</span></span>
+<span id="cb7-145"><a href="#cb7-145"></a>    <span class="fu">git</span> clone https://github.com/saforem2/wordplay</span>
+<span id="cb7-146"><a href="#cb7-146"></a>    <span class="bu">cd</span> wordplay</span>
+<span id="cb7-147"><a href="#cb7-147"></a></span>
+<span id="cb7-148"><a href="#cb7-148"></a>    <span class="kw">```</span></span>
+<span id="cb7-149"><a href="#cb7-149"></a></span>
+<span id="cb7-150"><a href="#cb7-150"></a></span>
+<span id="cb7-151"><a href="#cb7-151"></a></span>
+<span id="cb7-152"><a href="#cb7-152"></a><span class="op">&lt;</span>!--</span>
+<span id="cb7-153"><a href="#cb7-153"></a><span class="ex">2.</span> Install the dependencies:</span>
+<span id="cb7-154"><a href="#cb7-154"></a></span>
+<span id="cb7-155"><a href="#cb7-155"></a>   <span class="op">&lt;</span>details <span class="ex">closed</span><span class="op">&gt;&lt;</span>summary<span class="op">&gt;</span>Using <span class="op">&lt;</span>code<span class="op">&gt;</span>uv<span class="op">&lt;</span>/code<span class="op">&gt;</span> <span class="er">(</span><span class="ex">recommended</span><span class="kw">)</span><span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
+<span id="cb7-156"><a href="#cb7-156"></a></span>
+<span id="cb7-157"><a href="#cb7-157"></a>   <span class="kw">```</span>bash</span>
+<span id="cb7-158"><a href="#cb7-158"></a>    <span class="ex">uv</span> venv <span class="at">--python</span><span class="op">=</span>3.12</span>
+<span id="cb7-159"><a href="#cb7-159"></a>    <span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb7-160"><a href="#cb7-160"></a>    <span class="ex">uv</span> pip install <span class="at">-e</span> . <span class="at">--no-cache</span></span>
+<span id="cb7-161"><a href="#cb7-161"></a>    <span class="ex">uv</span> pip install <span class="st">"git+https://github.com/saforem2/ezpz"</span> <span class="at">--no-cache</span></span>
+<span id="cb7-162"><a href="#cb7-162"></a>    <span class="kw">```</span></span>
+<span id="cb7-163"><a href="#cb7-163"></a></span>
+<span id="cb7-164"><a href="#cb7-164"></a>    <span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
+<span id="cb7-165"><a href="#cb7-165"></a><span class="ex">--</span><span class="op">&gt;</span></span>
+<span id="cb7-166"><a href="#cb7-166"></a></span>
+<span id="cb7-167"><a href="#cb7-167"></a></span>
+<span id="cb7-168"><a href="#cb7-168"></a><span class="co">## 📂 Project Contents</span></span>
+<span id="cb7-169"><a href="#cb7-169"></a></span>
+<span id="cb7-170"><a href="#cb7-170"></a><span class="ex">-</span> 🏡 [Intro to {AI, HPC} for Science/]<span class="er">(</span><span class="ex">./</span><span class="kw">)</span></span>
+<span id="cb7-171"><a href="#cb7-171"></a></span>
+<span id="cb7-172"><a href="#cb7-172"></a>    <span class="ex">-</span> 📂 [<span class="pp">**</span><span class="dt">\[</span>00\] Intro to AI and HPC<span class="pp">**</span>/]<span class="er">(</span><span class="ex">00-intro-AI-HPC/</span><span class="kw">)</span></span>
+<span id="cb7-173"><a href="#cb7-173"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>0<span class="dt">\]</span> Compute systems]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/0-compute-systems/</span><span class="kw">)</span></span>
+<span id="cb7-174"><a href="#cb7-174"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>1<span class="dt">\]</span> Shared-resources]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/1-shared-resources/</span><span class="kw">)</span></span>
+<span id="cb7-175"><a href="#cb7-175"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>2<span class="dt">\]</span> Jupyter Notebooks]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/2-jupyter-notebooks/</span><span class="kw">)</span></span>
+<span id="cb7-176"><a href="#cb7-176"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>3<span class="dt">\]</span> Using Python]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/3-python/</span><span class="kw">)</span></span>
+<span id="cb7-177"><a href="#cb7-177"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>4<span class="dt">\]</span> Working with Data]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/4-data/</span><span class="kw">)</span></span>
+<span id="cb7-178"><a href="#cb7-178"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>5<span class="dt">\]</span> MCMC Example]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/5-mcmc-example/</span><span class="kw">)</span></span>
+<span id="cb7-179"><a href="#cb7-179"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>6<span class="dt">\]</span> Linear Regression]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/6-linear-regression/</span><span class="kw">)</span></span>
+<span id="cb7-180"><a href="#cb7-180"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>7<span class="dt">\]</span> Statistical Learning]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/7-statistical-learning/</span><span class="kw">)</span></span>
+<span id="cb7-181"><a href="#cb7-181"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>8<span class="dt">\]</span> Clustering]<span class="er">(</span><span class="ex">./00-intro-AI-HPC/8-clustering/</span><span class="kw">)</span> </span>
+<span id="cb7-182"><a href="#cb7-182"></a></span>
+<span id="cb7-183"><a href="#cb7-183"></a>    <span class="ex">-</span> 📂 [<span class="pp">**</span><span class="dt">\[</span>01\] Neural Networks/<span class="pp">**</span>]<span class="er">(</span><span class="ex">./01-neural-networks/</span><span class="kw">)</span></span>
+<span id="cb7-184"><a href="#cb7-184"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>0<span class="dt">\]</span> Intro]<span class="er">(</span><span class="ex">./01-neural-networks/0-intro/</span><span class="kw">)</span></span>
+<span id="cb7-185"><a href="#cb7-185"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>1<span class="dt">\]</span> MNIST]<span class="er">(</span><span class="ex">./01-neural-networks/1-mnist/</span><span class="kw">)</span></span>
+<span id="cb7-186"><a href="#cb7-186"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>1<span class="dt">\]</span> MNIST <span class="er">(</span><span class="ex">ipynb</span><span class="kw">)</span><span class="ex">]</span><span class="er">(</span><span class="ex">./01-neural-networks/1-mnist-ipynb/</span><span class="kw">)</span></span>
+<span id="cb7-187"><a href="#cb7-187"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>2<span class="dt">\]</span> Advanced]<span class="er">(</span><span class="ex">./01-neural-networks/2-advanced/</span><span class="kw">)</span></span>
+<span id="cb7-188"><a href="#cb7-188"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>3<span class="dt">\]</span> Conv. Nets]<span class="er">(</span><span class="ex">./01-neural-networks/3-conv-nets/</span><span class="kw">)</span></span>
+<span id="cb7-189"><a href="#cb7-189"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>4<span class="dt">\]</span> Representation Learning]<span class="er">(</span><span class="ex">./01-neural-networks/4-representation-learning/</span><span class="kw">)</span></span>
+<span id="cb7-190"><a href="#cb7-190"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>5<span class="dt">\]</span> Distributed Training]<span class="er">(</span><span class="ex">./01-neural-networks/5-distributed-training/</span><span class="kw">)</span></span>
+<span id="cb7-191"><a href="#cb7-191"></a></span>
+<span id="cb7-192"><a href="#cb7-192"></a>    <span class="ex">-</span> 📂 [<span class="pp">**</span><span class="dt">\[</span>02\] Large Language Models<span class="pp">**</span>]<span class="er">(</span><span class="ex">./02-llms/</span><span class="kw">)</span></span>
+<span id="cb7-193"><a href="#cb7-193"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>00<span class="dt">\]</span> Intro to LLMs]<span class="er">(</span><span class="ex">./02-llms/00-intro-to-llms/</span><span class="kw">)</span></span>
+<span id="cb7-194"><a href="#cb7-194"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>01<span class="dt">\]</span> Hands-on LLMs]<span class="er">(</span><span class="ex">./02-llms/01-hands-on-llms/</span><span class="kw">)</span></span>
+<span id="cb7-195"><a href="#cb7-195"></a>        <span class="ex">-</span> 📄 [<span class="dt">\[</span>02<span class="dt">\]</span> Prompt Engineering]<span class="er">(</span><span class="ex">./02-llms/02-prompt-engineering/</span><span class="kw">)</span></span>
+<span id="cb7-196"><a href="#cb7-196"></a>        <span class="op">&lt;</span>!-- <span class="ex">-</span> 📄 <span class="pp">[</span><span class="ss">03</span><span class="pp">-</span><span class="ss">training</span><span class="pp">-</span><span class="ss">llms</span><span class="pp">]</span><span class="er">(</span><span class="ex">./02-llms/03-training-llms/</span><span class="kw">)</span> <span class="ex">--</span><span class="op">&gt;</span></span>
+<span id="cb7-197"><a href="#cb7-197"></a>        <span class="op">&lt;</span>!-- <span class="ex">-</span> 📄 <span class="pp">[</span><span class="ss">04</span><span class="pp">-</span><span class="ss">evaluating</span><span class="pp">-</span><span class="ss">llms</span><span class="pp">]</span><span class="er">(</span><span class="ex">./02-llms/03-training-llms/</span><span class="kw">)</span> <span class="ex">--</span><span class="op">&gt;</span></span>
+<span id="cb7-198"><a href="#cb7-198"></a>        <span class="op">&lt;</span>!-- <span class="ex">-</span> 📄 []<span class="er">(</span><span class="kw">)</span> <span class="ex">--</span><span class="op">&gt;</span></span>
+<span id="cb7-199"><a href="#cb7-199"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>06<span class="dt">\]</span> Parallel Training]<span class="er">(</span><span class="ex">./02-llms/06-parallel-training/</span><span class="kw">)</span></span>
+<span id="cb7-200"><a href="#cb7-200"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>07<span class="dt">\]</span> Shakespeare Example]<span class="er">(</span><span class="ex">./02-llms/07-shakespeare-example/</span><span class="kw">)</span></span>
+<span id="cb7-201"><a href="#cb7-201"></a>        <span class="ex">-</span> 📗 [<span class="dt">\[</span>08<span class="dt">\]</span> Shakespeare Example <span class="er">(</span><span class="ex">colab</span><span class="kw">)</span><span class="ex">]</span><span class="er">(</span><span class="ex">./02-llms/08-shakespeare-example-colab/</span><span class="kw">)</span></span>
+<span id="cb7-202"><a href="#cb7-202"></a></span>
+<span id="cb7-203"><a href="#cb7-203"></a>    <span class="op">&lt;</span>!-- <span class="ex">-</span> 📂 <span class="pp">[</span><span class="ss">03</span><span class="pp">-</span><span class="ss">ai</span><span class="pp">-</span><span class="ss">for</span><span class="pp">-</span><span class="ss">science/</span><span class="pp">]</span><span class="er">(</span><span class="ex">./03-ai-for-science/</span><span class="kw">)</span> <span class="ex">--</span><span class="op">&gt;</span></span>
+<span id="cb7-204"><a href="#cb7-204"></a></span>
+<span id="cb7-207"><a href="#cb7-207"></a><span class="in">```{python}</span></span>
+<span id="cb7-208"><a href="#cb7-208"></a><span class="co">#| output: asis</span></span>
+<span id="cb7-209"><a href="#cb7-209"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb7-210"><a href="#cb7-210"></a><span class="co">#| code-summary: "👀"</span></span>
+<span id="cb7-211"><a href="#cb7-211"></a><span class="ex">import</span> datetime</span>
+<span id="cb7-212"><a href="#cb7-212"></a><span class="ex">from</span> rich import print</span>
+<span id="cb7-213"><a href="#cb7-213"></a><span class="ex">now</span> = datetime.datetime.now<span class="er">(</span><span class="kw">)</span></span>
+<span id="cb7-214"><a href="#cb7-214"></a><span class="ex">print</span><span class="er">(</span><span class="st">' '</span><span class="ex">.join</span><span class="er">(</span><span class="bu">[</span> <span class="st">"[#838383]Last Updated[/]:"</span>, f<span class="st">"[#E599F7]{now.strftime("</span>%Y-%m-%d<span class="st">")}[/]"</span>, <span class="st">"[#838383]@[/]"</span>, <span class="er">f"[#00CCFF]{now.strftime("%H:%M:%S")}[/]",</span> <span class="ex">]</span><span class="kw">))</span></span>
+<span id="cb7-215"><a href="#cb7-215"></a><span class="kw">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

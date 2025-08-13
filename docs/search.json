@@ -624,7 +624,7 @@
     "href": "index.html#getting-started",
     "title": "Intro to HPC Bootcamp 2025",
     "section": "🐣 Getting Started",
-    "text": "🐣 Getting Started\n\nClone the repo:\ngit clone https://github.com/saforem2/intro-hpc-bootcamp-2025\ncd intro-hpc-bootcamp-2025"
+    "text": "🐣 Getting Started\n\nStart terminal\nCreate symlink:\n# symlink \nln -s /global/cfs/cdirs/m4388 $HOME/m4388\nNavigate to m4388 directory:\ncd $HOME/m4388\nClone repo (somewhere) in $HOME/$USER/:\nmkdir $USER && cd $USER\ngit clone https://github.com/saforem2/intro-hpc-bootcamp-2025\nFind all Jupyter notebooks:\n# find all *.ipynb files\nls **/**/**.ipynb | grep -v \"cache\" | sort | uniq"
   },
   {
     "objectID": "index.html#project-contents",
@@ -1435,5 +1435,12 @@
       "[02] Large Language Models",
       "[6] Parallel Training"
     ]
+  },
+  {
+    "objectID": "index.html#distributed-training-example",
+    "href": "index.html#distributed-training-example",
+    "title": "Intro to HPC Bootcamp 2025",
+    "section": "Distributed Training Example",
+    "text": "Distributed Training Example\n\nLogin to Perlmutter:\nssh &lt;user&gt;@perlmutter.nersc.gov \n[ -d $HOME/m4388 ] || ln -s /global/cfs/cdirs/m4388 $HOME/m4388\ncd $HOME/m4388/$USER\ngit clone https://github.com/saforem2/wordplay\ncd wordplay"
   }
 ]

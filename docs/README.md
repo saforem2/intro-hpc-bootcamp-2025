@@ -5,15 +5,50 @@ Sam Foreman
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 - [🐣 Getting Started](#hatching_chick-getting-started)
+- [Distributed Training Example](#distributed-training-example)
 - [📂 Project Contents](#open_file_folder-project-contents)
 
 ## 🐣 Getting Started
 
-1.  Clone the repo:
+1.  Start terminal
+
+2.  Create symlink:
 
     ``` bash
+    # symlink 
+    ln -s /global/cfs/cdirs/m4388 $HOME/m4388
+    ```
+
+3.  Navigate to `m4388` directory:
+
+    ``` bash
+    cd $HOME/m4388
+    ```
+
+4.  Clone repo (somewhere) in `$HOME/$USER/`:
+
+    ``` bash
+    mkdir $USER && cd $USER
     git clone https://github.com/saforem2/intro-hpc-bootcamp-2025
-    cd intro-hpc-bootcamp-2025
+    ```
+
+5.  Find all Jupyter notebooks:
+
+    ``` bash
+    # find all *.ipynb files
+    ls **/**/**.ipynb | grep -v "cache" | sort | uniq
+    ```
+
+## Distributed Training Example
+
+1.  Login to Perlmutter:
+
+    ``` bash
+    ssh <user>@perlmutter.nersc.gov 
+    [ -d $HOME/m4388 ] || ln -s /global/cfs/cdirs/m4388 $HOME/m4388
+    cd $HOME/m4388/$USER
+    git clone https://github.com/saforem2/wordplay
+    cd wordplay
     ```
 
 ## 📂 Project Contents
