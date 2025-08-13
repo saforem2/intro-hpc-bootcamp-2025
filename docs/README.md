@@ -16,15 +16,6 @@ Sam Foreman
     cd intro-hpc-bootcamp-2025
     ```
 
-2.  Install the dependencies:
-
-    ``` bash
-     uv venv --python=3.12
-     source .venv/bin/activate
-     uv pip install -e . --no-cache
-     uv pip install "git+https://github.com/saforem2/ezpz" --no-cache
-    ```
-
 ## 📂 Project Contents
 
 - 🏡 [Intro to {AI, HPC} for Science/](./)
@@ -60,3 +51,18 @@ Sam Foreman
     - 📗 [\[07\] Shakespeare Example](./02-llms/07-shakespeare-example/)
     - 📗 [\[08\] Shakespeare Example
       (colab)](./02-llms/08-shakespeare-example-colab/)
+
+<details class="code-fold">
+<summary>👀</summary>
+
+``` python
+import datetime
+from rich import print
+now = datetime.datetime.now()
+print(' '.join([ "[#838383]Last Updated[/]:", f"[#E599F7]{now.strftime("%Y-%m-%d")}[/]", "[#838383]@[/]", f"[#00CCFF]{now.strftime("%H:%M:%S")}[/]", ]))
+```
+
+</details>
+
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #838383; text-decoration-color: #838383">Last Updated</span>: <span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">2025</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">08</span><span style="color: #e599f7; text-decoration-color: #e599f7">-</span><span style="color: #e599f7; text-decoration-color: #e599f7; font-weight: bold">12</span> <span style="color: #838383; text-decoration-color: #838383">@</span> <span style="color: #00ccff; text-decoration-color: #00ccff; font-weight: bold">16:53:50</span>
+</pre>

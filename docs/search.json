@@ -599,6 +599,17 @@
     ]
   },
   {
+    "objectID": "00-intro-AI-HPC/1-shared-resources/index.html#live-status-of-polaris",
+    "href": "00-intro-AI-HPC/1-shared-resources/index.html#live-status-of-polaris",
+    "title": "Shared Resources",
+    "section": "📊 Live Status of Polaris",
+    "text": "📊 Live Status of Polaris\n\n\n\n\n\n\n\nFigure 1: See: https://status.alcf.anl.gov/#/polaris",
+    "crumbs": [
+      "[00] Intro to AI and HPC",
+      "[1] Shared Resources"
+    ]
+  },
+  {
     "objectID": "00-intro-AI-HPC/index.html#contents",
     "href": "00-intro-AI-HPC/index.html#contents",
     "title": "Introduction to AI on Supercomputers",
@@ -613,14 +624,14 @@
     "href": "index.html#getting-started",
     "title": "Intro to HPC Bootcamp 2025",
     "section": "🐣 Getting Started",
-    "text": "🐣 Getting Started\n\nClone the repo:\ngit clone https://github.com/saforem2/intro-hpc-bootcamp-2025\ncd intro-hpc-bootcamp-2025\nInstall the dependencies:\n uv venv --python=3.12\n source .venv/bin/activate\n uv pip install -e . --no-cache\n uv pip install \"git+https://github.com/saforem2/ezpz\" --no-cache"
+    "text": "🐣 Getting Started\n\nClone the repo:\ngit clone https://github.com/saforem2/intro-hpc-bootcamp-2025\ncd intro-hpc-bootcamp-2025"
   },
   {
     "objectID": "index.html#project-contents",
     "href": "index.html#project-contents",
     "title": "Intro to HPC Bootcamp 2025",
     "section": "📂 Project Contents",
-    "text": "📂 Project Contents\n\n🏡 Intro to {AI, HPC} for Science/\n\n📂 [00] Intro to AI and HPC/\n\n📄 [0] Compute systems\n📄 [1] Shared-resources\n📄 [2] Jupyter Notebooks\n📄 [3] Using Python\n📄 [4] Working with Data\n📗 [5] MCMC Example\n📗 [6] Linear Regression\n📗 [7] Statistical Learning\n📗 [8] Clustering\n\n📂 [01] Neural Networks/\n\n📄 [0] Intro\n📗 [1] MNIST\n📗 [1] MNIST (ipynb)\n📗 [2] Advanced\n📗 [3] Conv. Nets\n📗 [4] Representation Learning\n📄 [5] Distributed Training\n\n📂 [02] Large Language Models\n\n📗 [00] Intro to LLMs\n📗 [01] Hands-on LLMs\n📄 [02] Prompt Engineering \n📗 [06] Parallel Training\n📗 [07] Shakespeare Example\n📗 [08] Shakespeare Example (colab)"
+    "text": "📂 Project Contents\n\n🏡 Intro to {AI, HPC} for Science/\n\n📂 [00] Intro to AI and HPC/\n\n📄 [0] Compute systems\n📄 [1] Shared-resources\n📄 [2] Jupyter Notebooks\n📄 [3] Using Python\n📄 [4] Working with Data\n📗 [5] MCMC Example\n📗 [6] Linear Regression\n📗 [7] Statistical Learning\n📗 [8] Clustering\n\n📂 [01] Neural Networks/\n\n📄 [0] Intro\n📗 [1] MNIST\n📗 [1] MNIST (ipynb)\n📗 [2] Advanced\n📗 [3] Conv. Nets\n📗 [4] Representation Learning\n📄 [5] Distributed Training\n\n📂 [02] Large Language Models\n\n📗 [00] Intro to LLMs\n📗 [01] Hands-on LLMs\n📄 [02] Prompt Engineering \n📗 [06] Parallel Training\n📗 [07] Shakespeare Example\n📗 [08] Shakespeare Example (colab)\n\n\n\n\n\n👀\nimport datetime\nfrom rich import print\nnow = datetime.datetime.now()\nprint(' '.join([ \"[#838383]Last Updated[/]:\", f\"[#E599F7]{now.strftime(\"%Y-%m-%d\")}[/]\", \"[#838383]@[/]\", f\"[#00CCFF]{now.strftime(\"%H:%M:%S\")}[/]\", ]))\n\nLast Updated: 2025-08-12 @ 16:53:47"
   },
   {
     "objectID": "00-intro-AI-HPC/0-compute-systems/index.html#overview",
@@ -672,6 +683,17 @@
     "title": "What is a Supercomputer?",
     "section": "ALCF Computing System Overview",
     "text": "ALCF Computing System Overview\n\nAurora\n\nAurora is a supercomputer at Argonne National Laboratory, housed in the Argonne Leadership Computing Facility (ALCF). It is the first exascale supercomputer in the United States and is designed to deliver unprecedented performance for scientific research and simulations.\nSee Aurora for more information.\n\nAt this time (August 2025), Aurora is open for business! It is amongst the most power supercomputers in thew world, currently sitting at #2 on the Top500.\nHere you can see one of the many rows of Aurora nodes with their Red & Blue water cooling conduits visible.\n\n\n\n\n\n\nFigure 5: Aurora\n\n\n\nIn this photo you see a close up of the 16 nodes installed side-by-side:\n\n\n\n\n\n\nFigure 6: Aurora\n\n\n\n\n\nSophia\nInside Sophia, you’ll see repetition, though NVidia placed these fancy plates over the hardware so you only see their logo.\nHowever, each plate covers 1 computer node.\n\n\n\nSophia Racks\nSophia Inside\n\n\n\n\n\n\n\n\n\nSophia is an NVIDIA DGX A100-based system. The DGX A100 comprises eight NVIDIA A100 GPUs that provide a total of 320 gigabytes of memory for training AI datasets, as well as high-speed NVIDIA Mellanox ConnectX-6 network interfaces.\nSophia Machine Specs\n\nSpeed: 3.9 petaflops\nEach Node has:\n\n8 NVIDIA (A100) GPUs each with 40GB onboard memory\n2 AMD EPYC (7742) CPUs\n1 TB DDR4 Memory\n\n24 Total Nodes installed in 7 Racks\n\n\n\nPolaris\n\n\n\nPolaris\n\n\nThe inside of Polaris again shows the nodes stacked up in a closet.\n\n\n\nPolaris-rack\n\n\nPolaris is an NVIDIA A100-based system.\nPolaris Machine Specs\n\nSpeed: 44 petaflops\nEach Node has:\n\n4 NVIDIA (A100) GPUs\n1 AMD EPYC (Milan) CPUs\n\n~560 Total Nodes",
+    "crumbs": [
+      "[00] Intro to AI and HPC",
+      "[0] Compute Systems"
+    ]
+  },
+  {
+    "objectID": "00-intro-AI-HPC/0-compute-systems/index.html#references",
+    "href": "00-intro-AI-HPC/0-compute-systems/index.html#references",
+    "title": "What is a Supercomputer?",
+    "section": "📓 References",
+    "text": "📓 References\n\nAwesome HPC\nALCF User Guides",
     "crumbs": [
       "[00] Intro to AI and HPC",
       "[0] Compute Systems"
@@ -1412,28 +1434,6 @@
     "crumbs": [
       "[02] Large Language Models",
       "[6] Parallel Training"
-    ]
-  },
-  {
-    "objectID": "00-intro-AI-HPC/1-shared-resources/index.html#live-status-of-polaris",
-    "href": "00-intro-AI-HPC/1-shared-resources/index.html#live-status-of-polaris",
-    "title": "Shared Resources",
-    "section": "📊 Live Status of Polaris",
-    "text": "📊 Live Status of Polaris\n\n\n\n\n\n\n\nFigure 1: See: https://status.alcf.anl.gov/#/polaris",
-    "crumbs": [
-      "[00] Intro to AI and HPC",
-      "[1] Shared Resources"
-    ]
-  },
-  {
-    "objectID": "00-intro-AI-HPC/0-compute-systems/index.html#references",
-    "href": "00-intro-AI-HPC/0-compute-systems/index.html#references",
-    "title": "What is a Supercomputer?",
-    "section": "📓 References",
-    "text": "📓 References\n\nAwesome HPC\nALCF User Guides",
-    "crumbs": [
-      "[00] Intro to AI and HPC",
-      "[0] Compute Systems"
     ]
   }
 ]
