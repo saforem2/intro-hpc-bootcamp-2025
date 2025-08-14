@@ -130,15 +130,15 @@ Sam Foreman
 
     ``` bash
       ezpz-launch -m wordplay \
-      train.backend=DDP \
-      train.eval_interval=100 \
-      data=shakespeare \
-      train.dtype=bf16 \
-      model.batch_size=8 \
-      model.block_size=2048 \
-      train.max_iters=1000 \
-      train.log_interval=10 \
-      train.compile=true
+        train.backend=DDP \
+        train.eval_interval=100 \
+        data=shakespeare \
+        train.dtype=bf16 \
+        model.batch_size=8 \
+        model.block_size=2048 \
+        train.max_iters=1000 \
+        train.log_interval=10 \
+        train.compile=true
     ```
 
     - <details closed>

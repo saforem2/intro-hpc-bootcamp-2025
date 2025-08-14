@@ -741,15 +741,15 @@ gtag('config', 'GTM-MRCG68M5', { 'anonymize_ip': true});
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">python3</span> <span class="at">-m</span> wordplay.prepare</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Run distributed training:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a>  <span class="ex">ezpz-launch</span> <span class="at">-m</span> wordplay <span class="dt">\</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>  train.backend=DDP <span class="dt">\</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>  train.eval_interval=100 <span class="dt">\</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>  data=shakespeare <span class="dt">\</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a>  train.dtype=bf16 <span class="dt">\</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>  model.batch_size=8 <span class="dt">\</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a>  model.block_size=2048 <span class="dt">\</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a>  train.max_iters=1000 <span class="dt">\</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a>  train.log_interval=10 <span class="dt">\</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a>  train.compile=true</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-2"><a href="#cb12-2"></a>    train.backend=DDP <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>    train.eval_interval=100 <span class="dt">\</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>    data=shakespeare <span class="dt">\</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>    train.dtype=bf16 <span class="dt">\</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>    model.batch_size=8 <span class="dt">\</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a>    model.block_size=2048 <span class="dt">\</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a>    train.max_iters=1000 <span class="dt">\</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>    train.log_interval=10 <span class="dt">\</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a>    train.compile=true</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><details closed="">
 <summary>
@@ -1884,15 +1884,15 @@ Foreman, Sam. 2025. <span>“Intro to HPC Bootcamp 2025.”</span> July 15,
 <span id="cb15-215"><a href="#cb15-215"></a></span>
 <span id="cb15-216"><a href="#cb15-216"></a>    <span class="kw">```</span>bash</span>
 <span id="cb15-217"><a href="#cb15-217"></a>      <span class="ex">ezpz-launch</span> <span class="at">-m</span> wordplay <span class="dt">\</span></span>
-<span id="cb15-218"><a href="#cb15-218"></a>      train.backend=DDP <span class="dt">\</span></span>
-<span id="cb15-219"><a href="#cb15-219"></a>      train.eval_interval=100 <span class="dt">\</span></span>
-<span id="cb15-220"><a href="#cb15-220"></a>      data=shakespeare <span class="dt">\</span></span>
-<span id="cb15-221"><a href="#cb15-221"></a>      train.dtype=bf16 <span class="dt">\</span></span>
-<span id="cb15-222"><a href="#cb15-222"></a>      model.batch_size=8 <span class="dt">\</span></span>
-<span id="cb15-223"><a href="#cb15-223"></a>      model.block_size=2048 <span class="dt">\</span></span>
-<span id="cb15-224"><a href="#cb15-224"></a>      train.max_iters=1000 <span class="dt">\</span></span>
-<span id="cb15-225"><a href="#cb15-225"></a>      train.log_interval=10 <span class="dt">\</span></span>
-<span id="cb15-226"><a href="#cb15-226"></a>      train.compile=true</span>
+<span id="cb15-218"><a href="#cb15-218"></a>        train.backend=DDP <span class="dt">\</span></span>
+<span id="cb15-219"><a href="#cb15-219"></a>        train.eval_interval=100 <span class="dt">\</span></span>
+<span id="cb15-220"><a href="#cb15-220"></a>        data=shakespeare <span class="dt">\</span></span>
+<span id="cb15-221"><a href="#cb15-221"></a>        train.dtype=bf16 <span class="dt">\</span></span>
+<span id="cb15-222"><a href="#cb15-222"></a>        model.batch_size=8 <span class="dt">\</span></span>
+<span id="cb15-223"><a href="#cb15-223"></a>        model.block_size=2048 <span class="dt">\</span></span>
+<span id="cb15-224"><a href="#cb15-224"></a>        train.max_iters=1000 <span class="dt">\</span></span>
+<span id="cb15-225"><a href="#cb15-225"></a>        train.log_interval=10 <span class="dt">\</span></span>
+<span id="cb15-226"><a href="#cb15-226"></a>        train.compile=true</span>
 <span id="cb15-227"><a href="#cb15-227"></a>    <span class="kw">```</span></span>
 <span id="cb15-228"><a href="#cb15-228"></a></span>
 <span id="cb15-229"><a href="#cb15-229"></a>    <span class="ex">-</span> <span class="op">&lt;</span>details closed<span class="op">&gt;&lt;</span>summary<span class="op">&gt;</span>Output<span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
