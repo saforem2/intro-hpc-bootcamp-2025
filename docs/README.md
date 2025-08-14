@@ -5,8 +5,6 @@ Sam Foreman
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 - [📂 Project Contents](#open_file_folder-project-contents)
-- [🏔️ Instructions for Running @
-  NERSC](#mountain_snow-instructions-for-running--nersc)
 - [🌐 Distributed Training
   Example](#globe_with_meridians-distributed-training-example)
 
@@ -46,7 +44,16 @@ Sam Foreman
     - 📗 [\[08\] Shakespeare Example
       (colab)](./02-llms/08-shakespeare-example-colab/)
 
-## 🏔️ Instructions for Running @ NERSC
+<details closed>
+
+<summary>
+
+<h2>
+
+🏔️ Instructions for Running @ NERSC
+</h2>
+
+</summary>
 
 1.  Start terminal
 
@@ -76,6 +83,8 @@ Sam Foreman
     # find all *.ipynb files
     ls **/**/**.ipynb | grep -v "cache" | sort | uniq
     ```
+
+</details>
 
 ## 🌐 Distributed Training Example
 
@@ -108,25 +117,31 @@ Sam Foreman
     ezpz_setup_python
     ```
 
-5.  Install `wordplay`:
+5.  Setup [wandb](https://wandb.ai):
+
+    ``` bash
+    wandb login
+    ```
+
+6.  Install [`wordplay`](https://github.com/saforem2/wordplay):
 
     ``` bash
     python3 -m pip install -e "."
     ```
 
-6.  Run `ezpz-test` (simple test to verify distributed functionality):
+7.  Run `ezpz-test` (simple test to verify distributed functionality):
 
     ``` bash
-    ezpz-test  # <- SHOULD WORK (hopefully)
+    ezpz-test  # <- SHOULD WORK (🤞)
     ```
 
-7.  Prepare data:
+8.  Prepare data:
 
     ``` bash
     python3 -m wordplay.prepare
     ```
 
-8.  Run distributed training:
+9.  Run distributed training:
 
     ``` bash
       ezpz-launch -m wordplay \

@@ -132,7 +132,7 @@ sidebar: sidebar
 
     <!-- - 📂 [03-ai-for-science/](./03-ai-for-science/) -->
 
-## 🏔️ Instructions for Running @ NERSC
+<details closed><summary><h2> 🏔️ Instructions for Running @ NERSC</h2></summary>
 
 1. Start terminal
 1. Create symlink:
@@ -163,6 +163,8 @@ sidebar: sidebar
     ```
 
 
+</details>
+
 ## 🌐 Distributed Training Example
 
 1. Login to Perlmutter:
@@ -172,13 +174,13 @@ sidebar: sidebar
     [ -d $HOME/m4388 ] || ln -s /global/cfs/cdirs/m4388 $HOME/m4388
     ```
 
-2. Request an interactive job:
+1. Request an interactive job:
 
     ```bash
     NODES=2 ; HRS=02 ; QUEUE=interactive ; salloc --nodes $NODES --qos $QUEUE --time $HRS:30:00 -C 'gpu' --gpus=$(( 4 * NODES )) -A m4388_g
     ```
 
-3. Clone [wordplay](https://github.com/saforem2/wordplay) and navigate into it:
+1. Clone [wordplay](https://github.com/saforem2/wordplay) and navigate into it:
 
     ```bash
     mkdir -p "${HOME}/m4388/Project5/${USER}"
@@ -186,32 +188,38 @@ sidebar: sidebar
     git clone https://github.com/saforem2/wordplay && cd wordplay
     ``` 
 
-4. Setup Python:
+1. Setup Python:
 
     ```bash
 	source <(curl -L https://bit.ly/ezpz-utils)
 	ezpz_setup_python
 	```
 
-5. Install `wordplay`:
+1. Setup [wandb](https://wandb.ai):
+
+    ```bash
+    wandb login
+    ```
+
+1. Install [`wordplay`](https://github.com/saforem2/wordplay):
 
     ```bash
     python3 -m pip install -e "."
     ```
 
-6. Run `ezpz-test` (simple test to verify distributed functionality):
+1. Run `ezpz-test` (simple test to verify distributed functionality):
 
     ```bash
-    ezpz-test  # <- SHOULD WORK (hopefully)
+    ezpz-test  # <- (SHOULD WORK 🤞)
     ```
 
-7. Prepare data:
+1. Prepare data:
 
     ```bash
     python3 -m wordplay.prepare
     ```
 
-8. Run distributed training:
+1. Run distributed training:
 
     ```bash
 	  ezpz-launch -m wordplay \
